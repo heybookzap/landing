@@ -22,60 +22,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;800&display=swap" rel="stylesheet">
   <style>.font-emph{font-family:'Noto Serif KR',ui-serif,Georgia,serif} html{scroll-behavior:smooth}</style>
 
+  <meta name="theme-color" content="#0C0B09">
 </head>
-<body class="min-h-screen bg-white text-[#0B0B0B]">
-  <header class="sticky top-0 z-40 backdrop-blur bg-white/80 border-b border-gray-100">
+<body class="min-h-screen text-gray-100" style="background-color:#0C0B09;">
+  <header class="sticky top-0 z-40 backdrop-blur border-b" style="background-color:#0C0B09BF;border-color:#262626">
     <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-8 w-8 rounded-xl bg-[#0F172A]"></div>
+        <div class="h-8 w-8 rounded-xl" style="background-color:#111111"></div>
         <span class="text-xl font-semibold tracking-tight">Execution Sprint 14D</span>
       </div>
-      <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
-        <a href="#program" class="hover:text-gray-900">구성</a>
-        <a href="#apply" class="hover:text-gray-900">사전 신청</a>
-        <a href="/dark/" class="hover:text-gray-900">Dark</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm" style="color:#9CA3AF">
+        <a href="/#program" class="hover:text-white">구성</a>
+        <a href="/#apply" class="hover:text-white">사전 신청</a>
+        <a href="/" class="hover:text-white">Light</a>
       </nav>
       <a href="https://forms.gle/DuaQME6SRnJcEWyB6" target="_blank" rel="noopener"
-         class="inline-flex items-center justify-center rounded-2xl border border-transparent bg-[#2368ff] px-4 py-2 text-white text-sm font-semibold shadow-sm hover:shadow-md">
+         class="inline-flex items-center justify-center rounded-2xl border border-transparent px-4 py-2 text-white text-sm font-semibold shadow-sm hover:shadow-md transition"
+         style="background-color:#2368ff">
         사전 신청
       </a>
     </div>
   </header>
-  
+
   <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/40 to-transparent pointer-events-none"></div>
-    <div class="relative mx-auto max-w-6xl px-4 py-16 md:py-24 grid md:grid-cols-12 gap-8 items-center">
+    <div class="absolute inset-0" style="background: radial-gradient(120% 120% at 0% 0%, #130F0A 0%, #0C0B09 60%);"></div>
+    <div class="relative mx-auto max-w-6xl px-4 py-20 md:py-28 grid md:grid-cols-12 gap-8 items-center">
       <div class="md:col-span-7">
-        <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs mb-4 text-gray-600 border-gray-200">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span> 월 2기 · 코호트당 5명 한정
+        <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs mb-4" style="border-color:#ffffff1a;color:#ffffffb3">
+          <span class="h-2 w-2 rounded-full" style="background-color:#10B981"></span> 월 2기 · 코호트당 5명 한정
         </div>
-        <h1 class="text-4xl md:text-6xl font-bold leading-[1.2] tracking-tight text-[#0F172A]">
+        <h1 class="text-4xl md:text-6xl font-bold leading-[1.22] tracking-[0.01em] text-white">
           14일 안에<br>
-          <span class="font-emph underline decoration-4 underline-offset-6" style="text-decoration-color:#2368ff88">실행 속도 2배</span>.<br class="hidden md:block">
-          돈과 직결되는 성과를 앞당기세요.
+          <span class="font-emph underline decoration-4 underline-offset-6" style="text-decoration-color:#2368ff88">실행 속도 2배</span>.
+          <br class="hidden md:block">돈과 직결되는 성과를 앞당기세요.
         </h1>
-        <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed">
+        <p class="mt-6 text-lg md:text-xl max-w-2xl leading-relaxed tracking-[0.01em]" style="color:#D1D5DB">
           전 과정 비대면·비공개, 텍스트 중심 코칭(이메일/노션)으로
-          지금 하는 사업에 바로 연결되는 <span class="font-semibold text-gray-900">집중 실행 프로그램</span>.
+          지금 하는 사업에 바로 연결되는 <span class="font-semibold" style="color:#fff">집중 실행 프로그램</span>.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="https://forms.gle/DuaQME6SRnJcEWyB6" target="_blank" rel="noopener"
-             class="inline-flex items-center justify-center rounded-2xl bg-[#2368ff] px-6 py-3 text-white font-semibold shadow-sm hover:shadow-md">
+             class="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-white font-semibold shadow-sm hover:shadow-md"
+             style="background-color:#2368ff">
             대기 리스트 등록하기
           </a>
-          <a href="#program" class="inline-flex items-center justify-center rounded-2xl px-6 py-3 border border-gray-200 text-gray-900 hover:bg-gray-50">
+          <a href="#program" class="inline-flex items-center justify-center rounded-2xl px-6 py-3 border text-white hover:opacity-90"
+             style="border-color:#262626">
             프로그램 살펴보기
           </a>
-          <span class="text-xs text-gray-500">* 사전 신청은 무료이며, 좌석 확정은 개별 안내 후 진행됩니다.</span>
+          <span class="text-xs" style="color:#9CA3AF">* 사전 신청은 무료이며, 좌석 확정은 개별 안내 후 진행됩니다.</span>
         </div>
       </div>
     </div>
   </section>
 
-  
   <section id="program" class="mx-auto max-w-6xl px-4 py-16">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-[#0F172A]">프로그램 구성(14일)</h2>
-    <ol class="mt-6 space-y-3 text-sm text-gray-700">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-white">프로그램 구성(14일)</h2>
+    <ol class="mt-6 space-y-3 text-sm" style="color:#D1D5DB">
       <li>1) 온보딩: 목표·지표·장애물 정의 (Day 0)</li>
       <li>2) 데일리 액션카드: ‘3줄 핵심 + 실행1’ (Day 1–14)</li>
       <li>3) 주간 피드백: 실행 로그 기반 병목 제거 (총 4회)</li>
@@ -83,23 +86,23 @@
     </ol>
   </section>
 
-  
   <section id="apply" class="mx-auto max-w-3xl px-4 py-16">
-    <div class="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm space-y-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold text-[#0F172A]">사전 신청</h2>
-      <p class="text-sm text-gray-600 leading-relaxed">
+    <div class="rounded-3xl p-6 md:p-8 shadow-sm space-y-4" style="background-color:#151515;border:1px solid #262626">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-white">사전 신청</h2>
+      <p class="text-sm leading-relaxed" style="color:#D1D5DB">
         사전 신청은 무료입니다. 좌석 확정·결제는 개별 안내로 진행됩니다.
       </p>
       <a href="https://forms.gle/DuaQME6SRnJcEWyB6" target="_blank" rel="noopener"
-         class="w-full rounded-2xl bg-[#2368ff] px-5 py-3 text-white font-semibold shadow-sm hover:shadow-md text-center block">
+         class="w-full rounded-2xl px-5 py-3 text-white font-semibold shadow-sm hover:shadow-md block text-center"
+         style="background-color:#2368ff">
         구글 폼으로 사전 신청
       </a>
-      <p class="text-[11px] text-gray-500 mt-1">
+      <p class="text-[11px] mt-3 leading-relaxed" style="color:#9CA3AF">
         인스타그램 ID를 입력하지 않으신 경우, 이메일로 연락드립니다. 문의: <a class="underline" href="mailto:heybookzap@gmail.com">heybookzap@gmail.com</a>
       </p>
     </div>
   </section>
 
-  <footer class="py-10 text-center text-xs text-gray-500">© Execution Sprint 14D</footer>
+  <footer class="py-10 text-center text-xs" style="color:#6B7280">© Execution Sprint 14D</footer>
 </body>
 </html>
