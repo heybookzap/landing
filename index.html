@@ -16,84 +16,68 @@
   <meta name="twitter:card" content="summary_large_image"/>
 
   <style>
-    /* 다크 전용 토큰 */
     :root{
-      --bg:#0B0B0B;
-      --card:#111318;
-      --text:#EDEDED;
-      --muted:#9CA3AF;
-      --border:#1F2937;
-      --blue:#286bff;
+      --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF;
+      --border:#1F2937; --blue:#286bff;
     }
-
     *{box-sizing:border-box}
     body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
     h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
     a{text-decoration:none;color:inherit}
     .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
-
     .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
     h1{font-size:56px;line-height:1.2;margin:20px 0}
     .lead{font-size:18px;max-width:760px;color:#d1d5db;margin-bottom:24px}
     .highlight{color:var(--blue);font-family:'Noto Serif KR',serif;font-weight:700}
-
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
     .btn{padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block}
     .btn.primary{background:var(--blue);color:#fff}
     .btn.ghost{border:1px solid var(--blue);color:var(--blue)}
-
-    /* Numbers */
     .numbers{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px}
     .num{flex:1;min-width:150px;text-align:center;padding:16px;border-radius:12px;background:var(--card)}
     .num h2{font-size:32px;color:var(--blue);margin-bottom:6px}
-
-    /* Features */
     .grid{display:grid;gap:16px;margin-top:30px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
     .card h3{font-size:20px;margin-bottom:8px}
-    .list{margin:0 0 0 20px}
-    .list li{margin:6px 0}
-
-    /* Process */
+    .list{margin:0 0 0 20px}.list li{margin:6px 0}
     .process{margin-top:40px}
     .step{margin-bottom:16px;padding:14px 18px;background:var(--card);border-radius:10px;font-weight:600}
     .step strong{color:var(--blue);margin-right:8px}
     .sub{margin-top:6px;color:var(--muted);font-weight:500;font-size:14px}
-
-    /* Founder note */
     .founder{margin-top:40px;padding:20px;border-left:4px solid var(--blue);background:var(--card);font-style:italic}
-
-    /* FAQ */
-    .faq{margin-top:40px}
-    .faq h2{margin-bottom:12px}
-    .faq-item{margin-bottom:18px}
-    .faq-item h3{color:var(--blue);margin-bottom:6px}
-
+    .faq{margin-top:40px}.faq h2{margin-bottom:12px}
+    .faq-item{margin-bottom:18px}.faq-item h3{color:var(--blue);margin-bottom:6px}
     footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
   </style>
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9JL7NY9BB9');
-</script>
-  
+  <!-- GA4: 측정 ID 넣은 기본 스니펫 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9JL7NY9BB9'); // 도메인 바꾸면 새 스트림 ID로 교체
+  </script>
 </head>
 <body>
   <div class="wrap">
 
     <!-- Hero -->
-    <span class="badge">D-16 </span>
+    <span class="badge">D-16</span>
     <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
     <p class="lead">고객이 아무 것도 하지 않아도 ‘엘리트처럼 보이게’.  
       초프리미엄 실행 엔진, <b>2개월 집중 · ROI 보장 · 월 최대 10명 한정</b>.</p>
     <div class="cta">
-      <a class="btn primary" href="WAITLIST_URL_HERE" target="_blank" rel="noopener">웨이팅 등록</a>
-      <a class="btn ghost" href="#details">프로그램 디테일</a>
+      <a class="btn primary"
+         href="WAITLIST_URL_HERE" target="_blank" rel="noopener"
+         onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Hero)'});}">
+         웨이팅 등록
+      </a>
+      <a class="btn ghost"
+         href="#details"
+         onclick="if(window.gtag){gtag('event','details_click',{'event_category':'CTA','event_label':'프로그램 디테일 (Hero)'});}">
+         프로그램 디테일
+      </a>
     </div>
 
     <!-- Numbers -->
@@ -150,7 +134,11 @@
 
     <!-- Mid CTA -->
     <div class="cta">
-      <a class="btn primary" href="WAITLIST_URL_HERE" target="_blank" rel="noopener">지금 웨이팅 등록</a>
+      <a class="btn primary"
+         href="WAITLIST_URL_HERE" target="_blank" rel="noopener"
+         onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Mid)'});}">
+         지금 웨이팅 등록
+      </a>
     </div>
 
     <!-- FAQ -->
