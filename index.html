@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ko" data-theme="auto">
+<html lang="ko">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>BOOKZAP — 72h First-Win Execution Sprint</title>
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- Open Graph -->
@@ -16,54 +16,105 @@
   <meta name="twitter:card" content="summary_large_image"/>
 
   <style>
-    /* -------- Theme tokens (Light / Dark) -------- */
     :root{
-      --bg:#FFFFFF; --card:#F8FAFC; --text:#111111; --muted:#6B7280; --border:#E5E7EB; --blue:#286bff;
+      --bg:#0B0B0B;
+      --card:#111318;
+      --text:#EDEDED;
+      --muted:#9CA3AF;
+      --border:#1F2937;
+      --blue:#286bff;
     }
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF; --border:#1F2937; --blue:#286bff;
-      }
-    }
-    /* Force theme when [data-theme] is set */
-    html[data-theme="light"]{
-      --bg:#FFFFFF; --card:#F8FAFC; --text:#111111; --muted:#6B7280; --border:#E5E7EB; --blue:#286bff;
-    }
-    html[data-theme="dark"]{
-      --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF; --border:#1F2937; --blue:#286bff;
-    }
-
     *{box-sizing:border-box}
-    body{margin:0;font-family:'Noto Sans KR',system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
     h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
-    a{text-decoration:none;color:inherit}
+    a{text-decoration:none}
     .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
-
-    /* Topbar with theme toggle */
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
-    .dot{width:10px;height:10px;border-radius:50%;background:var(--blue);display:inline-block}
-
-    .toggle{display:flex;align-items:center;gap:10px}
-    .tbtn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--text);cursor:pointer;font-size:12px}
-    .tbtn .ball{width:16px;height:16px;border-radius:50%;background:var(--blue)}
-
-    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.02)}
+    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted);background:rgba(255,255,255,.02)}
     h1{font-size:56px;line-height:1.2;margin:20px 0}
-    .lead{font-size:18px;max-width:760px;color:var(--muted);margin-bottom:24px}
+    .lead{font-size:18px;max-width:760px;color:#d1d5db;margin-bottom:24px}
     .highlight{color:var(--blue);font-family:'Noto Serif KR',serif;font-weight:700}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-    .btn{padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block}
+    .btn{padding:12px 18px;border-radius:12px;font-weight:700}
     .btn.primary{background:var(--blue);color:#fff}
-    .btn.ghost{border:1px solid var(--blue);color:var(--blue);background:transparent}
-
+    .btn.ghost{border:1px solid var(--blue);color:var(--blue)}
     .grid{display:grid;gap:16px;margin-top:30px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
     .card h3{font-size:20px;margin-bottom:8px}
     .list{margin:0 0 0 20px;padding:0}
     .list li{margin:6px 0}
-
-    .band{margin-top:24px;border:1px dashed var(--border);border-radius:14px;padding:14px;color:var(--text);background:rgba(40,107,255,.06)}
     .faq{margin-top:40px}
     .faq h2{font-size:24px;margin-bottom:12px}
     .faq-item{margin-bottom:18px}
+    .faq-item h3{font-size:18px;margin-bottom:6px;color:var(--blue)}
+    footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
+    @media(min-width:720px){
+      h1{font-size:64px}
+      .grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Hero -->
+    <span class="badge">D-16 • 랜딩 초안 v0.3 (Dark)</span>
+    <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
+    <p class="lead">고객이 아무 것도 하지 않아도 ‘엘리트처럼 보이게’. 초프리미엄 실행 엔진. <b>2개월 집중</b> · <b>ROI 크레딧 보장</b> · <b>월 2회 코호트</b>.</p>
+    <div class="cta">
+      <a class="btn primary" href="WAITLIST_URL_HERE" target="_blank">웨이팅 등록</a>
+      <a class="btn ghost" href="#details">프로그램 디테일</a>
+    </div>
+
+    <!-- Features -->
+    <section id="details" class="grid">
+      <div class="card">
+        <h3>First-Win 프리셋 3종</h3>
+        <ul class="list">
+          <li>크리에이터 / 프리랜서 / 창업자 즉시 적용 템플릿</li>
+          <li>DM 3문장 + 1장 제안서 + 내일 할 일 3개</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>If-Then 카드 · Red Team 90초</h3>
+        <ul class="list">
+          <li>의사결정 If-Then 시나리오 카드</li>
+          <li>반증 3문항으로 맹점 제거</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>D3/D7/D30 스냅샷</h3>
+        <ul class="list">
+          <li>현금·시간·리스크 지표 스냅샷</li>
+          <li>차트 1장 + 핵심 3줄 리포트</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Mid CTA -->
+    <div class="cta">
+      <a class="btn primary" href="WAITLIST_URL_HERE" target="_blank">지금 웨이팅 등록</a>
+    </div>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <h2>자주 묻는 질문</h2>
+      <div class="faq-item">
+        <h3>Q. 환불 정책은 어떻게 되나요?</h3>
+        <p>A. 시작 3일 이내 전액 환불 가능. 이후엔 ROI 크레딧으로 보장됩니다.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Q. 정원은 몇 명인가요?</h3>
+        <p>A. 코호트당 정원 5명, 월 2회 시작하며 선착순이 아니라 승인제로 운영됩니다.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Q. 어떤 결과를 기대할 수 있나요?</h3>
+        <p>A. 72시간 내 First-Win, 2개월 안에 ROI 기준 성과 보장을 목표로 합니다.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      © BOOKZAP
+    </footer>
+  </div>
+</body>
+</html>
