@@ -83,7 +83,12 @@
 
     footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
 
-    /* 고정 배너로 가려지는 것 방지 */
+    /* 부드러운 스크롤 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+    /* 고정 배너에 가려지지 않게 앵커 오프셋 */
 #pricing, #details, .process, .faq { scroll-margin-top: 68px; }
   </style>
 
