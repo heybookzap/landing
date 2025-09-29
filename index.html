@@ -16,35 +16,35 @@
   <meta name="twitter:card" content="summary_large_image"/>
 
   <style>
+    /* theme */
     :root{
       --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF;
       --border:#1F2937; --blue:#286bff;
+      --banner:68px; /* 고정배너 높이 기준값 */
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
     h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
     a{text-decoration:none;color:inherit}
-    .wrap{max-width:1080px;margin:0 auto;padding:68px 20px 80px}
-    
+    .wrap{max-width:1080px;margin:0 auto;padding:calc(var(--banner) + 20px) 20px 80px}
+
     /* Top banner — 항상 노출 */
     .top-banner{
-      position:fixed;    /* sticky → fixed */
-      top:0; left:0; right:0;
-      width:100%;
+      position:fixed; top:0; left:0; right:0; width:100%;
       background:var(--card);
       border-bottom:1px solid var(--border);
       color:var(--muted);
-      font-weight:600;
-      text-align:center;
-      padding:10px 14px;
-      z-index:999;       /* 다른 요소 위로 */
+      font-weight:600; text-align:center;
+      padding:calc(10px + env(safe-area-inset-top)) 14px 10px; /* 노치 안전영역 */
+      z-index:999;
     }
     .banner-strong{color:var(--blue)}
+    .only-mobile{display:none;}
 
     /* Hero */
     .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
-    h1{font-size:56px;line-height:1.2;margin:20px 0}
-    .lead{font-size:18px;max-width:860px;color:#d1d5db;margin-bottom:24px}
+    h1{font-size:clamp(32px, 8vw, 56px); line-height:1.2; margin:20px 0}
+    .lead{font-size:clamp(16px, 3.8vw, 18px); max-width:860px; color:#d1d5db; margin-bottom:24px}
     .highlight{color:var(--blue);font-family:'Noto Serif KR',serif;font-weight:700}
     .muted{color:var(--muted)}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
@@ -83,13 +83,24 @@
 
     footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
 
-    /* 부드러운 스크롤 */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-    }
+    /* 접근성: 부드러운 스크롤 해제 옵션 */
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
     /* 고정 배너에 가려지지 않게 앵커 오프셋 */
-    #pricing, #details, .process, .faq { scroll-margin-top: 68px; }
+    #pricing, #details, #guarantee, .process, .faq { scroll-margin-top: var(--banner); }
+
+    /* 모바일 최적화 */
+    @media (max-width: 640px){
+      .cta .btn{ flex:1 1 100%; text-align:center; }
+    }
+    @media (max-width: 480px){
+      :root{ --banner:96px; } /* 모바일에서 배너 2줄 대비 여유 */
+      .badge{ font-size:13px; padding:5px 10px; }
+      .numbers{ gap:12px; }
+      .num{ padding:12px; }
+      .only-desktop{ display:none; }
+      .only-mobile{ display:inline; }
+    }
   </style>
 
   <!-- GA4 -->
@@ -102,11 +113,12 @@
   </script>
 </head>
 <body>
- <!-- Cohort Banner -->
-<div class="top-banner">
-  <a href="#pricing" class="banner-strong">[코호트 알림]</a>
-  다음 시작일: 2025.10.27 (월) 09:00 KST | 정원 5명 | 보너스 수량 한정
-</div>
+  <!-- Cohort Banner -->
+  <div class="top-banner">
+    <a href="#pricing" class="banner-strong">[코호트 알림]</a>
+    <span class="only-desktop">다음 시작일: 2025.10.27 (월) 09:00 KST | 정원 5명 | 보너스 수량 한정</span>
+    <span class="only-mobile">다음: 10/27(월) 09:00 | 정원 5</span>
+  </div>
 
   <div class="wrap">
     <!-- Hero -->
