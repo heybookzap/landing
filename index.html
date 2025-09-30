@@ -16,90 +16,128 @@
   <meta name="twitter:card" content="summary_large_image"/>
 
   <style>
-    /* theme */
+    /* ===== Theme (Dark) ===== */
     :root{
       --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF;
-      --border:#1F2937; --blue:#286bff;
-      --banner:68px; /* 고정배너 높이 기준값 */
+      --border:#1F2937; --blue:#286bff; --green:#10B981;
+      --banner:68px;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-    h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:1080px;margin:0 auto;padding:calc(var(--banner) + 20px) 20px 80px}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Noto Sans KR',sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-tap-highlight-color:transparent; word-break:keep-all;
+    }
+    h1,h2,h3{margin:0; font-family:'Noto Serif KR',serif}
+    a{text-decoration:none; color:inherit}
+    .wrap{max-width:1080px; margin:0 auto; padding:calc(var(--banner) + 20px) 20px 80px}
 
-    /* Top banner — 항상 노출 */
+    /* ===== Fixed top banner ===== */
     .top-banner{
       position:fixed; top:0; left:0; right:0; width:100%;
-      background:var(--card);
-      border-bottom:1px solid var(--border);
-      color:var(--muted);
-      font-weight:600; text-align:center;
-      padding:calc(10px + env(safe-area-inset-top)) 14px 10px; /* 노치 안전영역 */
-      z-index:999;
+      background:var(--card); border-bottom:1px solid var(--border);
+      color:var(--muted); font-weight:600; text-align:center;
+      padding:calc(10px + env(safe-area-inset-top)) 14px 10px; z-index:999;
+    }
+    .banner-rail{
+      display:inline-flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;
+      background:#0f1420; border:1px solid #1b2540; border-radius:14px; padding:8px 12px;
     }
     .banner-strong{color:var(--blue)}
+    .seat-pill{
+      display:inline-flex; align-items:center; border-radius:999px;
+      padding:6px 12px;
+      background:transparent;
+      color:#cfe0ff;
+      border:1.5px solid rgba(40,107,255,.60);
+      box-shadow:0 0 0 1px rgba(40,107,255,.12) inset;
+      font-weight:800
+    }
     .only-mobile{display:none;}
 
-    /* Hero */
-    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+    /* ===== Hero ===== */
+    .badge{display:inline-block; padding:6px 10px; border:1px solid var(--border); border-radius:999px; font-size:12px; color:var(--muted)}
     h1{font-size:clamp(32px, 8vw, 56px); line-height:1.2; margin:20px 0}
     .lead{font-size:clamp(16px, 3.8vw, 18px); max-width:860px; color:#d1d5db; margin-bottom:24px}
-    .highlight{color:var(--blue);font-family:'Noto Serif KR',serif;font-weight:700}
+    .highlight{color:var(--blue); font-family:'Noto Serif KR',serif; font-weight:700}
     .muted{color:var(--muted)}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-    .btn{padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block}
-    .btn.primary{background:var(--blue);color:#fff}
-    .btn.ghost{border:1px solid var(--blue);color:var(--blue)}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin:20px 0}
+    .btn{padding:12px 18px; border-radius:12px; font-weight:700; display:inline-block}
+    .btn.primary{background:var(--blue); color:#fff}
+    .btn.ghost{border:1px solid var(--blue); color:var(--blue)}
 
-    /* Numbers */
-    .numbers{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px}
-    .num{flex:1;min-width:150px;text-align:center;padding:16px;border-radius:12px;background:var(--card)}
-    .num h2{font-size:32px;color:var(--blue);margin-bottom:6px}
+    /* ===== Numbers (72h / 2개월 / ROI) ===== */
+    .numbers{display:flex; gap:24px; flex-wrap:wrap; margin-top:30px}
+    .num{
+      flex:1; min-width:240px; text-align:center;
+      padding:28px 32px; border-radius:24px;
+      background:#0f1420; border:1.5px solid rgba(40,107,255,.42);
+      box-shadow:0 0 0 1px rgba(40,107,255,.15) inset;
+    }
+    .num h2{font-size:44px; color:var(--blue); margin-bottom:8px; font-weight:900}
+    .num p{margin:0; color:#cbd5e1}
 
-    /* Cards */
-    .grid{display:grid;gap:16px;margin-top:30px}
+    /* ===== Feature cards ===== */
+    .grid{display:grid; gap:16px; margin-top:30px}
     @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
-    .card h3{font-size:20px;margin-bottom:8px}
+    .features-grid .feature-card{
+      background:#0f1420; border:1.5px solid rgba(40,107,255,.35);
+      border-radius:24px; padding:24px 24px 20px
+    }
+    .features-grid h3{font-family:'Noto Serif KR',serif; font-size:22px; margin:0 0 12px}
     .list{margin:0 0 0 20px}.list li{margin:6px 0}
 
-    /* Process */
+    /* ===== Process ===== */
     .process{margin-top:40px}
-    .step{margin-bottom:16px;padding:14px 18px;background:var(--card);border-radius:10px;font-weight:600}
-    .step strong{color:var(--blue);margin-right:8px}
-    .sub{margin-top:6px;color:var(--muted);font-weight:500;font-size:14px}
+    .step{margin-bottom:16px; padding:14px 18px; background:var(--card); border-radius:10px; font-weight:600}
+    .step strong{color:var(--blue); margin-right:8px}
+    .sub{margin-top:6px; color:var(--muted); font-weight:500; font-size:14px}
 
-    /* Pricing (single offer) */
+    /* ===== Pricing (single) ===== */
     .pricing{margin-top:40px}
-    .price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%}
-    .price{font-size:24px;color:var(--blue);font-weight:800;margin:8px 0 10px}
+    .price-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; width:100%}
+    .price-hero{font-size:32px; line-height:1.2; font-weight:900; color:#fff; margin:0 0 10px}
+    .price-hero .vat{font-size:.9em; color:var(--muted); font-weight:700}
 
-    /* Guarantee / Founder / FAQ */
+    /* ===== Guarantee ===== */
     .guarantee{margin-top:40px}
-    .founder{margin-top:40px;padding:20px;border-left:4px solid var(--blue);background:var(--card);font-style:italic}
+    .guar-hero{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px; border-radius:16px;
+      border:1.5px solid rgba(16,185,129,.55);
+      background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.12));
+      color:#a7f3d0; font-weight:800;
+    }
+    .card{background:var(--card); border:1px solid #1b2540; border-radius:16px; padding:20px}
+
+    /* ===== Founder / FAQ / Footer ===== */
+    .founder{margin-top:40px; padding:20px; border-left:4px solid var(--blue); background:var(--card); font-style:italic; border:1px solid var(--border); border-radius:16px}
     .faq{margin-top:40px}.faq h2{margin-bottom:12px}
-    .faq-item{margin-bottom:18px}.faq-item h3{color:var(--blue);margin-bottom:6px}
+    .faq-item{margin-bottom:18px}.faq-item h3{color:var(--blue); margin-bottom:6px}
+    footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:var(--muted); font-size:13px; text-align:center}
 
-    footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
-
-    /* 접근성: 부드러운 스크롤 해제 옵션 */
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-    /* 고정 배너에 가려지지 않게 앵커 오프셋 */
+    /* ===== Anchor offset for fixed banner ===== */
     #pricing, #details, #guarantee, .process, .faq { scroll-margin-top: var(--banner); }
 
-    /* 모바일 최적화 */
+    /* ===== Mobile tweaks ===== */
     @media (max-width: 640px){
-      .cta .btn{ flex:1 1 100%; text-align:center; }
+      .wrap{padding:calc(var(--banner) + 12px) 16px 64px}
+      .numbers{gap:12px}
+      .num{min-width:100%; padding:20px}
+      .cta .btn{flex:1 1 100%; text-align:center}
+      .price-hero{font-size:28px}
+      .banner-rail{gap:8px; padding:6px 10px}
+      h1{font-size:clamp(28px, 8vw, 38px)}
+      .lead{font-size:16px}
+      .guar-hero{border-radius:14px}
     }
     @media (max-width: 480px){
-      :root{ --banner:96px; } /* 모바일에서 배너 2줄 대비 여유 */
-      .badge{ font-size:13px; padding:5px 10px; }
-      .numbers{ gap:12px; }
-      .num{ padding:12px; }
-      .only-desktop{ display:none; }
-      .only-mobile{ display:inline; }
+      :root{ --banner:96px; }
+      .badge{font-size:13px; padding:5px 10px}
+      .only-desktop{display:none}
+      .only-mobile{display:inline}
     }
   </style>
 
@@ -113,35 +151,40 @@
   </script>
 </head>
 <body>
-  <!-- Cohort Banner -->
+  <!-- Top banner -->
   <div class="top-banner">
-    <a href="#pricing" class="banner-strong">[코호트 알림]</a>
-    <span class="only-desktop">다음 시작일: 2025.10.27 (월) 09:00 KST | 정원 5명 | 보너스 수량 한정</span>
-    <span class="only-mobile">다음: 10/27(월) 09:00 | 정원 5</span>
+    <div class="banner-rail">
+      <a href="#pricing" class="banner-strong">[코호트 알림]</a>
+      <span>다음 시작일: <b>2025.10.27 (월) 09:00 KST</b></span>
+      <span>| 정원 5명</span>
+      <span class="seat-pill" id="seatsTopPill">남은 좌석 5</span>
+      <span>| 보너스 수량 한정</span>
+      <span>| <b>NDA</b> 기본</span>
+    </div>
   </div>
 
   <div class="wrap">
     <!-- Hero -->
-    <span class="badge">D-28</span>
+    <span class="badge" id="dday">D-28</span>
     <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
     <p class="lead">
       [25–35 고성과 개인/창업자/프리랜서]가 72시간 안에
       ‘첫 성과(현금흐름 개선·시간 절감·리스크 축소)’를 체감하도록 설계된
       2개월 집중 실행 스프린트 — <b>결과 미달 시 ROI 크레딧 보장</b>.
-      <span class="muted">월 2회 시작 · 코호트당 5명 · Day1 18:00 KST 킥오프 패키지 제공</span>
+      <br/><span class="muted">월 2회 시작 · 코호트당 5명 · Day1 09:00 KST 킥오프 패키지 제공</span>
     </p>
     <div class="cta">
-  <a class="btn primary"
-     href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
-     onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Hero)'});}">
-     웨이팅 등록
-  </a>
-  <a class="btn ghost"
-     href="#details"
-     onclick="if(window.gtag){gtag('event','details_click',{'event_category':'CTA','event_label':'프로그램 디테일 (Hero)'});}">
-     프로그램 디테일
-  </a>
-</div>
+      <a class="btn primary"
+        href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
+        onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Hero)'});}">
+        웨이팅 등록
+      </a>
+      <a class="btn ghost"
+        href="#details"
+        onclick="if(window.gtag){gtag('event','details_click',{'event_category':'CTA','event_label':'프로그램 디테일 (Hero)'});}">
+        프로그램 디테일
+      </a>
+    </div>
 
     <!-- Numbers -->
     <div class="numbers">
@@ -151,8 +194,8 @@
     </div>
 
     <!-- Features -->
-    <section id="details" class="grid">
-      <div class="card">
+    <section id="details" class="grid features-grid">
+      <div class="feature-card">
         <h3>First-Win 프리셋 3종</h3>
         <ul class="list">
           <li><b>크리에이터</b>: 콜라보 DM 3문장 + 1장 미디어킷(Lite) + 내일 할 일 3개</li>
@@ -160,14 +203,14 @@
           <li><b>창업자</b>: 콜드 이메일 3문장 + 1장 파일럿 원페이저 + 내일 할 일 3개</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="feature-card">
         <h3>If-Then 카드 & Red Team 90초</h3>
         <ul class="list">
           <li>‘만약~라면’ 시나리오로 결정을 미리 설계</li>
           <li>90초 동안 <b>상대방 입장에서 세 가지 질문</b>으로 놓칠 뻔한 리스크 제거</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="feature-card">
         <h3>D3/D7/D30 스냅샷</h3>
         <ul class="list">
           <li>현금흐름·시간·리스크 지표 추적</li>
@@ -186,57 +229,58 @@
       <div class="step"><strong>5.</strong> 72h First-Win 달성</div>
     </section>
 
-    <!-- Pricing (single offer only) -->
+    <!-- Pricing -->
     <section class="pricing" id="pricing">
       <h2>가격</h2>
       <div class="price-card">
-        <h3>Execution Sprint — 2개월</h3>
-        <div class="price">₩1,980,000 <span class="muted">(VAT 포함)</span></div>
+        <div class="price-hero">2개월 <span style="font-weight:900;color:#ffffff">₩1,980,000</span> <span class="vat">(VAT 포함)</span></div>
+        <div class="muted" style="margin:6px 0 12px">일시불 또는 ₩990,000 × 2개월</div>
+        <!-- 요청대로: 여기 있던 3줄 불릿(제공 항목) 삭제 -->
+        <hr style="border:0;border-top:1px solid var(--border);margin:14px 0"/>
+        <h3 style="margin:0 0 8px">이번 코호트 보너스(한정)</h3>
         <ul class="list">
-          <li>72h First-Win 설계 + Day1 18:00 킥오프 패키지 제공</li>
-          <li>If-Then 카드 / 레드팀 90초 / 제안서 1p / DM 3문장</li>
-          <li>D3·D7·D30 스냅샷</li>
+          <li>D7 Mini-Loom 개인 피드백 1회</li>
+          <li>익명 벤치마크 차트 1장(현금·시간·리스크 3축)</li>
+          <li>If-Then 카드팩 6장(개인화)</li>
         </ul>
         <p class="sub">*할인은 제공하지 않습니다. 대신 결과 확률을 높이는 자산과 보증을 강화합니다.</p>
-      <div class="cta">
-  <a class="btn primary"
-     href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
-     onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Pricing Single)'});}">
-     웨이팅 등록
-  </a>
-</div>
+        <div class="cta">
+          <a class="btn primary" href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
+             onclick="if(window.gtag){gtag('event','waitlist_click',{event_category:'CTA',event_label:'웨이팅 등록 (Pricing)'});}">웨이팅 등록</a>
+        </div>
       </div>
     </section>
 
     <!-- Guarantee -->
     <section class="guarantee" id="guarantee">
       <h2>보증</h2>
+      <div class="guar-hero">✅ 이중 보증 + ROI 크레딧</div>
       <div class="card">
         <h3>이중 보증 + ROI 크레딧</h3>
         <ul class="list">
           <li><b>무조건 환불</b>: 시작 3일(72h) 이내 단순 변심 포함 전액 환불.</li>
-          <li><b>ROI 크레딧</b>: 2개월 내 아래 ‘활성화 조건’을 충족했음에도 핵심 지표 개선이 없을 경우, 동일 금액을 크레딧으로 제공(다음 코호트 사용 가능, 현금 환불 불가).</li>
+          <li><b>ROI 크레딧</b>: 2개월 내 아래 ‘활성화 조건’을 충족했음에도 핵심 지표 개선이 없을 경우,<br/> 동일 금액을 크레딧으로 제공(다음 코호트 사용 가능, 현금 환불 불가).</li>
         </ul>
         <div class="sub"><b>활성화 조건</b>: (1) Day1 패키지 수령 후 안내된 3단계 실행(제출 3회) (2) D3 체크인 응답 및 자료 제출 (3) 간단 설문 1회(NPS 포함)</div>
       </div>
     </section>
 
-    <!-- Founder Note -->
+    <!-- Founder -->
     <div class="founder">
       “사람들이 실행에서 가장 힘들어하는 건 ‘혼자’일 때예요.<br/>
       우리는 72시간 안에 작은 승리를 설계하고, 그 경험을 반복 가능하게 만듭니다.”<br/>
       — BOOKZAP Founder
     </div>
 
-    <!-- Mid CTA (left-aligned) -->
-   <div class="cta">
-  <a class="btn primary"
-     href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
-     onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Mid)'});}">
-     지금 웨이팅 등록
-  </a>
-  <a class="btn ghost" href="#pricing">가격 보기</a>
-</div>
+    <!-- Mid CTA -->
+    <div class="cta">
+      <a class="btn primary"
+        href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener"
+        onclick="if(window.gtag){gtag('event','waitlist_click',{'event_category':'CTA','event_label':'웨이팅 등록 (Mid)'});}">
+        지금 웨이팅 등록
+      </a>
+      <a class="btn ghost" href="#pricing">가격 보기</a>
+    </div>
 
     <!-- FAQ -->
     <section class="faq">
@@ -260,14 +304,66 @@
     </section>
 
     <!-- Bottom micro-copy -->
-    <section class="sub" style="margin-top:24px">
-      • 지금 시작할 이유 — 다음 코호트: 2025.10.27(월), 좌석 5/5
-      <br/>• 왜 우리인가 — 72h First-Win + Day1 킥오프 패키지 제공 + 이중 보증(3일 환불/ROI 크레딧)
-      <br/>• 무엇이 다른가 — 할인 대신 실행 자산/보너스/희소성으로 결과 확률을 끌어올립니다.
+    <section class="section" id="why-bottom" style="border-top:1px solid var(--border);padding-top:16px;margin-top:24px">
+      <h3>왜 우리인가</h3>
+      <ul class="list">
+        <li><b>속도</b>: 72h 산출물(First-Win) vs 일반 코칭의 모호한 과제</li>
+        <li><b>정확성</b>: If-Then 카드 & Red Team 90초로 리스크 선제 제거</li>
+        <li><b>신뢰</b>: Day1 09:00 정확 시각 납품 + NDA</li>
+        <li><b>보증</b>: 3일 전액 환불 + <u>D3 미제공 10% 즉시 환급</u> + ROI 크레딧</li>
+      </ul>
     </section>
 
     <!-- Footer -->
     <footer>© BOOKZAP</footer>
   </div>
+
+  <!-- D-Day & Seats -->
+  <script>
+    const EVENT_AT   = new Date('2025-10-27T09:00:00+09:00');
+    const TOTAL_SEATS = 5;
+    const BOOKED_SEATS = 0;
+    const SEAT_API = '';
+
+    // D-Day
+    (function(){
+      const now = new Date();
+      const days = Math.max(0, Math.ceil((EVENT_AT - now) / 86400000));
+      const el = document.getElementById('dday');
+      if(el) el.textContent = 'D-' + days;
+    })();
+
+    // Seats (remote → fallback)
+    (async function(){
+      try{
+        if(SEAT_API){
+          const url = SEAT_API + (SEAT_API.includes('?')?'&':'?') + 't=' + Date.now();
+          const res = await fetch(url, {cache:'no-store'});
+          let remain, total, sold;
+          const ct = (res.headers.get('content-type')||'').toLowerCase();
+          if(ct.includes('application/json')){
+            const data = await res.json();
+            total = Number(data.total)||TOTAL_SEATS;
+            sold  = Number(data.sold || (data.total && data.remain!=null ? data.total - data.remain : 0));
+            remain = Number(data.remain!=null ? data.remain : total - sold);
+          }else{
+            const txt = await res.text();
+            const json = JSON.parse(txt.substring(47).slice(0,-2));
+            const rows = json.table.rows;
+            total = Number(rows?.[0]?.c?.[1]?.v)||TOTAL_SEATS;
+            sold  = Number(rows?.[1]?.c?.[1]?.v)||BOOKED_SEATS;
+            remain = Math.max(0, total - sold);
+          }
+          return updateSeats(remain);
+        }
+      }catch(e){}
+      updateSeats(Math.max(0, TOTAL_SEATS - BOOKED_SEATS));
+
+      function updateSeats(remain){
+        const topPill = document.getElementById('seatsTopPill');
+        if(topPill) topPill.textContent = `남은 좌석 ${remain}`;
+      }
+    })();
+  </script>
 </body>
 </html>
