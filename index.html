@@ -49,9 +49,9 @@
     .seat-pill{
       display:inline-flex; align-items:center; border-radius:999px;
       padding:6px 12px;
-      background:transparent;
-      color:#cfe0ff;
-      border:1.5px solid rgba(40,107,255,.60);
+      background:transparent;                 /* 변경: 투명 배경 */
+      color:#cfe0ff;                          /* 변경: 연한 블루 텍스트 */
+      border:1.5px solid rgba(40,107,255,.60);/* 변경: 파란 테두리 */
       box-shadow:0 0 0 1px rgba(40,107,255,.12) inset;
       font-weight:800
     }
@@ -88,12 +88,12 @@
     }
     .features-grid h3{font-family:'Noto Serif KR',serif; font-size:22px; margin:0 0 12px}
     .list{margin:0 0 0 20px}.list li{margin:6px 0}
+    .sub{margin-top:6px;color:var(--muted);font-weight:500;font-size:14px}
 
     /* ===== Process ===== */
     .process{margin-top:40px}
     .step{margin-bottom:16px; padding:14px 18px; background:var(--card); border-radius:10px; font-weight:600}
     .step strong{color:var(--blue); margin-right:8px}
-    .sub{margin-top:6px; color:var(--muted); font-weight:500; font-size:14px}
 
     /* ===== Pricing (single) ===== */
     .pricing{margin-top:40px}
@@ -107,7 +107,7 @@
       display:inline-flex; align-items:center; gap:10px;
       padding:12px 14px; border-radius:16px;
       border:1.5px solid rgba(16,185,129,.55);
-      background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.12));
+      background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.12)); /* 변경: 그린 채움 */
       color:#a7f3d0; font-weight:800;
     }
     .card{background:var(--card); border:1px solid #1b2540; border-radius:16px; padding:20px}
@@ -116,7 +116,7 @@
     .founder{margin-top:40px; padding:20px; border-left:4px solid var(--blue); background:var(--card); font-style:italic; border:1px solid var(--border); border-radius:16px}
     .faq{margin-top:40px}.faq h2{margin-bottom:12px}
     .faq-item{margin-bottom:18px}.faq-item h3{color:var(--blue); margin-bottom:6px}
-    footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:var(--muted); font-size:13px; text-align:center}
+    footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:#9CA3AF; font-size:13px; text-align:center}
 
     /* ===== Anchor offset for fixed banner ===== */
     #pricing, #details, #guarantee, .process, .faq { scroll-margin-top: var(--banner); }
@@ -216,6 +216,8 @@
           <li>현금흐름·시간·리스크 지표 추적</li>
           <li>차트 1장 + 핵심 3줄 리포트</li>
         </ul>
+        <!-- 추가: D3/D7/D30 약어 설명 -->
+        <div class="sub">* D3=시작 3일차, D7=7일차, D30=30일차 스냅샷(차트 1장 + 핵심 3줄)을 의미합니다.</div>
       </div>
     </section>
 
@@ -310,7 +312,7 @@
         <li><b>속도</b>: 72h 산출물(First-Win) vs 일반 코칭의 모호한 과제</li>
         <li><b>정확성</b>: If-Then 카드 & Red Team 90초로 리스크 선제 제거</li>
         <li><b>신뢰</b>: Day1 09:00 정확 시각 납품 + NDA</li>
-        <li><b>보증</b>: 3일 전액 환불 + <u>D3 미제공 10% 즉시 환급</u> + ROI 크레딧</li>
+        <li><b>보증</b>: 3일 전액 환불 + <u>D3 스냅샷(시작 3일차 리포트) 미발행 시 수강료 10% 자동 환급</u> + ROI 크레딧</li>
       </ul>
     </section>
 
