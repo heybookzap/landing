@@ -59,6 +59,8 @@
     .features-grid h3{font-family:'Noto Serif KR',serif; font-size:22px; margin:0 0 12px}
     .list{margin:0 0 0 20px}.list li{margin:6px 0}
     .sub{margin-top:6px;color:var(--muted);font-weight:500;font-size:14px}
+    /* (요청) D3 설명 줄, 위 불릿과 정렬 */
+    .features-grid .sub{margin-left:20px}
 
     /* ===== Process ===== */
     .process{margin-top:40px}
@@ -89,6 +91,14 @@
     .ev-res{margin-top:10px; display:flex; gap:12px; flex-wrap:wrap}
     .ev-chip{background:#0c1a33; color:#b7d0ff; border:1px solid #1c3b7a; padding:8px 10px; border-radius:10px; font-weight:700}
 
+    /* Trial list 좌정렬 */
+    .demo .list{margin-left:0}
+
+    /* FAQ 간격 + Q 파란색(고정) */
+    .faq{margin-top:60px}
+    .faq h2{margin-bottom:12px}
+    .faq-item h3{color: var(--blue) !important; margin-bottom:6px}
+
     /* Anchors offset */
     #pricing, #details, #guarantee, .process, .faq, #trial, #ev { scroll-margin-top: var(--banner); }
 
@@ -106,6 +116,9 @@
       .ev-form{grid-template-columns:repeat(2,1fr)}
     }
     @media (max-width: 480px){ :root{ --banner:96px; } .badge{font-size:13px; padding:5px 10px} .only-desktop{display:none} .only-mobile{display:inline} }
+
+    /* Footer center */
+    footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:#9CA3AF; font-size:13px; text-align:center}
   </style>
 </head>
 <body>
@@ -146,7 +159,7 @@
         <ul class="list">
           <li><b>크리에이터</b>: 콜라보 DM 3문장 + 1장 미디어킷(Lite) + 내일 할 일 3개</li>
           <li><b>프리랜서</b>: 리바이벌/콜드 DM 3문장 + 1장 제안서(1p) + 내일 할 일 3개</li>
-          <li><b>창업자</b>: 콜드 이메일 3문장 + 1장 <u>원페이지 제안서</u> + 내일 할 일 3개</li>
+          <li><b>창업자</b>: 콜드 이메일 3문장 + 1장 원페이지 제안서 + 내일 할 일 3개</li>
         </ul>
       </div>
       <div class="feature-card">
@@ -181,67 +194,83 @@
       <div class="cta"><a class="btn primary" href="#pricing">지금 무료로 시작</a></div>
     </section>
 
-    <!-- EV (Rolled-back with Reversibility) -->
+    <!-- EV -->
     <section id="ev" class="section">
       <span class="pill">미리보기 · 인터랙티브</span>
       <h2>리스크–보상 트리 + 기대값(EV) 계산</h2>
       <p class="muted">두 가지 선택지를 숫자로 비교해 봅니다. 아래에 직접 수치를 넣어 보세요.</p>
       <div class="demo">
+        <!-- 쉬운 안내 (요청) -->
+        <div class="sub" style="margin-bottom:10px">
+          <b>어떻게 쓰나요? (3단계)</b><br/>
+          1) A와 B에 성공 확률·이익·손실·시간을 대충 넣습니다.<br/>
+          2) <u>EV 계산하기</u> 버튼을 누릅니다.<br/>
+          3) 맨 아래 <u>추천</u>을 보고, 왜 그런지 수치를 확인합니다. (어려우면 기본값 그대로 두고 버튼만 눌러도 됩니다.)
+        </div>
+
         <div class="ev-form">
           <div>
             <label>선택지 A — 성공 확률 P<sub>success</sub> (0~1)</label>
-            <input id="a_p" type="number" step="0.01" min="0" max="1" value="0.5"/>
+            <input id="a_p" type="number" step="0.01" min="0" max="1" value="0.5" placeholder="예: 0.5"/>
           </div>
           <div>
             <label>얻을 수 있는 이익(₩)</label>
-            <input id="a_up" type="number" value="500000"/>
+            <input id="a_up" type="number" value="500000" placeholder="예: 500000"/>
           </div>
           <div>
             <label>잃을 수 있는 손실(₩)</label>
-            <input id="a_dn" type="number" value="200000"/>
+            <input id="a_dn" type="number" value="200000" placeholder="예: 200000"/>
           </div>
           <div>
             <label>걸리는 시간(h)</label>
-            <input id="a_t" type="number" step="0.5" value="3"/>
+            <input id="a_t" type="number" step="0.5" value="3" placeholder="예: 3"/>
           </div>
           <div>
             <label>되돌리기 쉬움(0~1)</label>
-            <input id="a_r" type="number" step="0.1" min="0" max="1" value="0.7"/>
+            <input id="a_r" type="number" step="0.1" min="0" max="1" value="0.7" placeholder="예: 0.7"/>
           </div>
         </div>
+
         <div class="ev-form" style="margin-top:8px">
           <div>
             <label>선택지 B — 성공 확률 P<sub>success</sub> (0~1)</label>
-            <input id="b_p" type="number" step="0.01" min="0" max="1" value="0.35"/>
+            <input id="b_p" type="number" step="0.01" min="0" max="1" value="0.35" placeholder="예: 0.35"/>
           </div>
           <div>
             <label>얻을 수 있는 이익(₩)</label>
-            <input id="b_up" type="number" value="900000"/>
+            <input id="b_up" type="number" value="900000" placeholder="예: 900000"/>
           </div>
           <div>
             <label>잃을 수 있는 손실(₩)</label>
-            <input id="b_dn" type="number" value="150000"/>
+            <input id="b_dn" type="number" value="150000" placeholder="예: 150000"/>
           </div>
           <div>
             <label>걸리는 시간(h)</label>
-            <input id="b_t" type="number" step="0.5" value="6"/>
+            <input id="b_t" type="number" step="0.5" value="6" placeholder="예: 6"/>
           </div>
           <div>
             <label>되돌리기 쉬움(0~1)</label>
-            <input id="b_r" type="number" step="0.1" min="0" max="1" value="0.4"/>
+            <input id="b_r" type="number" step="0.1" min="0" max="1" value="0.4" placeholder="예: 0.4"/>
           </div>
         </div>
+
         <div class="cta">
           <a class="btn ghost" href="#ev" onclick="calcEV();return false;">EV 계산하기</a>
           <a class="btn" style="border:1px solid var(--border);color:#d1d5db" href="#ev" onclick="resetEV();return false;">초기값 복원</a>
         </div>
+
         <div class="ev-res" id="evRes">
           <div class="ev-chip">시급 가정: <span id="hourly">₩40,000</span></div>
           <div class="ev-chip">A: EV <span id="aEV">–</span> · WEV <span id="aWEV">–</span></div>
           <div class="ev-chip">B: EV <span id="bEV">–</span> · WEV <span id="bWEV">–</span></div>
           <div class="ev-chip">추천: <span id="pick">(계산 버튼을 눌러주세요)</span></div>
         </div>
-        <div class="sub" style="margin-top:8px">* WEV(시간가중 EV) = <code>EV - (시간×시급) + 되돌리기 쉬움×0.1×|EV|</code>. 0.1은 초기 가중치(추정)입니다.</div>
+
+        <!-- 결과 해석 가이드 -->
+        <div class="sub" style="margin-top:8px">
+          * WEV(시간가중 EV) = <code>EV - (시간×시급) + 되돌리기 쉬움×0.1×|EV|</code><br/>
+          숫자는 이해를 돕는 기본값입니다. 결과에서 <b>WEV가 더 큰 쪽</b>이 ‘시간과 되돌림 가능성까지 고려했을 때’ 더 좋은 선택입니다.
+        </div>
       </div>
     </section>
 
@@ -286,11 +315,16 @@
           <li><b>무조건 환불</b>: 시작 3일(72h) 이내 단순 변심 포함 전액 환불.</li>
           <li><b>ROI 크레딧</b>: 2개월 내 아래 ‘활성화 조건’을 충족했음에도 핵심 지표 개선이 없을 경우, 동일 금액을 크레딧으로 제공(다음 코호트 사용 가능, 현금 환불 불가).</li>
         </ul>
-        <div class="sub"><b>활성화 조건</b>: (1) Day1 패키지 수령 후 안내된 3단계 실행(제출 3회) (2) D3 체크인 응답 및 자료 제출 (3) 간단 설문 1회(<b>NPS</b> 포함 — <u>NPS는 “이 서비스를 친구에게 추천할 건가요?”를 0~10점으로 묻는 한 줄 질문입니다. 9~10점=추천자, 0~6점=비추천자. 추천자%에서 비추천자%를 뺀 값이 NPS입니다.</u>)</div>
+        <div class="sub">
+          <b>활성화 조건</b>: (1) Day1 패키지 수령 후 안내된 3단계 실행(제출 3회) (2) D3 체크인 응답 및 자료 제출 (3) 간단 설문 1회 (<b>NPS</b> 포함)<br/>
+          — NPS는 “이 서비스를 친구에게 추천할 건가요?”를 0~10점으로 묻는 한 줄 질문입니다.<br/>
+          — 9~10점: 추천자, 7~8점: 중립자, 0~6점: 비추천자.<br/>
+          — <b>NPS = 추천자% − 비추천자%</b> 입니다.
+        </div>
       </div>
     </section>
 
-    <!-- FAQ (원본 유지) -->
+    <!-- FAQ (원본 유지, 간격/색만 조정) -->
     <section class="faq">
       <h2>자주 묻는 질문</h2>
       <div class="faq-item">
@@ -311,7 +345,7 @@
       </div>
     </section>
 
-    <!-- Bottom micro-copy -->
+    <!-- Why us -->
     <section class="section" style="border-top:1px solid var(--border);padding-top:16px;margin-top:24px">
       <h3>왜 우리인가</h3>
       <ul class="list">
@@ -322,10 +356,10 @@
       </ul>
     </section>
 
-    <footer>© BOOKZAP</footer>
+    <footer>@ BOOKZAP</footer>
   </div>
 
-  <!-- Scripts: D-Day, Seats, EV (with Reversibility) -->
+  <!-- Scripts -->
   <script>
     const EVENT_AT   = new Date('2025-10-27T09:00:00+09:00');
     const TOTAL_SEATS = 5;
@@ -372,7 +406,7 @@
       }
     })();
 
-    // ===== EV Calculator (with Reversibility) =====
+    // EV Calculator
     const HOURLY = 40000; // 시급 (₩)
     const fmt = n => new Intl.NumberFormat('ko-KR').format(Math.round(n));
     const calcOne = (p, up, dn) => p*up - (1-p)*dn;
