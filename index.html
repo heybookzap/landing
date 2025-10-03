@@ -6,13 +6,13 @@
   <title>BOOKZAP — 72h First-Win Execution Sprint</title>
 
   <!-- GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9JL7NY9BB9', { anonymize_ip: true });
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9JL7NY9BB9', { anonymize_ip: true });
+  </script>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
@@ -100,6 +100,18 @@
     .ev-res{margin-top:10px; display:flex; gap:12px; flex-wrap:wrap}
     .ev-chip{background:#0c1a33; color:#b7d0ff; border:1px solid #1c3b7a; padding:8px 10px; border-radius:10px; font-weight:700}
 
+    /* === 정렬 보정(라벨 2줄 대비, 입력칸 들뜸 방지) === */
+    .ev-form > div{ display:flex; flex-direction:column; justify-content:flex-end; }
+    .ev-form label{ display:block; min-height:2.2em; line-height:1.2; }
+    .ev-form input{ margin-top:6px; }
+
+    /* === A/B 칩 같은 줄 시도(가능할 때만) === */
+    .ev-chip{ white-space:nowrap; }
+    @media (min-width:360px){
+      .ev-res{ display:flex; flex-wrap:wrap; gap:12px; }
+      .ev-chip:nth-child(2), .ev-chip:nth-child(3){ flex:0 0 auto; }
+    }
+
     /* Trial list 좌정렬 */
     .demo .list{margin-left:0}
 
@@ -123,8 +135,17 @@
       .lead{font-size:16px}
       .guar-hero{border-radius:14px}
       .ev-form{grid-template-columns:repeat(2,1fr)}
+      /* (VAT 포함) 모바일에서만 줄바꿈 */
+      .price-hero .vat{ display:block; margin-top:4px; }
     }
-    @media (max-width: 480px){ :root{ --banner:96px; } .badge{font-size:13px; padding:5px 10px} .only-desktop{display:none} .only-mobile{display:inline} }
+    @media (max-width: 480px){
+      :root{ --banner:96px; } .badge{font-size:13px; padding:5px 10px}
+      .only-desktop{display:none} .only-mobile{display:inline}
+    }
+
+    /* 보증 섹션 활성화 조건 목록 */
+    .sub .conditions{ margin:6px 0 0 18px; padding:0; }
+    .sub .conditions li{ margin:2px 0; }
 
     /* Footer center */
     footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:#9CA3AF; font-size:13px; text-align:center}
@@ -149,15 +170,26 @@
     <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
     <p class="lead">72시간 안에 <b>작은 성과</b>를 만들고, 2개월 동안 <b>계속 실행</b>합니다. 결과가 없으면 <b>ROI 크레딧</b>을 드립니다.<br/><span class="muted">월 2회 시작 · 코호트 5명 · Day1 오전 9시 자료 바로 전달</span></p>
     <div class="cta">
-      <!-- 수정: 무료 체험 버튼을 구글폼으로 연결 -->
-     <a class="btn primary"
-   href="https://forms.gle/aeqs5SkkZtdN78Wg9?utm_source=website&utm_medium=cta&utm_campaign=sprint_2025_10"
-   target="_blank" rel="noopener"
-   onclick="gtag('event','cta_click',{location:'hero',target:'onboarding_form',cohort:'2025-10-27'});">
-  무료 7일 체험 지금 등록 — 10/13(월) 시작
-</a>
-      <a class="btn ghost" href="#ev" onclick="gtag('event','cta_click',{location:'hero',target:'ev_calculator',cohort:'2025-10-27'});">결정 도와주는 계산기 보기</a>
-      <a class="btn" style="border:1px solid var(--border); color:#d1d5db" href="#pricing" onclick="gtag('event','cta_click',{location:'hero',target:'waitlist',cohort:'2025-10-27'});"웨이팅 등록</a>
+      <!-- 무료 체험 -->
+      <a class="btn primary"
+         href="https://forms.gle/aeqs5SkkZtdN78Wg9?utm_source=website&utm_medium=cta&utm_campaign=sprint_2025_10"
+         target="_blank" rel="noopener"
+         onclick="gtag('event','cta_click',{location:'hero',target:'onboarding_form',cohort:'2025-10-27'});">
+        무료 7일 체험 지금 등록 — 10/13(월) 시작
+      </a>
+      <!-- 계산기 -->
+      <a class="btn ghost"
+         href="#ev"
+         onclick="gtag('event','cta_click',{location:'hero',target:'ev_calculator',cohort:'2025-10-27'});">
+        결정 도와주는 계산기 보기
+      </a>
+      <!-- 웨이팅(오타 수정: 닫는 > 누락으로 텍스트 미노출) -->
+      <a class="btn"
+         style="border:1px solid var(--border); color:#d1d5db"
+         href="#pricing"
+         onclick="gtag('event','cta_click',{location:'hero',target:'waitlist',cohort:'2025-10-27'});">
+        웨이팅 등록
+      </a>
     </div>
 
     <!-- Numbers -->
@@ -194,34 +226,35 @@
       </div>
     </section>
 
-   <!-- Free Trial Light -->
-<section id="trial" class="section">
-  <span class="pill">무료 체험</span>
-  <h2>7일 체험: 멘토 한 문장 + 내게 묻는 질문</h2>
- <p class="muted">
-  매일 멘토가 남긴 짧은 말 1개와, 멘토가 직접 던지는 질문 1개가 옵니다.<br/>
-  읽고 1분만 생각해도, 멘토처럼 생각하는 힘이 길러집니다.<br/>
-  <b>지금 등록하면 10/13(월) 09:00 KST부터 자동으로 시작됩니다.</b>
-</p>
-  <div class="demo">
-    <ul class="list">
-      <li>Day 1 — “오늘 10분을 아끼는 한 가지는?”</li>
-      <li>Day 3 — “지금 바로 3분 안에 할 수 있는 일은?”</li>
-      <li>Day 7 — “내일도 쉽게 반복하려면 무엇을 바꾸면 될까?”</li>
-    </ul>
-  </div>
-  <!-- 수정: 무료 체험 CTA를 구글폼으로 연결 -->
-  <div class="cta"><a class="btn primary" href="https://forms.gle/aeqs5SkkZtdN78Wg9" target="_blank" rel="noopener"> 지금 등록 — 10/13(월) 시작</a></div>
-  <p class="sub">* 지금 등록해도 오늘은 아무것도 발송되지 않아요. 첫 메일은 10/13(월) 아침에 갑니다.</p>
-</section>
+    <!-- Free Trial Light -->
+    <section id="trial" class="section">
+      <span class="pill">무료 체험</span>
+      <h2>7일 체험: 멘토 한 문장 + 내게 묻는 질문</h2>
+      <p class="muted">
+        매일 멘토가 남긴 짧은 말 1개와, 멘토가 직접 던지는 질문 1개가 옵니다.<br/>
+        읽고 1분만 생각해도, 멘토처럼 생각하는 힘이 길러집니다.<br/>
+        <b>지금 등록하면 10/13(월) 09:00 KST부터 자동으로 시작됩니다.</b>
+      </p>
+      <div class="demo">
+        <ul class="list">
+          <li>Day 1 — “오늘 10분을 아끼는 한 가지는?”</li>
+          <li>Day 3 — “지금 바로 3분 안에 할 수 있는 일은?”</li>
+          <li>Day 7 — “내일도 쉽게 반복하려면 무엇을 바꾸면 될까?”</li>
+        </ul>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="https://forms.gle/aeqs5SkkZtdN78Wg9" target="_blank" rel="noopener"> 지금 등록 — 10/13(월) 시작</a>
+      </div>
+      <p class="sub">* 지금 등록해도 오늘은 아무것도 발송되지 않아요. 첫 메일은 10/13(월) 아침에 갑니다.</p>
+    </section>
 
     <!-- EV -->
     <section id="ev" class="section">
       <span class="pill">미리보기 · 인터랙티브</span>
       <h2>리스크–보상 트리 + 기대값(EV) 계산</h2>
-      <p class="muted">두 가지 선택지를 숫자로 비교해 봅니다. 아래에 직접 수치를 넣어 보세요.</p>
+      <p class="muted">두 가지 선택지를 숫자로 비교해 봅니다.<br/>아래에 직접 수치를 넣어 보세요.</p>
       <div class="demo">
-        <!-- 쉬운 안내 (요청) -->
+        <!-- 쉬운 안내 -->
         <div class="sub" style="margin-bottom:10px">
           <b>어떻게 쓰나요? (3단계)</b><br/>
           1) A와 B에 성공 확률·이익·손실·시간을 대충 넣습니다.<br/>
@@ -287,7 +320,6 @@
           <div class="ev-chip">추천: <span id="pick">(계산 버튼을 눌러주세요)</span></div>
         </div>
 
-        <!-- 결과 해석 가이드 -->
         <div class="sub" style="margin-top:8px">
           * WEV(시간가중 EV) = <code>EV - (시간×시급) + 되돌리기 쉬움×0.1×|EV|</code><br/>
           숫자는 이해를 돕는 기본값입니다. 결과에서 <b>WEV가 더 큰 쪽</b>이 ‘시간과 되돌림 가능성까지 고려했을 때’ 더 좋은 선택입니다.
@@ -337,14 +369,19 @@
           <li><b>ROI 크레딧</b>: 2개월 내 아래 ‘활성화 조건’을 충족했음에도 핵심 지표 개선이 없을 경우, 동일 금액을 크레딧으로 제공(다음 코호트 사용 가능, 현금 환불 불가).</li>
         </ul>
         <div class="sub">
-          <b>활성화 조건</b>: (1) Day1 패키지 수령 후 안내된 3단계 실행(제출 3회) (2) D3 체크인 응답 및 자료 제출 (3) 간단 설문 1회 (<b>NPS</b> 포함)<br/>
+          <b>활성화 조건</b>:
+          <ol class="conditions">
+            <li>Day1 패키지 수령 후 안내된 3단계 실행(제출 3회)</li>
+            <li>D3 체크인 응답 및 자료 제출</li>
+            <li>간단 설문 1회 (<b>NPS</b> 포함)</li>
+          </ol>
           — NPS는 “이 서비스를 친구에게 추천할 건가요?”를 0~10점으로 묻는 한 줄 질문입니다.<br/>
           — 9~10점: 추천자, 7~8점: 중립자, 0~6점: 비추천자.
         </div>
       </div>
     </section>
 
-    <!-- FAQ (원본 유지, 간격/색만 조정) -->
+    <!-- FAQ -->
     <section class="faq">
       <h2>자주 묻는 질문</h2>
       <div class="faq-item">
@@ -452,6 +489,19 @@
       document.getElementById('aWEV').textContent='–'; document.getElementById('bWEV').textContent='–';
       document.getElementById('pick').textContent='(계산 버튼을 눌러주세요)';
     }
+
+    // === 배너 높이 자동 보정(모바일/인앱 가림 방지) ===
+    (function () {
+      var banner = document.querySelector('.top-banner');
+      var wrap = document.querySelector('.wrap');
+      if (!banner || !wrap) return;
+      function adjust() {
+        var h = banner.getBoundingClientRect().height || 0;
+        wrap.style.paddingTop = (h + 24) + 'px';
+      }
+      adjust();
+      window.addEventListener('resize', adjust);
+    })();
   </script>
 </body>
 </html>
