@@ -1,507 +1,147 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>BOOKZAP — 72h First-Win Execution Sprint</title>
-
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-9JL7NY9BB9', { anonymize_ip: true });
-  </script>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
-
-  <!-- OG -->
-  <meta property="og:title" content="72h First-Win — Execution Sprint"/>
-  <meta property="og:description" content="2개월 집중 · ROI 크레딧 보장 · 월 최대 10명 한정"/>
-  <meta property="og:image" content="https://heybookzap.github.io/landing/og.jpg"/>
-  <meta property="og:url" content="https://heybookzap.github.io/landing/"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOOKZAP — 3-Day Proof Pass (Free)</title>
+  <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 샘플 Proof 리포트를 받으세요. (무료 체험 오픈: 10/13, 마감: 10/16)" />
   <style>
-    /* ===== Theme (Dark) ===== */
     :root{
-      --bg:#0B0B0B; --card:#111318; --text:#EDEDED; --muted:#9CA3AF;
-      --border:#1F2937; --blue:#286bff; --green:#10B981; --banner:68px;
+      --bg:#0B1220; --panel:#111827; --card:#0F172A;
+      --text:#E5E7EB; --muted:#9CA3AF; --line:#1F2937;
+      --accent:#286BFF; --chip:#0B1B3B;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-tap-highlight-color:transparent; word-break:keep-all}
-    h1,h2,h3{margin:0; font-family:'Noto Serif KR',serif}
-    a{text-decoration:none; color:inherit}
-    .wrap{max-width:1080px; margin:0 auto; padding:calc(var(--banner) + 20px) 20px 80px}
-
-    /* ===== Fixed top banner ===== */
-    .top-banner{position:fixed; top:0; left:0; right:0; background:var(--card); border-bottom:1px solid var(--border); color:var(--muted); font-weight:600; text-align:center; padding:calc(10px + env(safe-area-inset-top)) 14px 10px; z-index:999}
-    .banner-rail{display:inline-flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; background:#0f1420; border:1px solid #1b2540; border-radius:14px; padding:8px 12px}
-    .banner-strong{color:var(--blue)}
-    .seat-pill{display:inline-flex; align-items:center; border-radius:999px; padding:6px 12px; background:transparent; color:#cfe0ff; border:1.5px solid rgba(40,107,255,.60); box-shadow:0 0 0 1px rgba(40,107,255,.12) inset; font-weight:800}
-    .only-mobile{display:none}
-
-    /* ===== Hero ===== */
-    .badge{display:inline-block; padding:6px 10px; border:1px solid var(--border); border-radius:999px; font-size:12px; color:var(--muted)}
-    h1{font-size:clamp(32px, 8vw, 56px); line-height:1.2; margin:20px 0}
-    .lead{font-size:clamp(16px, 3.8vw, 18px); max-width:860px; color:#d1d5db; margin-bottom:24px}
-    .highlight{color:var(--blue); font-family:'Noto Serif KR',serif; font-weight:700}
-    .muted{color:var(--muted)}
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin:20px 0}
-    .btn{padding:12px 18px; border-radius:12px; font-weight:700; display:inline-block}
-    .btn.primary{background:var(--blue); color:#fff}
-    .btn.ghost{border:1px solid var(--blue); color:var(--blue)}
-
-    /* ===== Numbers ===== */
-    .numbers{display:flex; gap:24px; flex-wrap:wrap; margin-top:30px}
-    .num{flex:1; min-width:240px; text-align:center; padding:28px 32px; border-radius:24px; background:#0f1420; border:1.5px solid rgba(40,107,255,.42); box-shadow:0 0 0 1px rgba(40,107,255,.15) inset}
-    .num h2{font-size:44px; color:var(--blue); margin-bottom:8px; font-weight:900}
-    .num p{margin:0; color:#cbd5e1}
-
-    /* ===== Feature cards ===== */
-    .grid{display:grid; gap:16px; margin-top:30px}
-    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
-    .features-grid .feature-card{background:#0f1420; border:1.5px solid rgba(40,107,255,.35); border-radius:24px; padding:24px 24px 20px}
-    .features-grid h3{font-family:'Noto Serif KR',serif; font-size:22px; margin:0 0 12px}
-    .list{margin:0 0 0 20px}.list li{margin:6px 0}
-    .sub{margin-top:6px;color:var(--muted);font-weight:500;font-size:14px}
-    /* (요청) D3 설명 줄, 위 불릿과 정렬 */
-    .features-grid .sub{margin-left:20px}
-
-    /* ===== Process ===== */
-    .process{margin-top:40px}
-    .step{margin-bottom:16px; padding:14px 18px; background:var(--card); border-radius:10px; font-weight:600}
-    .step strong{color:var(--blue); margin-right:8px}
-
-    /* ===== Pricing ===== */
-    .pricing{margin-top:40px}
-    .price-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; width:100%}
-    .price-hero{font-size:32px; line-height:1.2; font-weight:900; color:#fff; margin:0 0 10px}
-    .price-hero .vat{font-size:.9em; color:var(--muted); font-weight:700}
-
-    /* ===== Guarantee ===== */
-    .guarantee{margin-top:40px}
-    .guar-hero{display:inline-flex; align-items:center; gap:10px; padding:12px 14px; border-radius:16px; border:1.5px solid rgba(16,185,129,.55); background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.12)); color:#a7f3d0; font-weight:800}
-    .card{background:var(--card); border:1px solid #1b2540; border-radius:16px; padding:20px}
-
-    /* ===== New sections ===== */
-    .section{margin-top:42px}
-    .section h2{font-size:26px; margin-bottom:8px}
-    .pill{display:inline-block; padding:4px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:12px}
-    .demo{background:#0f1420; border:1px solid #1b2540; border-radius:12px; padding:14px}
-
-    /* EV UI */
-    .ev-form{display:grid; gap:10px; grid-template-columns:repeat(5,1fr)}
-    .ev-form label{font-size:12px; color:#aab3c2}
-    .ev-form input{width:100%; background:#0c0f16; color:#e5edff; border:1px solid #1c2947; border-radius:8px; padding:8px}
-    .ev-res{margin-top:10px; display:flex; gap:12px; flex-wrap:wrap}
-    .ev-chip{background:#0c1a33; color:#b7d0ff; border:1px solid #1c3b7a; padding:8px 10px; border-radius:10px; font-weight:700}
-
-    /* === 정렬 보정(라벨 2줄 대비, 입력칸 들뜸 방지) === */
-    .ev-form > div{ display:flex; flex-direction:column; justify-content:flex-end; }
-    .ev-form label{ display:block; min-height:2.2em; line-height:1.2; }
-    .ev-form input{ margin-top:6px; }
-
-    /* === A/B 칩 같은 줄 시도(가능할 때만) === */
-    .ev-chip{ white-space:nowrap; }
-    @media (min-width:360px){
-      .ev-res{ display:flex; flex-wrap:wrap; gap:12px; }
-      .ev-chip:nth-child(2), .ev-chip:nth-child(3){ flex:0 0 auto; }
-    }
-
-    /* Trial list 좌정렬 */
-    .demo .list{margin-left:0}
-
-    /* FAQ 간격 + Q 파란색(고정) */
-    .faq{margin-top:60px}
-    .faq h2{margin-bottom:12px}
-    .faq-item h3{color: var(--blue) !important; margin-bottom:6px}
-
-    /* Anchors offset */
-    #pricing, #details, #guarantee, .process, .faq, #trial, #ev { scroll-margin-top: var(--banner); }
-
-    /* Mobile */
-    @media (max-width: 640px){
-      .wrap{padding:calc(var(--banner) + 12px) 16px 64px}
-      .numbers{gap:12px}
-      .num{min-width:100%; padding:20px}
-      .cta .btn{flex:1 1 100%; text-align:center}
-      .price-hero{font-size:28px}
-      .banner-rail{gap:8px; padding:6px 10px}
-      h1{font-size:clamp(28px, 8vw, 38px)}
-      .lead{font-size:16px}
-      .guar-hero{border-radius:14px}
-      .ev-form{grid-template-columns:repeat(2,1fr)}
-      /* (VAT 포함) 모바일에서만 줄바꿈 */
-      .price-hero .vat{ display:block; margin-top:4px; }
-    }
-    @media (max-width: 480px){
-      :root{ --banner:96px; } .badge{font-size:13px; padding:5px 10px}
-      .only-desktop{display:none} .only-mobile{display:inline}
-    }
-
-    /* 보증 섹션 활성화 조건 목록 */
-    .sub .conditions{ margin:6px 0 0 18px; padding:0; }
-    .sub .conditions li{ margin:2px 0; }
-
-    /* Footer center */
-    footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:#9CA3AF; font-size:13px; text-align:center}
+    html,body{margin:0;background:var(--bg);color:var(--text);
+      font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;}
+    a{color:#C7D2FE;text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:72px;border-bottom:1px solid var(--line)}
+    .brand{font-family:"Noto Serif KR",Georgia,serif;font-weight:700;letter-spacing:.4px;color:#fff}
+    .cta{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;background:var(--accent);color:#fff;border-radius:10px}
+    .cta:hover{filter:brightness(1.05)}
+    .hero{padding:64px 0 36px}
+    .kicker{color:var(--muted);font-size:.95rem;margin-bottom:6px}
+    h1{font-family:"Noto Serif KR",Georgia,serif;font-size:2.35rem;margin:.2rem 0 .8rem;color:#C7D2FE}
+    .lead{font-size:1.1rem;color:#E8EDF8}
+    .datechip{margin-top:16px;display:inline-block;background:var(--chip);border:1px solid #1E3A8A;border-radius:999px;color:#C7D2FE;padding:8px 14px}
+    .section{padding:28px 0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:920px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+    .card h3{margin:0 0 .6rem;font-size:1.05rem}
+    .mono{color:#A7B0C3;font-size:.92rem}
+    .pill{display:inline-block;border:1px solid #1F3A8B;border-radius:999px;padding:.2rem .55rem;color:#BFDBFE;font-size:.82rem;background:#0A1A33}
+    .sampleGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:920px){.sampleGrid{grid-template-columns:1fr}}
+    .sample{background:linear-gradient(180deg,#0C1425 0%,#0B1322 100%);border:1px solid #1F2937;border-radius:14px;padding:18px}
+    .sample h4{margin:0 0 .5rem;font-size:1rem;color:#DCE7FF}
+    .nextline{font-size:1.05rem}
+    .sub{margin-top:8px;color:#9AA7BD;font-size:.92rem}
+    .faq .q{cursor:pointer;user-select:none;background:#101828;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+    .faq .q:hover{background:#0E1629}
+    .faq .a{display:none;padding:12px 16px;margin:-6px 0 12px;border-left:3px solid var(--accent);background:#0E172A;border-radius:0 12px 12px 12px}
+    footer{border-top:1px solid var(--line);margin-top:28px}
+    .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;padding:22px 12px;color:var(--muted)}
+    .foot a{color:#E5E7EB}
   </style>
 </head>
 <body>
-  <!-- Top banner -->
-  <div class="top-banner">
-    <div class="banner-rail">
-      <a href="#pricing" class="banner-strong">[코호트 알림]</a>
-      <span>다음 시작일: <b>2025.10.27 (월) 09:00 KST</b></span>
-      <span>| 정원 5명</span>
-      <span class="seat-pill" id="seatsTopPill">남은 좌석 5</span>
-      <span>| 보너스 수량 한정</span>
-      <span>| <b>NDA</b> 기본</span>
-    </div>
-  </div>
+  <header class="wrap nav">
+    <div class="brand"><b>BOOKZAP</b></div>
+    <a class="cta" href="https://forms.gle/" target="_blank" rel="noopener">무료 Proof Pass 신청</a>
+  </header>
 
-  <div class="wrap">
+  <main class="wrap">
     <!-- Hero -->
-    <span class="badge" id="dday">D-28</span>
-    <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
-    <p class="lead">72시간 안에 <b>작은 성과</b>를 만들고, 2개월 동안 <b>계속 실행</b>합니다. 결과가 없으면 <b>ROI 크레딧</b>을 드립니다.<br/><span class="muted">월 2회 시작 · 코호트 5명 · Day1 오전 9시 자료 바로 전달</span></p>
-    <div class="cta">
-      <!-- 무료 체험 -->
-      <a class="btn primary"
-         href="https://forms.gle/aeqs5SkkZtdN78Wg9?utm_source=website&utm_medium=cta&utm_campaign=sprint_2025_10"
-         target="_blank" rel="noopener"
-         onclick="gtag('event','cta_click',{location:'hero',target:'onboarding_form',cohort:'2025-10-27'});">
-        무료 7일 체험 지금 등록 — 10/13(월) 시작
-      </a>
-      <!-- 계산기 -->
-      <a class="btn ghost"
-         href="#ev"
-         onclick="gtag('event','cta_click',{location:'hero',target:'ev_calculator',cohort:'2025-10-27'});">
-        결정 도와주는 계산기 보기
-      </a>
-      <!-- 웨이팅(오타 수정: 닫는 > 누락으로 텍스트 미노출) -->
-      <a class="btn"
-         style="border:1px solid var(--border); color:#d1d5db"
-         href="#pricing"
-         onclick="gtag('event','cta_click',{location:'hero',target:'waitlist',cohort:'2025-10-27'});">
-        웨이팅 등록
-      </a>
-    </div>
-
-    <!-- Numbers -->
-    <div class="numbers">
-      <div class="num"><h2>72h</h2><p>첫 성과 달성</p></div>
-      <div class="num"><h2>2개월</h2><p>집중 실행</p></div>
-      <div class="num"><h2>ROI</h2><p>크레딧 보장</p></div>
-    </div>
-
-    <!-- Features -->
-    <section id="details" class="grid features-grid">
-      <div class="feature-card">
-        <h3>First-Win 프리셋 3종</h3>
-        <ul class="list">
-          <li><b>크리에이터</b>: 콜라보 DM 3문장 + 1장 미디어킷(Lite) + 내일 할 일 3개</li>
-          <li><b>프리랜서</b>: 리바이벌/콜드 DM 3문장 + 1장 제안서(1p) + 내일 할 일 3개</li>
-          <li><b>창업자</b>: 콜드 이메일 3문장 + 1장 원페이지 제안서 + 내일 할 일 3개</li>
-        </ul>
-      </div>
-      <div class="feature-card">
-        <h3>If-Then 카드 & Red Team 90초(간단 리스크 점검)</h3>
-        <ul class="list">
-          <li>‘만약~라면’ 시나리오로 결정을 미리 설계</li>
-          <li>90초 동안 <b>상대방 입장에서 세 가지 질문</b>으로 놓칠 뻔한 리스크 제거</li>
-        </ul>
-      </div>
-      <div class="feature-card">
-        <h3>D3/D7/D30 스냅샷</h3>
-        <ul class="list">
-          <li>현금흐름·시간·리스크 지표 추적</li>
-          <li>차트 1장 + 핵심 3줄 리포트</li>
-        </ul>
-        <div class="sub">* D3=시작 3일차, D7=7일차, D30=30일차 스냅샷(차트 1장 + 핵심 3줄)</div>
-      </div>
+    <section class="hero">
+      <div class="kicker">Proof First. Execute Fast.</div>
+      <h1>지식이 아니라 증명입니다.<br/>3일간 매일 오전 9시에<br/>도착합니다.</h1>
+      <p class="lead">간단한 입력(1분)만으로, 전/후 미니 그래프와 <b>‘다음 한 문장’</b>으로 정리한 샘플 리포트를 이메일로 받아보세요.</p>
+      <div class="datechip">📅 무료체험 오픈: <b>10월 13일</b> — 신청 마감: <b>10월 16일</b></div>
     </section>
 
-    <!-- Free Trial Light -->
-    <section id="trial" class="section">
-      <span class="pill">무료 체험</span>
-      <h2>7일 체험: 멘토 한 문장 + 내게 묻는 질문</h2>
-      <p class="muted">
-        매일 멘토가 남긴 짧은 말 1개와, 멘토가 직접 던지는 질문 1개가 옵니다.<br/>
-        읽고 1분만 생각해도, 멘토처럼 생각하는 힘이 길러집니다.<br/>
-        <b>지금 등록하면 10/13(월) 09:00 KST부터 자동으로 시작됩니다.</b>
-      </p>
-      <div class="demo">
-        <ul class="list">
-          <li>Day 1 — “오늘 10분을 아끼는 한 가지는?”</li>
-          <li>Day 3 — “지금 바로 3분 안에 할 수 있는 일은?”</li>
-          <li>Day 7 — “내일도 쉽게 반복하려면 무엇을 바꾸면 될까?”</li>
-        </ul>
-      </div>
-      <div class="cta">
-        <a class="btn primary" href="https://forms.gle/aeqs5SkkZtdN78Wg9" target="_blank" rel="noopener"> 지금 등록 — 10/13(월) 시작</a>
-      </div>
-      <p class="sub">* 지금 등록해도 오늘은 아무것도 발송되지 않아요. 첫 메일은 10/13(월) 아침에 갑니다.</p>
-    </section>
-
-    <!-- EV -->
-    <section id="ev" class="section">
-      <span class="pill">미리보기 · 인터랙티브</span>
-      <h2>리스크–보상 트리 + 기대값(EV) 계산</h2>
-      <p class="muted">두 가지 선택지를 숫자로 비교해 봅니다.<br/>아래에 직접 수치를 넣어 보세요.</p>
-      <div class="demo">
-        <!-- 쉬운 안내 -->
-        <div class="sub" style="margin-bottom:10px">
-          <b>어떻게 쓰나요? (3단계)</b><br/>
-          1) A와 B에 성공 확률·이익·손실·시간을 대충 넣습니다.<br/>
-          2) <u>EV 계산하기</u> 버튼을 누릅니다.<br/>
-          3) 맨 아래 <u>추천</u>을 보고, 왜 그런지 수치를 확인합니다. (어려우면 기본값 그대로 두고 버튼만 눌러도 됩니다.)
+    <!-- How it works -->
+    <section class="section">
+      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">진행 방법</h2>
+      <p class="mono">간단한 입력 1분 → <b>24시간 이내 시작</b> → 매일 09:00 샘플 리포트</p>
+      <div class="grid">
+        <div class="card">
+          <h3>1) 신청</h3>
+          <p>구글 폼에서 <span class="pill">이름·이메일·원하는 변화</span>만 적으면 끝.</p>
         </div>
-
-        <div class="ev-form">
-          <div>
-            <label>선택지 A — 성공 확률 P<sub>success</sub> (0~1)</label>
-            <input id="a_p" type="number" step="0.01" min="0" max="1" value="0.5" placeholder="예: 0.5"/>
-          </div>
-          <div>
-            <label>얻을 수 있는 이익(₩)</label>
-            <input id="a_up" type="number" value="500000" placeholder="예: 500000"/>
-          </div>
-          <div>
-            <label>잃을 수 있는 손실(₩)</label>
-            <input id="a_dn" type="number" value="200000" placeholder="예: 200000"/>
-          </div>
-          <div>
-            <label>걸리는 시간(h)</label>
-            <input id="a_t" type="number" step="0.5" value="3" placeholder="예: 3"/>
-          </div>
-          <div>
-            <label>되돌리기 쉬움(0~1)</label>
-            <input id="a_r" type="number" step="0.1" min="0" max="1" value="0.7" placeholder="예: 0.7"/>
-          </div>
+        <div class="card">
+          <h3>2) 생성</h3>
+          <p>AI가 입력을 읽고 <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’</b>(오늘의 행동 1개)을 만듭니다.</p>
         </div>
-
-        <div class="ev-form" style="margin-top:8px">
-          <div>
-            <label>선택지 B — 성공 확률 P<sub>success</sub> (0~1)</label>
-            <input id="b_p" type="number" step="0.01" min="0" max="1" value="0.35" placeholder="예: 0.35"/>
-          </div>
-          <div>
-            <label>얻을 수 있는 이익(₩)</label>
-            <input id="b_up" type="number" value="900000" placeholder="예: 900000"/>
-          </div>
-          <div>
-            <label>잃을 수 있는 손실(₩)</label>
-            <input id="b_dn" type="number" value="150000" placeholder="예: 150000"/>
-          </div>
-          <div>
-            <label>걸리는 시간(h)</label>
-            <input id="b_t" type="number" step="0.5" value="6" placeholder="예: 6"/>
-          </div>
-          <div>
-            <label>되돌리기 쉬움(0~1)</label>
-            <input id="b_r" type="number" step="0.1" min="0" max="1" value="0.4" placeholder="예: 0.4"/>
-          </div>
-        </div>
-
-        <div class="cta">
-          <a class="btn ghost" href="#ev" onclick="calcEV();return false;">EV 계산하기</a>
-          <a class="btn" style="border:1px solid var(--border);color:#d1d5db" href="#ev" onclick="resetEV();return false;">초기값 복원</a>
-        </div>
-
-        <div class="ev-res" id="evRes">
-          <div class="ev-chip">시급 가정: <span id="hourly">₩40,000</span></div>
-          <div class="ev-chip">A: EV <span id="aEV">–</span> · WEV <span id="aWEV">–</span></div>
-          <div class="ev-chip">B: EV <span id="bEV">–</span> · WEV <span id="bWEV">–</span></div>
-          <div class="ev-chip">추천: <span id="pick">(계산 버튼을 눌러주세요)</span></div>
-        </div>
-
-        <div class="sub" style="margin-top:8px">
-          * WEV(시간가중 EV) = <code>EV - (시간×시급) + 되돌리기 쉬움×0.1×|EV|</code><br/>
-          숫자는 이해를 돕는 기본값입니다. 결과에서 <b>WEV가 더 큰 쪽</b>이 ‘시간과 되돌림 가능성까지 고려했을 때’ 더 좋은 선택입니다.
+        <div class="card">
+          <h3>3) 납품</h3>
+          <p>샘플 리포트가 <b>매일 오전 9시</b> 이메일로 도착합니다.</p>
         </div>
       </div>
     </section>
 
-    <!-- Process -->
-    <section class="process">
-      <h2>진행 프로세스</h2>
-      <div class="step"><strong>0.</strong> 7일 체험으로 먼저 느낌 확인</div>
-      <div class="step"><strong>1.</strong> 웨이팅 등록</div>
-      <div class="step"><strong>2.</strong> 승인 (코호트당 5명, 월 최대 10명)</div>
-      <div class="step"><strong>3.</strong> 결제 (24h 유효)</div>
-      <div class="step"><strong>4.</strong> 시작 (Day1 자료 전달)</div>
-      <div class="step"><strong>5.</strong> 72h First-Win 달성</div>
-    </section>
-
-    <!-- Pricing -->
-    <section class="pricing" id="pricing">
-      <h2>가격</h2>
-      <div class="price-card">
-        <div class="price-hero">2개월 <span style="font-weight:900;color:#ffffff">₩1,980,000</span> <span class="vat">(VAT 포함)</span></div>
-        <div class="muted" style="margin:6px 0 12px">일시불 또는 ₩990,000 × 2개월</div>
-        <hr style="border:0;border-top:1px solid var(--border);margin:14px 0"/>
-        <h3 style="margin:0 0 8px">이번 코호트 보너스(한정)</h3>
-        <ul class="list">
-          <li>D7 Mini-Loom 개인 피드백 1회</li>
-          <li>익명 벤치마크 차트 1장(현금·시간·리스크 3축)</li>
-          <li>If-Then 카드팩 6장(개인화)</li>
-        </ul>
-        <p class="sub">*할인은 제공하지 않습니다. 대신 결과 확률을 높이는 자산과 보증을 강화합니다.</p>
-        <div class="cta">
-          <a class="btn primary" href="https://forms.gle/GJJr374pGmNTWAcB7" target="_blank" rel="noopener">웨이팅 등록</a>
+    <!-- Sample preview -->
+    <section class="section">
+      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">샘플 미리보기</h2>
+      <div class="sampleGrid">
+        <div class="sample">
+          <h4>전/후 미니 그래프</h4>
+          <img src="https://dummyimage.com/640x280/0f172a/94a3b8.png&text=Mini+Graph+Sample" alt="샘플 그래프" style="width:100%;border-radius:10px;border:1px solid #1E293B"/>
+          <p class="sub">*샘플 이미지 · 개인별 결과는 상이합니다.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- Guarantee -->
-    <section class="guarantee" id="guarantee">
-      <h2>보증</h2>
-      <div class="guar-hero">✅ 이중 보증 + ROI 크레딧</div>
-      <div class="card">
-        <h3>이중 보증 + ROI 크레딧</h3>
-        <ul class="list">
-          <li><b>무조건 환불</b>: 시작 3일(72h) 이내 단순 변심 포함 전액 환불.</li>
-          <li><b>ROI 크레딧</b>: 2개월 내 아래 ‘활성화 조건’을 충족했음에도 핵심 지표 개선이 없을 경우, 동일 금액을 크레딧으로 제공(다음 코호트 사용 가능, 현금 환불 불가).</li>
-        </ul>
-        <div class="sub">
-          <b>활성화 조건</b>:
-          <ol class="conditions">
-            <li>Day1 패키지 수령 후 안내된 3단계 실행(제출 3회)</li>
-            <li>D3 체크인 응답 및 자료 제출</li>
-            <li>간단 설문 1회 (<b>NPS</b> 포함)</li>
-          </ol>
-          — NPS는 “이 서비스를 친구에게 추천할 건가요?”를 0~10점으로 묻는 한 줄 질문입니다.<br/>
-          — 9~10점: 추천자, 7~8점: 중립자, 0~6점: 비추천자.
+        <div class="sample">
+          <h4>다음 한 문장</h4>
+          <div class="card" style="background:#0B1B33;border:1px solid #1E3A8A">
+            <p class="nextline"><b>오늘은 ‘30분 집중 블록’ 2회를 만들자.</b></p>
+            <p class="sub">09:00 전 완료 목표 · 알림 설정 권장</p>
+          </div>
+          <div class="card" style="background:#0B1B33;border:1px solid #1E3A8A;margin-top:10px">
+            <p class="nextline"><b>반복 가능해졌다. 내일부터는 3회로 올리자.</b></p>
+            <p class="sub">루틴 유지 · 09:00 납품 계속</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
-    <section class="faq">
-      <h2>자주 묻는 질문</h2>
-      <div class="faq-item">
-        <h3>Q. 정원은 몇 명인가요?</h3>
-        <p>A. 코호트당 5명이며, 매월 둘째·넷째 주 시작 기준으로 <b>월 최대 10명</b>만 운영합니다.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Q. 환불/보장은 어떻게 되나요?</h3>
-        <p>A. 시작 3일 이내 전액 환불. 72h 미달 시 +14일 연장, 2개월 미달 시 <b>ROI 크레딧</b> 제공.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Q. 어떤 결과를 기대할 수 있나요?</h3>
-        <p>A. 72시간 내 First-Win, 2개월 내 ROI 기준 성과 달성을 목표로 합니다.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Q. 다른 요금제는 없나요?</h3>
-        <p>A. 현재는 <b>단일 프로그램(2개월 스프린트)</b>만 공개 운영합니다. 연장/애드온은 <b>기존 고객 한정 비공개</b>로 제공하며, 필요 시 담당자가 별도 안내드립니다.</p>
-      </div>
+    <section class="section faq">
+      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">FAQ</h2>
+
+      <div class="q">▶ ‘Proof 리포트’가 뭔가요?</div>
+      <div class="a">입력(목표·현황)을 바탕으로 <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’</b>(하루의 행동 1개)을 요약한 짧은 결과 카드입니다.</div>
+
+      <div class="q">▶ 언제부터 받아볼 수 있나요?</div>
+      <div class="a">신청 후 <b>최대 24시간 이내</b> 시작되며, 3일간 매일 09:00에 이메일로 발송됩니다.</div>
+
+      <div class="q">▶ 정식 서비스는 언제 시작되나요?</div>
+      <div class="a">정식 서비스(7-Day Proof Sprint)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/>무료 체험 기간(10/13–10/16) 내 신청하신 분들께는 관련 내용이 개별 메일로 안내됩니다.</div>
+
+      <div class="q">▶ 개인정보는 안전하게 처리되나요?</div>
+      <div class="a">Google / OpenAI / Make 서버(일부 국외)에 저장·처리될 수 있습니다. 자세한 내용은 <a href="/privacy.html" target="_blank">개인정보 처리방침</a>을 확인해주세요.</div>
     </section>
+  </main>
 
-    <!-- Why us -->
-    <section class="section" style="border-top:1px solid var(--border);padding-top:16px;margin-top:24px">
-      <h3>왜 우리인가</h3>
-      <ul class="list">
-        <li><b>속도</b>: 72h 산출물(First-Win) vs 일반 코칭의 모호한 과제</li>
-        <li><b>정확성</b>: If-Then 카드 & Red Team 90초로 리스크 선제 제거</li>
-        <li><b>신뢰</b>: Day1 09:00 정확 시각 납품 + NDA</li>
-        <li><b>보증</b>: 3일 전액 환불 + <u>D3 스냅샷(시작 3일차 리포트) 미발행 시 수강료 10% 자동 환급</u> + ROI 크레딧</li>
-      </ul>
-    </section>
+  <footer>
+    <div class="wrap foot">
+      <span>© 2025 BOOKZAP</span>
+      <span>•</span>
+      <a href="/terms.html">이용약관</a>
+      <span>•</span>
+      <a href="/privacy.html">개인정보 처리방침</a>
+    </div>
+  </footer>
 
-    <footer>@ BOOKZAP</footer>
-  </div>
-
-  <!-- Scripts -->
   <script>
-    const EVENT_AT   = new Date('2025-10-27T09:00:00+09:00');
-    const TOTAL_SEATS = 5;
-    const BOOKED_SEATS = 0;
-    const SEAT_API = '';
-
-    // D-Day
-    (function(){
-      const now = new Date();
-      const days = Math.max(0, Math.ceil((EVENT_AT - now) / 86400000));
-      const el = document.getElementById('dday');
-      if(el) el.textContent = 'D-' + days;
-    })();
-
-    // Seats (remote → fallback)
-    (async function(){
-      try{
-        if(SEAT_API){
-          const url = SEAT_API + (SEAT_API.includes('?')?'&':'?') + 't=' + Date.now();
-          const res = await fetch(url, {cache:'no-store'});
-          let remain, total, sold;
-          const ct = (res.headers.get('content-type')||'').toLowerCase();
-          if(ct.includes('application/json')){
-            const data = await res.json();
-            total = Number(data.total)||TOTAL_SEATS;
-            sold  = Number(data.sold || (data.total && data.remain!=null ? data.total - data.remain : 0));
-            remain = Number(data.remain!=null ? data.remain : total - sold);
-          }else{
-            const txt = await res.text();
-            const json = JSON.parse(txt.substring(47).slice(0,-2));
-            const rows = json.table.rows;
-            total = Number(rows?.[0]?.c?.[1]?.v)||TOTAL_SEATS;
-            sold  = Number(rows?.[1]?.c?.[1]?.v)||BOOKED_SEATS;
-            remain = Math.max(0, total - sold);
-          }
-          return updateSeats(remain);
-        }
-      }catch(e){}
-      updateSeats(Math.max(0, TOTAL_SEATS - BOOKED_SEATS));
-
-      function updateSeats(remain){
-        const topPill = document.getElementById('seatsTopPill');
-        if(topPill) topPill.textContent = `남은 좌석 ${remain}`;
-      }
-    })();
-
-    // EV Calculator
-    const HOURLY = 40000; // 시급 (₩)
-    const fmt = n => new Intl.NumberFormat('ko-KR').format(Math.round(n));
-    const calcOne = (p, up, dn) => p*up - (1-p)*dn;
-    const calcWEV = (ev, time, rev) => ev - time*HOURLY + (rev*0.1*Math.abs(ev));
-
-    function calcEV(){
-      const a = {p:+document.getElementById('a_p').value, up:+document.getElementById('a_up').value, dn:+document.getElementById('a_dn').value, t:+document.getElementById('a_t').value, r:+document.getElementById('a_r').value};
-      const b = {p:+document.getElementById('b_p').value, up:+document.getElementById('b_up').value, dn:+document.getElementById('b_dn').value, t:+document.getElementById('b_t').value, r:+document.getElementById('b_r').value};
-      const aEV = calcOne(a.p,a.up,a.dn), bEV = calcOne(b.p,b.up,b.dn);
-      const aWEV = calcWEV(aEV,a.t,a.r),  bWEV = calcWEV(bEV,b.t,b.r);
-      document.getElementById('hourly').textContent = '₩' + fmt(HOURLY);
-      document.getElementById('aEV').textContent = '₩' + fmt(aEV);
-      document.getElementById('bEV').textContent = '₩' + fmt(bEV);
-      document.getElementById('aWEV').textContent = '₩' + fmt(aWEV);
-      document.getElementById('bWEV').textContent = '₩' + fmt(bWEV);
-      document.getElementById('pick').textContent = aWEV===bWEV? '무차이(같음)' : (aWEV>bWEV? '선택지 A' : '선택지 B');
-    }
-    function resetEV(){
-      document.getElementById('a_p').value=0.5; document.getElementById('a_up').value=500000; document.getElementById('a_dn').value=200000; document.getElementById('a_t').value=3; document.getElementById('a_r').value=0.7;
-      document.getElementById('b_p').value=0.35; document.getElementById('b_up').value=900000; document.getElementById('b_dn').value=150000; document.getElementById('b_t').value=6; document.getElementById('b_r').value=0.4;
-      document.getElementById('hourly').textContent = '₩' + fmt(HOURLY);
-      document.getElementById('aEV').textContent='–'; document.getElementById('bEV').textContent='–';
-      document.getElementById('aWEV').textContent='–'; document.getElementById('bWEV').textContent='–';
-      document.getElementById('pick').textContent='(계산 버튼을 눌러주세요)';
-    }
-
-    // === 배너 높이 자동 보정(모바일/인앱 가림 방지) ===
-    (function () {
-      var banner = document.querySelector('.top-banner');
-      var wrap = document.querySelector('.wrap');
-      if (!banner || !wrap) return;
-      function adjust() {
-        var h = banner.getBoundingClientRect().height || 0;
-        wrap.style.paddingTop = (h + 24) + 'px';
-      }
-      adjust();
-      window.addEventListener('resize', adjust);
-    })();
+    // FAQ 토글
+    document.querySelectorAll('.faq .q').forEach(q=>{
+      q.addEventListener('click', ()=>{
+        const a=q.nextElementSibling;
+        a.style.display = (a.style.display==='block') ? 'none':'block';
+      });
+    });
   </script>
+</body>
+</html>
+
 </body>
 </html>
