@@ -4,44 +4,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BOOKZAP — 3-Day Proof Pass (Free)</title>
-  <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 샘플 Proof 리포트를 받으세요. (무료 체험 오픈: 10/13, 마감: 10/16)" />
+
+  <!-- ✅ 캐시 무효화 메타 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 결과 카드가 도착합니다. (무료 체험 오픈: 10/13, 마감: 10/16)" />
   <style>
-    :root{
-      --bg:#0B1220; --panel:#111827; --card:#0F172A;
-      --text:#E5E7EB; --muted:#9CA3AF; --line:#1F2937;
-      --accent:#286BFF; --chip:#0B1B3B;
-    }
-    html,body{margin:0;background:var(--bg);color:var(--text);
-      font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;}
+    :root{ --bg:#000; --panel:#0a0a0a; --card:#0b0b0b; --text:#E7ECF5; --muted:#A3A9B7; --line:#1a1a1a; --accent:#3B82F6; --chip:#0A1227; }
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
     a{color:#C7D2FE;text-decoration:none} a:hover{text-decoration:underline}
     .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
     .nav{display:flex;align-items:center;justify-content:space-between;height:72px;border-bottom:1px solid var(--line)}
-    .brand{font-family:"Noto Serif KR",Georgia,serif;font-weight:700;letter-spacing:.4px;color:#fff}
-    .cta{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;background:var(--accent);color:#fff;border-radius:10px}
-    .cta:hover{filter:brightness(1.05)}
+    .brand{font-family:"Noto Serif KR",Georgia,serif;font-weight:700;color:#fff}
+    .cta{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 100%);color:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(37,99,235,.25);transition:all .25s ease}
+    .cta:hover{filter:brightness(1.08);box-shadow:0 4px 25px rgba(59,130,246,.4)}
     .hero{padding:64px 0 36px}
-    .kicker{color:var(--muted);font-size:.95rem;margin-bottom:6px}
-    h1{font-family:"Noto Serif KR",Georgia,serif;font-size:2.35rem;margin:.2rem 0 .8rem;color:#C7D2FE}
-    .lead{font-size:1.1rem;color:#E8EDF8}
+    h1{font-family:"Noto Serif KR",Georgia,serif;font-size:2.2rem;margin:.2rem 0 .8rem;color:#C7D2FE;font-weight:400}
+    .subtitle{font-family:"Noto Serif KR",Georgia,serif;font-size:2.2rem;line-height:1.25;color:#C7D2FE;margin:.2rem 0 .8rem;font-weight:400}
     .datechip{margin-top:16px;display:inline-block;background:var(--chip);border:1px solid #1E3A8A;border-radius:999px;color:#C7D2FE;padding:8px 14px}
     .section{padding:28px 0}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     @media (max-width:920px){.grid{grid-template-columns:1fr}}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
     .card h3{margin:0 0 .6rem;font-size:1.05rem}
-    .mono{color:#A7B0C3;font-size:.92rem}
-    .pill{display:inline-block;border:1px solid #1F3A8B;border-radius:999px;padding:.2rem .55rem;color:#BFDBFE;font-size:.82rem;background:#0A1A33}
     .sampleGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     @media (max-width:920px){.sampleGrid{grid-template-columns:1fr}}
     .sample{background:linear-gradient(180deg,#0C1425 0%,#0B1322 100%);border:1px solid #1F2937;border-radius:14px;padding:18px}
     .sample h4{margin:0 0 .5rem;font-size:1rem;color:#DCE7FF}
-    .nextline{font-size:1.05rem}
     .sub{margin-top:8px;color:#9AA7BD;font-size:.92rem}
-    .faq .q{cursor:pointer;user-select:none;background:#101828;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
-    .faq .q:hover{background:#0E1629}
-    .faq .a{display:none;padding:12px 16px;margin:-6px 0 12px;border-left:3px solid var(--accent);background:#0E172A;border-radius:0 12px 12px 12px}
+    details.q{background:#0f0f0f;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;position:relative}
+    details.q summary{cursor:pointer;list-style:none;padding-left:18px;position:relative}
+    details.q summary::before{content:'▶';color:#3B82F6;position:absolute;left:0;top:2px;font-size:.9rem;transition:transform .25s ease}
+    details.q[open] summary::before{transform:rotate(90deg)}
+    details.q[open]{border-left:3px solid var(--accent)}
     footer{border-top:1px solid var(--line);margin-top:28px}
-    .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;padding:22px 12px;color:var(--muted)}
+    .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;padding:22px 12px;color:#A3A9B7}
     .foot a{color:#E5E7EB}
   </style>
 </head>
@@ -54,20 +53,18 @@
   <main class="wrap">
     <!-- Hero -->
     <section class="hero">
-      <div class="kicker">Proof First. Execute Fast.</div>
-      <h1>지식이 아니라 증명입니다.<br/>3일간 매일 오전 9시에<br/>도착합니다.</h1>
-      <p class="lead">간단한 입력(1분)만으로, 전/후 미니 그래프와 <b>‘다음 한 문장’</b>으로 정리한 샘플 리포트를 이메일로 받아보세요.</p>
-      <div class="datechip">📅 무료체험 오픈: <b>10월 13일</b> — 신청 마감: <b>10월 16일</b></div>
+      <h1 class="subtitle">지식이 아니라 증명입니다.</h1>
+      <h1>3일간 매일 오전 9시에 도착합니다.</h1>
+      <div class="datechip">📅 무료체험: <b>10월 13일</b> 시작 · <b>10월 16일</b> 마감</div>
     </section>
 
     <!-- How it works -->
     <section class="section">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">진행 방법</h2>
-      <p class="mono">간단한 입력 1분 → <b>24시간 이내 시작</b> → 매일 09:00 샘플 리포트</p>
       <div class="grid">
         <div class="card">
           <h3>1) 신청</h3>
-          <p>구글 폼에서 <span class="pill">이름·이메일·원하는 변화</span>만 적으면 끝.</p>
+          <p>구글 폼에서 <b>이름·이메일·원하는 변화</b>만 적으면 끝.</p>
         </div>
         <div class="card">
           <h3>2) 생성</h3>
@@ -81,43 +78,59 @@
     </section>
 
     <!-- Sample preview -->
-    <section class="section">
+    <section class="section" id="samples">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">샘플 미리보기</h2>
       <div class="sampleGrid">
         <div class="sample">
           <h4>전/후 미니 그래프</h4>
-          <img src="https://dummyimage.com/640x280/0f172a/94a3b8.png&text=Mini+Graph+Sample" alt="샘플 그래프" style="width:100%;border-radius:10px;border:1px solid #1E293B"/>
-          <p class="sub">*샘플 이미지 · 개인별 결과는 상이합니다.</p>
-        </div>
-        <div class="sample">
-          <h4>다음 한 문장</h4>
-          <div class="card" style="background:#0B1B33;border:1px solid #1E3A8A">
-            <p class="nextline"><b>오늘은 ‘30분 집중 블록’ 2회를 만들자.</b></p>
-            <p class="sub">09:00 전 완료 목표 · 알림 설정 권장</p>
+          <div class="card" style="background:#0b0f1a;border:1px solid #1E293B">
+            <!-- 임의 데이터: 전 62 → 후 89 -->
+            <svg viewBox="0 0 360 180" width="100%" height="180" role="img" aria-label="전/후 미니 그래프">
+              <defs>
+                <linearGradient id="beforeG" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#93C5FD"/>
+                  <stop offset="100%" stop-color="#1E3A8A"/>
+                </linearGradient>
+                <linearGradient id="afterG" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#6EE7B7"/>
+                  <stop offset="100%" stop-color="#065F46"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="360" height="180" fill="#0b0f1a"/>
+              <line x1="50" y1="140" x2="330" y2="140" stroke="#334155" stroke-width="1"/>
+              <line x1="50" y1="30" x2="50" y2="140" stroke="#334155" stroke-width="1"/>
+              <line x1="50" y1="105" x2="330" y2="105" stroke="#1f2937" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="50" y1="70" x2="330" y2="70" stroke="#1f2937" stroke-width="1" stroke-dasharray="3 3"/>
+              <rect x="95" y="78" width="70" height="62" fill="url(#beforeG)" rx="8"/>
+              <rect x="215" y="51" width="70" height="89" fill="url(#afterG)" rx="8"/>
+              <text x="130" y="160" text-anchor="middle" fill="#cbd5e1" font-size="12">전 62</text>
+              <text x="250" y="160" text-anchor="middle" fill="#cbd5e1" font-size="12">후 89</text>
+            </svg>
           </div>
-          <div class="card" style="background:#0B1B33;border:1px solid #1E3A8A;margin-top:10px">
-            <p class="nextline"><b>반복 가능해졌다. 내일부터는 3회로 올리자.</b></p>
-            <p class="sub">루틴 유지 · 09:00 납품 계속</p>
-          </div>
+          <p class="sub">*샘플 그래프 · 개인별 결과는 상이합니다.</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
-    <section class="section faq">
+    <section class="section">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">FAQ</h2>
-
-      <div class="q">▶ ‘Proof 리포트’가 뭔가요?</div>
-      <div class="a">입력(목표·현황)을 바탕으로 <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’</b>(하루의 행동 1개)을 요약한 짧은 결과 카드입니다.</div>
-
-      <div class="q">▶ 언제부터 받아볼 수 있나요?</div>
-      <div class="a">신청 후 <b>최대 24시간 이내</b> 시작되며, 3일간 매일 09:00에 이메일로 발송됩니다.</div>
-
-      <div class="q">▶ 정식 서비스는 언제 시작되나요?</div>
-      <div class="a">정식 서비스(7-Day Proof Sprint)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/>무료 체험 기간(10/13–10/16) 내 신청하신 분들께는 관련 내용이 개별 메일로 안내됩니다.</div>
-
-      <div class="q">▶ 개인정보는 안전하게 처리되나요?</div>
-      <div class="a">Google / OpenAI / Make 서버(일부 국외)에 저장·처리될 수 있습니다. 자세한 내용은 <a href="/privacy.html" target="_blank">개인정보 처리방침</a>을 확인해주세요.</div>
+      <details class="q">
+        <summary>‘Proof 리포트’가 뭔가요?</summary>
+        <div class="a">입력(목표·현황 <b>+ 멘토</b>)을 바탕으로 <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’</b>(하루의 행동 1개)을 요약한 짧은 결과 카드입니다.<br/>신청 시 <b>멘토 선택</b>(예: 책/인터뷰/연설 기반 프레임워크)을 하면, 해당 멘토의 룰북/핵심 원칙이 리포트 생성 로직에 반영됩니다.</div>
+      </details>
+      <details class="q">
+        <summary>언제부터 받아볼 수 있나요?</summary>
+        <div class="a">신청 후 <b>최대 24시간 이내</b> 시작되며, 3일간 매일 09:00에 이메일로 발송됩니다.</div>
+      </details>
+      <details class="q">
+        <summary>정식 서비스는 언제 시작되나요?</summary>
+        <div class="a">정식 서비스(7-Day Proof Sprint)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/><b>무료 체험 기간</b>(10/13–10/16) 내 신청하신 분들께는 관련 내용이 개별 메일로 안내됩니다.</div>
+      </details>
+      <details class="q">
+        <summary>개인정보는 안전하게 처리되나요?</summary>
+        <div class="a">Google / OpenAI / Make 서버(일부 국외)에 저장·처리될 수 있습니다. 자세한 내용은 <a href="privacy.html">개인정보 처리방침</a>을 확인해주세요.</div>
+      </details>
     </section>
   </main>
 
@@ -125,23 +138,10 @@
     <div class="wrap foot">
       <span>© 2025 BOOKZAP</span>
       <span>•</span>
-      <a href="/terms.html">이용약관</a>
+      <a href="terms.html">이용약관</a>
       <span>•</span>
-      <a href="/privacy.html">개인정보 처리방침</a>
+      <a href="privacy.html">개인정보 처리방침</a>
     </div>
   </footer>
-
-  <script>
-    // FAQ 토글
-    document.querySelectorAll('.faq .q').forEach(q=>{
-      q.addEventListener('click', ()=>{
-        const a=q.nextElementSibling;
-        a.style.display = (a.style.display==='block') ? 'none':'block';
-      });
-    });
-  </script>
-</body>
-</html>
-
 </body>
 </html>
