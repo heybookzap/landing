@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>BOOKZAP — 3-Day Proof Pass (Free)</title>
 
   <!-- ✅ 캐시 무효화 -->
@@ -13,6 +13,12 @@
   <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 결과 카드가 도착합니다. (무료 체험 오픈: 10/13, 마감: 10/16)" />
 
   <style>
+    /* ===== 기본 보정 (박스사이징/오버플로우) ===== */
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+
     :root {
       --bg:#000; --panel:#0a0a0a; --card:#0b0b0b; --text:#E7ECF5;
       --muted:#A3A9B7; --line:#1a1a1a; --accent:#3B82F6; --chip:#0A1227;
@@ -24,6 +30,8 @@
       color:var(--text);
       font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       line-height:1.65;
+      padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
+      min-height:100%;
     }
 
     a { color:#C7D2FE; text-decoration:none; }
@@ -108,6 +116,7 @@
       padding:14px 16px;
       margin-bottom:10px;
       position:relative;
+      max-width:100%;
     }
     details.q summary {
       cursor:pointer;
@@ -126,7 +135,11 @@
     }
     details.q[open] summary::before { transform:rotate(90deg); }
     details.q[open]{ border-left:3px solid var(--accent); }
-    details.q .a { font-weight:400; }
+    details.q .a {
+      font-weight:400;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+    }
 
     footer { border-top:1px solid var(--line); margin-top:28px; }
     .foot {
@@ -156,6 +169,7 @@
         box-shadow:0 3px 14px rgba(59,130,246,.28);
       }
       .foot{ font-size:.9rem; gap:8px; }
+      details.q{ padding:12px 14px; }
     }
   </style>
 </head>
@@ -169,14 +183,12 @@
   </header>
 
   <main class="wrap">
-    <!-- Hero -->
     <section class="hero">
       <h1 class="subtitle">지식이 아니라 증명입니다.</h1>
       <h1>3일간 매일 오전 9시에 도착합니다.</h1>
       <div class="datechip">📅 무료체험: <b>10월 13일</b> 시작 · <b>10월 16일</b> 마감</div>
     </section>
 
-    <!-- How it works -->
     <section class="section">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">진행 방법</h2>
       <div class="grid">
@@ -195,7 +207,6 @@
       </div>
     </section>
 
-    <!-- Sample preview -->
     <section class="section" id="samples">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">샘플 미리보기</h2>
       <div class="sampleGrid">
@@ -229,7 +240,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section class="section">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">FAQ</h2>
 
@@ -251,4 +261,32 @@
         </div>
       </details>
 
-      <details c
+      <details class="q">
+        <summary>정식 서비스는 언제 시작되나요?</summary>
+        <div class="a">
+          정식 서비스(<b>7-Day Proof Sprint</b>)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/>
+          <b>무료 체험 기간</b>(10/13–10/16) 내 신청하신 분들께는 관련 내용이 개별 메일로 안내됩니다.
+        </div>
+      </details>
+
+      <details class="q">
+        <summary>개인정보는 안전하게 처리되나요?</summary>
+        <div class="a">
+          <b>Google / OpenAI / Make 서버(일부 국외)</b>에 저장·처리될 수 있습니다.<br/>
+          자세한 내용은 <a href="privacy.html"><b>개인정보 처리방침</b></a>을 확인해주세요.
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© 2025 <b>BOOKZAP</b></span>
+      <span>•</span>
+      <a href="terms.html">이용약관</a>
+      <span>•</span>
+      <a href="privacy.html">개인정보 처리방침</a>
+    </div>
+  </footer>
+</body>
+</html>
