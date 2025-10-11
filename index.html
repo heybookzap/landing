@@ -5,51 +5,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BOOKZAP — 3-Day Proof Pass (Free)</title>
 
-  <!-- ✅ 캐시 무효화 메타 -->
+  <!-- ✅ 캐시 무효화 -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
   <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 결과 카드가 도착합니다. (무료 체험 오픈: 10/13, 마감: 10/16)" />
+
   <style>
-    :root{ --bg:#000; --panel:#0a0a0a; --card:#0b0b0b; --text:#E7ECF5; --muted:#A3A9B7; --line:#1a1a1a; --accent:#3B82F6; --chip:#0A1227; }
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
-    a{color:#C7D2FE;text-decoration:none} a:hover{text-decoration:underline}
-    .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:72px;border-bottom:1px solid var(--line)}
-    .brand{font-family:"Noto Serif KR",Georgia,serif;font-weight:700;color:#fff}
-    .cta{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 100%);color:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(37,99,235,.25);transition:all .25s ease}
-    .cta:hover{filter:brightness(1.08);box-shadow:0 4px 25px rgba(59,130,246,.4)}
-    .hero{padding:64px 0 36px}
-    h1{font-family:"Noto Serif KR",Georgia,serif;font-size:2.2rem;margin:.2rem 0 .8rem;color:#C7D2FE;font-weight:400}
-    .subtitle{font-family:"Noto Serif KR",Georgia,serif;font-size:2.2rem;line-height:1.25;color:#C7D2FE;margin:.2rem 0 .8rem;font-weight:400}
-    .datechip{margin-top:16px;display:inline-block;background:var(--chip);border:1px solid #1E3A8A;border-radius:999px;color:#C7D2FE;padding:8px 14px}
-    .section{padding:28px 0}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    @media (max-width:920px){.grid{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-    .card h3{margin:0 0 .6rem;font-size:1.05rem}
-    .sampleGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media (max-width:920px){.sampleGrid{grid-template-columns:1fr}}
-    .sample{background:linear-gradient(180deg,#0C1425 0%,#0B1322 100%);border:1px solid #1F2937;border-radius:14px;padding:18px}
-    .sample h4{margin:0 0 .5rem;font-size:1rem;color:#DCE7FF}
-    .sub{margin-top:8px;color:#9AA7BD;font-size:.92rem}
-    details.q{background:#0f0f0f;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;position:relative}
-    details.q summary{cursor:pointer;list-style:none;padding-left:18px;position:relative}
-    details.q summary::before{content:'▶';color:#3B82F6;position:absolute;left:0;top:2px;font-size:.9rem;transition:transform .25s ease}
-    details.q[open] summary::before{transform:rotate(90deg)}
-    details.q[open]{border-left:3px solid var(--accent)}
-    footer{border-top:1px solid var(--line);margin-top:28px}
-    .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;padding:22px 12px;color:#A3A9B7}
-    .foot a{color:#E5E7EB}
-    details.q .a { font-weight: 400; }
+    :root {
+      --bg:#000; --panel:#0a0a0a; --card:#0b0b0b; --text:#E7ECF5;
+      --muted:#A3A9B7; --line:#1a1a1a; --accent:#3B82F6; --chip:#0A1227;
+    }
+
+    html, body {
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.65;
+    }
+
+    a { color:#C7D2FE; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+
+    .wrap { max-width:1060px; margin:0 auto; padding:0 20px; }
+
+    .nav { display:flex; align-items:center; justify-content:space-between; height:72px; border-bottom:1px solid var(--line); }
+
+    .brand { font-family:"Noto Serif KR",Georgia,serif; font-weight:700; color:#fff; }
+
+    .cta {
+      display:inline-flex; gap:10px; align-items:center;
+      padding:10px 14px;
+      background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 100%);
+      color:#fff;
+      border-radius:10px;
+      box-shadow:0 4px 20px rgba(37,99,235,.25);
+      transition:all .25s ease;
+    }
+    .cta:hover { filter:brightness(1.08); box-shadow:0 4px 25px rgba(59,130,246,.4); }
+
+    .hero { padding:64px 0 36px; }
+    h1 {
+      font-family:"Noto Serif KR",Georgia,serif;
+      font-size:2.2rem;
+      margin:.2rem 0 .8rem;
+      color:#C7D2FE;
+      font-weight:400;
+    }
+    .subtitle {
+      font-family:"Noto Serif KR",Georgia,serif;
+      font-size:2.2rem;
+      line-height:1.25;
+      color:#C7D2FE;
+      margin:.2rem 0 .8rem;
+      font-weight:400;
+    }
+
+    .datechip {
+      margin-top:16px;
+      display:inline-block;
+      background:var(--chip);
+      border:1px solid #1E3A8A;
+      border-radius:999px;
+      color:#C7D2FE;
+      padding:8px 14px;
+    }
+
+    .section { padding:28px 0; }
+
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
+
+    .card {
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+    }
+
+    .card h3 { margin:0 0 .6rem; font-size:1.05rem; }
+
+    .sampleGrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:920px){ .sampleGrid{grid-template-columns:1fr;} }
+
+    .sample {
+      background:linear-gradient(180deg,#0C1425 0%,#0B1322 100%);
+      border:1px solid #1F2937;
+      border-radius:14px;
+      padding:18px;
+    }
+
+    .sample h4 { margin:0 0 .5rem; font-size:1rem; color:#DCE7FF; }
+    .sub { margin-top:8px; color:#9AA7BD; font-size:.92rem; }
+
+    details.q {
+      background:#0f0f0f;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:14px 16px;
+      margin-bottom:10px;
+      position:relative;
+    }
+    details.q summary {
+      cursor:pointer;
+      list-style:none;
+      padding-left:18px;
+      position:relative;
+    }
+    details.q summary::before {
+      content:'▶';
+      color:#3B82F6;
+      position:absolute;
+      left:0;
+      top:2px;
+      font-size:.9rem;
+      transition:transform .25s ease;
+    }
+    details.q[open] summary::before { transform:rotate(90deg); }
+    details.q[open]{ border-left:3px solid var(--accent); }
+    details.q .a { font-weight:400; }
+
+    footer { border-top:1px solid var(--line); margin-top:28px; }
+    .foot {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:18px 12px;
+      color:#A3A9B7;
+      flex-wrap:nowrap;
+      white-space:nowrap;
+    }
+    .foot a, .foot span { color:#E5E7EB; }
+
+    /* ===== Mobile tighten hero spacing ===== */
+    @media (max-width:480px){
+      .hero{ padding:36px 0 18px; }
+      h1, .subtitle{
+        font-size:1.6rem;
+        line-height:1.25;
+        margin:0.1rem 0 0.4rem;
+        letter-spacing:0;
+      }
+      .datechip{ margin-top:10px; padding:6px 10px; font-size:.92rem; }
+      .cta{
+        padding:8px 12px;
+        box-shadow:0 3px 14px rgba(59,130,246,.28);
+      }
+      .foot{ font-size:.9rem; gap:8px; }
+    }
   </style>
 </head>
+
 <body>
   <header class="wrap nav">
     <div class="brand"><b>BOOKZAP</b></div>
-    <a class="cta" href="https://forms.gle/HCfZ2cLgzThrkdDK8?utm_source=instagram&utm_medium=profile_link&utm_campaign=proofpass&utm_content=hero_cta"
-   target="_blank" rel="noopener">무료 Proof Pass 신청</a>
+    <a class="cta"
+      href="https://forms.gle/HCfZ2cLgzThrkdDK8?utm_source=instagram&utm_medium=profile_link&utm_campaign=proofpass&utm_content=hero_cta"
+      target="_blank" rel="noopener">무료 Proof Pass 신청</a>
   </header>
 
   <main class="wrap">
@@ -70,7 +186,7 @@
         </div>
         <div class="card">
           <h3>2) 생성</h3>
-          <p>AI가 입력을 읽고 <b>전/후 미니 그래프</b>와<br/>‘다음 한 문장’</b>(오늘의 행동 1개)을 만듭니다.</p>
+          <p>AI가 입력을 읽고 <b>전/후 미니 그래프</b>와<br/>‘다음 한 문장’(오늘의 행동 1개)을 만듭니다.</p>
         </div>
         <div class="card">
           <h3>3) 납품</h3>
@@ -86,7 +202,6 @@
         <div class="sample">
           <h4>전/후 미니 그래프</h4>
           <div class="card" style="background:#0b0f1a;border:1px solid #1E293B">
-            <!-- 임의 데이터: 전 62 → 후 89 -->
             <svg viewBox="0 0 360 180" width="100%" height="180" role="img" aria-label="전/후 미니 그래프">
               <defs>
                 <linearGradient id="beforeG" x1="0" x2="0" y1="0" y2="1">
@@ -117,49 +232,23 @@
     <!-- FAQ -->
     <section class="section">
       <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">FAQ</h2>
-      <details class="q">
-  <summary>‘Proof 리포트’가 뭔가요?</summary>
-  <div class="a">
-    입력한 <b>목표·현황</b>과 <b>멘토 선택(예: 창업자형, 투자자형 등)</b>을 바탕으로  
-    <b>전/후 미니 그래프</b>와
-    <br/><b>‘다음 한 문장’(오늘의 행동 1개)</b>을 생성한 짧은 결과 카드입니다.
-    <br/>선택한 멘토 유형의 <b>사고방식·결정 원칙</b>이 리포트 로직에 반영되어,  
-    하루 실행 방향을 보다 ‘<b>멘토처럼</b>’ 정리해줍니다.
-  </div>
-</details>
-<details class="q">
-  <summary>언제부터 받아볼 수 있나요?</summary>
-  <div class="a">
-    신청 후 <b>최대 24시간 이내</b> 시작되며,  
-    <b>3일간 매일 09:00</b>에 이메일로 발송됩니다.
-  </div>
-</details>
-<details class="q">
-  <summary>정식 서비스는 언제 시작되나요?</summary>
-  <div class="a">
-    정식 서비스(<b>7-Day Proof Sprint</b>)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/>
-    <b>무료 체험 기간</b>(10/13–10/16) 내 신청하신 분들께는  
-    관련 내용이 개별 메일로 안내됩니다.
-  </div>
-</details>
-<details class="q">
-  <summary>개인정보는 안전하게 처리되나요?</summary>
-  <div class="a">
-    <b>Google / OpenAI / Make 서버(일부 국외)</b>에 저장·처리될 수 있습니다.  
-    자세한 내용은 <a href="privacy.html"><b>개인정보 처리방침</b></a>을 확인해주세요.
-  </div>
-</details>
-    </section>
-  </main>
 
-  <footer>
-    <div class="wrap foot">
-      <span>© 2025 BOOKZAP</span>
-      <span>•</span>
-      <a href="terms.html">이용약관</a>
-      <span>•</span>
-      <a href="privacy.html">개인정보 처리방침</a>
-    </div>
-  </footer>
-</body>
-</html>
+      <details class="q">
+        <summary>‘Proof 리포트’가 뭔가요?</summary>
+        <div class="a">
+          입력한 <b>목표·현황</b>과 <b>멘토 선택(예: 창업자형, 투자자형 등)</b>을 바탕으로<br/>
+          <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’(오늘의 행동 1개)</b>을 생성한 짧은 결과 카드입니다.<br/>
+          선택한 멘토 유형의 <b>사고방식·결정 원칙</b>이 리포트 로직에 반영되어,<br/>
+          하루 실행 방향을 보다 ‘<b>멘토처럼</b>’ 정리해줍니다.
+        </div>
+      </details>
+
+      <details class="q">
+        <summary>언제부터 받아볼 수 있나요?</summary>
+        <div class="a">
+          신청 후 <b>최대 24시간 이내</b> 시작되며,<br/>
+          <b>3일간 매일 09:00</b>에 이메일로 발송됩니다.
+        </div>
+      </details>
+
+      <details c
