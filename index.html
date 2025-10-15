@@ -103,6 +103,24 @@
 
     /* === Hero color fix === */
     .line2{display:block;color:#EDEDED !important;}
+
+    /* ===== Mobile Smoothing (<=640px) ===== */
+@media (max-width: 640px){
+  :root{ --banner:56px; } /* 상단 배너 조금 낮춤 */
+  .wrap{ padding: calc(var(--banner) + 16px) 16px 64px; } /* 양옆 여백 16px */
+  h1{ font-size: clamp(28px,10vw,40px); line-height:1.2; } /* 제목 과도확대 방지 */
+  .lead{ font-size:16px; }
+  .numbers{ gap:12px; }
+  .num{ min-width:unset; padding:20px; border-radius:16px; }
+  .num h2{ font-size:32px; }
+  .feature-card{ padding:20px; border-radius:16px; }
+  .section{ margin-top:40px; }
+  .btn{ padding:12px 16px; border-radius:10px; } /* 터치 타겟 확보 */
+  .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap; }
+  .seat-pill{ padding:4px 10px; }
+  /* 앵커 클릭 시 고정 배너에 제목이 가려지지 않도록 */
+  section, .section { scroll-margin-top: calc(var(--banner) + 12px); }
+}
   </style>
 </head>
 <body>
