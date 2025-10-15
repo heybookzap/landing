@@ -73,7 +73,7 @@
     .legal-card{background:#0f1420;border:1px solid #1b2540;border-radius:16px;padding:20px}
     .legal-card h3{font-family:'Noto Serif KR',serif;margin:0 0 8px;color:#fff}
     .legal p,.legal li{color:#d1d5db;font-size:15px;margin-bottom:8px}
-    .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin-bottom:6px}
+    .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:#9CA3AF;font-size:12px;margin-bottom:6px}
     .hide{display:none}
     .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;text-align:center;cursor:pointer}
 
@@ -104,23 +104,44 @@
     /* === Hero color fix === */
     .line2{display:block;color:#EDEDED !important;}
 
+    /* ===== Cohort Banner Visibility Patch ===== */
+    .banner-rail{
+      background:#0f1420;
+      border:1px solid rgba(40,107,255,.5);
+      border-radius:14px;
+      padding:8px 12px;
+      color:#dce6ff;
+      font-weight:600;
+    }
+    .banner-rail span{color:#cfe0ff;}
+    .banner-rail b{color:#ffffff;}
+    .seat-pill{
+      background:rgba(40,107,255,.15);
+      border:1.5px solid rgba(40,107,255,.7);
+      color:#ffffff;
+      font-weight:700;
+    }
+
+    /* ===== Footer Readability (line breaks) ===== */
+    .footer-meta{line-height:1.8;white-space:normal;word-break:keep-all;}
+    .footer-meta br{content:"";display:block;margin-bottom:2px;}
+
     /* ===== Mobile Smoothing (<=640px) ===== */
-@media (max-width: 640px){
-  :root{ --banner:56px; } /* 상단 배너 조금 낮춤 */
-  .wrap{ padding: calc(var(--banner) + 16px) 16px 64px; } /* 양옆 여백 16px */
-  h1{ font-size: clamp(28px,10vw,40px); line-height:1.2; } /* 제목 과도확대 방지 */
-  .lead{ font-size:16px; }
-  .numbers{ gap:12px; }
-  .num{ min-width:unset; padding:20px; border-radius:16px; }
-  .num h2{ font-size:32px; }
-  .feature-card{ padding:20px; border-radius:16px; }
-  .section{ margin-top:40px; }
-  .btn{ padding:12px 16px; border-radius:10px; } /* 터치 타겟 확보 */
-  .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap; }
-  .seat-pill{ padding:4px 10px; }
-  /* 앵커 클릭 시 고정 배너에 제목이 가려지지 않도록 */
-  section, .section { scroll-margin-top: calc(var(--banner) + 12px); }
-}
+    @media (max-width: 640px){
+      :root{ --banner:56px; }
+      .wrap{ padding: calc(var(--banner) + 16px) 16px 64px; }
+      h1{ font-size: clamp(28px,10vw,40px); line-height:1.2; }
+      .lead{ font-size:16px; }
+      .numbers{ gap:12px; }
+      .num{ min-width:unset; padding:20px; border-radius:16px; }
+      .num h2{ font-size:32px; }
+      .feature-card{ padding:20px; border-radius:16px; }
+      .section{ margin-top:40px; }
+      .btn{ padding:12px 16px; border-radius:10px; }
+      .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap; }
+      .seat-pill{ padding:4px 10px; }
+      section, .section { scroll-margin-top: calc(var(--banner) + 12px); }
+    }
   </style>
 </head>
 <body>
@@ -210,7 +231,7 @@
         <details class="faq">
           <summary>1. Proof Report는 어떤 형식인가요?</summary>
           <div class="answer">
-            7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.</br>
+            7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.<br/>
             각 리포트는 당신이 입력한 실제 의사결정 주제를 기준으로 멘토 알고리즘을 시뮬레이션한 결과물입니다.
           </div>
         </details>
@@ -225,8 +246,8 @@
           <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
           <div class="answer">
             모든 데이터는 암호화된 Google Workspace 내에서만 사용되며,
-            법적으로 보장된 기간 이후 즉시 삭제됩니다.
-            </br>외부 마케팅이나 제3자 제공은 없습니다.
+            법적으로 보장된 기간 이후 즉시 삭제됩니다.<br/>
+            외부 마케팅이나 제3자 제공은 없습니다.
           </div>
         </details>
         <details class="faq">
@@ -307,9 +328,12 @@
     <footer>
       <div>@ BOOKZAP(북잽)</div>
       <div class="footer-meta">
-        상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
+        상호: BOOKZAP(북잽) | 대표: 권미현<br/>
+        사업자등록번호: 157-11-03032<br/>
         이메일: proof@bookzapstudio.com<br/>
-        본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.
+        <br/>
+        본 페이지는 실제 결과를 보장하지 않으며,<br/>
+        개인별 결과는 다를 수 있습니다.
       </div>
       <div class="footer-links">
         <a href="#" onclick="return openLegal('tos')">이용약관</a>
