@@ -1,292 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>BOOKZAP — 3-Day Proof Pass (Free)</title>
-
-  <!-- ✅ 캐시 무효화 -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-
-  <meta name="description" content="지식이 아니라 증명입니다. 3일간, 매일 오전 9시에 결과 카드가 도착합니다. (무료 체험 오픈: 10/13, 마감: 10/16)" />
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>BOOKZAP — 72h First-Win Execution Sprint</title>
   <style>
-    /* ===== 기본 보정 (박스사이징/오버플로우) ===== */
-    *,
-    *::before,
-    *::after { box-sizing: border-box; }
-    html, body { overflow-x: hidden; }
-
-    :root {
-      --bg:#000; --panel:#0a0a0a; --card:#0b0b0b; --text:#E7ECF5;
-      --muted:#A3A9B7; --line:#1a1a1a; --accent:#3B82F6; --chip:#0A1227;
-    }
-
-    html, body {
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:-apple-system,system-ui,"Pretendard","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      line-height:1.65;
-      padding-bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
-      min-height:100%;
-    }
-
-    a { color:#C7D2FE; text-decoration:none; }
-    a:hover { text-decoration:underline; }
-
-    .wrap { max-width:1060px; margin:0 auto; padding:0 20px; }
-
-    .nav { display:flex; align-items:center; justify-content:space-between; height:72px; border-bottom:1px solid var(--line); }
-
-    .brand { font-family:"Noto Serif KR",Georgia,serif; font-weight:700; color:#fff; }
-
-    .cta {
-      display:inline-flex; gap:10px; align-items:center;
-      padding:10px 14px;
-      background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 100%);
-      color:#fff;
-      border-radius:10px;
-      box-shadow:0 4px 20px rgba(37,99,235,.25);
-      transition:all .25s ease;
-    }
-    .cta:hover { filter:brightness(1.08); box-shadow:0 4px 25px rgba(59,130,246,.4); }
-
-    .hero { padding:64px 0 36px; }
-    h1 {
-      font-family:"Noto Serif KR",Georgia,serif;
-      font-size:2.2rem;
-      margin:.2rem 0 .8rem;
-      color:#C7D2FE;
-      font-weight:400;
-    }
-    .subtitle {
-      font-family:"Noto Serif KR",Georgia,serif;
-      font-size:2.2rem;
-      line-height:1.25;
-      color:#C7D2FE;
-      margin:.2rem 0 .8rem;
-      font-weight:400;
-    }
-
-    .datechip {
-      margin-top:16px;
-      display:inline-block;
-      background:var(--chip);
-      border:1px solid #1E3A8A;
-      border-radius:999px;
-      color:#C7D2FE;
-      padding:8px 14px;
-    }
-
-    .section { padding:28px 0; }
-
-    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-    @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
-
-    .card {
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 8px 20px rgba(0,0,0,.25);
-    }
-
-    .card h3 { margin:0 0 .6rem; font-size:1.05rem; }
-
-    .sampleGrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    @media (max-width:920px){ .sampleGrid{grid-template-columns:1fr;} }
-
-    .sample {
-      background:linear-gradient(180deg,#0C1425 0%,#0B1322 100%);
-      border:1px solid #1F2937;
-      border-radius:14px;
-      padding:18px;
-    }
-
-    .sample h4 { margin:0 0 .5rem; font-size:1rem; color:#DCE7FF; }
-    .sub { margin-top:8px; color:#9AA7BD; font-size:.92rem; }
-
-    details.q {
-      background:#0f0f0f;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:14px 16px;
-      margin-bottom:10px;
-      position:relative;
-      max-width:100%;
-    }
-    details.q summary {
-      cursor:pointer;
-      list-style:none;
-      padding-left:18px;
-      position:relative;
-    }
-    details.q summary::before {
-      content:'▶';
-      color:#3B82F6;
-      position:absolute;
-      left:0;
-      top:2px;
-      font-size:.9rem;
-      transition:transform .25s ease;
-    }
-    details.q[open] summary::before { transform:rotate(90deg); }
-    details.q[open]{ border-left:3px solid var(--accent); }
-    details.q .a {
-      font-weight:400;
-      word-break:keep-all;
-      overflow-wrap:anywhere;
-    }
-
-    footer { border-top:1px solid var(--line); margin-top:28px; }
-    .foot {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:18px 12px;
-      color:#A3A9B7;
-      flex-wrap:nowrap;
-      white-space:nowrap;
-    }
-    .foot a, .foot span { color:#E5E7EB; }
-
-    /* ===== Mobile tighten hero spacing ===== */
-    @media (max-width:480px){
-      .hero{ padding:36px 0 18px; }
-      h1, .subtitle{
-        font-size:1.6rem;
-        line-height:1.25;
-        margin:0.1rem 0 0.4rem;
-        letter-spacing:0;
-      }
-      .datechip{ margin-top:10px; padding:6px 10px; font-size:.92rem; }
-      .cta{
-        padding:8px 12px;
-        box-shadow:0 3px 14px rgba(59,130,246,.28);
-      }
-      .foot{ font-size:.9rem; gap:8px; }
-      details.q{ padding:12px 14px; }
-    }
+    :root{--bg:#0B0B0B;--card:#111318;--text:#EDEDED;--muted:#9CA3AF;--border:#1F2937;--blue:#286bff;}
+    body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;line-height:1.6;margin:0}
+    .wrap{max-width:1080px;margin:0 auto;padding:60px 20px}
+    h1,h2,h3{font-family:'Noto Serif KR',serif;color:#fff;margin:0 0 8px}
+    .highlight{color:var(--blue)}
+    .btn{padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block;text-align:center;cursor:pointer}
+    .btn.primary{background:var(--blue);color:#fff}
+    .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;}
+    .section{margin-top:42px}
+    .muted{color:var(--muted)}
+    footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center;line-height:1.6}
+    footer a{color:var(--muted);text-decoration:none}
+    footer a:hover{color:#EDEDED;text-decoration:underline}
+    /* legal sections */
+    .legal{margin-top:42px}
+    .legal h2{font-size:26px}
+    .legal-card{background:#0f1420;border:1px solid #1b2540;border-radius:16px;padding:20px}
+    .legal-card h3{font-family:'Noto Serif KR',serif;margin:0 0 8px;color:#fff}
+    .legal p,.legal li{color:#d1d5db;font-size:15px;margin-bottom:8px}
+    .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin-bottom:6px}
+    .hide{display:none}
   </style>
 </head>
-
 <body>
-  <header class="wrap nav">
-    <div class="brand"><b>BOOKZAP</b></div>
-    <a class="cta"
-      href="https://forms.gle/HCfZ2cLgzThrkdDK8?utm_source=instagram&utm_medium=profile_link&utm_campaign=proofpass&utm_content=hero_cta"
-      target="_blank" rel="noopener">무료 Proof Pass 신청</a>
-  </header>
+  <div class="wrap">
+    <h1><span class="highlight">72h First-Win</span><br/>Execution Sprint</h1>
+    <p><b>72시간 첫 성과.</b> <b>7일 집중 실행.</b><br/>
+      매일 오전 9시, <b>Proof 리포트</b>로 결과를 확인합니다.<br/>
+      <span class="muted">— 어렵지 않게, 바로 따라 합니다.</span>
+    </p>
 
-  <main class="wrap">
-    <section class="hero">
-      <h1 class="subtitle">지식이 아니라 증명입니다.</h1>
-      <h1>3일간 매일 오전 9시에 도착합니다.</h1>
-      <div class="datechip">📅 무료체험: <b>10월 13일</b> 시작 · <b>10월 16일</b> 마감</div>
+    <section id="pricing" class="section">
+      <h2>가격</h2>
+      <p style="font-size:22px;font-weight:700;color:#fff;">₩4,150,000 (VAT 포함)</p>
+      <p class="muted">프루프 기반 실행 · 매일 09:00 리포트</p>
+      <ul>
+        <li>D7 Mini-Feedback 1회</li>
+        <li>익명 벤치마크 차트 1장</li>
+        <li>72h 실행 카드팩</li>
+      </ul>
+      <p class="muted" style="font-size:14px;">* 결제 후 프로그램 시작 전(납품 전)에는 전액 환불 가능<br/>
+      * 프로그램 시작(D1) 이후에는 환불 불가, 대신 조건부 +7일 크레딧 제공</p>
     </section>
 
-    <section class="section">
-      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">진행 방법</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>1) 신청</h3>
-          <p>구글 폼에서 <b>이름·이메일·원하는 변화</b>만<br/>적으면 끝.</p>
-        </div>
-        <div class="card">
-          <h3>2) 생성</h3>
-          <p>AI가 입력을 읽고 <b>전/후 미니 그래프</b>와<br/>‘다음 한 문장’(오늘의 행동 1개)을 만듭니다.</p>
-        </div>
-        <div class="card">
-          <h3>3) 납품</h3>
-          <p>샘플 리포트가 <b>매일 오전 9시</b> 이메일로<br/>도착합니다.</p>
-        </div>
+    <!-- 이용약관 -->
+    <section id="tos" class="legal hide">
+      <span class="pill">이용약관 v1</span>
+      <h2>이용약관</h2>
+      <div class="legal-card">
+        <h3>1. 서비스 안내</h3>
+        <p>BOOKZAP(북잽)은 7일 동안 매일 Proof 리포트를 제공합니다. 이 리포트는 사용자가 더 좋은 결정을 내리도록 돕는 참고 자료입니다.</p>
+        <h3>2. 이용자 책임</h3>
+        <p>참여자는 과제를 제때 제출하고, 정확한 정보를 입력해야 합니다. 거짓 정보나 타인 명의 사용은 금지됩니다.</p>
+        <h3>3. 제공 방식</h3>
+        <p>리포트는 Day1부터 Day7까지 매일 오전 9시에 이메일로 전달됩니다.</p>
+        <h3>4. 결제와 환불</h3>
+        <p>결제 후 납품 전에는 전액 환불됩니다. Day1 이후에는 환불이 불가하며, 조건부 +7일 크레딧이 제공됩니다.</p>
+        <h3>5. 저작권</h3>
+        <p>Proof Report와 자료의 저작권은 BOOKZAP에 있습니다. 개인적 활용 외 무단 배포는 금지됩니다.</p>
+        <h3>6. 면책</h3>
+        <p>리포트는 조언이 아닌 참고용 자료로, 최종 결정의 책임은 이용자에게 있습니다.</p>
       </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
     </section>
 
-    <section class="section" id="samples">
-      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">샘플 미리보기</h2>
-      <div class="sampleGrid">
-        <div class="sample">
-          <h4>전/후 미니 그래프</h4>
-          <div class="card" style="background:#0b0f1a;border:1px solid #1E293B">
-            <svg viewBox="0 0 360 180" width="100%" height="180" role="img" aria-label="전/후 미니 그래프">
-              <defs>
-                <linearGradient id="beforeG" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#93C5FD"/>
-                  <stop offset="100%" stop-color="#1E3A8A"/>
-                </linearGradient>
-                <linearGradient id="afterG" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#6EE7B7"/>
-                  <stop offset="100%" stop-color="#065F46"/>
-                </linearGradient>
-              </defs>
-              <rect x="0" y="0" width="360" height="180" fill="#0b0f1a"/>
-              <line x1="50" y1="140" x2="330" y2="140" stroke="#334155" stroke-width="1"/>
-              <line x1="50" y1="30" x2="50" y2="140" stroke="#334155" stroke-width="1"/>
-              <line x1="50" y1="105" x2="330" y2="105" stroke="#1f2937" stroke-width="1" stroke-dasharray="3 3"/>
-              <line x1="50" y1="70" x2="330" y2="70" stroke="#1f2937" stroke-width="1" stroke-dasharray="3 3"/>
-              <rect x="95" y="78" width="70" height="62" fill="url(#beforeG)" rx="8"/>
-              <rect x="215" y="51" width="70" height="89" fill="url(#afterG)" rx="8"/>
-              <text x="130" y="160" text-anchor="middle" fill="#cbd5e1" font-size="12">전 62</text>
-              <text x="250" y="160" text-anchor="middle" fill="#cbd5e1" font-size="12">후 89</text>
-            </svg>
-          </div>
-          <p class="sub">*샘플 그래프 · 개인별 결과는 상이합니다.</p>
-        </div>
+    <!-- 개인정보처리방침 -->
+    <section id="privacy" class="legal hide">
+      <span class="pill">개인정보처리방침 v1</span>
+      <h2>개인정보처리방침</h2>
+      <div class="legal-card">
+        <h3>1. 수집 항목</h3>
+        <p>이름, 이메일, 신청 내용, 선택적으로 연락처와 관심 분야를 수집합니다.</p>
+        <h3>2. 이용 목적</h3>
+        <p>Proof 리포트 발송, 고객 문의 응대, 서비스 품질 개선에 사용됩니다.</p>
+        <h3>3. 보유 기간</h3>
+        <p>목적 달성 후 또는 법적 보존 기간 종료 시 즉시 삭제합니다.</p>
+        <h3>4. 제3자 제공 및 위탁</h3>
+        <p>필요 시 이메일·문서 전송을 위해 안전한 클라우드 서비스에 위탁할 수 있습니다.</p>
+        <h3>5. 이용자 권리</h3>
+        <p>본인 정보의 열람·수정·삭제를 요청할 수 있습니다. 요청은 proof@bookzapstudio.com 으로 가능합니다.</p>
       </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
     </section>
 
-    <section class="section">
-      <h2 style="font-family:'Noto Serif KR',serif;color:#C7D2FE;margin:0 0 12px">FAQ</h2>
-
-      <details class="q">
-        <summary>‘Proof 리포트’가 뭔가요?</summary>
-        <div class="a">
-          입력한 <b>목표·현황</b>과 <b>멘토 선택(예: 창업자형, 투자자형 등)</b>을 바탕으로<br/>
-          <b>전/후 미니 그래프</b>와 <b>‘다음 한 문장’(오늘의 행동 1개)</b>을 생성한 짧은 결과 카드입니다.<br/>
-          선택한 멘토 유형의 <b>사고방식·결정 원칙</b>이 리포트 로직에 반영되어,<br/>
-          하루 실행 방향을 보다 ‘<b>멘토처럼</b>’ 정리해줍니다.
-        </div>
-      </details>
-
-      <details class="q">
-        <summary>언제부터 받아볼 수 있나요?</summary>
-        <div class="a">
-          신청 후 <b>최대 24시간 이내</b> 시작되며,<br/>
-          <b>3일간 매일 09:00</b>에 이메일로 발송됩니다.
-        </div>
-      </details>
-
-      <details class="q">
-        <summary>정식 서비스는 언제 시작되나요?</summary>
-        <div class="a">
-          정식 서비스(<b>7-Day Proof Sprint</b>)는 <b>10월 20일(월)</b>부터 시작됩니다.<br/>
-          <b>무료 체험 기간</b>(10/13–10/16) 내 신청하신 분들께는 관련 내용이 개별 메일로 안내됩니다.
-        </div>
-      </details>
-
-      <details class="q">
-        <summary>개인정보는 안전하게 처리되나요?</summary>
-        <div class="a">
-          <b>Google / OpenAI / Make 서버(일부 국외)</b>에 저장·처리될 수 있습니다.<br/>
-          자세한 내용은 <a href="privacy.html"><b>개인정보 처리방침</b></a>을 확인해주세요.
-        </div>
-      </details>
+    <!-- 환불·보상정책 -->
+    <section id="refund" class="legal hide">
+      <span class="pill">환불·보상정책 v1</span>
+      <h2>환불·보상정책</h2>
+      <div class="legal-card">
+        <h3>1. 전액 환불</h3>
+        <p>결제 후 프로그램 시작 전(납품 전)에는 전액 환불이 가능합니다.</p>
+        <h3>2. 프로그램 시작 후</h3>
+        <p>Day1 이후에는 환불이 불가합니다. 대신 아래 조건 충족 시 +7일 크레딧이 제공됩니다.</p>
+        <ul><li>제출물 기한 준수, 과제 성실 수행, Feedback 회신 완료 시</li></ul>
+        <h3>3. 신청 방법</h3>
+        <p>proof@bookzapstudio.com 으로 결제 이메일 계정에서 요청하시면 됩니다.</p>
+      </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
     </section>
-  </main>
 
-  <footer>
-    <div class="wrap foot">
-      <span>© 2025 <b>BOOKZAP</b></span>
-      <span>•</span>
-      <a href="terms.html">이용약관</a>
-      <span>•</span>
-      <a href="privacy.html">개인정보 처리방침</a>
-    </div>
-  </footer>
+    <footer>
+      <div>@ BOOKZAP(북잽)</div>
+      <div style="margin-top:6px;font-size:12px;line-height:1.6;">
+        상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
+        이메일: proof@bookzapstudio.com<br/>
+        본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.<br/>
+        결제 후 프로그램 시작 전에는 전액 환불 가능하며, 납품 개시 후에는 환불 불가(조건부 +7일 크레딧 제공).<br/>
+        <a href="#" onclick="return openLegal('tos')">이용약관</a> · 
+        <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a> · 
+        <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function openLegal(id){
+      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
+      const el=document.getElementById(id);
+      if(el){el.classList.remove('hide');el.scrollIntoView({behavior:'smooth'});}
+      return false;
+    }
+    function closeLegal(){
+      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
+      window.scrollTo({top:0,behavior:'smooth'});
+      return false;
+    }
+  </script>
 </body>
 </html>
