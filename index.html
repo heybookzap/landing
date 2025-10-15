@@ -76,6 +76,40 @@
     .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin-bottom:6px}
     .hide{display:none}
     .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;text-align:center;cursor:pointer}
+
+    /* ===== Typography & Spacing Patch ===== */
+
+/* 섹션 간 간격 확대 (기존 .section 값이 있으면 이 값으로 덮어씀) */
+.section{margin-top:56px}
+
+/* 본문 리드 문단 가독성 향상 */
+.lead{line-height:1.7}
+
+/* 카드 내부 여백 약간 확대 */
+.feature-card{padding:28px 24px}
+
+/* 가격 표시 전용 유틸 */
+.price-tag{font-size:22px;font-weight:800;color:#fff;margin:6px 0 2px}
+.muted{color:#9CA3AF}
+.fineprint{color:#9CA3AF;font-size:14px;margin-top:8px}
+
+/* 푸터 가독성(메타/링크 영역 분리) */
+footer{
+  margin-top:64px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+  line-height:1.7;
+}
+.footer-meta{margin-top:8px}
+.footer-links{margin-top:14px;letter-spacing:.2px}
+.footer-links a{padding:0 4px}
+
+/* 인라인 법적 섹션(이용약관/개인정보/환불) 상단 여백 & 제목 간격 */
+.legal{margin-top:64px}
+.legal h2{margin:0 0 10px}
   </style>
 </head>
 <body>
@@ -132,22 +166,34 @@
       <p style="color:#9CA3AF;margin-top:10px;">결국, 415만 원은 ‘확신과 시간’을 사는 금액입니다.</p>
     </section>
 
-    <!-- Pricing -->
-    <section id="pricing" class="section">
-      <h2>가격</h2>
-      <div class="feature-card">
-        <h3>7일 집중 프로그램</h3>
-        <p style="font-size:22px;font-weight:700;color:#fff;">₩4,150,000 (VAT 포함)</p>
-        <p style="color:#9CA3AF;">프루프 기반 실행 · 매일 09:00 리포트</p>
-        <ul class="list">
-          <li>D7 Mini-Feedback 1회</li>
-          <li>익명 벤치마크 차트 1장</li>
-          <li>72h 실행 카드팩</li>
-        </ul>
-        <p style="color:#9CA3AF;font-size:14px;">* 결제 후 프로그램 시작 전(납품 전)에는 전액 환불 가능<br/>
-        * 프로그램 시작(D1) 이후에는 환불 불가, 대신 조건부 +7일 크레딧 제공</p>
-      </div>
-    </section>
+   <!-- Pricing (위로 이동) -->
+<section id="pricing" class="section">
+  <h2>가격</h2>
+  <div class="feature-card">
+    <h3>7일 집중 프로그램</h3>
+    <p class="price-tag">₩4,150,000 (VAT 포함)</p>
+    <p class="muted">프루프 기반 실행 · 매일 09:00 리포트</p>
+    <ul class="list">
+      <li>D7 Mini-Feedback 1회</li>
+      <li>익명 벤치마크 차트 1장</li>
+      <li>72h 실행 카드팩</li>
+    </ul>
+    <!-- 환불 고지는 카드에서만 간결히 -->
+    <p class="fineprint">
+      * 납품 전 전액 환불 가능. D1 이후 환불 불가(조건 충족 시 +7일 크레딧).
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#trial">샘플 1장 보기</a>
+      <a class="btn ghost" href="#apply">웨이팅 등록</a>
+    </div>
+  </div>
+</section>
+
+<!-- Value Justification (가격 아래로) -->
+<section class="section">
+  <h2>왜 415만 원인가?</h2>
+  ...
+</section>
 
     <!-- LEGAL: Terms -->
     <section id="tos" class="legal hide">
@@ -207,19 +253,19 @@
       <div class="btn back" onclick="return closeLegal()">닫기</div>
     </section>
 
-    <!-- Footer -->
     <footer>
-      <div>@ BOOKZAP(북잽)</div>
-      <div style="margin-top:6px;font-size:12px;">
-        상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
-        이메일: proof@bookzapstudio.com<br/>
-        본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.<br/>
-        결제 후 프로그램 시작 전에는 전액 환불 가능하며, 납품 개시 후에는 환불 불가(조건부 +7일 크레딧 제공).<br/>
-        <a href="#" onclick="return openLegal('tos')">이용약관</a> · 
-        <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a> · 
-        <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
-      </div>
-    </footer>
+  <div>@ BOOKZAP(북잽)</div>
+  <div class="footer-meta">
+    상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
+    이메일: proof@bookzapstudio.com<br/>
+    본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.
+  </div>
+  <div class="footer-links">
+    <a href="#" onclick="return openLegal('tos')">이용약관</a>
+    · <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a>
+    · <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
+  </div>
+</footer>
   </div>
 
   <script>
