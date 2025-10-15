@@ -78,94 +78,32 @@
     .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;text-align:center;cursor:pointer}
 
     /* ===== Typography & Spacing Patch ===== */
-
-/* 섹션 간 간격 확대 (기존 .section 값이 있으면 이 값으로 덮어씀) */
-.section{margin-top:56px}
-
-/* 본문 리드 문단 가독성 향상 */
-.lead{line-height:1.7}
-
-/* 카드 내부 여백 약간 확대 */
-.feature-card{padding:28px 24px}
-
-/* 가격 표시 전용 유틸 */
-.price-tag{font-size:22px;font-weight:800;color:#fff;margin:6px 0 2px}
-.muted{color:#9CA3AF}
-.fineprint{color:#9CA3AF;font-size:14px;margin-top:8px}
-
-/* 푸터 가독성(메타/링크 영역 분리) */
-footer{
-  margin-top:64px;
-  padding-top:24px;
-  border-top:1px solid var(--border);
-  color:var(--muted);
-  font-size:13px;
-  text-align:center;
-  line-height:1.7;
-}
-.footer-meta{margin-top:8px}
-.footer-links{margin-top:14px;letter-spacing:.2px}
-.footer-links a{padding:0 4px}
-
-/* 인라인 법적 섹션(이용약관/개인정보/환불) 상단 여백 & 제목 간격 */
-.legal{margin-top:64px}
-.legal h2{margin:0 0 10px}
+    .section{margin-top:56px}
+    .lead{line-height:1.7}
+    .feature-card{padding:28px 24px}
+    .price-tag{font-size:22px;font-weight:800;color:#fff;margin:6px 0 2px}
+    .muted{color:#9CA3AF}
+    .fineprint{color:#9CA3AF;font-size:14px;margin-top:8px}
+    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center;line-height:1.7}
+    .footer-meta{margin-top:8px}
+    .footer-links{margin-top:14px;letter-spacing:.2px}
+    .footer-links a{padding:0 4px}
+    .legal{margin-top:64px}
+    .legal h2{margin:0 0 10px}
 
     /* ===== FAQ Accordion ===== */
-.faq-list{display:grid;gap:12px;margin-top:10px}
+    .faq-list{display:grid;gap:12px;margin-top:10px}
+    .faq{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:16px;padding:0 16px}
+    .faq > summary{list-style:none;cursor:pointer;padding:18px 8px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:space-between}
+    .faq > summary::-webkit-details-marker{display:none}
+    .faq > summary::after{content:"+";font-weight:900;transition:transform .2s ease;opacity:.9}
+    .faq[open] > summary::after{content:"×";transform:rotate(0)}
+    .faq .answer{color:#d1d5db;padding:0 8px 18px 8px;line-height:1.7;font-size:15px}
+    .faq > summary:focus{outline:2px solid rgba(40,107,255,.8);outline-offset:4px;border-radius:10px}
 
-.faq{
-  background:#0f1420;
-  border:1.5px solid rgba(40,107,255,.35);
-  border-radius:16px;
-  padding:0 16px;
-}
-
-/* 기본 마커 숨기기 + 클릭 영역 확대 */
-.faq > summary{
-  list-style:none;
-  cursor:pointer;
-  padding:18px 8px;
-  font-weight:700;
-  color:#fff;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.faq > summary::-webkit-details-marker{display:none}
-
-/* 아이콘(＋ → ×) */
-.faq > summary::after{
-  content:"+";
-  font-weight:900;
-  transition:transform .2s ease;
-  opacity:.9;
-}
-.faq[open] > summary::after{
-  content:"×";
-  transform:rotate(0);
-}
-
-/* 답변 박스 */
-.faq .answer{
-  color:#d1d5db;
-  padding:0 8px 18px 8px;
-  line-height:1.7;
-  font-size:15px;
-}
-
-/* 키보드 포커스 가시성 */
-.faq > summary:focus{outline:2px solid rgba(40,107,255,.8);outline-offset:4px;border-radius:10px}
-
-<h1 class="hero-title">
-<span class="highlight">72h First-Win</span><br/>
-<span class="secondary">Execution Sprint</span>
-</h1>
-
-h1.hero-title{ color: var(--text); }                 /* 기본은 흰색 */
-h1.hero-title .highlight{ color: var(--blue) !important; }
-h1.hero-title .secondary{ color: var(--text) !important; }
-.line2{display:block;color:#EDEDED !important;}
+    /* === Hero color fix === */
+    .line2{display:block;color:#EDEDED !important;}
   </style>
-  
 </head>
 <body>
   <!-- Top banner -->
@@ -179,14 +117,14 @@ h1.hero-title .secondary{ color: var(--text) !important; }
     </div>
   </div>
 
- <div class="wrap">
-  <!-- Hero -->
-  <span class="badge" id="dday">D-5</span>
-  <h1>
-    <span class="highlight">72h First-Win</span><br/>
-    <span class="line2">Execution Sprint</span>
-  </h1>
-</div>
+  <div class="wrap">
+    <!-- Hero -->
+    <span class="badge" id="dday">D-5</span>
+    <h1>
+      <span class="highlight">72h First-Win</span><br/>
+      <span class="line2">Execution Sprint</span>
+    </h1>
+
     <p class="lead">
       <b>72시간 첫 성과.</b> <b>7일 집중 실행.</b><br/>
       매일 오전 9시, <b>Proof 리포트</b>로 결과를 확인합니다.<br/>
@@ -194,7 +132,6 @@ h1.hero-title .secondary{ color: var(--text) !important; }
     </p>
 
     <div class="cta">
-      <br/>
       <a class="btn primary" href="#trial">샘플 1장 보기</a>
       <a class="btn ghost" href="#pricing">웨이팅 등록</a>
     </div>
@@ -206,30 +143,29 @@ h1.hero-title .secondary{ color: var(--text) !important; }
       <div class="num"><h2>Proof</h2><p>매일 09:00 리포트</p></div>
     </div>
 
-   <!-- Pricing -->
-<section id="pricing" class="section">
-  <h2>가격</h2>
-  <div class="feature-card">
-    <h3>7일 집중 프로그램</h3>
-    <p class="price-tag">₩ 4,150,000 (VAT 포함)</p>
-    <p class="muted">Proof 기반 실행 · 매일 09:00 리포트</p>
-    <ul class="list">
-      <li>D7 Mini-Feedback 1회</li>
-      <li>익명 벤치마크 차트 1장</li>
-      <li>72h 실행 카드팩</li>
-    </ul>
-    <!-- 환불 고지는 카드에서만 간결히 -->
-    <p class="fineprint">
-      * 납품 전, 전액 환불 가능. D1 이후, 환불 불가(조건 충족 시 +7일 크레딧).
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="#trial">샘플 1장 보기</a>
-      <a class="btn ghost" href="#apply">웨이팅 등록</a>
-    </div>
-  </div>
-</section>
+    <!-- Pricing -->
+    <section id="pricing" class="section">
+      <h2>가격</h2>
+      <div class="feature-card">
+        <h3>7일 집중 프로그램</h3>
+        <p class="price-tag">₩ 4,150,000 (VAT 포함)</p>
+        <p class="muted">Proof 기반 실행 · 매일 09:00 리포트</p>
+        <ul class="list">
+          <li>D7 Mini-Feedback 1회</li>
+          <li>익명 벤치마크 차트 1장</li>
+          <li>72h 실행 카드팩</li>
+        </ul>
+        <p class="fineprint">
+          * 납품 전, 전액 환불 가능. D1 이후, 환불 불가(조건 충족 시 +7일 크레딧).
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#trial">샘플 1장 보기</a>
+          <a class="btn ghost" href="#apply">웨이팅 등록</a>
+        </div>
+      </div>
+    </section>
 
- <!-- Value Justification -->
+    <!-- Value Justification -->
     <section class="section">
       <h2>왜 415만 원인가?</h2>
       <div class="grid">
@@ -249,52 +185,48 @@ h1.hero-title .secondary{ color: var(--text) !important; }
       <p style="color:#9CA3AF;margin-top:10px;">결국, 415만 원은 ‘확신과 시간’을 사는 금액입니다.</p>
     </section>
 
-   <section id="faq" class="section">
-  <h2>FAQ — 자주 묻는 질문</h2>
-
-  <div class="faq-list">
-    <details class="faq">
-      <summary>1. Proof Report는 어떤 형식인가요?</summary>
-      <div class="answer">
-        7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.
-        </p>각 리포트는 당신이 입력한 실제 의사결정 주제를 기준으로 멘토 알고리즘을 시뮬레이션한 결과물입니다.
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <h2>FAQ — 자주 묻는 질문</h2>
+      <div class="faq-list">
+        <details class="faq">
+          <summary>1. Proof Report는 어떤 형식인가요?</summary>
+          <div class="answer">
+            7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.
+            각 리포트는 당신이 입력한 실제 의사결정 주제를 기준으로 멘토 알고리즘을 시뮬레이션한 결과물입니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>2. 실제 상담이나 코칭이 포함되나요?</summary>
+          <div class="answer">
+            아니요. BOOKZAP은 ‘조언’이 아닌 ‘결과물 납품’ 모델입니다.
+            멘토의 사고 프레임이 자동화되어 Proof Report로 전달됩니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
+          <div class="answer">
+            모든 데이터는 암호화된 Google Workspace 내에서만 사용되며,
+            법적으로 보장된 기간 이후 즉시 삭제됩니다.
+            외부 마케팅이나 제3자 제공은 없습니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>4. 프로그램 중단이나 실패 시 어떻게 되나요?</summary>
+          <div class="answer">
+            Day1 이후 환불은 불가하지만,
+            과제 제출·피드백 회신 등 조건 충족 시 자동으로 <b>+7일 크레딧</b>이 제공됩니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>5. 회사 결재용 증빙이나 세금계산서 발급이 가능한가요?</summary>
+          <div class="answer">
+            네. 결제 후 이메일로 사업자등록증 또는 계산서 발행 요청 시
+            <a href="mailto:proof@bookzapstudio.com">proof@bookzapstudio.com</a>으로 회신해 드립니다.
+          </div>
+        </details>
       </div>
-    </details>
-
-    <details class="faq">
-      <summary>2. 실제 상담이나 코칭이 포함되나요?</summary>
-      <div class="answer">
-        아니요. BOOKZAP은 ‘조언’이 아닌 ‘결과물 납품’ 모델입니다.
-        멘토의 사고 프레임이 자동화되어 Proof Report로 전달됩니다.
-      </div>
-    </details>
-
-    <details class="faq">
-      <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
-      <div class="answer">
-        모든 데이터는 암호화된 Google Workspace 내에서만 사용되며,
-        법적으로 보장된 기간 이후 즉시 삭제됩니다.
-        외부 마케팅이나 제3자 제공은 없습니다.
-      </div>
-    </details>
-
-    <details class="faq">
-      <summary>4. 프로그램 중단이나 실패 시 어떻게 되나요?</summary>
-      <div class="answer">
-        Day1 이후 환불은 불가하지만,
-        과제 제출·피드백 회신 등 조건 충족 시 자동으로 <b>+7일 크레딧</b>이 제공됩니다.
-      </div>
-    </details>
-
-    <details class="faq">
-      <summary>5. 회사 결재용 증빙이나 세금계산서 발급이 가능한가요?</summary>
-      <div class="answer">
-        네. 결제 후 이메일로 사업자등록증 또는 계산서 발행 요청 시
-        <a href="mailto:proof@bookzapstudio.com">proof@bookzapstudio.com</a>으로 회신해 드립니다.
-      </div>
-    </details>
-  </div>
-</section>
+    </section>
 
     <!-- LEGAL: Terms -->
     <section id="tos" class="legal hide">
@@ -355,19 +287,19 @@ h1.hero-title .secondary{ color: var(--text) !important; }
     </section>
 
     <footer>
-  <div>@ BOOKZAP(북잽)</div>
-  <div class="footer-meta">
-    상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
-    이메일: proof@bookzapstudio.com<br/>
-    본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.
-  </div>
-  <div class="footer-links">
-    <a href="#" onclick="return openLegal('tos')">이용약관</a>
-    · <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a>
-    · <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
-  </div>
-</footer>
-  </div>
+      <div>@ BOOKZAP(북잽)</div>
+      <div class="footer-meta">
+        상호: BOOKZAP(북잽) | 대표: 권미현 | 사업자등록번호: 157-11-03032<br/>
+        이메일: proof@bookzapstudio.com<br/>
+        본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="return openLegal('tos')">이용약관</a>
+        · <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a>
+        · <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
+      </div>
+    </footer>
+  </div> <!-- /.wrap -->
 
   <script>
     // D-Day (optional)
