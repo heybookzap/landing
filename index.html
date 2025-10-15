@@ -155,8 +155,14 @@ footer{
 /* 키보드 포커스 가시성 */
 .faq > summary:focus{outline:2px solid rgba(40,107,255,.8);outline-offset:4px;border-radius:10px}
 
-h1 { color:#EDEDED; }          /* 제목 기본 색은 흰색으로 고정 */
-.highlight { color:var(--blue); }  /* 강조만 파란색 */
+<h1 class="hero-title">
+  <span class="highlight">72h First-Win</span><br/>
+  <span class="secondary">Execution Sprint</span>
+</h1>
+
+h1.hero-title{ color: var(--text); }                 /* 기본은 흰색 */
+h1.hero-title .highlight{ color: var(--blue) !important; }
+h1.hero-title .secondary{ color: var(--text) !important; }
   </style>
   
 </head>
