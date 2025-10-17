@@ -9,7 +9,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){dataLayer.push(arguments);} 
     gtag('js', new Date());
     gtag('config', 'G-9JL7NY9BB9', { anonymize_ip: true });
   </script>
@@ -29,13 +29,13 @@
     body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all}
     h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
     a{text-decoration:none;color:inherit}
+
     .wrap{max-width:1080px;margin:0 auto;padding:calc(var(--banner)+20px) 20px 80px}
 
     /* Top banner */
     .top-banner{position:fixed;top:0;left:0;right:0;background:var(--card);border-bottom:1px solid var(--border);color:var(--muted);font-weight:600;text-align:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;z-index:999}
     .banner-rail{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;background:#0f1420;border:1px solid rgba(40,107,255,.5);border-radius:14px;padding:8px 12px;color:#dce6ff;font-weight:600}
     .seat-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 12px;background:rgba(40,107,255,.15);border:1.5px solid rgba(40,107,255,.7);color:#ffffff;font-weight:700}
-    .bonus-badge{display:inline-block;padding:6px 10px;border:1px solid rgba(40,107,255,.5);border-radius:999px;font-size:12px;color:#cfe0ff;background:rgba(40,107,255,.12)}
 
     /* Hero */
     .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
@@ -52,25 +52,35 @@
     .num{flex:1;min-width:240px;text-align:center;padding:28px 32px;border-radius:24px;background:#0f1420;border:1.5px solid rgba(40,107,255,.42)}
     .num h2{font-size:44px;color:var(--blue);margin-bottom:8px}
 
+    /* Grid / Cards */
+    .grid{display:grid;gap:16px;margin-top:30px}
+    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .feature-card{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:24px;padding:24px}
+    .list{margin:0 0 0 20px}.list li{margin:6px 0}
+
     /* Sections */
     .section{margin-top:56px}
     .section h2{font-size:26px;margin-bottom:8px}
 
-    /* Cards */
-    .feature-card{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:24px;padding:24px}
-    .list{margin:0 0 0 20px}.list li{margin:6px 0}
+    /* Footer */
+    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center;line-height:1.7}
+    footer a{color:var(--muted);text-decoration:none}
+    footer a:hover{color:#EDEDED;text-decoration:underline}
 
-    /* Bonus cards */
-    .bonus-grid{display:grid;gap:16px;margin-top:18px}
-    @media(min-width:900px){.bonus-grid{grid-template-columns:repeat(3,1fr)}}
-    .bonus{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:20px;padding:18px}
-    .bonus h3{font-size:18px;margin:0 0 6px}
-    .bonus .desc{color:#d1d5db;font-size:15px;margin:0 0 8px}
-    .bonus .value{color:#9CA3AF;font-size:14px}
-    .bonus .free{margin-top:8px;font-weight:800;color:#fff}
-    .bonus .free .zero{color:#286bff}
-    .value-sum{margin-top:10px;color:#9CA3AF}
-    .value-sum b{color:#fff}
+    /* Legal sections (inline pages) */
+    .legal{margin-top:64px}
+    .legal h2{font-size:26px;margin:0 0 10px}
+    .legal-card{background:#0f1420;border:1px solid #1b2540;border-radius:16px;padding:20px}
+    .legal-card h3{font-family:'Noto Serif KR',serif;margin:0 0 8px;color:#fff}
+    .legal p,.legal li{color:#d1d5db;font-size:15px;margin-bottom:8px}
+    .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:#9CA3AF;font-size:12px;margin-bottom:6px}
+    .hide{display:none}
+    .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;text-align:center;cursor:pointer}
+
+    /* Price & fine print */
+    .price-tag{font-size:22px;font-weight:800;color:#fff;margin:6px 0 2px}
+    .muted{color:#9CA3AF}
+    .fineprint{color:#9CA3AF;font-size:14px;margin-top:8px}
 
     /* FAQ */
     .faq-list{display:grid;gap:12px;margin-top:10px}
@@ -81,11 +91,6 @@
     .faq[open] > summary::after{content:"×"}
     .faq .answer{color:#d1d5db;padding:0 8px 18px 8px;line-height:1.7;font-size:15px}
     .faq > summary:focus{outline:2px solid rgba(40,107,255,.8);outline-offset:4px;border-radius:10px}
-
-    /* Footer */
-    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center;line-height:1.7}
-    footer a{color:var(--muted);text-decoration:none}
-    footer a:hover{color:#EDEDED;text-decoration:underline}
 
     /* Mobile */
     @media (max-width: 640px){
@@ -105,6 +110,32 @@
       .seat-pill{ padding:4px 10px }
       section, .section { scroll-margin-top: calc(var(--banner) + 12px) }
     }
+      .wrap{ padding: calc(var(--banner) + 16px) 16px 64px }
+      h1{ font-size: clamp(28px,10vw,40px); line-height:1.2 }
+      .lead{ font-size:16px }
+      .numbers{ gap:12px }
+      .num{ min-width:unset; padding:20px; border-radius:16px }
+      .num h2{ font-size:32px }
+      .feature-card{ padding:20px; border-radius:16px }
+      .section{ margin-top:40px }
+      .btn{ padding:12px 16px; border-radius:10px }
+      .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap }
+      .seat-pill{ padding:4px 10px }
+      section, .section { scroll-margin-top: calc(var(--banner) + 12px) }
+    }
+
+    /* ===== Bonus Cards ===== */
+    .bonus-grid{display:grid;gap:16px;margin-top:18px}
+    @media(min-width:900px){.bonus-grid{grid-template-columns:repeat(3,1fr)}}
+    .bonus{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:20px;padding:18px}
+    .bonus h3{font-size:18px;margin:0 0 6px}
+    .bonus .desc{color:#d1d5db;font-size:15px;margin:0 0 8px}
+    .bonus .value{color:#9CA3AF;font-size:14px}
+    .bonus .free{margin-top:8px;font-weight:800;color:#fff}
+    .bonus .free .zero{color:#286bff}
+    .bonus-badge{display:inline-block;padding:6px 10px;border:1px solid rgba(40,107,255,.5);border-radius:999px;font-size:12px;color:#cfe0ff;background:rgba(40,107,255,.12)}
+    .value-sum{margin-top:10px;color:#9CA3AF}
+    .value-sum b{color:#fff}
   </style>
 </head>
 <body>
@@ -127,14 +158,26 @@
       <span class="highlight">72h First-Win</span><br/>
       <span class="line2">Execution Sprint</span>
     </h1>
+
     <p class="lead">
       <b>72시간 첫 성과.</b> <b>7일 집중 실행.</b><br/>
       매일 오전 9시, <b>Proof 리포트</b>로 결과를 확인합니다.<br/>
     </p>
 
     <div class="cta">
-      <a class="btn primary" href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link" target="_blank" rel="noopener">샘플 1장 보기</a>
-      <a class="btn ghost" href="https://forms.gle/zz9LrbX1HAVB5qS5A" target="_blank" rel="noopener">코호트 신청</a>
+      <a class="btn primary"
+         href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link"
+         target="_blank" rel="noopener"
+         onclick="gtag('event','click',{event_category:'CTA',event_label:'sample_pdf_hero'});">
+        샘플 1장 보기
+      </a>
+
+      <a class="btn ghost"
+         href="https://forms.gle/zz9LrbX1HAVB5qS5A"
+         target="_blank" rel="noopener"
+         onclick="gtag('event','click',{event_category:'CTA',event_label:'apply_hero'});">
+        코호트 신청
+      </a>
     </div>
 
     <!-- Numbers -->
@@ -143,71 +186,6 @@
       <div class="num"><h2>7일</h2><p>집중 실행</p></div>
       <div class="num"><h2>Proof</h2><p>매일 09:00 리포트</p></div>
     </div>
-
-    <!-- Pricing -->
-    <section id="pricing" class="section">
-      <h2>가격</h2>
-      <div class="feature-card">
-        <h3>7일 집중 프로그램</h3>
-        <p class="price-tag">₩ 4,150,000 (VAT 포함)</p>
-        <p class="muted">Proof 기반 실행 · 매일 09:00 리포트</p>
-        <ul class="list">
-          <li>D7 Mini-Feedback 1회</li>
-          <li>익명 벤치마크 차트 1장</li>
-          <li>72h 실행 카드팩</li>
-        </ul>
-        <p class="fineprint">* 결제 시 <b>즉시 서비스 개시</b>에 동의하며, 납품 전 전액 환불 가능.</p>
-        <p class="fineprint">* <b>D1 이후 환불 불가</b>(조건 충족 시 <b>+7일 크레딧</b> 제공, <b>유효기간 90일·양도 불가</b>). <a href="#refund">조건 보기</a></p>
-        <div class="cta">
-          <a class="btn primary" href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link" target="_blank" rel="noopener">샘플 1장 보기</a>
-          <a class="btn ghost" href="https://forms.gle/zz9LrbX1HAVB5qS5A" target="_blank" rel="noopener">코호트 신청</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <h2>FAQ — 자주 묻는 질문</h2>
-      <div class="faq-list">
-        <details class="faq">
-          <summary>1. Proof Report는 어떤 형식인가요?</summary>
-          <div class="answer">
-            7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.<br/>
-            입력하신 실제 주제를 기준으로 멘토 알고리즘을 시뮬레이션한 결과물입니다.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>2. 실제 상담이나 코칭이 포함되나요?</summary>
-          <div class="answer">
-            아니요. BOOKZAP은 ‘조언’이 아닌 ‘결과물 납품’ 모델입니다. 멘토의 사고 프레임이 자동화되어 리포트로 전달됩니다.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
-          <div class="answer">
-            모든 데이터는 암호화된 클라우드에서 처리되며, 필요 시 Notion/Make 등 협력 도구가 사용됩니다. 국외 클라우드 이용 또는 국외 이전이 필요한 경우, 이전 항목·국가·보유기간 등을 사전에 고지합니다. 목적 달성 또는 법정기간 만료 시 지체없이 파기되며, 열람·정정·삭제를 요청할 수 있습니다.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>4. 프로그램 중단이나 실패 시 어떻게 되나요?</summary>
-          <div class="answer">
-            D1 이후 환불은 불가하지만, 조건 충족 시 <b>+7일 크레딧</b>이 제공됩니다(자세한 조건은 <a href="#refund">여기</a> 참조).
-          </div>
-        </details>
-        <details class="faq">
-          <summary>5. 회사 결재용 증빙이나 세금계산서 발급이 가능한가요?</summary>
-          <div class="answer">
-            네. <b>납품(제공) 완료일 기준</b>으로 세금계산서 발행이 가능합니다. 결제 후 사업자 정보와 함께 <a href="mailto:proof@bookzapstudio.com">proof@bookzapstudio.com</a>으로 요청해 주세요.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>6. 보너스는 언제, 어떻게 제공되나요?</summary>
-          <div class="answer">
-            코호트 확정 후 전용 폴더/링크에 <b>사전 로드</b> 형태로 제공됩니다. 본 혜택은 <b>2025-10-27 코호트 한정</b>이며, 동일 조건은 차기 코호트에 <b>미보장</b>입니다.
-          </div>
-        </details>
-      </div>
-    </section>
 
    <!-- Cohort-only Bonus -->
 <section id="bonus" class="section">
@@ -249,36 +227,197 @@
   </p>
 </section>
 
-    <!-- Refund / Credit Policy (anchor target) -->
-    <section id="refund" class="section">
-      <h2>환불·크레딧 정책</h2>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section">
+      <h2>가격</h2>
       <div class="feature-card">
-        <p class="fineprint">* 결제 시 <b>즉시 서비스 개시</b>에 동의하며, 납품 전 전액 환불 가능합니다.</p>
-        <p class="fineprint">* <b>D1 이후 환불 불가</b>. 단, 아래 조건을 모두 충족한 경우 <b>+7일 크레딧</b>을 제공합니다 (유효기간 90일·양도 불가).</p>
-        <ul class="list" style="margin-top:6px;">
-          <li>D1~D7 과제 제출 및 마감 준수</li>
-          <li>피드백 회신 1회 이상 완료</li>
-          <li>최소 3일간 리포트 수신 확인(Proof Log 기준)</li>
+        <h3>7일 집중 프로그램</h3>
+        <p class="price-tag">₩ 4,150,000 (VAT 포함)</p>
+        <p class="muted">Proof 기반 실행 · 매일 09:00 리포트</p>
+        <ul class="list">
+          <li>D7 Mini-Feedback 1회</li>
+          <li>익명 벤치마크 차트 1장</li>
+          <li>72h 실행 카드팩</li>
         </ul>
+        <p class="fineprint">* 결제 시 <b>즉시 서비스 개시</b>에 동의하며, 납품 전 전액 환불 가능.</p>
+        <p class="fineprint">* <b>D1 이후 환불 불가</b>(조건 충족 시 <b>+7일 크레딧</b> 제공, <b>유효기간 90일·양도 불가</b>). <a href="#faq-refund">자세한 조건 보기</a></p>
+        <div class="cta">
+          <a class="btn primary"
+             href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             onclick="gtag('event','click',{event_category:'CTA',event_label:'sample_pdf_pricing'});">
+            샘플 1장 보기
+          </a>
+
+          <a class="btn ghost"
+             href="https://forms.gle/zz9LrbX1HAVB5qS5A"
+             target="_blank" rel="noopener"
+             onclick="gtag('event','click',{event_category:'CTA',event_label:'apply_pricing'});">
+            코호트 신청
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Value Justification -->
+    <section class="section">
+      <h2>왜 415만 원인가?</h2>
+      <div class="grid">
+        <div class="feature-card">
+          <h3>1. 시간을 단축합니다.</h3>
+          <p>보통 6개월 걸리는 의사결정 실험을 7일 안에 Proof로 확인합니다.</p>
+        </div>
+        <div class="feature-card">
+          <h3>2. 결과를 납품합니다.</h3>
+          <p>강의·상담이 아니라 ‘Proof Report’라는 실제 결과물이 매일 납품됩니다.</p>
+        </div>
+        <div class="feature-card">
+          <h3>3. 불확실성을 줄입니다.</h3>
+          <p>모호함을 숫자·논리로 정리해, 다음 행동이 선명해집니다.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:10px;">결국, 415만 원은 ‘확신과 시간’을 사는 금액입니다.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <h2>FAQ — 자주 묻는 질문</h2>
+      <div class="faq-list">
+        <details class="faq">
+          <summary>1. Proof Report는 어떤 형식인가요?</summary>
+          <div class="answer">
+            7일 동안 매일 09:00에 이메일로 납품되는 PDF 리포트입니다.<br/>
+            각 리포트는 입력하신 실제 주제를 기준으로 멘토 알고리즘을 시뮬레이션한 결과물입니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>2. 실제 상담이나 코칭이 포함되나요?</summary>
+          <div class="answer">
+            아니요. BOOKZAP은 ‘조언’이 아닌 ‘결과물 납품’ 모델입니다.<br/>
+            멘토의 사고 프레임이 자동화되어 Proof Report로 전달됩니다.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
+          <div class="answer">
+            모든 데이터는 암호화된 클라우드에서 처리되며, 필요 시 Notion/Make 등 협력 도구가 사용됩니다.<br/>
+            <b>국외 클라우드 이용 또는 국외 이전이 필요한 경우</b>, 이전 항목·국가·보유기간 등을 사전에 고지합니다.<br/>
+            목적 달성 또는 법정기간 만료 시 지체없이 파기되며, 열람·정정·삭제를 요청할 수 있습니다.
+          </div>
+        </details>
+        <details id="faq-refund" class="faq">
+          <summary>4. 환불·크레딧 정책은 어떻게 되나요?</summary>
+          <div class="answer">
+            D1 이후 환불은 불가합니다. 다만 <b>아래 조건을 모두 충족</b>한 경우 <b>+7일 크레딧</b>을 제공합니다(유효기간 90일·양도 불가).
+            <ul class="list" style="margin-top:6px;">
+              <li>D1~D7 과제 제출 및 마감 준수</li>
+              <li>피드백 회신 1회 이상 완료</li>
+              <li>최소 3일간 리포트 수신 확인(Proof Log 기준)</li>
+            </ul>
+          </div>
+        </details>
+        <details class="faq">
+          <summary>5. 회사 결재용 증빙이나 세금계산서 발급이 가능한가요?</summary>
+          <div class="answer">
+            네. <b>납품(제공) 완료일 기준</b>으로 세금계산서 발행이 가능합니다.<br/>
+            결제 후 사업자 정보와 함께 <a href="mailto:proof@bookzapstudio.com">proof@bookzapstudio.com</a>으로 요청해 주세요.
+          </div>
+        </details>
+        <details class="faq">
+          <summary>6. 보너스는 언제, 어떻게 제공되나요?</summary>
+          <div class="answer">
+            코호트 확정 후, 전용 폴더/링크에 <b>사전 로드</b> 형태로 제공됩니다. 바로 사용하실 수 있습니다.<br/>
+            본 혜택은 <b>2025-10-27 코호트에 한정</b>되며, 동일 조건은 차기 코호트에 <b>미보장</b>입니다.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- LEGAL: Terms -->
+    <section id="tos" class="legal hide">
+      <span class="pill">이용약관 v1.1</span>
+      <h2>이용약관</h2>
+      <div class="legal-card">
+        <h3>1. 서비스 안내</h3>
+        <p>BOOKZAP(북잽)은 7일 동안 매일 Proof 리포트를 제공합니다. 이 리포트는 더 좋은 결정을 돕는 참고 자료입니다.</p>
+        <h3>2. 이용자 책임</h3>
+        <p>과제 제출과 정보 입력은 정해진 시간 안에 정확히 진행합니다. 타인 명의 사용·허위 정보는 금지입니다.</p>
+        <h3>3. 제공 방식</h3>
+        <p>Day1~Day7, 매일 09:00(KST)에 이메일로 전달됩니다.</p>
+        <h3>4. 결제/환불</h3>
+        <p>결제 시 <b>즉시 서비스 개시</b>에 동의한 것으로 보며, 납품 전 전액 환불됩니다. D1 이후 환불은 불가합니다.</p>
+        <h3>5. 크레딧</h3>
+        <p>조건 충족 시 <b>+7일 크레딧</b>을 제공합니다(유효기간 <b>90일</b>, <b>양도 불가</b>).</p>
+        <h3>6. 저작권·면책</h3>
+        <p>리포트·템플릿의 저작권은 BOOKZAP에 있으며, 개인적 활용 외 배포를 금지합니다. 리포트는 참고 자료이며 최종 결정·결과는 이용자 책임입니다.</p>
+        <h3>7. 세금계산서</h3>
+        <p>세금계산서는 <b>납품(제공) 완료일 기준</b>으로 발행합니다.</p>
+      </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    </section>
+
+    <!-- LEGAL: Privacy -->
+    <section id="privacy" class="legal hide">
+      <span class="pill">개인정보처리방침 v1.1</span>
+      <h2>개인정보처리방침</h2>
+      <div class="legal-card">
+        <h3>1. 수집 항목</h3>
+        <p>이름, 이메일, 신청 내용(필수) / 연락처, 관심 분야(선택)</p>
+        <h3>2. 이용 목적</h3>
+        <p>리포트 제작·발송, 고객 응대, 서비스 품질 개선(통계·익명화)</p>
+        <h3>3. 보유 기간</h3>
+        <p>목적 달성 후 또는 법정 보관기간 종료 시 지체없이 파기</p>
+        <h3>4. 제3자 제공/위탁</h3>
+        <p>원칙적으로 제3자 제공을 하지 않습니다. 이메일/문서 전송 등 처리는 신뢰 가능한 국내외 클라우드(예: Google Workspace, Notion, Make 등)에 위탁될 수 있습니다. 국외 클라우드 이용 또는 국외 이전이 필요한 경우, 이전 항목·국가·보유기간 등을 사전에 고지합니다.</p>
+        <h3>5. 이용자 권리</h3>
+        <p>열람·정정·삭제 요청 가능. 연락처: <b>proof@bookzapstudio.com</b></p>
+      </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    </section>
+
+    <!-- LEGAL: Refund -->
+    <section id="refund" class="legal hide">
+      <span class="pill">환불·보상정책 v1.1</span>
+      <h2>환불·보상정책</h2>
+      <div class="legal-card">
+        <h3>1. 전액 환불(프로그램 시작 전)</h3>
+        <p>결제 후 프로그램 시작 전(납품 전)에는 전액 환불됩니다.</p>
+        <h3>2. 프로그램 시작 후(D1~)</h3>
+        <p>D1 이후에는 환불이 불가합니다. 대신 조건 충족 시 <b>+7일 크레딧</b>을 제공합니다(유효 90일·양도 불가).</p>
+        <ul class="list">
+          <li>제출물 마감 준수</li>
+          <li>과제 성실 수행</li>
+          <li>피드백 회신 완료</li>
+        </ul>
+        <h3>3. 신청 방법(메일 제목 포맷)</h3>
+        <p>결제 이메일 계정으로 <b>proof@bookzapstudio.com</b>에 요청해 주세요.<br/>
+        제목 예시: <b>[환불/크레딧 요청] 성명/결제일자/코호트명(/서비스명)</b></p>
+        <h3>4. 처리 SLA</h3>
+        <p>영업일 기준 <b>24시간 이내 1차 회신</b>합니다(최종 처리까지 추가 확인이 필요할 수 있음).</p>
+      </div>
+      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    </section>
+
     <footer>
       <div>@ BOOKZAP(북잽)</div>
       <div class="footer-meta">
         상호: BOOKZAP(북잽) | 대표: 권미현<br/>
         사업자등록번호: 157-11-03032<br/>
-        이메일: proof@bookzapstudio.com (영업일 <b>24h 이내 1차 응답</b>)<br/><br/>
+        이메일: proof@bookzapstudio.com (영업일 <b>24h 이내 1차 응답</b>)<br/>
+        <br/>
         본 페이지는 실제 결과를 보장하지 않으며, 개인별 결과는 다를 수 있습니다.
       </div>
       <div class="footer-links">
-        <a href="#refund">환불·크레딧 정책</a>
+        <a href="#" onclick="return openLegal('tos')">이용약관</a>
+        · <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a>
+        · <a href="#" onclick="return openLegal('refund')">환불·보상정책</a>
       </div>
     </footer>
-  </div>
+  </div> <!-- /.wrap -->
 
   <script>
+    // D-Day badge
     (function(){
       const EVENT_AT = new Date('2025-10-27T09:00:00+09:00');
       const el = document.getElementById('dday');
@@ -287,6 +426,19 @@
       const days = Math.max(0, Math.ceil((EVENT_AT - now) / 86400000));
       el.textContent = 'D-' + days;
     })();
+
+    // Inline legal open/close
+    function openLegal(id){
+      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
+      const el=document.getElementById(id);
+      if(el){el.classList.remove('hide');el.scrollIntoView({behavior:'smooth'});} 
+      return false;
+    }
+    function closeLegal(){
+      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
+      window.scrollTo({top:0,behavior:'smooth'});
+      return false;
+    }
   </script>
 </body>
 </html>
