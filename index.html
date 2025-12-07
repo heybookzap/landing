@@ -1,445 +1,1522 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>BOOKZAP — 72h First-Win Execution Sprint</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imposter Break OS - 8주로 가짜증후군 극복하기</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JL7NY9BB9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
-    gtag('js', new Date());
-    gtag('config', 'G-9JL7NY9BB9', { anonymize_ip: true });
-  </script>
+        body {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet"/>
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #286bff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
 
-  <!-- OG -->
-  <meta property="og:title" content="72h First-Win — Execution Sprint"/>
-  <meta property="og:description" content="7일 집중 · 매일 09:00 ZAP Report"/>
-  <meta property="og:image" content="https://heybookzap.github.io/landing/og.jpg"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(40, 107, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
 
-  <style>
-    :root{--bg:#0B0B0B;--card:#111318;--text:#EDEDED;--muted:#9CA3AF;--border:#1F2937;--blue:#286bff;--banner:72px}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all}
-    h1,h2,h3{margin:0;font-family:'Noto Serif KR',serif}
-    a{text-decoration:none;color:inherit}
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #286bff, #8a2be2);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
 
-    .wrap{max-width:1080px;margin:0 auto;padding:calc(var(--banner)+20px) 20px 80px}
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
 
-    /* Top banner */
-    .top-banner{position:fixed;top:0;left:0;right:0;background:var(--card);border-bottom:1px solid var(--border);color:var(--muted);font-weight:600;text-align:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;z-index:999}
-    .banner-rail{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;background:#0f1420;border:1px solid rgba(40,107,255,.5);border-radius:14px;padding:8px 12px;color:#dce6ff;font-weight:600}
-    .seat-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 12px;background:rgba(40,107,255,.15);border:1.5px solid rgba(40,107,255,.7);color:#ffffff;font-weight:700}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
 
-    /* Hero */
-    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:#9CA3AF}
-    h1{font-size:clamp(32px,8vw,56px);margin:20px 0}
-    .lead{font-size:clamp(16px,3.8vw,18px);max-width:860px;color:#d1d5db;margin-bottom:24px;line-height:1.7}
-    .highlight{color:var(--blue);font-family:'Noto Serif KR',serif;font-weight:700}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-    .btn{padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block}
-    .btn.primary{background:var(--blue);color:#fff}
-    .btn.ghost{border:1px solid var(--blue);color:var(--blue)}
+        header {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
 
-    /* Numbers */
-    .numbers{display:flex;gap:24px;flex-wrap:wrap;margin-top:30px}
-    .num{flex:1;min-width:240px;text-align:center;padding:28px 32px;border-radius:24px;background:#0f1420;border:1.5px solid rgba(40,107,255,.42)}
-    .num h2{font-size:44px;color:var(--blue);margin-bottom:8px}
+        header.scrolled {
+            padding: 15px 0;
+            background: rgba(10, 14, 39, 0.95);
+        }
 
-    /* Grid / Cards */
-    .grid{display:grid;gap:16px;margin-top:30px}
-    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
-    .feature-card{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:24px;padding:24px}
-    .list{margin:0 0 0 20px}.list li{margin:6px 0}
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    /* Sections */
-    .section{margin-top:56px}
-    .section h2{font-size:26px;margin-bottom:8px}
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #286bff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* Footer */
-    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:#9CA3AF;font-size:13px;text-align:center;line-height:1.7}
-    footer a{color:#9CA3AF;text-decoration:none}
-    footer a:hover{color:#EDEDED;text-decoration:underline}
+        .cta-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #286bff, #4d8fff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 107, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Legal sections (inline pages) */
-    .legal{margin-top:64px}
-    .legal h2{font-size:26px;margin:0 0 10px}
-    .legal-card{background:#0f1420;border:1px solid #1b2540;border-radius:16px;padding:20px}
-    .legal-card h3{font-family:'Noto Serif KR',serif;margin:0 0 8px;color:#fff}
-    .legal p,.legal li{color:#d1d5db;font-size:15px;margin-bottom:8px}
-    .pill{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:#9CA3AF;font-size:12px;margin-bottom:6px}
-    .hide{display:none}
-    .btn.back{background:transparent;color:#fff;border:1px solid #fff;margin-top:14px;text-align:center;cursor:pointer}
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
 
-    /* Price & fine print */
-    .price-tag{font-size:22px;font-weight:800;color:#fff;margin:6px 0 2px}
-    .muted{color:#9CA3AF}
-    .fineprint{color:#9CA3AF;font-size:14px;margin-top:8px}
+        .cta-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
 
-    /* FAQ */
-    .faq-list{display:grid;gap:12px;margin-top:10px}
-    .faq{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:16px;padding:0 16px}
-    .faq > summary{list-style:none;cursor:pointer;padding:18px 8px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:space-between}
-    .faq > summary::-webkit-details-marker{display:none}
-    .faq > summary::after{content:"+";font-weight:900;transition:transform .2s ease;opacity:.9}
-    .faq[open] > summary::after{content:"×"}
-    .faq .answer{color:#d1d5db;padding:0 8px 18px 8px;line-height:1.7;font-size:15px}
-    .faq > summary:focus{outline:2px solid rgba(40,107,255,.8);outline-offset:4px;border-radius:10px}
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(40, 107, 255, 0.6);
+        }
 
-    /* Mobile */
-    @media (max-width: 640px){
-      :root{ --banner:56px }
-      .wrap{ padding: calc(var(--banner) + 16px) 16px 64px }
-      h1{ font-size: clamp(28px,10vw,40px); line-height:1.25 }
-      .lead{ font-size:17px; line-height:1.8 }
-      .numbers{ gap:12px }
-      .num{ min-width:unset; padding:20px; border-radius:16px }
-      .num h2{ font-size:32px }
-      .feature-card{ padding:20px; border-radius:16px }
-      .section{ margin-top:40px }
-      .btn{ padding:12px 16px; border-radius:12px; min-height:48px }
-      .faq > summary{ font-size:16px }
-      .faq .answer{ font-size:15px; line-height:1.8 }
-      .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap }
-      .seat-pill{ padding:4px 10px }
-      section, .section { scroll-margin-top: calc(var(--banner) + 12px) }
-    }
-      .wrap{ padding: calc(var(--banner) + 16px) 16px 64px }
-      h1{ font-size: clamp(28px,10vw,40px); line-height:1.2 }
-      .lead{ font-size:16px }
-      .numbers{ gap:12px }
-      .num{ min-width:unset; padding:20px; border-radius:16px }
-      .num h2{ font-size:32px }
-      .feature-card{ padding:20px; border-radius:16px }
-      .section{ margin-top:40px }
-      .btn{ padding:12px 16px; border-radius:10px }
-      .banner-rail{ gap:8px; padding:6px 8px; flex-wrap:wrap }
-      .seat-pill{ padding:4px 10px }
-      section, .section { scroll-margin-top: calc(var(--banner) + 12px) }
-    }
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px;
+        }
 
-    /* ===== Bonus Cards ===== */
-    .bonus-grid{display:grid;gap:16px;margin-top:18px}
-    @media(min-width:900px){.bonus-grid{grid-template-columns:repeat(3,1fr)}}
-    .bonus{background:#0f1420;border:1.5px solid rgba(40,107,255,.35);border-radius:20px;padding:18px}
-    .bonus h3{font-size:18px;margin:0 0 6px}
-    .bonus .desc{color:#d1d5db;font-size:15px;margin:0 0 8px}
-    .bonus .value{color:#9CA3AF;font-size:14px}
-    .bonus .free{margin-top:8px;font-weight:800;color:#fff}
-    .bonus .free .zero{color:#286bff}
-    .bonus-badge{display:inline-block;padding:6px 10px;border:1px solid rgba(40,107,255,.5);border-radius:999px;font-size:12px;color:#cfe0ff;background:rgba(40,107,255,.12)}
-    .value-sum{margin-top:10px;color:#9CA3AF}
-    .value-sum b{color:#fff}
-  </style>
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff, #286bff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            animation: gradientShift 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .typing-text {
+            display: inline-block;
+            border-right: 3px solid #286bff;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: #286bff; }
+            51%, 100% { border-color: transparent; }
+        }
+
+        /* Stats */
+        .stats {
+            padding: 100px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            background: rgba(40, 107, 255, 0.1);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(40, 107, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #286bff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 80px;
+            font-weight: 900;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(40, 107, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .benefit-card:hover::before {
+            left: 100%;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-15px);
+            border-color: #286bff;
+            box-shadow: 0 25px 70px rgba(40, 107, 255, 0.4);
+        }
+
+        .benefit-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .benefit-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #286bff;
+        }
+
+        .benefit-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            transition: all 0.5s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-10px);
+            border-color: #286bff;
+            box-shadow: 0 20px 60px rgba(40, 107, 255, 0.3);
+        }
+
+        .problem-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .problem-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .solution {
+            background: rgba(40, 107, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #286bff;
+        }
+
+        .solution-arrow {
+            font-size: 2rem;
+            color: #286bff;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .solution-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 100px 0;
+        }
+
+        .story-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            border-color: #286bff;
+            transform: translateX(10px);
+        }
+
+        .story-time {
+            display: inline-block;
+            background: linear-gradient(135deg, #286bff, #8a2be2);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .story-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .story-arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: #286bff;
+            margin: 10px 0;
+        }
+
+        .story-conclusion {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(40, 107, 255, 0.1);
+            border-radius: 20px;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Trust Section */
+        .trust {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .trust-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .trust-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .trust-card:hover {
+            transform: translateY(-10px);
+            border-color: #286bff;
+        }
+
+        .trust-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .trust-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #286bff;
+        }
+
+        .trust-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .trust-statement {
+            background: rgba(40, 107, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #286bff;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .trust-statement p {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .trust-highlight {
+            font-size: 1.4rem !important;
+            font-weight: 700 !important;
+            color: #286bff !important;
+            margin-top: 25px !important;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            border-color: #286bff;
+            box-shadow: 0 20px 60px rgba(40, 107, 255, 0.3);
+        }
+
+        .testimonial-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #286bff, #8a2be2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .testimonial-content p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-highlight {
+            background: rgba(40, 107, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #286bff;
+            font-weight: 600;
+        }
+
+        /* Phases */
+        .phases {
+            padding: 100px 0;
+        }
+
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(40, 107, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .phase-card:hover::before {
+            left: 100%;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            border-color: #286bff;
+            box-shadow: 0 25px 70px rgba(40, 107, 255, 0.4);
+        }
+
+        .phase-emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .phase-card:hover .phase-emoji {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .phase-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #286bff;
+        }
+
+        .phase-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .phase-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .phase-card.active .phase-detail {
+            max-height: 500px;
+        }
+
+        /* Timeline */
+        .timeline {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 40px;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #286bff, #8a2be2);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-dot {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #286bff, #4d8fff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 30px rgba(40, 107, 255, 0.5);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2) rotate(360deg);
+            box-shadow: 0 12px 40px rgba(40, 107, 255, 0.8);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            background: rgba(40, 107, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .timeline-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #286bff;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #286bff;
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(40, 107, 255, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: #286bff;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 30px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 30px 25px 30px;
+        }
+
+        .faq-answer p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 150px 20px;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            font-weight: 900;
+        }
+
+        .final-cta p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+        }
+
+        .big-cta-btn {
+            padding: 25px 70px;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #286bff, #4d8fff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 15px 50px rgba(40, 107, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .big-cta-btn::after {
+            content: '→';
+            position: absolute;
+            right: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .big-cta-btn:hover::after {
+            right: 20px;
+        }
+
+        .big-cta-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 70px rgba(40, 107, 255, 0.8);
+        }
+
+        .float-emoji {
+            position: fixed;
+            font-size: 3rem;
+            pointer-events: none;
+            animation: float-up 4s ease-in-out infinite;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-dot {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+            }
+
+            body {
+                cursor: auto;
+            }
+
+            .cursor, .cursor-follower {
+                display: none;
+            }
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
 </head>
 <body>
-  <!-- Top banner -->
-  <div class="top-banner">
-    <div class="banner-rail">
-      <span>[코호트 알림]</span>
-      <span>다음 시작일: <b>2025.11.03 (월) 09:00 KST</b></span>
-      <span>| 정원 10명 |</span>
-      <span class="seat-pill" id="seatsTopPill">남은 좌석 10</span>
-      <span>| NDA 기본 |</span>
-      <span class="bonus-badge">이번 코호트 한정 혜택 포함</span>
-    </div>
-  </div>
+    <div class="scroll-progress"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <canvas class="bg-canvas"></canvas>
 
-  <div class="wrap">
-    <!-- Hero -->
-    <span class="badge" id="dday">D-5</span>
-    <h1>
-      <span class="highlight">72h First-Win</span><br/>
-      <span class="line2">Execution Sprint</span>
-    </h1>
+    <header id="header">
+        <nav>
+            <div class="logo">🔥 Imposter Break</div>
+            <button class="cta-btn">시작하기</button>
+        </nav>
+    </header>
 
-    <p class="lead">
-      <b>72시간 첫 성과.</b> <b>7일 집중 실행.</b><br/>
-      매일 오전 9시, <b>ZAP Report</b>로 결과를 확인합니다.<br/>
-    </p>
-
-    <div class="cta">
-      <a class="btn primary"
-         href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link"
-         target="_blank" rel="noopener"
-         onclick="gtag('event','click',{event_category:'CTA',event_label:'sample_pdf_hero'});">
-        샘플 1장 보기
-      </a>
-
-      <a class="btn ghost"
-         href="https://forms.gle/zz9LrbX1HAVB5qS5A"
-         target="_blank" rel="noopener"
-         onclick="gtag('event','click',{event_category:'CTA',event_label:'apply_hero'});">
-        코호트 신청
-      </a>
-    </div>
-
-    <!-- Numbers -->
-    <div class="numbers">
-      <div class="num"><h2>72h</h2><p>첫 성과</p></div>
-      <div class="num"><h2>7일</h2><p>집중 실행</p></div>
-      <div class="num"><h2>ZAP System</h2><p>매일 09:00 ZAP Report</p></div>
-    </div>
-
-  <!-- Cohort-only Bonus -->
-<section id="bonus" class="section">
-  <h2>이번 코호트(2025.11.03 시작) 한정 혜택</h2>
-  <p class="muted">이번 코호트 참여자에게만 제공되는 <b>실행 보너스 세트</b>입니다.</p>
-
-  <div class="bonus-grid" style="display:grid;gap:18px;margin-top:20px;">
-    <div class="feature-card" style="border:1.5px solid rgba(40,107,255,.45);border-radius:18px;padding:22px;background:#0f1420;">
-      <h3 style="margin:0 0 6px 0;">① 72h Execution Card</h3>
-      <p class="desc" style="margin:0 0 4px 0;color:#d1d5db;">즉시 실행 루틴 세트</p>
-      <p class="muted" style="margin:0;color:#9CA3AF;font-size:15px;">정가 ₩190,000</p>
-      <p class="free" style="margin:4px 0 0 0;color:#286bff;font-weight:700;">이번 코호트 제공가 ₩0</p>
-    </div>
-
-    <div class="feature-card" style="border:1.5px solid rgba(40,107,255,.45);border-radius:18px;padding:22px;background:#0f1420;">
-      <h3 style="margin:0 0 6px 0;">② Mentor Board Sampler</h3>
-      <p class="desc" style="margin:0 0 4px 0;color:#d1d5db;">멘토 사고 그래프 3종</p>
-      <p class="muted" style="margin:0;color:#9CA3AF;font-size:15px;">정가 ₩260,000</p>
-      <p class="free" style="margin:4px 0 0 0;color:#286bff;font-weight:700;">이번 코호트 제공가 ₩0</p>
-    </div>
-
-    <div class="feature-card" style="border:1.5px solid rgba(40,107,255,.45);border-radius:18px;padding:22px;background:#0f1420;">
-      <h3 style="margin:0 0 6px 0;">③ ZAP Log Sheet</h3>
-      <p class="desc" style="margin:0 0 4px 0;color:#d1d5db;">일일 실행 기록지</p>
-      <p class="muted" style="margin:0;color:#9CA3AF;font-size:15px;">정가 ₩120,000</p>
-      <p class="free" style="margin:4px 0 0 0;color:#286bff;font-weight:700;">이번 코호트 제공가 ₩0</p>
-    </div>
-  </div>
-
-  <p class="value-sum">
-    정가 합계 <b>₩570,000</b> → 이번 코호트에 한해 <b>추가 비용 없음</b>.
-  </p>
-
-  <p class="fineprint">
-    * 본 혜택은 <b>2025-11-03</b> 시작 코호트에만 적용됩니다. 좌석·제휴 수량 소진 시 조기 종료될 수 있으며,
-      차기 코호트에서 동일 조건이 <b>제공되지 않을 수 있습니다</b>.<br/>
-    * 본 보너스는 정보 제공 및 실행 보조용이며, <b>개인별 결과는 다를 수 있습니다</b>.
-      금전적 이익을 단정하지 않습니다.
-  </p>
-</section>
-
-
-    <!-- Pricing -->
-    <section id="pricing" class="section">
-      <h2>가격</h2>
-      <div class="feature-card">
-        <h2>7일 집중 프로그램</h2>
-        <p class="price-tag">₩ 4,000,000 (VAT 포함)</p>
-        <p class="muted">ZAP System 기반 실행 · 매일 09:00 ZAP Report</p>
-        <ul class="list">
-          <li>D7 Mini-Feedback 1회</li>
-          <li>익명 벤치마크 차트 1장</li>
-          <li>72h 실행 카드팩</li>
-        </ul>
-      </p>
-        <p class="fineprint">* 결제 시 <b>즉시 서비스 개시</b>에 동의하며, 납품 전 전액 환불 가능.</p>
-        <p class="fineprint">* <b>D1 이후 환불 불가</b>(조건 충족 시 <b>+7일 크레딧</b> 제공, <b>유효기간 90일·양도 불가</b>). <a href="#faq-refund">자세한 조건 보기</a></p>
-        <div class="cta">
-          <a class="btn primary"
-             href="https://drive.google.com/file/d/1jt1qTLdjWILfIDwcKLCXv3RRdji5JjZZ/view?usp=drive_link"
-             target="_blank" rel="noopener"
-             onclick="gtag('event','click',{event_category:'CTA',event_label:'sample_pdf_pricing'});">
-            샘플 1장 보기
-          </a>
-
-          <a class="btn ghost"
-             href="https://forms.gle/zz9LrbX1HAVB5qS5A"
-             target="_blank" rel="noopener"
-             onclick="gtag('event','click',{event_category:'CTA',event_label:'apply_pricing'});">
-            코호트 신청
-          </a>
+    <section class="hero">
+        <div class="container">
+            <h1>더 이상 "나는 가짜"라고<br>생각하지 마세요</h1>
+            <p class="hero-subtitle">
+                <span class="typing-text">증거로 증명하는 진짜 나</span>
+            </p>
+            <p class="hero-description">
+                끝없는 자기계발에 지쳤나요?<br>
+                8주면 충분합니다. 증거가 쌓이고, 정체성이 바뀝니다.
+            </p>
+            <button class="cta-btn" style="padding: 18px 50px; font-size: 1.2rem;">지금 시작하기</button>
         </div>
-      </div>
     </section>
 
-    <!-- Value Justification -->
-    <section class="section">
-      <h2>왜 400만 원인가?</h2>
-      <div class="grid">
-        <div class="feature-card">
-          <h3>1. 시간을 단축합니다.</h3>
-          <p>보통 6개월 걸리는 의사결정 실험을 7일 안에 <b>ZAP Report(PDF)</b>로 확인합니다.</p>
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="8">0</div>
+                    <div class="stat-label">주만 투자</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="4">0</div>
+                    <div class="stat-label">단계 시스템</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="1">0</div>
+                    <div class="stat-label">완성된 나</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">% 변화</div>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-          <h3>2. 결과를 제공합니다.</h3>
-          <p>강의·라이브 세션이 아니라</br>‘<b>ZAP Report(PDF)</b>’라는 실제 결과물이</br>매일 전달됩니다.</p>
+    </section>
+
+    <section class="problems">
+        <div class="container">
+            <h2 class="section-title">이런 고민, 당신만의 것이 아닙니다</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">😰</div>
+                    <h3 class="problem-title">성과를 내도 불안한 마음</h3>
+                    <p class="problem-desc">"이번엔 운이 좋았을 뿐, 다음엔 들킬 거야"</p>
+                    <div class="solution">
+                        <div class="solution-arrow">→</div>
+                        <p class="solution-text"><strong>Micro-Proof 시스템으로</strong> 작은 성공들을 증거로 기록합니다. 운이 아닌 실력임을 데이터로 증명합니다.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-icon">🔄</div>
+                    <h3 class="problem-title">끝없는 자기계발 루프</h3>
+                    <p class="problem-desc">"더 배워야 해, 아직 부족해" 하지만 결국 변하는 건 없다</p>
+                    <div class="solution">
+                        <div class="solution-arrow">→</div>
+                        <p class="solution-text"><strong>Detox 단계에서</strong> 불필요한 것들을 정리합니다. 더 많이가 아니라 제대로 된 시스템이 답입니다.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-icon">😔</div>
+                    <h3 class="problem-title">나를 믿지 못하는 순간들</h3>
+                    <p class="problem-desc">중요한 결정 앞에서 자꾸 주저하게 된다</p>
+                    <div class="solution">
+                        <div class="solution-arrow">→</div>
+                        <p class="solution-text"><strong>Identity OS로</strong> 나만의 정체성 시스템을 설치합니다. 흔들릴 때마다 돌아갈 기준점이 생깁니다.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-          <h3>3. 불확실성을 줄입니다.</h3>
-          <p>모호함을 숫자·논리로 정리해,<br/>다음 행동이 선명해집니다.</p>
+    </section>
+
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">받게 될 핵심 혜택</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📋</div>
+                    <div class="benefit-title">완성된 정체성 시스템</div>
+                    <div class="benefit-desc">
+                        나만의 Identity OS 패키지로 1년이 바뀝니다
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-title">증거 기반 자신감</div>
+                    <div class="benefit-desc">
+                        10-20개의 실제 증거로 나는 진짜임을 증명합니다
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">12개월 실행 로드맵</div>
+                    <div class="benefit-desc">
+                        앞으로 1년간 흔들리지 않는 행동 시스템
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <p class="muted" style="margin-top:10px;">결국, 400만 원은 ‘확신과 시간’을 사는 금액입니다.</p>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <h2>FAQ — 자주 묻는 질문</h2>
-      <div class="faq-list">
-        <details class="faq">
-          <summary>1. ZAP Report는 어떤 형식인가요?</summary>
-          <div class="answer">
-            7일 동안 매일 09:00에 이메일로 전달되는 <b>PDF 결과물</b>입니다.<br/>
-            각 결과물은 입력하신 실제 주제를 기준으로 멘토 프레임을 시뮬레이션한 산출물입니다.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>2. 실시간 인터뷰나 1:1 세션이 포함되나요?</summary>
-          <div class="answer">
-            아니요. BOOKZAP은 ‘조언’이 아닌 ‘결과물 제공’ 모델입니다.<br/>
-            멘토의 사고 프레임이 자동화되어 <b>ZAP Report(PDF)</b>로 전달됩니다.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>3. 내 정보와 입력 데이터는 안전한가요?</summary>
-          <div class="answer">
-            모든 데이터는 암호화된 클라우드에서 처리되며, 필요 시 Notion/Make 등 협력 도구가 사용됩니다.<br/>
-            <b>국외 클라우드 이용 또는 국외 이전이 필요한 경우</b>, 이전 항목·국가·보유기간 등을 사전에 고지합니다.<br/>
-            목적 달성 또는 법정기간 만료 시 지체없이 파기되며, 열람·정정·삭제를 요청할 수 있습니다.
-          </div>
-        </details>
-        <details id="faq-refund" class="faq">
-          <summary>4. 환불·크레딧 정책은 어떻게 되나요?</summary>
-          <div class="answer">
-            D1 이후 환불은 불가합니다. 다만 <b>아래 조건을 모두 충족</b>한 경우 <b>+7일 크레딧</b>을 제공합니다(유효기간 90일·양도 불가).
-            <ul class="list" style="margin-top:6px;">
-              <li>D1~D7 과제 제출 및 마감 준수</li>
-              <li>피드백 회신 1회 이상 완료</li>
-              <li>최소 3일간 결과물 수신 확인(<b>ZAP Log</b> 기준)</li>
-            </ul>
-          </div>
-        </details>
-        <details class="faq">
-          <summary>5. 회사 결재용 증빙이나 세금계산서 발급이 가능한가요?</summary>
-          <div class="answer">
-            네. <b>제공(납품) 완료일 기준</b>으로 세금계산서 발행이 가능합니다.<br/>
-            결제 후 사업자 정보와 함께 <a href="mailto:proof@bookzapstudio.com">proof@bookzapstudio.com</a>으로 요청해 주세요.
-          </div>
-        </details>
-        <details class="faq">
-          <summary>6. 보너스는 언제, 어떻게 제공되나요?</summary>
-          <div class="answer">
-            코호트 확정 후, 전용 폴더/링크에 <b>사전 로드</b> 형태로 제공됩니다. 바로 사용하실 수 있습니다.<br/>
-            본 혜택은 <b>2025-11-03 코호트에 한정</b>되며, 동일 조건은 차기 코호트에 <b>동일하게 제공되지 않을 수 있습니다</b>.
-          </div>
-        </details>
-      </div>
+    <section class="story">
+        <div class="container">
+            <h2 class="section-title">8주 후, 당신의 하루</h2>
+            <div class="story-content">
+                <div class="story-card">
+                    <div class="story-time">아침 7시</div>
+                    <p>눈을 뜨자마자 불안이 아닌 <strong>증거 10개가 담긴 Proof Deck</strong>이 떠오릅니다. "나는 이걸 해냈어"라는 사실들이 머릿속을 채웁니다.</p>
+                </div>
+                <div class="story-arrow">↓</div>
+                <div class="story-card">
+                    <div class="story-time">오전 10시</div>
+                    <p>중요한 회의에서 의견을 말할 때, <strong>Identity Summary 1페이지</strong>가 자연스럽게 떠오릅니다. "나는 이런 사람이야"라는 정체성이 명확합니다.</p>
+                </div>
+                <div class="story-arrow">↓</div>
+                <div class="story-card">
+                    <div class="story-time">오후 3시</div>
+                    <p>갑자기 불안이 찾아와도 괜찮습니다. <strong>위기 대응 스크립트</strong>를 열어 3분 만에 중심을 되찾습니다. 시스템이 나를 지켜줍니다.</p>
+                </div>
+                <div class="story-arrow">↓</div>
+                <div class="story-card">
+                    <div class="story-time">저녁 9시</div>
+                    <p>하루 10분, <strong>Minimal Routine</strong>으로 오늘의 작은 증거 하나를 기록합니다. 매일 조금씩 진짜가 되어갑니다.</p>
+                </div>
+            </div>
+            <p class="story-conclusion">
+                더 이상 "나는 가짜인가?"라는 질문이 아닙니다.<br>
+                <strong>"나는 누구인가?"</strong>라는 확신으로 살아갑니다.
+            </p>
+        </div>
     </section>
 
-    <!-- LEGAL: Terms -->
-    <section id="tos" class="legal hide">
-      <span class="pill">이용약관 v1.1</span>
-      <h2>이용약관</h2>
-      <div class="legal-card">
-        <h3>1. 서비스 안내</h3>
-        <p>BOOKZAP(북잽)은 7일 동안 매일 <b>ZAP Report(PDF)</b>를 제공합니다. 이 자료는 더 좋은 결정을 돕는 참고 정보입니다.</p>
-        <h3>2. 이용자 책임</h3>
-        <p>과제 제출과 정보 입력은 정해진 시간 안에 정확히 진행합니다. 타인 명의 사용·허위 정보는 금지입니다.</p>
-        <h3>3. 제공 방식</h3>
-        <p>Day1~Day7, 매일 09:00(KST)에 이메일로 전달됩니다.</p>
-        <h3>4. 결제/환불</h3>
-        <p>결제 시 <b>즉시 서비스 개시</b>에 동의한 것으로 보며, 납품 전 전액 환불됩니다. D1 이후 환불은 불가합니다.</p>
-        <h3>5. 크레딧</h3>
-        <p>조건 충족 시 <b>+7일 크레딧</b>을 제공합니다(유효기간 <b>90일</b>, <b>양도 불가</b>).</p>
-        <h3>6. 저작권·면책</h3>
-        <p>결과물·템플릿의 저작권은 BOOKZAP에 있으며, 개인적 활용 외 배포를 금지합니다. 결과물은 참고 정보이며 최종 결정·결과는 이용자 책임입니다.</p>
-        <h3>7. 세금계산서</h3>
-        <p>세금계산서는 <b>제공(납품) 완료일 기준</b>으로 발행합니다.</p>
-      </div>
-      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    <section class="phases">
+        <div class="container">
+            <h2 class="section-title">4단계로 완성되는 진짜 나</h2>
+            <div class="phases-grid">
+                <div class="phase-card">
+                    <div class="phase-emoji">🔍</div>
+                    <div class="phase-title">찾기</div>
+                    <div class="phase-desc">
+                        언제 가짜라고 느끼는지 찾아낸다
+                    </div>
+                    <div class="phase-detail">
+                        내가 나를 혐오하는 순간들을 기록하고 패턴을 발견한다
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-emoji">🗑️</div>
+                    <div class="phase-title">버리기</div>
+                    <div class="phase-desc">
+                        쓸데없는 자기계발을 정리한다
+                    </div>
+                    <div class="phase-detail">
+                        더 많이 배우는 게 답이 아니다. 핵심만 남긴다
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-emoji">⚡</div>
+                    <div class="phase-title">증명하기</div>
+                    <div class="phase-desc">
+                        작은 행동으로 증거를 만든다
+                    </div>
+                    <div class="phase-detail">
+                        나는 진짜라는 증거를 직접 만들고 기록한다
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="phase-emoji">🎯</div>
+                    <div class="phase-title">설치하기</div>
+                    <div class="phase-desc">
+                        새로운 나를 운영체제로 만든다
+                    </div>
+                    <div class="phase-detail">
+                        이제 문제가 아니라 시스템이다. 1년이 바뀐다
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- LEGAL: Privacy -->
-    <section id="privacy" class="legal hide">
-      <span class="pill">개인정보처리방침 v1.1</span>
-      <h2>개인정보처리방침</h2>
-      <div class="legal-card">
-        <h3>1. 수집 항목</h3>
-        <p>이름, 이메일, 신청 내용(필수) / 연락처, 관심 분야(선택)</p>
-        <h3>2. 이용 목적</h3>
-        <p>결과물 제작·발송, 고객 응대, 서비스 품질 개선(통계·익명화)</p>
-        <h3>3. 보유 기간</h3>
-        <p>목적 달성 후 또는 법정 보관기간 종료 시 지체없이 파기</p>
-        <h3>4. 제3자 제공/위탁</h3>
-        <p>원칙적으로 제3자 제공을 하지 않습니다. 이메일/문서 전송 등 처리는 신뢰 가능한 국내외 클라우드(예: Google Workspace, Notion, Make 등)에</br>위탁될 수 있습니다. 국외 클라우드 이용 또는 국외 이전이 필요한 경우, 이전 항목·국가·보유기간 등을 사전에 고지합니다.</p>
-        <h3>5. 이용자 권리</h3>
-        <p>열람·정정·삭제 요청 가능. 연락처: <b>proof@bookzapstudio.com</b></p>
-      </div>
-      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    <section class="timeline">
+        <div class="container">
+            <h2 class="section-title">8주 여정</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">1주</div>
+                    <div class="timeline-content">
+                        <h4>나를 아는 시간</h4>
+                        <p>언제, 어디서 가짜라고 느끼는지 찾는다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">2주</div>
+                    <div class="timeline-content">
+                        <h4>생각 깨부수기</h4>
+                        <p>나쁜 생각들을 데이터로 반박한다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">3주</div>
+                    <div class="timeline-content">
+                        <h4>정리의 시간</h4>
+                        <p>쓸데없는 것들을 버린다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">4-5주</div>
+                    <div class="timeline-content">
+                        <h4>증거 만들기</h4>
+                        <p>작은 실험으로 진짜 나를 증명한다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">6주</div>
+                    <div class="timeline-content">
+                        <h4>정리해서 보기</h4>
+                        <p>만든 증거들을 모아서 정리한다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">7주</div>
+                    <div class="timeline-content">
+                        <h4>1년 계획 만들기</h4>
+                        <p>앞으로 어떻게 살지 설계한다</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">8주</div>
+                    <div class="timeline-content">
+                        <h4>완성!</h4>
+                        <p>새로운 나의 운영체제가 완성된다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- LEGAL: Refund -->
-    <section id="refund" class="legal hide">
-      <span class="pill">환불·크레딧정책 v1.1</span>
-      <h2>환불·크레딧정책</h2>
-      <div class="legal-card">
-        <h3>1. 전액 환불(프로그램 시작 전)</h3>
-        <p>결제 후 프로그램 시작 전(납품 전)에는 전액 환불됩니다.</p>
-        <h3>2. 프로그램 시작 후(D1~)</h3>
-        <p>D1 이후에는 환불이 불가합니다. 대신 조건 충족 시 <b>+7일 크레딧</b>을 제공합니다(유효 90일·양도 불가).</p>
-        <ul class="list">
-          <li>제출물 마감 준수</li>
-          <li>과제 성실 수행</li>
-          <li>피드백 회신 완료</li>
-        </ul>
-        <h3>3. 신청 방법(메일 제목 포맷)</h3>
-        <p>결제 이메일 계정으로 <b>proof@bookzapstudio.com</b>에 요청해 주세요.<br/>
-        제목 예시: <b>[환불/크레딧 요청] 성명/결제일자/코호트명/서비스명)</b></p>
-        <h3>4. 처리 SLA</h3>
-        <p>영업일 기준 <b>24시간 이내 1차 회신</b>합니다(최종 처리까지 추가 확인이 필요할 수 있음).</p>
-      </div>
-      <div class="btn back" onclick="return closeLegal()">닫기</div>
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">자주 묻는 질문</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>8주 동안 매일 해야 하나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>아니요! 하루 10-15분만 투자하면 됩니다. 많은 시간이 아니라 올바른 시스템이 중요합니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>정말 효과가 있나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>증거가 답입니다. 8주 동안 직접 만든 10-20개의 증거가 당신이 진짜임을 증명합니다. 감정이 아닌 데이터로 바뀝니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>혼자서도 할 수 있나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>물론입니다! Identity OS는 혼자서도 따라갈 수 있도록 설계되었습니다. AI가 자동으로 분석하고 가이드합니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>8주 후에는 어떻게 되나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>12개월 실행 로드맵과 위기 대응 시스템을 받습니다. 8주는 시작이고, 그 후 1년이 진짜 변화입니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>자기계발을 더 해야 하나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>오히려 반대입니다. 불필요한 자기계발을 덜어내고 핵심만 남깁니다. 더 배우는 게 아니라 제대로 실행하는 겁니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust">
+        <div class="container">
+            <div class="trust-content">
+                <h2 class="section-title">왜 지금 시작해야 할까요?</h2>
+                <div class="trust-grid">
+                    <div class="trust-card">
+                        <div class="trust-icon">🔬</div>
+                        <h3>과학적 방법론</h3>
+                        <p>심리학과 행동과학을 기반으로 설계된 시스템입니다. 감정이 아닌 데이터로 변화를 만듭니다.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">⚡</div>
+                        <h3>즉시 적용 가능</h3>
+                        <p>복잡한 이론이 아닙니다. 오늘부터 바로 실행할 수 있는 구체적인 단계들로 구성되어 있습니다.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">🎯</div>
+                        <h3>1년을 바꾸는 8주</h3>
+                        <p>단기 동기부여가 아닙니다. 12개월 로드맵으로 지속 가능한 변화를 만듭니다.</p>
+                    </div>
+                </div>
+                <div class="trust-statement">
+                    <p><strong>Imposter Break OS는</strong> 당신이 이미 가진 능력을 증명하는 시스템입니다.</p>
+                    <p>새로운 것을 배우는 게 아니라, 이미 해낸 것들을 증거로 만듭니다.</p>
+                    <p class="trust-highlight">💎 당신은 이미 충분합니다. 이제 그걸 증명할 시간입니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <h2>이제 질문이 바뀐다</h2>
+            <p>"나는 가짜인가?" → "나는 누구인가?"</p>
+            <button class="big-cta-btn">8주 시작하기</button>
+        </div>
     </section>
 
     <footer>
-      <div>@ BOOKZAP(북잽)</div>
-      <div class="footer-meta">
-        상호: BOOKZAP(북잽) | 대표: 권미현<br/>
-        사업자등록번호: 157-11-03032<br/>
-        이메일: proof@bookzapstudio.com (영업일 <b>24h 이내 응답</b>)<br/>
-        <br/>
-        본 페이지는 특정 결과를 단정하지 않으며, 개인별 결과는 달라질 수 있습니다.
-      </div>
-      <div class="footer-links">
-        <a href="#" onclick="return openLegal('tos')">이용약관</a>
-        · <a href="#" onclick="return openLegal('privacy')">개인정보처리방침</a>
-        · <a href="#" onclick="return openLegal('refund')">환불·크레딧정책</a>
-      </div>
+        <div class="container">
+            <p>© 2024 Imposter Break OS. 진짜 당신을 위해.</p>
+        </div>
     </footer>
-  </div> <!-- /.wrap -->
 
-  <script>
-    // D-Day badge
-    (function(){
-      const EVENT_AT = new Date('2025-11-03T09:00:00+09:00');
-      const el = document.getElementById('dday');
-      if(!el) return;
-      const now = new Date();
-      const days = Math.max(0, Math.ceil((EVENT_AT - now) / 86400000));
-      el.textContent = 'D-' + days;
-    })();
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
 
-    // Inline legal open/close
-    function openLegal(id){
-      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
-      const el=document.getElementById(id);
-      if(el){el.classList.remove('hide');el.scrollIntoView({behavior:'smooth'});} 
-      return false;
-    }
-    function closeLegal(){
-      document.querySelectorAll('.legal').forEach(s=>s.classList.add('hide'));
-      window.scrollTo({top:0,behavior:'smooth'});
-      return false;
-    }
-  </script>
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            scrollProgress.style.width = (scrolled / scrollable * 100) + '%';
+
+            const header = document.getElementById('header');
+            if (scrolled > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Animated Counter
+        const counters = document.querySelectorAll('.stat-number');
+        let counted = false;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCounter();
+            });
+        };
+
+        // Intersection Observer
+        const observerOptions = {
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    if (entry.target.closest('.stats') && !counted) {
+                        animateCounters();
+                        counted = true;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
+        document.querySelectorAll('.stat-card').forEach(card => observer.observe(card));
+
+        // Phase card interaction
+        document.querySelectorAll('.phase-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('active');
+            });
+        });
+
+        // FAQ interaction
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Canvas Background Animation
+        const canvas = document.querySelector('.bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(40, 107, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(40, 107, 255, ${0.2 - distance / 500})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Typing Animation
+        const typingText = document.querySelector('.typing-text');
+        const texts = ['증거로 증명하는 진짜 나', '8주면 충분하다', '시스템이 바꾼다'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            setTimeout(typeText, isDeleting ? 50 : 100);
+        }
+        typeText();
+
+        // Floating Emojis
+        const emojis = ['🔥', '⚡', '🎯', '✨', '🚀'];
+        setInterval(() => {
+            const emoji = document.createElement('div');
+            emoji.className = 'float-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(emoji);
+            
+            setTimeout(() => emoji.remove(), 6000);
+        }, 3000);
+
+        // Button clicks
+        document.querySelectorAll('.cta-btn, .big-cta-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.open('https://forms.gle/bsQtoHmHBsgXREqeA', '_blank');
+            });
+        });
+    </script>
 </body>
 </html>
