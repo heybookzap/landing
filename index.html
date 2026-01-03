@@ -699,55 +699,202 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .hero {
+                padding: 140px 20px 80px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.4;
+                margin-bottom: 24px;
+            }
+
+            .hero .quote {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
+            }
+
+            .hero .subtitle {
+                font-size: 1.05rem;
+                line-height: 1.7;
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                line-height: 1.4;
+                margin-bottom: 16px;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 48px;
+            }
+
             .timeline::before {
-                left: 20px;
+                left: 0;
+                display: none;
             }
 
             .timeline-card {
                 margin-left: 0;
-                padding: 36px 28px;
+                padding: 32px 24px;
             }
 
             .timeline-time {
                 position: relative;
                 left: 0;
-                margin-bottom: 20px;
+                margin-bottom: 16px;
                 display: inline-block;
+                font-size: 0.9rem;
+                padding: 8px 16px;
             }
 
             .timeline-time::after {
                 display: none;
             }
 
+            .timeline-content {
+                font-size: 1.05rem;
+                line-height: 1.8;
+            }
+
+            .timeline-item {
+                margin-bottom: 40px;
+            }
+
             .problem-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .final-cta-box {
-                padding: 60px 32px;
-            }
-
-            .trust-content {
-                padding: 48px 32px;
-            }
-
-            .nav-cta {
-                padding: 12px 28px;
-                font-size: 0.88rem;
-            }
-
-            .cta-button {
-                padding: 20px 44px;
-                font-size: 1.1rem;
-            }
-
-            .stats-grid {
                 grid-template-columns: 1fr;
                 gap: 24px;
             }
 
-            .problem-card, .faq-card {
+            .problem-card {
+                padding: 36px 28px;
+            }
+
+            .problem-title {
+                font-size: 1.3rem;
+                line-height: 1.5;
+            }
+
+            .problem-desc {
+                font-size: 1rem;
+            }
+
+            .solution-text {
+                font-size: 1rem;
+            }
+
+            .final-cta-box {
+                padding: 56px 28px;
+            }
+
+            .final-cta h2 {
+                font-size: 1.6rem;
+                line-height: 1.5;
+            }
+
+            .urgency {
+                font-size: 1.2rem;
+                margin-bottom: 36px;
+            }
+
+            .trust-content {
+                padding: 48px 28px;
+            }
+
+            .trust-quote {
+                font-size: 1.15rem;
+                line-height: 1.8;
+                margin-bottom: 28px;
+            }
+
+            .trust-features {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                margin-top: 40px;
+            }
+
+            .price-highlight {
                 padding: 32px 28px;
+                margin-top: 48px;
+            }
+
+            .price-highlight h3 {
+                font-size: 1.4rem;
+                line-height: 1.5;
+            }
+
+            .price-amount {
+                font-size: 2rem;
+            }
+
+            .nav-cta {
+                padding: 10px 24px;
+                font-size: 0.85rem;
+            }
+
+            .cta-button {
+                padding: 18px 36px;
+                font-size: 1.05rem;
+                width: 100%;
+                max-width: 100%;
+                justify-content: center;
+            }
+
+            .arrow {
+                font-size: 1.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stat-card {
+                padding: 36px 24px;
+            }
+
+            .stat-number {
+                font-size: 2.8rem;
+            }
+
+            .problem-card, .faq-card {
+                padding: 32px 24px;
+            }
+
+            .faq-question {
+                font-size: 1.15rem;
+                line-height: 1.5;
+            }
+
+            .faq-answer {
+                font-size: 1.05rem;
+                line-height: 1.8;
+            }
+
+            .faq-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .hero-badge {
+                font-size: 0.85rem;
+                padding: 8px 20px;
+                margin-bottom: 28px;
+            }
+
+            .problems, .story, .trust, .faq, .final-cta {
+                padding: 80px 20px;
+            }
+
+            .stats {
+                padding: 60px 20px;
             }
         }
 
@@ -1071,13 +1218,17 @@
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                const href = this.getAttribute('href');
+                // 외부 링크는 그대로 두고, # 링크만 처리
+                if (href && href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             });
         });
