@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Private Strategy Vault - CEO 전략 참모 서비스</title>
+    
+    <!-- Pretendard 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- OG 태그 (소셜 공유용) -->
+    <meta property="og:title" content="The Private Strategy Vault - CEO 전략 참모">
+    <meta property="og:description" content="김 팀장에게 보낼 지시사항, 복사만 하세요. 1월 프라이빗 멤버십 오픈.">
+    <meta property="og:image" content="https://your-image-url.com/og-image.jpg">
+    
     <style>
         * {
             margin: 0;
@@ -438,7 +447,7 @@
         .timeline::before {
             content: '';
             position: absolute;
-            left: 50px;
+            left: 20px;
             top: 0;
             bottom: 0;
             width: 2px;
@@ -459,14 +468,14 @@
 
         .timeline-card {
             padding: 44px 40px;
-            margin-left: 110px;
+            margin-left: 0;
             position: relative;
         }
 
         .timeline-time {
-            position: absolute;
-            left: -110px;
-            top: 44px;
+            position: relative;
+            left: 0;
+            display: inline-block;
             font-weight: 700;
             color: #286bff;
             font-size: 0.95rem;
@@ -475,19 +484,11 @@
             border-radius: 12px;
             border: 1px solid rgba(40, 107, 255, 0.3);
             white-space: nowrap;
+            margin-bottom: 20px;
         }
 
         .timeline-time::after {
-            content: '';
-            position: absolute;
-            right: -22px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 10px;
-            height: 10px;
-            background: #286bff;
-            border-radius: 50%;
-            box-shadow: 0 0 16px rgba(40, 107, 255, 0.7);
+            display: none;
         }
 
         .timeline-content {
@@ -868,4 +869,248 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-card glass">
-                        <div class="timeline-time">오전 8:30
+                        <div class="timeline-time">오전 8:30</div>
+                        <div class="timeline-content">
+                            복잡한 뉴스 검색 대신, 저희가 보내드린 <span class="timeline-highlight">'모닝 브리핑'</span>을 엽니다. 경쟁사 A가 성수동 팝업을 열었다는 소식을 봅니다. 불안해하는 대신 회심의 미소를 짓습니다. 저희가 <span class="timeline-highlight">'대응 전략'</span>까지 다 적어드렸으니까요.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-card glass">
+                        <div class="timeline-time">오전 9:00</div>
+                        <div class="timeline-content">
+                            마케팅 팀장에게 카톡을 보냅니다. "김 팀장, A사 팝업이 이슈네. 우리는 이번 주 '온라인 한정 혜택'으로 맞불 놓자. 상세페이지 문구는 이렇게 바꿔줘..." (물론, 이 멘트는 저희가 써드린 걸 <span class="timeline-highlight">복사한 겁니다.</span>)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-card glass">
+                        <div class="timeline-time">오후 2:00</div>
+                        <div class="timeline-content">
+                            팀원들이 묻습니다. "대표님, 이번 시즌 방향은 어떻게 할까요?" 당황하지 않고 <span class="timeline-highlight">[CEO 전용 비밀 페이지]</span>를 켭니다. 저희가 정리해 둔 데이터를 보여주며 명확하게 지시합니다. 팀원들은 <span class="timeline-highlight">"역시 우리 대표님은 트렌드를 꿰뚫고 있어"</span>라며 감탄합니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 80px;">
+                <div class="price-highlight glass reveal">
+                    <h3>이 모든 여유와 인정,<br><span class="price-amount">월 80만 원</span>으로 사세요.</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust">
+        <div class="container">
+            <h2 class="section-title reveal">💬 "왜 아직 후기가 없나요?"</h2>
+            
+            <div class="trust-content glass reveal">
+                <p class="trust-quote">
+                    저희는 아무나 받지 않는 <span class="trust-highlight">'프라이빗 멤버십'</span>이기 때문입니다. 지금까지 소수의 창업가들과 비공개로 진행해 온 전략 자문 서비스를, 이제 막 시스템화하여 1월 멤버십으로 처음 오픈합니다.
+                </p>
+                <p class="trust-quote">
+                    감에 의존하지 않습니다. 미국 FDA 데이터, 실시간 웹 크롤링, 빅데이터 분석을 통해 <span class="trust-highlight">'실패할 수 없는 근거'</span>만 드립니다.
+                </p>
+                <p class="trust-quote">
+                    가장 먼저 합류하셔서, 남들이 모르는 <span class="trust-highlight">'초기 선점 효과'</span>를 누리세요.
+                </p>
+
+                <div class="trust-features">
+                    <div class="trust-feature">
+                        <div class="trust-feature-icon">📊</div>
+                        <div class="trust-feature-text">빅데이터 기반 분석</div>
+                    </div>
+                    <div class="trust-feature">
+                        <div class="trust-feature-icon">🔍</div>
+                        <div class="trust-feature-text">실시간 웹 크롤링</div>
+                    </div>
+                    <div class="trust-feature">
+                        <div class="trust-feature-icon">🎯</div>
+                        <div class="trust-feature-text">맞춤형 전략 제공</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title reveal">자주 묻는 질문</h2>
+            
+            <div class="faq-grid">
+                <div class="faq-item reveal">
+                    <div class="faq-card glass">
+                        <div class="faq-question">
+                            <span>월 80만 원, 뉴스레터 치고 비싼 거 아닌가요?</span>
+                            <div class="faq-icon">▼</div>
+                        </div>
+                        <div class="faq-answer">
+                            뉴스레터가 아닙니다. 월 300만 원짜리 전략 기획자를 고용하는 비용입니다. 4대 보험료, 퇴직금, 관리 스트레스 없이 대기업 전략실 수준의 참모를 두는 가장 저렴한 방법입니다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <div class="faq-card glass">
+                        <div class="faq-question">
+                            <span>제가 공부하거나 글을 써야 하나요?</span>
+                            <div class="faq-icon">▼</div>
+                        </div>
+                        <div class="faq-answer">
+                            절대 아닙니다. 공부는 저희가 대신 합니다. 대표님은 저희가 떠먹여 드리는 '결정'을 삼키기만 하세요. 복사하고 붙여넣는 시간(10초)이면 충분합니다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <div class="faq-card glass">
+                        <div class="faq-question">
+                            <span>정말 환불해 주나요?</span>
+                            <div class="faq-icon">▼</div>
+                        </div>
+                        <div class="faq-answer">
+                            네, 이유 불문 100% 환불해 드립니다. "환불해 주세요" 메시지 하나면 끝입니다. 대표님이 만족하지 않으셨는데 저희가 돈을 받을 이유는 없습니다. 저희는 대표님의 정직함을 믿습니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="final-cta">
+        <div class="container">
+            <div class="final-cta-box glass reveal">
+                <h2>"고민하는 이 순간에도,<br>경쟁사는 움직이고 있습니다."</h2>
+                <p class="urgency">⚡ 1월 프라이빗 멤버십, 딱 2자리 남았습니다.</p>
+                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
+                    <span class="cta-text">지금 사전 예약 신청하기</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2026 The Private Strategy Vault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const count = window.innerWidth > 768 ? 30 : 15;
+            
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 60 + 30;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
+                particle.style.opacity = Math.random() * 0.4 + 0.2;
+                container.appendChild(particle);
+            }
+        }
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal:not(.visible)');
+            
+            reveals.forEach((element, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, index * 80);
+                }
+            });
+        }
+
+        function revealTimeline() {
+            const items = document.querySelectorAll('.timeline-item:not(.visible)');
+            
+            items.forEach((item, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = item.getBoundingClientRect().top;
+                const elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const nav = document.getElementById('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            reveal();
+            revealTimeline();
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.4}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+            }
+        });
+
+        window.addEventListener('load', () => {
+            createParticles();
+            reveal();
+            revealTimeline();
+        });
+    </script>
+</body>
+</html>
