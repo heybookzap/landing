@@ -3,108 +3,869 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Execution Signal OS | 예비 CEO 실행 엔진</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>The Private Strategy Vault - CEO 전략 참모 서비스</title>
     <style>
-        :root { --primary: #286bff; --bg: #050608; --glass: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.1); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
-        body { background: var(--bg); color: #fff; line-height: 1.6; word-break: keep-all; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        .highlight { color: var(--primary); font-weight: 700; }
-        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px); }
-        .section { padding: 80px 0; }
-        h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 24px; }
-        .btn-cta { display: inline-block; padding: 20px 40px; background: var(--primary); color: #fff; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(40,107,255,0.4); transition: 0.3s; }
-        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(40,107,255,0.6); }
-        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
-        .faq-q { font-weight: 700; display: flex; justify-content: space-between; }
-        .faq-a { max-height: 0; overflow: hidden; transition: 0.3s; color: #aaa; margin-top: 10px; }
-        @media (max-width: 768px) { h1 { font-size: 2.2rem; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+            background: #0a0e1f;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.7;
+            letter-spacing: -0.01em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Refined animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 30% 40%, rgba(40, 107, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(26, 79, 214, 0.08) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.7; transform: scale(1.05) rotate(5deg); }
+        }
+
+        /* Refined particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(40, 107, 255, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 0;
+            background: rgba(10, 14, 31, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            z-index: 100;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            padding: 16px 0;
+            background: rgba(10, 14, 31, 0.9);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #286bff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-cta {
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(40, 107, 255, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(40, 107, 255, 0.5);
+        }
+
+        /* Enhanced glass effect - more subtle */
+        .glass {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            transition: left 0.6s;
+        }
+
+        .glass:hover::before {
+            left: 100%;
+        }
+
+        .glass:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(40, 107, 255, 0.2);
+            border-color: rgba(40, 107, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 160px 24px 100px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 10px 24px;
+            background: rgba(40, 107, 255, 0.1);
+            border: 1px solid rgba(40, 107, 255, 0.25);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: #286bff;
+            font-weight: 600;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero .quote {
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            color: #286bff;
+            margin-bottom: 24px;
+            font-weight: 700;
+            animation: fadeInUp 1s ease-out;
+            line-height: 1.4;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4.2rem);
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: #fff;
+            animation: fadeInUp 1.2s ease-out;
+            line-height: 1.3;
+            letter-spacing: -0.03em;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 56px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1.4s ease-out;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .hero .highlight {
+            color: #286bff;
+            font-weight: 700;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CTA Button - refined */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 22px 52px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(40, 107, 255, 0.4);
+            animation: fadeInUp 1.6s ease-out;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .cta-button:hover::before {
+            width: 350px;
+            height: 350px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(40, 107, 255, 0.5);
+        }
+
+        .cta-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .arrow {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+            font-size: 1.4rem;
+        }
+
+        .cta-button:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 48px 32px;
+        }
+
+        .stat-number {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.3;
+            letter-spacing: -0.03em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 72px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .problem-card {
+            padding: 44px 40px;
+            position: relative;
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .problem-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        .problem-desc {
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 28px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .solution-tag {
+            display: inline-block;
+            padding: 8px 18px;
+            background: rgba(40, 107, 255, 0.12);
+            border: 1px solid rgba(40, 107, 255, 0.25);
+            border-radius: 20px;
+            font-size: 0.88rem;
+            color: #286bff;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .solution-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 100px 24px;
+            background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.02) 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline {
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, rgba(40, 107, 255, 0.4), transparent);
+        }
+
+        .timeline-item {
+            margin-bottom: 56px;
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-card {
+            padding: 44px 40px;
+            margin-left: 110px;
+            position: relative;
+        }
+
+        .timeline-time {
+            position: absolute;
+            left: -110px;
+            top: 44px;
+            font-weight: 700;
+            color: #286bff;
+            font-size: 0.95rem;
+            background: rgba(10, 14, 31, 0.95);
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(40, 107, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        .timeline-time::after {
+            content: '';
+            position: absolute;
+            right: -22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #286bff;
+            border-radius: 50%;
+            box-shadow: 0 0 16px rgba(40, 107, 255, 0.7);
+        }
+
+        .timeline-content {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+
+        .timeline-highlight {
+            color: #286bff;
+            font-weight: 700;
+        }
+
+        .price-highlight {
+            display: inline-block;
+            padding: 40px 56px;
+            background: linear-gradient(135deg, rgba(40, 107, 255, 0.12) 0%, rgba(26, 79, 214, 0.12) 100%);
+            border: 1.5px solid rgba(40, 107, 255, 0.3);
+            border-radius: 20px;
+            margin-top: 64px;
+        }
+
+        .price-highlight h3 {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.5;
+            color: #fff;
+        }
+
+        .price-amount {
+            color: #286bff;
+            font-size: clamp(2.2rem, 4.5vw, 3rem);
+        }
+
+        /* Trust Section */
+        .trust {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .trust-content {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 64px 56px;
+            text-align: center;
+            position: relative;
+        }
+
+        .trust-quote {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 36px;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .trust-highlight {
+            color: #286bff;
+            font-weight: 700;
+        }
+
+        .trust-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .trust-feature {
+            padding: 28px 24px;
+            background: rgba(40, 107, 255, 0.06);
+            border: 1px solid rgba(40, 107, 255, 0.15);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .trust-feature:hover {
+            background: rgba(40, 107, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .trust-feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .trust-feature-text {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 100px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 24px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            cursor: pointer;
+        }
+
+        .faq-card {
+            padding: 36px 40px;
+            transition: all 0.4s ease;
+        }
+
+        .faq-item.active .faq-card {
+            background: rgba(40, 107, 255, 0.06);
+        }
+
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            line-height: 1.5;
+        }
+
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1.1rem;
+            line-height: 1.9;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 24px;
+        }
+
+        .faq-icon {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(40, 107, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            background: rgba(40, 107, 255, 0.3);
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 100px 24px 100px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .final-cta-box {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, rgba(40, 107, 255, 0.1) 0%, rgba(26, 79, 214, 0.1) 100%);
+            position: relative;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+            margin-bottom: 32px;
+            font-weight: 800;
+            line-height: 1.4;
+            letter-spacing: -0.02em;
+        }
+
+        .urgency {
+            font-size: 1.4rem;
+            color: #286bff;
+            margin-bottom: 48px;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 56px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(10, 14, 31, 0.5);
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-card {
+                margin-left: 0;
+                padding: 36px 28px;
+            }
+
+            .timeline-time {
+                position: relative;
+                left: 0;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+
+            .timeline-time::after {
+                display: none;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta-box {
+                padding: 60px 32px;
+            }
+
+            .trust-content {
+                padding: 48px 32px;
+            }
+
+            .nav-cta {
+                padding: 12px 28px;
+                font-size: 0.88rem;
+            }
+
+            .cta-button {
+                padding: 20px 44px;
+                font-size: 1.1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .problem-card, .faq-card {
+                padding: 32px 28px;
+            }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
 
-<div class="container">
-    <header class="section text-center">
-        <p style="color: var(--primary); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px;">22-28세 한국 예비 CEO 전용</p>
-        <h1>생각은 많은데 <br><span class="highlight">적용이 안 되는 순간</span>을 끝내는 법</h1>
-        <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">30초 상황 입력 → 오늘의 1개 행동 → 10분 내 피드백 <br> 정보가 아니라 '실행'만 남게 설계된 OS입니다.</p>
-        <a href="#cta" class="btn-cta">무료 5분 실행 누수 진단하기</a>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">베타 선착순 50명 한정 - 정원 마감 시 대기 등록</p>
-    </header>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">STRATEGY VAULT</div>
+                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="nav-cta">사전 예약 신청</a>
+            </div>
+        </div>
+    </nav>
 
-    <section class="section">
-        <h2 class="text-center" style="margin-bottom: 40px;">당신이 겪는 <span class="highlight">실행 불편함 4가지</span></h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-            <div class="glass-card"><h4>주당 시간 낭비</h4><p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">프레임워크는 많은데 내 상황에 적용이 안 돼 시간이 새어나감</p></div>
-            <div class="glass-card"><h4>계획만 무한반복</h4><p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">다음 행동이 바로 안 떠올라 계획과 탐색만 늘어남</p></div>
-            <div class="glass-card"><h4>불안한 독학</h4><p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">맞게 하는지 확인이 안 돼서 다시 정보 탐색으로 회귀함</p></div>
-            <div class="glass-card"><h4>지속성 붕괴</h4><p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">일정이 한 번 깨지면 다시 시작하기가 너무 힘듦</p></div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ 1월 프라이빗 멤버십 오픈</div>
+            <div class="quote">"김 팀장, 우리도 이렇게 하자."</div>
+            <h1>이 한마디를 하기 위해 소비했던 10시간,<br>저희가 10분으로 줄여드립니다.</h1>
+            <p class="subtitle">
+                트렌드 공부와 경쟁사 감시는 저희가 밤새 끝냈습니다.<br>
+                대표님은 아침에 <span class="highlight">'복사+붙여넣기'</span>만 하세요.
+            </p>
+            <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
+                <span class="cta-text">지금 사전 예약 신청하기</span>
+                <span class="arrow">→</span>
+            </a>
         </div>
     </section>
 
-    <section class="section">
-        <h2 class="text-center" style="margin-bottom: 40px;">우리는 '조언'이 아니라 <br><span class="highlight">실행 파이프라인</span>을 제공합니다</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="glass-card">
-                <h4 class="highlight">Context Router</h4>
-                <p>30초 입력을 '케이스'로 닫아, 선택지 폭발을 차단합니다. (상황 매칭 불가 제거)</p>
-            </div>
-            <div class="glass-card">
-                <h4 class="highlight">Action Compiler</h4>
-                <p>다짐을 트리거 행동-Proof로 자동 컴파일합니다. (생각 적용 실패 제거)</p>
-            </div>
-            <div class="glass-card">
-                <h4 class="highlight">Instant Feedback</h4>
-                <p>10분 내 정상/수정/다음으로 불확실성을 끊습니다. (즉시 피드백 부재 제거)</p>
-            </div>
-            <div class="glass-card">
-                <h4 class="highlight">Continuity Shield</h4>
-                <p>1분 재시작 프로토콜로 루틴 끊김을 최소화합니다. (지속성 붕괴 제거)</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section text-center">
-        <div class="glass-card" style="border-color: var(--primary);">
-            <h2 style="margin-bottom: 20px;">강력한 <span class="highlight">보장 및 혜택</span></h2>
-            <ul style="list-style: none; text-align: left; max-width: 600px; margin: 0 auto; margin-bottom: 30px;">
-                <li style="margin-bottom: 10px;">✅ <b>14일 무조건 환불:</b> 첫 14일은 이유 불문 100% 환불</li>
-                <li style="margin-bottom: 10px;">✅ <b>10분 피드백 SLA:</b> 10분 초과 시 크레딧/연장 보상 제공</li>
-                <li style="margin-bottom: 10px;">🎁 <b>Case Library 25:</b> 상황 매칭 정확도 강화 팩</li>
-                <li style="margin-bottom: 10px;">🎁 <b>Restart 60s 카드덱:</b> 루틴 붕괴 방지 카드</li>
-                <li>🎁 <b>Waste Ledger 리포트:</b> 주간 낭비 요소 분석 리포트</li>
-            </ul>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2 class="text-center" style="margin-bottom: 40px;">자주 묻는 질문</h2>
-        <div class="glass-card">
-            <div class="faq-item" onclick="this.querySelector('.faq-a').style.maxHeight = this.querySelector('.faq-a').style.maxHeight === '100px' ? '0px' : '100px'">
-                <div class="faq-q">Q. 제 상황에 정말 맞을까요? <span>+</span></div>
-                <div class="faq-a">A. 케이스 라이브러리로 상황을 먼저 분류하고 오늘의 1개 행동만 제공합니다. 맞지 않으면 즉시 난이도를 조정합니다.</div>
-            </div>
-            <div class="faq-item" onclick="this.querySelector('.faq-a').style.maxHeight = this.querySelector('.faq-a').style.maxHeight === '100px' ? '0px' : '100px'">
-                <div class="faq-q">Q. 꾸준히 못 하는 편인데요? <span>+</span></div>
-                <div class="faq-a">A. 지속성은 의지가 아니라 '재시작 비용'의 문제입니다. 실패 시 1분 재시작으로 즉시 복귀합니다.</div>
-            </div>
-            <div class="faq-item" onclick="this.querySelector('.faq-a').style.maxHeight = this.querySelector('.faq-a').style.maxHeight === '100px' ? '0px' : '100px'">
-                <div class="faq-q">Q. 코칭/강의랑 뭐가 달라요? <span>+</span></div>
-                <div class="faq-a">A. 지식을 주지 않습니다. 실행 파이프라인(상황-행동-피드백)을 제품으로 제공합니다.</div>
+    <!-- Stats Section -->
+    <section class="stats reveal">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card glass">
+                    <span class="stat-number">10시간</span>
+                    <div class="stat-label">→ 10분으로 단축</div>
+                </div>
+                <div class="stat-card glass">
+                    <span class="stat-number">24/7</span>
+                    <div class="stat-label">실시간 경쟁사 모니터링</div>
+                </div>
+                <div class="stat-card glass">
+                    <span class="stat-number">3분</span>
+                    <div class="stat-label">일일 브리핑 독서 시간</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="cta" class="section text-center">
-        <h2>준비물은 'Proof 1개'를 남길 자료뿐입니다.</h2>
-        <br>
-        <a href="#" class="btn-cta">지금 시작하기</a>
-    </section>
-</div>
+    <!-- Problems Section -->
+    <section class="problems">
+        <div class="container">
+            <h2 class="section-title reveal">🛑 혹시 어젯밤에도<br>불안해서 잠 못 드셨나요?</h2>
+            <p class="section-subtitle reveal">대표님의 가장 큰 고민, 저희가 정확히 알고 있습니다.</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card glass reveal">
+                    <span class="problem-icon">⚡</span>
+                    <h3 class="problem-title">"경쟁사가 가격을 올렸는데, 우린 어쩌지?"</h3>
+                    <p class="problem-desc">
+                        경쟁사의 변화를 뒤늦게 알고 허둥지둥 대응하다 타이밍을 놓칩니다.
+                    </p>
+                    <div class="solution-tag">✓ 해결책</div>
+                    <p class="solution-text">
+                        24시간 돌아가는 AI 레이더가 경쟁사의 가격, 채용, 팝업 소식을 실시간 감지해 가장 먼저 알려드립니다. (대표님보다 빠릅니다.)
+                    </p>
+                </div>
 
-</body>
-</html>
+                <div class="problem-card glass reveal">
+                    <span class="problem-icon">💬</span>
+                    <h3 class="problem-title">"트렌드는 알겠는데, 직원한테 뭐라 하지?"</h3>
+                    <p class="problem-desc">
+                        뉴스를 봐도 우리 브랜드에 어떻게 적용할지 몰라, 직원에게 모호한 지시만 내립니다.
+                    </p>
+                    <div class="solution-tag">✓ 해결책</div>
+                    <p class="solution-text">
+                        "팀장님, 이번 주는 이 전략으로 갑시다."라고 바로 보낼 수 있는 '지시용 스크립트'를 그대로 써드립니다. (복사만 하세요.)
+                    </p>
+                </div>
+
+                <div class="problem-card glass reveal">
+                    <span class="problem-icon">📚</span>
+                    <h3 class="problem-title">"정보가 너무 많아서 볼 시간이 없어."</h3>
+                    <p class="problem-desc">
+                        쏟아지는 뉴스레터와 단톡방 알림... 읽다 지쳐서 결국 아무것도 결정하지 못합니다.
+                    </p>
+                    <div class="solution-tag">✓ 해결책</div>
+                    <p class="solution-text">
+                        대표님 사업에 돈이 되는 정보만 골라 '1장'으로 요약합니다. 읽는 데 3분이면 충분합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <h2 class="section-title reveal">✨ 대표님의 월요일 아침은<br>이렇게 달라집니다.</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-card glass">
+                        <div class="timeline-time">오전 8:30
