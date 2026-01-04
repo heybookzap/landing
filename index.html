@@ -5,21 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Private Strategy Vault - CEO 전략 참모 서비스</title>
     
-    <!-- Pretendard 폰트 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
-    <!-- OG 태그 (소셜 공유용) -->
     <meta property="og:title" content="The Private Strategy Vault - CEO 전략 참모">
     <meta property="og:description" content="김 팀장에게 보낼 지시사항, 복사만 하세요. 1월 프라이빗 멤버십 오픈.">
     <meta property="og:image" content="https://your-image-url.com/og-image.jpg">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* [기본 스타일 유지] */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
             background: #0a0e1f;
@@ -28,1240 +22,154 @@
             line-height: 1.7;
             letter-spacing: -0.01em;
         }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Refined animated gradient background */
+        /* [배경 애니메이션 유지] */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 30% 40%, rgba(40, 107, 255, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 60%, rgba(26, 79, 214, 0.08) 0%, transparent 50%);
-            animation: gradientShift 20s ease infinite;
-            pointer-events: none;
-            z-index: 0;
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, rgba(40, 107, 255, 0.12) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(26, 79, 214, 0.08) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite; pointer-events: none; z-index: 0;
         }
-
         @keyframes gradientShift {
             0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
             50% { opacity: 0.7; transform: scale(1.05) rotate(5deg); }
         }
 
-        /* Refined particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.6;
-        }
+        /* [입자 효과 유지] */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.6; }
+        .particle { position: absolute; background: radial-gradient(circle, rgba(40, 107, 255, 0.6) 0%, transparent 70%); border-radius: 50%; filter: blur(3px); }
 
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(40, 107, 255, 0.6) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(3px);
-        }
-
-        /* Navigation */
+        /* [네비게이션 유지] */
         .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 24px 0;
-            background: rgba(10, 14, 31, 0.7);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            z-index: 100;
-            transition: all 0.4s ease;
+            position: fixed; top: 0; left: 0; right: 0; padding: 24px 0;
+            background: rgba(10, 14, 31, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06); z-index: 100; transition: all 0.4s ease;
         }
-
-        .nav.scrolled {
-            padding: 16px 0;
-            background: rgba(10, 14, 31, 0.9);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        .nav.scrolled { padding: 16px 0; background: rgba(10, 14, 31, 0.9); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
         .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.4rem; font-weight: 700;
             background: linear-gradient(135deg, #fff 0%, #286bff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
         .nav-cta {
-            padding: 14px 36px;
-            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
-            border-radius: 50px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(40, 107, 255, 0.3);
+            padding: 14px 36px; background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
+            border-radius: 50px; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+            transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(40, 107, 255, 0.3);
         }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(40, 107, 255, 0.5); }
 
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(40, 107, 255, 0.5);
-        }
-
-        /* Enhanced glass effect - more subtle */
+        /* [유리 효과 유지] */
         .glass {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
         }
+        .glass:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(40, 107, 255, 0.2); border-color: rgba(40, 107, 255, 0.3); }
 
-        .glass::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
-            transition: left 0.6s;
-        }
-
-        .glass:hover::before {
-            left: 100%;
-        }
-
-        .glass:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 48px rgba(40, 107, 255, 0.2);
-            border-color: rgba(40, 107, 255, 0.3);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            padding: 160px 24px 100px;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
+        /* [Hero Section 수정] */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 2; padding: 160px 24px 100px; }
+        .hero-content { max-width: 900px; margin: 0 auto; }
         .hero-badge {
-            display: inline-block;
-            padding: 10px 24px;
-            background: rgba(40, 107, 255, 0.1);
-            border: 1px solid rgba(40, 107, 255, 0.25);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            color: #286bff;
-            font-weight: 600;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s ease-out;
+            display: inline-block; padding: 10px 24px; background: rgba(40, 107, 255, 0.1);
+            border: 1px solid rgba(40, 107, 255, 0.25); border-radius: 50px;
+            font-size: 0.9rem; color: #286bff; font-weight: 600; margin-bottom: 40px; animation: fadeInDown 0.8s ease-out;
         }
+        .hero .quote { font-size: clamp(1.6rem, 4vw, 2.8rem); color: #286bff; margin-bottom: 24px; font-weight: 700; animation: fadeInUp 1s ease-out; line-height: 1.4; }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; margin-bottom: 32px; color: #fff; animation: fadeInUp 1.2s ease-out; line-height: 1.3; letter-spacing: -0.03em; }
+        .hero .subtitle { font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: rgba(255, 255, 255, 0.75); margin-bottom: 56px; max-width: 750px; margin-left: auto; margin-right: auto; animation: fadeInUp 1.4s ease-out; line-height: 1.8; font-weight: 400; }
+        .hero .highlight { color: #286bff; font-weight: 700; }
 
-        .hero .quote {
-            font-size: clamp(1.6rem, 4vw, 2.8rem);
-            color: #286bff;
-            margin-bottom: 24px;
-            font-weight: 700;
-            animation: fadeInUp 1s ease-out;
-            line-height: 1.4;
-        }
+        /* [애니메이션] */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 4.2rem);
-            font-weight: 800;
-            margin-bottom: 32px;
-            color: #fff;
-            animation: fadeInUp 1.2s ease-out;
-            line-height: 1.3;
-            letter-spacing: -0.03em;
-        }
-
-        .hero .subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            color: rgba(255, 255, 255, 0.75);
-            margin-bottom: 56px;
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 1.4s ease-out;
-            line-height: 1.8;
-            font-weight: 400;
-        }
-
-        .hero .highlight {
-            color: #286bff;
-            font-weight: 700;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* CTA Button - refined */
+        /* [CTA 버튼] */
         .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 22px 52px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
+            display: inline-flex; align-items: center; gap: 12px; padding: 22px 52px;
+            font-size: 1.2rem; font-weight: 700; color: #fff;
             background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(40, 107, 255, 0.4);
-            animation: fadeInUp 1.6s ease-out;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .cta-button:hover::before {
-            width: 350px;
-            height: 350px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(40, 107, 255, 0.5);
-        }
-
-        .cta-text {
-            position: relative;
-            z-index: 1;
-        }
-
-        .arrow {
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
-            font-size: 1.4rem;
-        }
-
-        .cta-button:hover .arrow {
-            transform: translateX(4px);
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 80px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 48px 32px;
-        }
-
-        .stat-number {
-            font-size: 3.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
-            display: block;
-            letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-            font-size: 1.05rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            line-height: 1.6;
-        }
-
-        /* Problems Section */
-        .problems {
-            padding: 100px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-title {
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 800;
-            line-height: 1.3;
-            letter-spacing: -0.03em;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.65);
-            margin-bottom: 72px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
-        }
-
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 32px;
-            margin-bottom: 48px;
-        }
-
-        .problem-card {
-            padding: 44px 40px;
-            position: relative;
-        }
-
-        .problem-icon {
-            font-size: 3rem;
-            margin-bottom: 24px;
-            display: block;
-        }
-
-        .problem-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #fff;
-            line-height: 1.5;
-        }
-
-        .problem-desc {
-            color: rgba(255, 255, 255, 0.65);
-            margin-bottom: 28px;
-            font-size: 1.05rem;
-            line-height: 1.7;
-        }
-
-        .solution-tag {
-            display: inline-block;
-            padding: 8px 18px;
-            background: rgba(40, 107, 255, 0.12);
-            border: 1px solid rgba(40, 107, 255, 0.25);
-            border-radius: 20px;
-            font-size: 0.88rem;
-            color: #286bff;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: 0.3px;
-        }
-
-        .solution-text {
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 500;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        /* Story Section */
-        .story {
-            padding: 100px 24px;
-            background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.02) 100%);
-            position: relative;
-            z-index: 2;
-        }
-
-        .timeline {
-            max-width: 850px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, transparent, rgba(40, 107, 255, 0.4), transparent);
-        }
-
-        .timeline-item {
-            margin-bottom: 56px;
-            opacity: 0;
-            transform: translateX(-40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .timeline-card {
-            padding: 44px 40px;
-            margin-left: 0;
-            position: relative;
-        }
-
-        .timeline-time {
-            position: relative;
-            left: 0;
-            display: inline-block;
-            font-weight: 700;
-            color: #286bff;
-            font-size: 0.95rem;
-            background: rgba(10, 14, 31, 0.95);
-            padding: 10px 18px;
-            border-radius: 12px;
-            border: 1px solid rgba(40, 107, 255, 0.3);
-            white-space: nowrap;
-            margin-bottom: 20px;
-        }
-
-        .timeline-time::after {
-            display: none;
-        }
-
-        .timeline-content {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1.1rem;
-            line-height: 1.9;
-        }
-
-        .timeline-highlight {
-            color: #286bff;
-            font-weight: 700;
-        }
-
-        .price-highlight {
-            display: inline-block;
-            padding: 40px 56px;
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.12) 0%, rgba(26, 79, 214, 0.12) 100%);
-            border: 1.5px solid rgba(40, 107, 255, 0.3);
-            border-radius: 20px;
-            margin-top: 64px;
-        }
-
-        .price-highlight h3 {
-            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-            font-weight: 800;
-            line-height: 1.5;
-            color: #fff;
-        }
-
-        .price-amount {
-            color: #286bff;
-            font-size: clamp(2.2rem, 4.5vw, 3rem);
-        }
-
-        /* Trust Section */
-        .trust {
-            padding: 100px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .trust-content {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 64px 56px;
-            text-align: center;
-            position: relative;
-        }
-
-        .trust-quote {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 36px;
-            line-height: 1.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .trust-highlight {
-            color: #286bff;
-            font-weight: 700;
-        }
-
-        .trust-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-top: 56px;
-        }
-
-        .trust-feature {
-            padding: 28px 24px;
-            background: rgba(40, 107, 255, 0.06);
-            border: 1px solid rgba(40, 107, 255, 0.15);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .trust-feature:hover {
-            background: rgba(40, 107, 255, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .trust-feature-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-
-        .trust-feature-text {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 600;
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: 100px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .faq-grid {
-            display: grid;
-            gap: 24px;
-            max-width: 850px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            cursor: pointer;
-        }
-
-        .faq-card {
-            padding: 36px 40px;
-            transition: all 0.4s ease;
-        }
-
-        .faq-item.active .faq-card {
-            background: rgba(40, 107, 255, 0.06);
-        }
-
-        .faq-question {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
-            line-height: 1.5;
-        }
-
-        .faq-answer {
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 1.1rem;
-            line-height: 1.9;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s ease;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            margin-top: 24px;
-        }
-
-        .faq-icon {
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(40, 107, 255, 0.15);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-            background: rgba(40, 107, 255, 0.3);
-        }
-
-        /* Final CTA */
-        .final-cta {
-            padding: 100px 24px 100px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .final-cta-box {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 80px 60px;
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.1) 0%, rgba(26, 79, 214, 0.1) 100%);
-            position: relative;
-        }
-
-        .final-cta h2 {
-            font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-            margin-bottom: 32px;
-            font-weight: 800;
-            line-height: 1.4;
-            letter-spacing: -0.02em;
-        }
-
-        .urgency {
-            font-size: 1.4rem;
-            color: #286bff;
-            margin-bottom: 48px;
-            font-weight: 700;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 56px 24px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(10, 14, 31, 0.5);
-        }
-
-        .footer-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.95rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 140px 20px 80px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-                line-height: 1.4;
-                margin-bottom: 24px;
-            }
-
-            .hero .quote {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-
-            .hero .subtitle {
-                font-size: 1.05rem;
-                line-height: 1.7;
-                margin-bottom: 40px;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-                line-height: 1.4;
-                margin-bottom: 16px;
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-                margin-bottom: 48px;
-            }
-
-            .timeline::before {
-                left: 0;
-                display: none;
-            }
-
-            .timeline-card {
-                margin-left: 0;
-                padding: 32px 24px;
-            }
-
-            .timeline-time {
-                position: relative;
-                left: 0;
-                margin-bottom: 16px;
-                display: inline-block;
-                font-size: 0.9rem;
-                padding: 8px 16px;
-            }
-
-            .timeline-time::after {
-                display: none;
-            }
-
-            .timeline-content {
-                font-size: 1.05rem;
-                line-height: 1.8;
-            }
-
-            .timeline-item {
-                margin-bottom: 40px;
-            }
-
-            .problem-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .problem-card {
-                padding: 36px 28px;
-            }
-
-            .problem-title {
-                font-size: 1.3rem;
-                line-height: 1.5;
-            }
-
-            .problem-desc {
-                font-size: 1rem;
-            }
-
-            .solution-text {
-                font-size: 1rem;
-            }
-
-            .final-cta-box {
-                padding: 56px 28px;
-            }
-
-            .final-cta h2 {
-                font-size: 1.6rem;
-                line-height: 1.5;
-            }
-
-            .urgency {
-                font-size: 1.2rem;
-                margin-bottom: 36px;
-            }
-
-            .trust-content {
-                padding: 48px 28px;
-            }
-
-            .trust-quote {
-                font-size: 1.15rem;
-                line-height: 1.8;
-                margin-bottom: 28px;
-            }
-
-            .trust-features {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                margin-top: 40px;
-            }
-
-            .price-highlight {
-                padding: 32px 28px;
-                margin-top: 48px;
-            }
-
-            .price-highlight h3 {
-                font-size: 1.4rem;
-                line-height: 1.5;
-            }
-
-            .price-amount {
-                font-size: 2rem;
-            }
-
-            .nav-cta {
-                padding: 10px 24px;
-                font-size: 0.85rem;
-            }
-
-            .cta-button {
-                padding: 18px 36px;
-                font-size: 1.05rem;
-                width: 100%;
-                max-width: 100%;
-                justify-content: center;
-            }
-
-            .arrow {
-                font-size: 1.2rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .stat-card {
-                padding: 36px 24px;
-            }
-
-            .stat-number {
-                font-size: 2.8rem;
-            }
-
-            .problem-card, .faq-card {
-                padding: 32px 24px;
-            }
-
-            .faq-question {
-                font-size: 1.15rem;
-                line-height: 1.5;
-            }
-
-            .faq-answer {
-                font-size: 1.05rem;
-                line-height: 1.8;
-            }
-
-            .faq-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 1rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .hero-badge {
-                font-size: 0.85rem;
-                padding: 8px 20px;
-                margin-bottom: 28px;
-            }
-
-            .problems, .story, .trust, .faq, .final-cta {
-                padding: 80px 20px;
-            }
-
-            .stats {
-                padding: 60px 20px;
-            }
-        }
-
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
-</head>
-<body>
-    <!-- Particles Background -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">STRATEGY VAULT</div>
-                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="nav-cta">사전 예약 신청</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">✨ 1월 프라이빗 멤버십 오픈</div>
-            <div class="quote">"김 팀장, 우리도 이렇게 하자."</div>
-            <h1>이 한마디를 하기 위해 소비했던 10시간,<br>저희가 10분으로 줄여드립니다.</h1>
-            <p class="subtitle">
-                트렌드 공부와 경쟁사 감시는 저희가 밤새 끝냈습니다.<br>
-                대표님은 아침에 <span class="highlight">'복사+붙여넣기'</span>만 하세요.
-            </p>
-            <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
-                <span class="cta-text">지금 사전 예약 신청하기</span>
-                <span class="arrow">→</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats reveal">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card glass">
-                    <span class="stat-number">10시간</span>
-                    <div class="stat-label">→ 10분으로 단축</div>
-                </div>
-                <div class="stat-card glass">
-                    <span class="stat-number">24/7</span>
-                    <div class="stat-label">실시간 경쟁사 모니터링</div>
-                </div>
-                <div class="stat-card glass">
-                    <span class="stat-number">3분</span>
-                    <div class="stat-label">일일 브리핑 독서 시간</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Problems Section -->
-    <section class="problems">
-        <div class="container">
-            <h2 class="section-title reveal">🛑 혹시 어젯밤에도<br>불안해서 잠 못 드셨나요?</h2>
-            <p class="section-subtitle reveal">대표님의 가장 큰 고민, 저희가 정확히 알고 있습니다.</p>
-            
-            <div class="problem-grid">
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">⚡</span>
-                    <h3 class="problem-title">"경쟁사가 가격을 올렸는데, 우린 어쩌지?"</h3>
-                    <p class="problem-desc">
-                        경쟁사의 변화를 뒤늦게 알고 허둥지둥 대응하다 타이밍을 놓칩니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        24시간 돌아가는 AI 레이더가 경쟁사의 가격, 채용, 팝업 소식을 실시간 감지해 가장 먼저 알려드립니다. (대표님보다 빠릅니다.)
-                    </p>
-                </div>
-
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">💬</span>
-                    <h3 class="problem-title">"트렌드는 알겠는데, 직원한테 뭐라 하지?"</h3>
-                    <p class="problem-desc">
-                        뉴스를 봐도 우리 브랜드에 어떻게 적용할지 몰라, 직원에게 모호한 지시만 내립니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        "팀장님, 이번 주는 이 전략으로 갑시다."라고 바로 보낼 수 있는 '지시용 스크립트'를 그대로 써드립니다. (복사만 하세요.)
-                    </p>
-                </div>
-
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">📚</span>
-                    <h3 class="problem-title">"정보가 너무 많아서 볼 시간이 없어."</h3>
-                    <p class="problem-desc">
-                        쏟아지는 뉴스레터와 단톡방 알림... 읽다 지쳐서 결국 아무것도 결정하지 못합니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        대표님 사업에 돈이 되는 정보만 골라 '1장'으로 요약합니다. 읽는 데 3분이면 충분합니다.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Story Section -->
-    <section class="story">
-        <div class="container">
-            <h2 class="section-title reveal">✨ 대표님의 월요일 아침은<br>이렇게 달라집니다.</h2>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오전 8:30</div>
-                        <div class="timeline-content">
-                            복잡한 뉴스 검색 대신, 저희가 보내드린 <span class="timeline-highlight">'모닝 브리핑'</span>을 엽니다. 경쟁사 A가 성수동 팝업을 열었다는 소식을 봅니다. 불안해하는 대신 회심의 미소를 짓습니다. 저희가 <span class="timeline-highlight">'대응 전략'</span>까지 다 적어드렸으니까요.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오전 9:00</div>
-                        <div class="timeline-content">
-                            마케팅 팀장에게 카톡을 보냅니다. "김 팀장, A사 팝업이 이슈네. 우리는 이번 주 '온라인 한정 혜택'으로 맞불 놓자. 상세페이지 문구는 이렇게 바꿔줘..." (물론, 이 멘트는 저희가 써드린 걸 <span class="timeline-highlight">복사한 겁니다.</span>)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오후 2:00</div>
-                        <div class="timeline-content">
-                            팀원들이 묻습니다. "대표님, 이번 시즌 방향은 어떻게 할까요?" 당황하지 않고 <span class="timeline-highlight">[CEO 전용 비밀 페이지]</span>를 켭니다. 저희가 정리해 둔 데이터를 보여주며 명확하게 지시합니다. 팀원들은 <span class="timeline-highlight">"역시 우리 대표님은 트렌드를 꿰뚫고 있어"</span>라며 감탄합니다.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 80px;">
-                <div class="price-highlight glass reveal">
-                    <h3>이 모든 여유와 인정,<br><span class="price-amount">월 80만 원</span>으로 사세요.</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust Section -->
-    <section class="trust">
-        <div class="container">
-            <h2 class="section-title reveal">💬 "왜 아직 후기가 없나요?"</h2>
-            
-            <div class="trust-content glass reveal">
-                <p class="trust-quote">
-                    저희는 아무나 받지 않는 <span class="trust-highlight">'프라이빗 멤버십'</span>이기 때문입니다. 지금까지 소수의 창업가들과 비공개로 진행해 온 전략 자문 서비스를, 이제 막 시스템화하여 1월 멤버십으로 처음 오픈합니다.
-                </p>
-                <p class="trust-quote">
-                    감에 의존하지 않습니다. 미국 FDA 데이터, 실시간 웹 크롤링, 빅데이터 분석을 통해 <span class="trust-highlight">'실패할 수 없는 근거'</span>만 드립니다.
-                </p>
-                <p class="trust-quote">
-                    가장 먼저 합류하셔서, 남들이 모르는 <span class="trust-highlight">'초기 선점 효과'</span>를 누리세요.
-                </p>
-
-                <div class="trust-features">
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">📊</div>
-                        <div class="trust-feature-text">빅데이터 기반 분석</div>
-                    </div>
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">🔍</div>
-                        <div class="trust-feature-text">실시간 웹 크롤링</div>
-                    </div>
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">🎯</div>
-                        <div class="trust-feature-text">맞춤형 전략 제공</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq">
-        <div class="container">
-            <h2 class="section-title reveal">자주 묻는 질문</h2>
-            
-            <div class="faq-grid">
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>월 80만 원, 뉴스레터 치고 비싼 거 아닌가요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            뉴스레터가 아닙니다. 월 300만 원짜리 전략 기획자를 고용하는 비용입니다. 4대 보험료, 퇴직금, 관리 스트레스 없이 대기업 전략실 수준의 참모를 두는 가장 저렴한 방법입니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>제가 공부하거나 글을 써야 하나요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            절대 아닙니다. 공부는 저희가 대신 합니다. 대표님은 저희가 떠먹여 드리는 '결정'을 삼키기만 하세요. 복사하고 붙여넣는 시간(10초)이면 충분합니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>정말 환불해 주나요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            네, 이유 불문 100% 환불해 드립니다. "환불해 주세요" 메시지 하나면 끝입니다. 대표님이 만족하지 않으셨는데 저희가 돈을 받을 이유는 없습니다. 저희는 대표님의 정직함을 믿습니다.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="final-cta" id="final-cta">
-        <div class="container">
-            <div class="final-cta-box glass reveal">
-                <h2>"고민하는 이 순간에도,<br>경쟁사는 움직이고 있습니다."</h2>
-                <p class="urgency">⚡ 1월 프라이빗 멤버십, 딱 2자리 남았습니다.</p>
-                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
-                    <span class="cta-text">지금 사전 예약 신청하기</span>
-                    <span class="arrow">→</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">© 2026 The Private Strategy Vault. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const count = window.innerWidth > 768 ? 30 : 15;
-            
-            for (let i = 0; i < count; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 60 + 30;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
-                particle.style.opacity = Math.random() * 0.4 + 0.2;
-                container.appendChild(particle);
-            }
-        }
-
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal:not(.visible)');
-            
-            reveals.forEach((element, index) => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 100;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    setTimeout(() => {
-                        element.classList.add('visible');
-                    }, index * 80);
-                }
-            });
-        }
-
-        function revealTimeline() {
-            const items = document.querySelectorAll('.timeline-item:not(.visible)');
-            
-            items.forEach((item, index) => {
-                const windowHeight = window.innerHeight;
-                const elementTop = item.getBoundingClientRect().top;
-                const elementVisible = 100;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    setTimeout(() => {
-                        item.classList.add('visible');
-                    }, index * 200);
-                }
-            });
-        }
-
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                document.querySelectorAll('.faq-item').forEach(faq => {
-                    faq.classList.remove('active');
-                });
-                
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                // 외부 링크는 그대로 두고, # 링크만 처리
-                if (href && href.startsWith('#') && href.length > 1) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        const nav = document.getElementById('nav');
+            border: none; border-radius: 50px; cursor: pointer; text-decoration: none;
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(40, 107, 255, 0.4); animation: fadeInUp 1.6s ease-out;
+        }
+        .cta-button:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(40, 107, 255, 0.5); }
+        .arrow { font-size: 1.4rem; transition: transform 0.3s ease; }
+        .cta-button:hover .arrow { transform: translateX(4px); }
+
+        /* [Stats Section] */
+        .stats { padding: 80px 24px; position: relative; z-index: 2; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto; }
+        .stat-card { text-align: center; padding: 48px 32px; }
+        .stat-number { font-size: 3.2rem; font-weight: 800; background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; display: block; letter-spacing: -0.02em; }
+        .stat-label { font-size: 1.05rem; color: rgba(255, 255, 255, 0.7); font-weight: 500; line-height: 1.6; }
+
+        /* [Problems Section] */
+        .problems { padding: 100px 24px; position: relative; z-index: 2; }
+        .section-title { font-size: clamp(2.2rem, 4.5vw, 3.5rem); text-align: center; margin-bottom: 20px; font-weight: 800; line-height: 1.3; letter-spacing: -0.03em; }
+        .section-subtitle { text-align: center; font-size: 1.15rem; color: rgba(255, 255, 255, 0.65); margin-bottom: 72px; max-width: 700px; margin-left: auto; margin-right: auto; font-weight: 400; }
+        .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; margin-bottom: 48px; }
+        .problem-card { padding: 44px 40px; position: relative; }
+        .problem-icon { font-size: 3rem; margin-bottom: 24px; display: block; }
+        .problem-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: #fff; line-height: 1.5; }
+        .problem-desc { color: rgba(255, 255, 255, 0.65); margin-bottom: 28px; font-size: 1.05rem; line-height: 1.7; }
+        .solution-tag { display: inline-block; padding: 8px 18px; background: rgba(40, 107, 255, 0.12); border: 1px solid rgba(40, 107, 255, 0.25); border-radius: 20px; font-size: 0.88rem; color: #286bff; font-weight: 700; margin-bottom: 16px; letter-spacing: 0.3px; }
+        .solution-text { color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 1.05rem; line-height: 1.8; }
+
+        /* [Story Section] */
+        .story { padding: 100px 24px; background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.02) 100%); position: relative; z-index: 2; }
+        .timeline { max-width: 850px; margin: 0 auto; position: relative; }
+        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, rgba(40, 107, 255, 0.4), transparent); }
+        .timeline-item { margin-bottom: 56px; opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .timeline-item.visible { opacity: 1; transform: translateX(0); }
+        .timeline-card { padding: 44px 40px; margin-left: 0; position: relative; }
+        .timeline-time { position: relative; left: 0; display: inline-block; font-weight: 700; color: #286bff; font-size: 0.95rem; background: rgba(10, 14, 31, 0.95); padding: 10px 18px; border-radius: 12px; border: 1px solid rgba(40, 107, 255, 0.3); white-space: nowrap; margin-bottom: 20px; }
+        .timeline-content { color: rgba(255, 255, 255, 0.85); font-size: 1.1rem; line-height: 1.9; }
+        .timeline-highlight { color: #286bff; font-weight: 700; }
         
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-            
-            reveal();
-            revealTimeline();
-        });
+        /* [New Price Styling] */
+        .price-container {
+            text-align: center; margin-top: 80px;
+        }
+        .price-card {
+            display: inline-block; padding: 50px 70px;
+            background: linear-gradient(135deg, rgba(40, 107, 255, 0.15) 0%, rgba(26, 79, 214, 0.15) 100%);
+            border: 2px solid rgba(40, 107, 255, 0.5); border-radius: 30px;
+            position: relative;
+        }
+        .price-tag {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            background: #286bff; color: white; padding: 8px 20px; border-radius: 20px;
+            font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(40, 107, 255, 0.5);
+        }
+        .price-original {
+            font-size: 1.3rem; color: rgba(255, 255, 255, 0.4); text-decoration: line-through;
+            margin-bottom: 8px; display: block;
+        }
+        .price-final {
+            font-size: 3.5rem; color: #fff; font-weight: 800; line-height: 1;
+            margin-bottom: 16px; display: block;
+        }
+        .price-desc { font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); }
 
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero && scrolled < window.innerHeight) {
-                hero.style.transform = `translateY(${scrolled * 0.4}px)`;
-                hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
-            }
-        });
+        /* [Trust & FAQ] */
+        .trust, .faq { padding: 100px 24px; position: relative; z-index: 2; }
+        .trust-content { max-width: 850px; margin: 0 auto; padding: 64px 56px; text-align: center; }
+        .trust-quote { font-size: 1.3rem; color: rgba(255, 255, 255, 0.85); margin-bottom: 36px; line-height: 1.9; }
+        .trust-highlight { color: #286bff; font-weight: 700; }
+        .trust-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 56px; }
+        .trust-feature { padding: 28px 24px; background: rgba(40, 107, 255, 0.06); border: 1px solid rgba(40, 107, 255, 0.15); border-radius: 16px; transition: all 0.3s ease; }
+        .trust-feature:hover { background: rgba(40, 107, 255, 0.1); transform: translateY(-4px); }
+        .faq-grid { display: grid; gap: 24px; max-width: 850px; margin: 0 auto; }
+        .faq-card { padding: 36px 40px; transition: all 0.4s ease; cursor: pointer; }
+        .faq-item.active .faq-card { background: rgba(40, 107, 255, 0.06); }
+        .faq-question { font-size: 1.3rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+        .faq-answer { color: rgba(255, 255, 255, 0.75); font-size: 1.1rem; line-height: 1.9; max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s ease; }
+        .faq-item.active .faq-answer { max-height: 500px; margin-top: 24px; }
+        .faq-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(40, 107, 255, 0.15); border-radius: 50%; transition: all 0.3s ease; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); background: rgba(40, 107, 255, 0.3); }
 
-        window.addEventListener('load', () => {
-            createParticles();
-            reveal();
-            revealTimeline();
-        });
-    </script>
-</body>
-</html>
+        /* [Final CTA] */
+        .final-cta { padding: 100px
