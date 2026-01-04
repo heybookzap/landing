@@ -7,480 +7,429 @@
     
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
-    <meta property="og:title" content="The Private Strategy Vault - CEO 전략 참모">
-    <meta property="og:description" content="김 팀장에게 보낼 지시사항, 복사만 하세요. 1월 프라이빗 멤버십 오픈.">
-    <meta property="og:image" content="https://your-image-url.com/og-image.jpg">
-    
     <style>
-        /* [기본 스타일 유지] */
+        /* [기본 설정] */
+        :root {
+            --primary: #286bff;
+            --primary-dark: #1a4fd6;
+            --bg: #050710;
+            --text: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
-            background: #0a0e1f;
-            color: #fff;
+            font-family: 'Pretendard', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
             line-height: 1.7;
             letter-spacing: -0.01em;
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-        /* [배경 애니메이션 유지] */
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(ellipse at 30% 40%, rgba(40, 107, 255, 0.12) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 60%, rgba(26, 79, 214, 0.08) 0%, transparent 50%);
-            animation: gradientShift 20s ease infinite; pointer-events: none; z-index: 0;
-        }
-        @keyframes gradientShift {
-            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.7; transform: scale(1.05) rotate(5deg); }
+            cursor: default;
         }
 
-        /* [입자 효과 유지] */
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.6; }
-        .particle { position: absolute; background: radial-gradient(circle, rgba(40, 107, 255, 0.6) 0%, transparent 70%); border-radius: 50%; filter: blur(3px); }
+        /* [1. 배경 및 입자 효과] */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0; opacity: 0.07;
+        }
 
-        /* [네비게이션 유지] */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(40, 107, 255, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+        /* [2. 네비게이션] */
         .nav {
             position: fixed; top: 0; left: 0; right: 0; padding: 24px 0;
-            background: rgba(10, 14, 31, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06); z-index: 100; transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100;
         }
-        .nav.scrolled { padding: 16px 0; background: rgba(10, 14, 31, 0.9); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
+        .nav.scrolled {
+            padding: 16px 0;
+            background: rgba(5, 7, 16, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo {
-            font-size: 1.4rem; font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, #286bff 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .nav-cta {
-            padding: 14px 36px; background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
-            border-radius: 50px; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
-            transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(40, 107, 255, 0.3);
-        }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(40, 107, 255, 0.5); }
-
-        /* [유리 효과 유지] */
-        .glass {
-            background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; overflow: hidden;
-        }
-        .glass:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(40, 107, 255, 0.2); border-color: rgba(40, 107, 255, 0.3); }
-
-        /* [Hero Section 수정] */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 2; padding: 160px 24px 100px; }
-        .hero-content { max-width: 900px; margin: 0 auto; }
-        .hero-badge {
-            display: inline-block; padding: 10px 24px; background: rgba(40, 107, 255, 0.1);
-            border: 1px solid rgba(40, 107, 255, 0.25); border-radius: 50px;
-            font-size: 0.9rem; color: #286bff; font-weight: 600; margin-bottom: 40px; animation: fadeInDown 0.8s ease-out;
-        }
-        .hero .quote { font-size: clamp(1.6rem, 4vw, 2.8rem); color: #286bff; margin-bottom: 24px; font-weight: 700; animation: fadeInUp 1s ease-out; line-height: 1.4; }
-        .hero h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; margin-bottom: 32px; color: #fff; animation: fadeInUp 1.2s ease-out; line-height: 1.3; letter-spacing: -0.03em; }
-        .hero .subtitle { font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: rgba(255, 255, 255, 0.75); margin-bottom: 56px; max-width: 750px; margin-left: auto; margin-right: auto; animation: fadeInUp 1.4s ease-out; line-height: 1.8; font-weight: 400; }
-        .hero .highlight { color: #286bff; font-weight: 700; }
-
-        /* [애니메이션] */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* [CTA 버튼] */
-        .cta-button {
-            display: inline-flex; align-items: center; gap: 12px; padding: 22px 52px;
-            font-size: 1.2rem; font-weight: 700; color: #fff;
-            background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%);
-            border: none; border-radius: 50px; cursor: pointer; text-decoration: none;
-            position: relative; overflow: hidden; transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(40, 107, 255, 0.4); animation: fadeInUp 1.6s ease-out;
-        }
-        .cta-button:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(40, 107, 255, 0.5); }
-        .arrow { font-size: 1.4rem; transition: transform 0.3s ease; }
-        .cta-button:hover .arrow { transform: translateX(4px); }
-
-        /* [Stats Section] */
-        .stats { padding: 80px 24px; position: relative; z-index: 2; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto; }
-        .stat-card { text-align: center; padding: 48px 32px; }
-        .stat-number { font-size: 3.2rem; font-weight: 800; background: linear-gradient(135deg, #286bff 0%, #1a4fd6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; display: block; letter-spacing: -0.02em; }
-        .stat-label { font-size: 1.05rem; color: rgba(255, 255, 255, 0.7); font-weight: 500; line-height: 1.6; }
-
-        /* [Problems Section] */
-        .problems { padding: 100px 24px; position: relative; z-index: 2; }
-        .section-title { font-size: clamp(2.2rem, 4.5vw, 3.5rem); text-align: center; margin-bottom: 20px; font-weight: 800; line-height: 1.3; letter-spacing: -0.03em; }
-        .section-subtitle { text-align: center; font-size: 1.15rem; color: rgba(255, 255, 255, 0.65); margin-bottom: 72px; max-width: 700px; margin-left: auto; margin-right: auto; font-weight: 400; }
-        .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; margin-bottom: 48px; }
-        .problem-card { padding: 44px 40px; position: relative; }
-        .problem-icon { font-size: 3rem; margin-bottom: 24px; display: block; }
-        .problem-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: #fff; line-height: 1.5; }
-        .problem-desc { color: rgba(255, 255, 255, 0.65); margin-bottom: 28px; font-size: 1.05rem; line-height: 1.7; }
-        .solution-tag { display: inline-block; padding: 8px 18px; background: rgba(40, 107, 255, 0.12); border: 1px solid rgba(40, 107, 255, 0.25); border-radius: 20px; font-size: 0.88rem; color: #286bff; font-weight: 700; margin-bottom: 16px; letter-spacing: 0.3px; }
-        .solution-text { color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 1.05rem; line-height: 1.8; }
-
-        /* [Story Section] */
-        .story { padding: 100px 24px; background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.02) 100%); position: relative; z-index: 2; }
-        .timeline { max-width: 850px; margin: 0 auto; position: relative; }
-        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, transparent, rgba(40, 107, 255, 0.4), transparent); }
-        .timeline-item { margin-bottom: 56px; opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .timeline-item.visible { opacity: 1; transform: translateX(0); }
-        .timeline-card { padding: 44px 40px; margin-left: 0; position: relative; }
-        .timeline-time { position: relative; left: 0; display: inline-block; font-weight: 700; color: #286bff; font-size: 0.95rem; background: rgba(10, 14, 31, 0.95); padding: 10px 18px; border-radius: 12px; border: 1px solid rgba(40, 107, 255, 0.3); white-space: nowrap; margin-bottom: 20px; }
-        .timeline-content { color: rgba(255, 255, 255, 0.85); font-size: 1.1rem; line-height: 1.9; }
-        .timeline-highlight { color: #286bff; font-weight: 700; }
+        .logo { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
         
-        /* [New Price Styling] */
-        .price-container {
-            text-align: center; margin-top: 80px;
+        .nav-cta {
+            padding: 10px 24px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 100px;
+            color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 600;
+            transition: all 0.3s; background: rgba(255, 255, 255, 0.05);
         }
-        .price-card {
-            display: inline-block; padding: 50px 70px;
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.15) 0%, rgba(26, 79, 214, 0.15) 100%);
-            border: 2px solid rgba(40, 107, 255, 0.5); border-radius: 30px;
+        .nav-cta:hover { background: #fff; color: #000; }
+
+        /* [3. Spotlight Glass Card Effect] */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
             position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
-        .price-tag {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: #286bff; color: white; padding: 8px 20px; border-radius: 20px;
-            font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(40, 107, 255, 0.5);
+        
+        /* 마우스 따라다니는 Spotlight 효과 */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
         }
-        .price-original {
-            font-size: 1.3rem; color: rgba(255, 255, 255, 0.4); text-decoration: line-through;
-            margin-bottom: 8px; display: block;
+        .glass-card:hover::before { opacity: 1; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+
+        /* [4. Typography & Layout] */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 140px 20px 80px; }
+        
+        .hero-badge {
+            display: inline-block; padding: 8px 20px; border-radius: 50px;
+            background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.3);
+            color: #4d89ff; font-weight: 700; font-size: 0.9rem; margin-bottom: 32px;
+            animation: fadeInDown 1s ease-out;
         }
-        .price-final {
-            font-size: 3.5rem; color: #fff; font-weight: 800; line-height: 1;
-            margin-bottom: 16px; display: block;
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.2; margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff 0%, #a6c1ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
         }
-        .price-desc { font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); }
-
-        /* [Trust & FAQ] */
-        .trust, .faq { padding: 100px 24px; position: relative; z-index: 2; }
-        .trust-content { max-width: 850px; margin: 0 auto; padding: 64px 56px; text-align: center; }
-        .trust-quote { font-size: 1.3rem; color: rgba(255, 255, 255, 0.85); margin-bottom: 36px; line-height: 1.9; }
-        .trust-highlight { color: #286bff; font-weight: 700; }
-        .trust-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 56px; }
-        .trust-feature { padding: 28px 24px; background: rgba(40, 107, 255, 0.06); border: 1px solid rgba(40, 107, 255, 0.15); border-radius: 16px; transition: all 0.3s ease; }
-        .trust-feature:hover { background: rgba(40, 107, 255, 0.1); transform: translateY(-4px); }
-        .faq-grid { display: grid; gap: 24px; max-width: 850px; margin: 0 auto; }
-        .faq-card { padding: 36px 40px; transition: all 0.4s ease; cursor: pointer; }
-        .faq-item.active .faq-card { background: rgba(40, 107, 255, 0.06); }
-        .faq-question { font-size: 1.3rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-        .faq-answer { color: rgba(255, 255, 255, 0.75); font-size: 1.1rem; line-height: 1.9; max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s ease; }
-        .faq-item.active .faq-answer { max-height: 500px; margin-top: 24px; }
-        .faq-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(40, 107, 255, 0.15); border-radius: 50%; transition: all 0.3s ease; }
-        .faq-item.active .faq-icon { transform: rotate(180deg); background: rgba(40, 107, 255, 0.3); }
-
-        /* [Final CTA] */
-        .final-cta { padding: 100px 24px 100px; text-align: center; position: relative; z-index: 2; }
-        .final-cta-box { max-width: 850px; margin: 0 auto; padding: 80px 60px; background: linear-gradient(135deg, rgba(40, 107, 255, 0.1) 0%, rgba(26, 79, 214, 0.1) 100%); position: relative; }
-        .final-cta h2 { font-size: clamp(1.8rem, 4.5vw, 2.8rem); margin-bottom: 32px; font-weight: 800; line-height: 1.4; }
-        .urgency { font-size: 1.4rem; color: #286bff; margin-bottom: 48px; font-weight: 700; }
-
-        /* [Footer] */
-        .footer { padding: 56px 24px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); background: rgba(10, 14, 31, 0.5); }
-        .footer-text { color: rgba(255, 255, 255, 0.5); font-size: 0.95rem; }
-
-        /* [Responsive] */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .stat-number { font-size: 2.8rem; }
-            .timeline::before { display: none; }
-            .price-card { padding: 40px 24px; width: 100%; }
-            .price-final { font-size: 2.8rem; }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem); color: rgba(255, 255, 255, 0.7); max-width: 700px; margin: 0 auto 48px;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
         }
 
-        /* [Scroll Reveal] */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* [5. CTA Button with Shimmer (광택) Effect] */
+        .cta-btn {
+            position: relative;
+            display: inline-flex; justify-content: center; align-items: center;
+            padding: 20px 48px;
+            background: var(--primary);
+            color: #fff; font-weight: 700; font-size: 1.2rem;
+            border-radius: 100px; text-decoration: none;
+            overflow: hidden; transition: transform 0.2s;
+            box-shadow: 0 10px 30px rgba(40, 107, 255, 0.3);
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+        
+        .cta-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+        
+        .cta-btn:active { transform: scale(0.98); }
+
+        /* [6. Stats & Animations] */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 80px; }
+        .stat-number { font-size: 3rem; font-weight: 800; color: #fff; display: block; margin-bottom: 8px; }
+        .stat-label { color: rgba(255, 255, 255, 0.6); }
+
+        /* [7. Sections] */
+        section { padding: 100px 0; }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; text-align: center; margin-bottom: 60px; }
+        
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+        
+        /* Timeline */
+        .timeline { max-width: 800px; margin: 0 auto; position: relative; padding-left: 30px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.1); }
+        .timeline-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateX(-20px); transition: all 0.8s; }
+        .timeline-item.visible { opacity: 1; transform: translateX(0); }
+        .timeline-dot { position: absolute; left: -35px; top: 24px; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 0 6px rgba(40, 107, 255, 0.2); }
+        .timeline-time { color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; display: block; }
+
+        /* Price Card */
+        .price-box {
+            text-align: center; padding: 60px 40px; border: 1px solid var(--primary);
+            background: radial-gradient(circle at center, rgba(40, 107, 255, 0.1), transparent 70%);
+            max-width: 600px; margin: 0 auto;
+        }
+        .price-strike { text-decoration: line-through; color: rgba(255, 255, 255, 0.4); font-size: 1.2rem; }
+        .price-main { font-size: 3.5rem; font-weight: 800; color: #fff; margin: 10px 0 20px; line-height: 1; }
+
+        /* FAQ */
+        .faq-item { margin-bottom: 16px; cursor: pointer; }
+        .faq-q { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.2rem; }
+        .faq-a { max-height: 0; overflow: hidden; transition: all 0.4s ease; color: rgba(255, 255, 255, 0.7); margin-top: 0; }
+        .faq-item.active .faq-a { max-height: 300px; margin-top: 20px; }
+        .arrow { transition: transform 0.3s; }
+        .faq-item.active .arrow { transform: rotate(180deg); }
+
+        /* [8. Mobile Sticky CTA] */
+        .mobile-cta {
+            display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 999;
+        }
+        .mobile-btn {
+            display: block; width: 100%; padding: 18px; text-align: center;
+            background: var(--primary); color: #fff; font-weight: 700; font-size: 1.1rem;
+            border-radius: 16px; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* [Animations] */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-cta { display: none; }
+            .mobile-cta { display: block; animation: fadeInUp 0.5s 1s backwards; }
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .timeline { padding-left: 20px; }
+            .timeline-dot { left: -26px; }
+        }
     </style>
 </head>
 <body>
+
+    <div class="noise-overlay"></div>
     <div class="particles" id="particles"></div>
 
     <nav class="nav" id="nav">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">STRATEGY VAULT</div>
-                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="nav-cta">멤버십 신청 (15명 한정)</a>
-            </div>
+        <div class="container nav-content">
+            <div class="logo">STRATEGY VAULT</div>
+            <a href="https://forms.gle/5jKSJw447miNETEe9" target="_blank" class="nav-cta">15명 한정 멤버십 신청</a>
         </div>
     </nav>
 
     <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">✨ 1월 파운딩 멤버십 모집 (Last 2 Seats)</div>
-            <div class="quote">"강의는 이제 그만. 결론만 사세요."</div>
-            <h1>불안해서 공부하던 10시간,<br>저희가 <span class="highlight">'확신의 10분'</span>으로 바꿉니다.</h1>
-            <p class="subtitle">
-                트렌드 분석부터 직원 지시문 작성까지, 저희가 다 끝냈습니다.<br>
-                대표님은 <strong>'복사+붙여넣기'</strong>만 하세요. 나머지는 저희가 책임집니다.
-            </p>
-            <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
-                <span class="cta-text">99만원으로 전략실 전체 고용하기</span>
-                <span class="arrow">→</span>
-            </a>
-        </div>
-    </section>
-
-    <section class="stats reveal">
         <div class="container">
+            <div class="hero-badge">✨ 1월 파운딩 멤버 모집 (마감 임박)</div>
+            <h1>불안해서 공부하던 10시간,<br>'확신의 10분'으로 바꿉니다.</h1>
+            <p>트렌드 분석부터 직원 지시문까지, AI와 전략팀이 모두 끝냈습니다.<br>대표님은 그저 '복사+붙여넣기'만 하세요.</p>
+            <a href="https://forms.gle/5jKSJw447miNETEe9" target="_blank" class="cta-btn">99만원으로 전략실 고용하기</a>
+            
             <div class="stats-grid">
-                <div class="stat-card glass">
-                    <span class="stat-number">ZERO</span>
-                    <div class="stat-label">더 이상의 강의 결제는 없습니다</div>
+                <div class="glass-card">
+                    <span class="stat-number" data-target="0">0</span>
+                    <span class="stat-label">더 이상의 강의 결제</span>
                 </div>
-                <div class="stat-card glass">
-                    <span class="stat-number">24/7</span>
-                    <div class="stat-label">경쟁사 감시 & 방어 전략 가동</div>
+                <div class="glass-card">
+                    <span class="stat-number" data-target="24">0</span>
+                    <span class="stat-label">시간 경쟁사 감시</span>
                 </div>
-                <div class="stat-card glass">
-                    <span class="stat-number">100%</span>
-                    <div class="stat-label">직원 지시문 & 퀄리티 체크 대행</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="problems">
-        <div class="container">
-            <h2 class="section-title reveal">🛑 "혹시, 불안해서 또 결제하셨나요?"</h2>
-            <p class="section-subtitle reveal">시간을 아끼려 샀던 강의가, 오히려 대표님의 시간을 갉아먹고 있습니다.</p>
-            
-            <div class="problem-grid">
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">😵‍💫</span>
-                    <h3 class="problem-title">"뭘 해야 할지 몰라 공부만 계속해요."</h3>
-                    <p class="problem-desc">
-                        정보는 넘쳐나는데 '내 상황'에 맞는 답이 없어, 불안감에 강의만 찾아다니는 '학습 중독'에 빠져 있습니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        저희가 <strong>"이것만 하세요"</strong>라고 딱 정해드립니다. 그리고 <strong>"나머지는 안 해도 된다"</strong>는 확신을 드립니다.
-                    </p>
-                </div>
-
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">🗣️</span>
-                    <h3 class="problem-title">"지시했는데 결과물이 엉망이에요."</h3>
-                    <p class="problem-desc">
-                        직원에게 일을 시켜도 마음에 안 들어서, 결국 대표님이 수정하고 다시 하느라 야근합니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        지시 멘트뿐만 아니라 <strong>'완료 기준표(Checklist)'</strong>까지 드립니다. 기준 미달 시 보고조차 못 하게 만듭니다.
-                    </p>
-                </div>
-
-                <div class="problem-card glass reveal">
-                    <span class="problem-icon">⚖️</span>
-                    <h3 class="problem-title">"이 결정이 맞는지 무서워요."</h3>
-                    <p class="problem-desc">
-                        경쟁사가 가격을 내렸는데 따라가야 할지, 말아야 할지... 혼자 고민하느라 골든타임을 놓칩니다.
-                    </p>
-                    <div class="solution-tag">✓ 해결책</div>
-                    <p class="solution-text">
-                        고민하지 마세요. <strong>[CEO 핫라인]</strong>에 "이거 해도 돼?"라고 물으세요. CSO가 즉시 O/X를 판단해 드립니다.
-                    </p>
+                <div class="glass-card">
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">명 한정 프라이빗 케어</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="story">
-        <div class="container">
-            <h2 class="section-title reveal">✨ 대표님의 월요일은 이제 '지시'로 시작됩니다.</h2>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오전 8:30</div>
-                        <div class="timeline-content">
-                            뉴스 검색 대신 <strong>[전략 브리핑]</strong>을 엽니다. "경쟁사 A가 가격 인상함. 우리는 동결 전략으로 가심비 공략."이라는 <span class="timeline-highlight">명확한 결론</span>을 확인합니다.
-                        </div>
-                    </div>
-                </div>
+    <section class="container">
+        <h2 class="section-title reveal">어젯밤에도<br>불안해서 잠 못 드셨나요?</h2>
+        <div class="features-grid">
+            <div class="glass-card reveal">
+                <span class="feature-icon">😵‍💫</span>
+                <h3>"정보가 너무 많아요"</h3>
+                <p style="opacity:0.7; margin-top:10px;">저희가 대표님께 필요한 딱 하나만 남기고 다 버려드립니다. 학습을 강제로 멈춰드립니다.</p>
+            </div>
+            <div class="glass-card reveal">
+                <span class="feature-icon">🗣️</span>
+                <h3>"지시하기가 어려워요"</h3>
+                <p style="opacity:0.7; margin-top:10px;">"팀장님 이렇게 하세요."라고 그대로 복사해서 보낼 수 있는 완벽한 지시문을 드립니다.</p>
+            </div>
+            <div class="glass-card reveal">
+                <span class="feature-icon">⚖️</span>
+                <h3>"이 결정이 맞을까요?"</h3>
+                <p style="opacity:0.7; margin-top:10px;">고민될 때 [CEO 핫라인]에 물어보세요. 30분 내로 O/X를 판단해 드립니다.</p>
+            </div>
+        </div>
+    </section>
 
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오전 9:00</div>
-                        <div class="timeline-content">
-                            팀장에게 카톡을 보냅니다. "이번 주 배너 문구는 '가격 동결'로 갑시다." (저희가 써드린 멘트를 <span class="timeline-highlight">복사+붙여넣기</span> 했습니다.) 동시에 "폰트 크기, 링크 오류 꼭 체크해"라는 <span class="timeline-highlight">검수 기준표</span>도 함께 보냅니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-card glass">
-                        <div class="timeline-time">오후 2:00</div>
-                        <div class="timeline-content">
-                            직원이 가져온 시안이 애매합니다. 고민 없이 <strong>[CEO 핫라인]</strong>에 올립니다. "이대로 내보내도 될까요?" 30분 뒤, CSO가 <span class="timeline-highlight">"수정 필요: 소구점이 약함"</span>이라며 피드백을 줍니다. 대표님은 그대로 전달만 합니다.
-                        </div>
-                    </div>
+    <section class="container">
+        <h2 class="section-title reveal">대표님의 월요일 아침 루틴</h2>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-card">
+                    <span class="timeline-time">MON 08:30 AM</span>
+                    <h3>전략 브리핑 확인</h3>
+                    <p style="opacity:0.7; margin-top:10px;">"경쟁사 A가 가격 인상함. 우리는 동결 전략으로 역공."이라는 명확한 결론을 확인합니다.</p>
                 </div>
             </div>
-
-            <div class="price-container reveal">
-                <div class="price-card glass">
-                    <div class="price-tag">1월 파운딩 멤버십 한정 혜택</div>
-                    <span class="price-original">정상가 월 1,500,000원</span>
-                    <span class="price-final">월 990,000원</span>
-                    <p class="price-desc">신입 사원 1명 월급의 1/3 가격으로,<br><strong>완벽한 전략 임원(CSO)</strong>을 고용하십시오.</p>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-card">
+                    <span class="timeline-time">MON 09:00 AM</span>
+                    <h3>지시문 발송 & 체크</h3>
+                    <p style="opacity:0.7; margin-top:10px;">저희가 써드린 멘트를 팀장에게 복사+붙여넣기 합니다. 동시에 '검수 체크리스트'도 함께 보냅니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="glass-card">
+                    <span class="timeline-time">MON 02:00 PM</span>
+                    <h3>초안 컨펌 요청</h3>
+                    <p style="opacity:0.7; margin-top:10px;">직원의 결과물이 애매하다면? 핫라인에 올려주세요. CSO가 대신 검수해 드립니다.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="trust">
-        <div class="container">
-            <h2 class="section-title reveal">💬 "왜 15명만 받나요?"</h2>
-            
-            <div class="trust-content glass reveal">
-                <p class="trust-quote">
-                    저희는 정보를 복사해서 파는 뉴스레터가 아닙니다.<br>
-                    대표님의 의사결정을 함께 고민하고, 결과물까지 검수(Confirm)해 드리는<br>
-                    <span class="trust-highlight">실전 파트너십 서비스</span>이기 때문입니다.
-                </p>
-                <p class="trust-quote">
-                    15명이 넘어가면 제가 직접 케어할 수 있는 퀄리티가 유지되지 않습니다.<br>
-                    그래서 <span class="trust-highlight">딱 15분</span>만, 파운딩 멤버로 모십니다.
-                </p>
+    <section class="container reveal">
+        <div class="glass-card price-box">
+            <span style="background:#286bff; padding:5px 15px; border-radius:20px; font-size:0.9rem; font-weight:700;">1월 파운딩 멤버십</span>
+            <div style="margin-top:20px;">
+                <span class="price-strike">월 1,500,000원</span>
+                <div class="price-main">월 990,000원</div>
+                <p style="opacity:0.8;">신입 사원 1명 월급의 1/3 가격으로<br>완벽한 전략 임원(CSO)을 고용하세요.</p>
+            </div>
+            <a href="https://forms.gle/5jKSJw447miNETEe9" target="_blank" class="cta-btn" style="margin-top:30px;">멤버십 신청하기</a>
+        </div>
+    </section>
 
-                <div class="trust-features">
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">🚫</div>
-                        <div class="trust-feature-text">Stop Learning<br>(학습 중단 강제)</div>
-                    </div>
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">✅</div>
-                        <div class="trust-feature-text">Gatekeeper<br>(최종 컨펌 권한)</div>
-                    </div>
-                    <div class="trust-feature">
-                        <div class="trust-feature-icon">🛡️</div>
-                        <div class="trust-feature-text">Risk Free<br>(100% 환불 보장)</div>
-                    </div>
-                </div>
+    <section class="container" style="max-width: 800px;">
+        <h2 class="section-title reveal">자주 묻는 질문</h2>
+        <div class="faq-item glass-card reveal">
+            <div class="faq-q">
+                가격이 비싼 것 같아요 <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">
+                오히려 가장 저렴합니다. 지난달 강의료와 책값, 그리고 고민하느라 날린 대표님의 시간 비용을 계산해보세요. 월 400만 원짜리 마케팅 팀장보다 더 날카로운 전략을 드립니다.
+            </div>
+        </div>
+        <div class="faq-item glass-card reveal">
+            <div class="faq-q">
+                업종 상관 없나요? <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">
+                저희는 '라이프스타일/커머스' 분야 연매출 10억 목표 기업에 특화되어 있습니다. 해당 분야가 아니라면 정중히 반려될 수 있습니다.
+            </div>
+        </div>
+        <div class="faq-item glass-card reveal">
+            <div class="faq-q">
+                환불 가능한가요? <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">
+                네, 이유 불문 100% 환불해 드립니다. "시간이 절약되지 않았다"고 느끼신다면 언제든 말씀해 주세요.
             </div>
         </div>
     </section>
 
-    <section class="faq">
-        <div class="container">
-            <h2 class="section-title reveal">자주 묻는 질문</h2>
-            
-            <div class="faq-grid">
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>가격이 부담스러운데, 효과가 있을까요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            오히려 묻고 싶습니다. 지난달 강의료와 책값, 그리고 고민하느라 날린 시간 비용은 얼마인가요? 월 99만 원으로 그 모든 '불안 비용'을 없애드립니다. 마케팅 팀장(월 400만 원)보다 훨씬 저렴하고 유능합니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>업종에 상관없이 가능한가요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            저희는 '라이프스타일/커머스' 분야에 특화되어 있습니다. 해당 분야의 10억 이상 매출을 목표로 하는 여성 대표님께 최적화된 데이터를 제공합니다. 맞지 않는 업종은 정중히 거절할 수 있습니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal">
-                    <div class="faq-card glass">
-                        <div class="faq-question">
-                            <span>정말 마음에 안 들면 환불되나요?</span>
-                            <div class="faq-icon">▼</div>
-                        </div>
-                        <div class="faq-answer">
-                            네, 100% 환불해 드립니다. "시간이 절약되지 않았다"고 느끼신다면 언제든 말씀해 주세요. 대표님의 성장을 돕지 못했다면 비용을 받을 자격이 없습니다.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="final-cta" id="final-cta">
-        <div class="container">
-            <div class="final-cta-box glass reveal">
-                <h2>"고민하는 이 순간에도,<br>경쟁사는 앞서가고 있습니다."</h2>
-                <p class="urgency">⚡ 1월 파운딩 멤버, 오직 15자리 (마감 임박)</p>
-                <a href="https://forms.gle/Tp8PXNaLbQasZ5Ld7" target="_blank" class="cta-button">
-                    <span class="cta-text">99만원으로 1월 멤버십 시작하기</span>
-                    <span class="arrow">→</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">© 2026 The Private Strategy Vault. All rights reserved.</p>
-        </div>
-    </footer>
+    <div class="mobile-cta">
+        <a href="https://forms.gle/5jKSJw447miNETEe9" target="_blank" class="mobile-btn">99만원으로 멤버십 시작하기</a>
+    </div>
 
     <script>
-        /* [기존 스크립트와 동일 유지] */
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const count = window.innerWidth > 768 ? 30 : 15;
-            for (let i = 0; i < count; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 60 + 30;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
-                particle.style.opacity = Math.random() * 0.4 + 0.2;
-                container.appendChild(particle);
-            }
+        // [1. 입자 생성] - 천천히 부유하는 효과
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = window.innerWidth < 768 ? 15 : 30;
+        
+        for(let i=0; i<particleCount; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 4 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 20 + 20) + 's'; // 20~40초 (아주 느리게)
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            particlesContainer.appendChild(p);
         }
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal:not(.visible)');
-            reveals.forEach((element, index) => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    setTimeout(() => { element.classList.add('visible'); }, index * 80);
+
+        // [2. Spotlight 효과] - 마우스 따라다니는 빛
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // [3. 스크롤 애니메이션 (Fade-in)]
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // [4. Count-up 애니메이션] - 화면에 보일 때 숫자 올라감
+                    if(entry.target.querySelector('.stat-number')) {
+                        const num = entry.target.querySelector('.stat-number');
+                        const target = +num.getAttribute('data-target');
+                        if(target > 0) { // 0인 경우는 제외 (Zero 텍스트)
+                            let start = 0;
+                            const duration = 2000;
+                            const startTime = performance.now();
+                            
+                            function update(currentTime) {
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                
+                                // Ease-out 효과
+                                const easeOut = 1 - Math.pow(1 - progress, 3);
+                                
+                                num.innerText = Math.floor(easeOut * target);
+                                
+                                if (progress < 1) {
+                                    requestAnimationFrame(update);
+                                } else {
+                                    num.innerText = target;
+                                }
+                            }
+                            requestAnimationFrame(update);
+                        } else {
+                            num.innerText = "ZERO"; // 0일 때는 텍스트로
+                        }
+                    }
                 }
             });
-        }
-        function revealTimeline() {
-            const items = document.querySelectorAll('.timeline-item:not(.visible)');
-            items.forEach((item, index) => {
-                const windowHeight = window.innerHeight;
-                const elementTop = item.getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    setTimeout(() => { item.classList.add('visible'); }, index * 200);
-                }
-            });
-        }
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.glass-card').forEach(el => observer.observe(el)); // 카드에도 적용
+
+        // [5. FAQ 토글]
         document.querySelectorAll('.faq-item').forEach(item => {
             item.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(faq => { faq.classList.remove('active'); });
-                if (!isActive) { item.classList.add('active'); }
+                item.classList.toggle('active');
             });
         });
-        const nav = document.getElementById('nav');
+
+        // [6. 네비게이션 스크롤]
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
-            reveal(); revealTimeline();
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
         });
-        window.addEventListener('load', () => { createParticles(); reveal(); revealTimeline(); });
+
     </script>
 </body>
 </html>
