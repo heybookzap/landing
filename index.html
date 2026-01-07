@@ -16,71 +16,55 @@
             overflow-x: hidden;
         }
 
-        /* 1. HERO: 첫 문장에서 승부 (문제 제기) */
+        /* HERO: 고객의 속마음을 그대로 (빙의) */
         .hero {
-            padding: 120px 20px;
+            padding: 120px 20px 60px;
             text-align: center;
             background: radial-gradient(circle at center, #1a1a2e 0%, #000 80%);
         }
-
         .hero h1 {
-            font-size: clamp(36px, 6vw, 64px);
+            font-size: clamp(36px, 6vw, 68px);
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 30px;
         }
-
         .highlight { color: #ffd93d; }
-
         .hero p {
-            font-size: clamp(18px, 3.5vw, 22px);
-            color: #aaa;
+            font-size: clamp(18px, 4vw, 24px);
+            color: #bbb;
             max-width: 600px;
             margin: 0 auto 50px;
         }
 
-        /* 2. Brand Standard: 우리만의 기준 (시간 절약 -> 통제) */
-        .standard-box {
-            border: 1px solid #333;
-            background: #111;
-            padding: 30px;
-            display: inline-block;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
-        .standard-text {
-            color: #fff;
-            font-weight: 700;
-            font-size: 16px;
-        }
+        /* SECTION: 짧고 명확하게 */
+        .section-box { padding: 80px 20px; text-align: center; border-bottom: 1px solid #1a1a1a; }
+        .section-title { font-size: 28px; font-weight: 700; margin-bottom: 40px; color: #fff; }
 
-        /* 3. Suitability: 적합성 (추천/비추천) */
-        .fit-section {
-            padding: 80px 20px;
-            background: #0a0a0a;
-            text-align: center;
-        }
-        .fit-grid {
+        /* PAIN POINTS: 입말 그대로 */
+        .pain-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             max-width: 900px;
-            margin: 40px auto 0;
+            margin: 0 auto;
         }
-        .fit-card {
-            padding: 40px;
+        .pain-card {
+            background: #111;
+            padding: 30px;
             border-radius: 20px;
+            border: 1px solid #333;
+            text-align: left;
         }
-        .fit-yes { background: rgba(40, 107, 255, 0.1); border: 1px solid #286bff; }
-        .fit-no { background: rgba(255, 255, 255, 0.05); border: 1px solid #333; opacity: 0.6; }
-        .fit-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; }
-
-        /* 4. Pricing & Timing: 지금 사야 하는 이유 */
-        .pricing-section {
-            padding: 100px 20px;
-            text-align: center;
+        .pain-quote {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ddd;
+            margin-bottom: 10px;
+            font-style: italic;
         }
+        .pain-sub { color: #666; font-size: 14px; }
 
+        /* PRICING: 감정으로 사고 논리로 합리화 */
         .price-card {
             background: linear-gradient(145deg, #161616, #000);
             border: 1px solid #333;
@@ -89,10 +73,8 @@
             padding: 60px 40px;
             border-radius: 30px;
             position: relative;
-            box-shadow: 0 0 50px rgba(255, 217, 61, 0.05);
+            box-shadow: 0 0 60px rgba(255, 217, 61, 0.1);
         }
-
-        /* 타이밍 트리거: 긴급성 */
         .urgent-badge {
             position: absolute;
             top: -15px;
@@ -107,11 +89,8 @@
             box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
             white-space: nowrap;
         }
-
-        .anchor-price { font-size: 18px; color: #666; text-decoration: line-through; }
         .final-price { font-size: 56px; font-weight: 800; color: #fff; margin: 10px 0; letter-spacing: -1px; }
-
-        /* 5. CTA: 행동 유도 버튼 (단순 신청 X) */
+        
         .cta-btn {
             display: block;
             width: 100%;
@@ -127,65 +106,76 @@
             box-shadow: 0 10px 30px rgba(255, 217, 61, 0.2);
         }
         .cta-btn:hover { transform: scale(1.02); }
-
-        .guarantee { margin-top: 25px; color: #666; font-size: 14px; line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <div class="standard-box">
-            <span class="standard-text">Shadow Partner의 기준: "감정을 뺀 데이터 경영"</span>
-        </div>
-        
         <h1>
-            "매출은 오르는데<br>
-            <span class="highlight">왜 매일 밤 불안하죠?</span>"
+            "통장에 돈은 꽂히는데<br>
+            <span class="highlight">왜 남는 게 없지?</span>"
         </h1>
         <p>
-            대표님이 무능해서가 아닙니다.<br>
-            '시스템' 없이 '체력'으로 버티고 있기 때문입니다.
+            그 고민, 대표님 탓이 아닙니다.<br>
+            돈 버는 재능과 <strong>돈 지키는 시스템</strong>은 다르니까요.
         </p>
     </section>
 
-    <section class="fit-section">
-        <h2 style="font-size: 28px; font-weight: 700;">이런 대표님만 신청하세요.</h2>
-        <div class="fit-grid">
-            <div class="fit-card fit-yes">
-                <div class="fit-title" style="color: #286bff;">✅ 추천 대상</div>
-                <p>
-                    1. 월 매출은 나오는데 <strong>순수익이 얼마인지 모르는 분</strong><br>
-                    2. 직원보다 대표가 더 바쁘게 일하는 분<br>
-                    3. <strong>"1년 뒤 내 회사는?"</strong> 질문에 말문이 막히는 분
-                </p>
+    <section class="section-box">
+        <h2 class="section-title">혹시 매일 밤, 이런 생각 하시나요?</h2>
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-quote">"왜 다들 내 입만 쳐다봐?"</div>
+                <div class="pain-sub">내가 없으면 멈추는 회사, 지치셨죠?</div>
             </div>
-            <div class="fit-card fit-no">
-                <div class="fit-title">❌ 비추천 대상</div>
-                <p>
-                    1. 아직 매출이 없는 예비 창업자<br>
-                    2. 실행 대신 위로와 공감을 원하는 분<br>
-                    3. 변화할 의지 없이 '마법'만 바라는 분
-                </p>
+            <div class="pain-card">
+                <div class="pain-quote">"이거 진짜 돈이 되나?"</div>
+                <div class="pain-sub">감으로 하는 경영, 이제 멈추세요.</div>
+            </div>
+            <div class="pain-card">
+                <div class="pain-quote">"내년엔 뭐 먹고 살지?"</div>
+                <div class="pain-sub">1년 뒤가 안 그려지는 공포, 압니다.</div>
             </div>
         </div>
     </section>
 
-    <section class="pricing-section">
+    <section class="section-box" style="background: #0a0a0a;">
+        <h2 class="section-title">복잡한 건 질색이시죠?<br><span class="highlight">딱 3가지만</span> 대신합니다.</h2>
+        
+        <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+            <div style="padding: 20px; border-bottom: 1px solid #333;">
+                <span style="font-size: 24px; font-weight: 800; color: #286bff;">01. 돈</span>
+                <p style="color: #aaa; margin-top: 5px;">어디서 새는지 1원까지 잡아냅니다.</p>
+            </div>
+            <div style="padding: 20px; border-bottom: 1px solid #333;">
+                <span style="font-size: 24px; font-weight: 800; color: #286bff;">02. 시간</span>
+                <p style="color: #aaa; margin-top: 5px;">'해야 할 일'만 남기고 싹 버립니다.</p>
+            </div>
+            <div style="padding: 20px;">
+                <span style="font-size: 24px; font-weight: 800; color: #286bff;">03. 멘탈</span>
+                <p style="color: #aaa; margin-top: 5px;">불안할 때마다 '데이터'로 답해드립니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box">
         <div class="price-card">
-            <div class="urgent-badge">🚨 선착순 10명 마감 시, 가격 2배 인상</div>
+            <div class="urgent-badge">🚨 선착순 10명 마감 (3석 남음)</div>
             
             <div style="margin-top: 20px;">
-                <div class="anchor-price">정상가 2,400만 원</div>
-                <div class="final-price">990만 원<span style="font-size: 20px; font-weight: 400; color: #888;">/년</span></div>
-                <p style="color: #aaa; font-size: 16px;">(월 200만 원짜리 임원을 월 80에 고용)</p>
+                <p style="color: #888; margin-bottom: 10px;">월 200만 원 직원? 아니요.</p>
+                <div class="final-price">월 82만 원</div>
+                <p style="color: #fff; font-size: 18px; font-weight: 400;">
+                    10년 치 시행착오를 사는 비용입니다.
+                </p>
             </div>
             
-            <a href="#" class="cta-btn">1년 치 불안 끝내러 가기</a>
+            <a href="#" class="cta-btn">지긋지긋한 야근 끝내기</a>
             
-            <div class="guarantee">
-                <strong>[100% 환불 보장]</strong><br>
-                30일 써보고 '확신'이 안 든다면 말씀하세요.<br>
-                묻지도 따지지도 않고 전액 돌려드립니다.
+            <div style="margin-top: 30px; font-size: 14px; color: #666;">
+                <strong>[30일 환불 보장]</strong><br>
+                써보고 별로면 환불하세요.<br>
+                그만큼 자신 있습니다.
             </div>
         </div>
     </section>
