@@ -10,198 +10,185 @@
         body {
             font-family: "Pretendard Variable", Pretendard, sans-serif;
             line-height: 1.5;
-            background-color: #000;
+            background-color: #050505;
             color: #fff;
             word-break: keep-all;
             overflow-x: hidden;
         }
 
-        /* 1. Hero: 설명하지 않고 압도한다 */
+        /* 1. HERO: 첫 문장에서 승부 (문제 제기) */
         .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 120px 20px;
             text-align: center;
-            padding: 20px;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 80%);
         }
 
-        .tag {
-            color: #ffd93d;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: clamp(40px, 8vw, 80px);
-            font-weight: 900;
-            line-height: 1.1;
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            line-height: 1.2;
             margin-bottom: 30px;
-            background: linear-gradient(to right, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        p.sub {
-            font-size: clamp(18px, 4vw, 24px);
-            color: #888;
+        .highlight { color: #ffd93d; }
+
+        .hero p {
+            font-size: clamp(18px, 3.5vw, 22px);
+            color: #aaa;
             max-width: 600px;
-            margin-bottom: 50px;
+            margin: 0 auto 50px;
         }
 
-        /* 2. The Future: 결제 후의 장면을 보여준다 */
-        .visualize {
-            padding: 100px 20px;
+        /* 2. Brand Standard: 우리만의 기준 (시간 절약 -> 통제) */
+        .standard-box {
+            border: 1px solid #333;
+            background: #111;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        .standard-text {
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* 3. Suitability: 적합성 (추천/비추천) */
+        .fit-section {
+            padding: 80px 20px;
             background: #0a0a0a;
             text-align: center;
         }
-
-        .future-card {
-            border: 1px solid #333;
-            background: #111;
+        .fit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+        .fit-card {
             padding: 40px;
             border-radius: 20px;
-            max-width: 600px;
-            margin: 0 auto;
         }
+        .fit-yes { background: rgba(40, 107, 255, 0.1); border: 1px solid #286bff; }
+        .fit-no { background: rgba(255, 255, 255, 0.05); border: 1px solid #333; opacity: 0.6; }
+        .fit-title { font-size: 20px; font-weight: 800; margin-bottom: 15px; }
 
-        .future-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .future-desc {
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        /* 3. Pricing: 고민할 선택지를 없앤다 (단일 옵션) */
+        /* 4. Pricing & Timing: 지금 사야 하는 이유 */
         .pricing-section {
             padding: 100px 20px;
             text-align: center;
         }
 
         .price-card {
-            background: linear-gradient(145deg, #111, #000);
+            background: linear-gradient(145deg, #161616, #000);
             border: 1px solid #333;
             max-width: 500px;
             margin: 0 auto;
             padding: 60px 40px;
             border-radius: 30px;
             position: relative;
-            box-shadow: 0 0 50px rgba(255, 217, 61, 0.1);
+            box-shadow: 0 0 50px rgba(255, 217, 61, 0.05);
         }
 
-        .price-card::before {
-            content: 'PRIVATE OFFER';
+        /* 타이밍 트리거: 긴급성 */
+        .urgent-badge {
             position: absolute;
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: #ffd93d;
-            color: #000;
-            padding: 5px 20px;
-            font-weight: 800;
-            font-size: 12px;
-            border-radius: 20px;
-        }
-
-        .anchor-price {
-            font-size: 20px;
-            color: #555;
-            text-decoration: line-through;
-            margin-bottom: 10px;
-        }
-
-        .final-price {
-            font-size: 60px;
-            font-weight: 800;
+            background: #e74c3c;
             color: #fff;
-            margin-bottom: 10px;
-            letter-spacing: -2px;
+            padding: 8px 20px;
+            font-weight: 800;
+            font-size: 14px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            white-space: nowrap;
         }
 
-        .unit { font-size: 20px; font-weight: 400; color: #888; }
+        .anchor-price { font-size: 18px; color: #666; text-decoration: line-through; }
+        .final-price { font-size: 56px; font-weight: 800; color: #fff; margin: 10px 0; letter-spacing: -1px; }
 
+        /* 5. CTA: 행동 유도 버튼 (단순 신청 X) */
         .cta-btn {
             display: block;
             width: 100%;
             padding: 25px 0;
             background: #ffd93d;
             color: #000;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
             text-decoration: none;
             border-radius: 15px;
             margin-top: 40px;
             transition: transform 0.2s;
+            box-shadow: 0 10px 30px rgba(255, 217, 61, 0.2);
         }
-
         .cta-btn:hover { transform: scale(1.02); }
 
-        .guarantee {
-            margin-top: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* 4. Trust: 말이 아닌 태도로 증명 */
-        .footer-msg {
-            padding: 50px 20px;
-            text-align: center;
-            color: #444;
-            font-size: 14px;
-        }
+        .guarantee { margin-top: 25px; color: #666; font-size: 14px; line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <div class="tag">SHADOW PARTNER</div>
-        <h1>대표님의 1년,<br>제가 대신 살겠습니다.</h1>
-        <p class="sub">
-            열심히 사는 건 그만하세요. 그냥 이기세요.<br>
-            얼굴 없는 경영 파트너가 대표님의 뒤를 완벽하게 통제합니다.
+        <div class="standard-box">
+            <span class="standard-text">Shadow Partner의 기준: "감정을 뺀 데이터 경영"</span>
+        </div>
+        
+        <h1>
+            "매출은 오르는데<br>
+            <span class="highlight">왜 매일 밤 불안하죠?</span>"
+        </h1>
+        <p>
+            대표님이 무능해서가 아닙니다.<br>
+            '시스템' 없이 '체력'으로 버티고 있기 때문입니다.
         </p>
     </section>
 
-    <section class="visualize">
-        <div class="future-card">
-            <div class="future-title">내일 아침 8시, 대표님의 풍경</div>
-            <p class="future-desc">
-                "눈을 떴는데 불안하지 않습니다.<br>
-                스마트폰을 켜면 <strong>오늘 해야 할 단 1가지 일</strong>이 와 있습니다.<br>
-                그것만 끝내고 퇴근하세요. 성장은 시스템이 합니다."
-            </p>
+    <section class="fit-section">
+        <h2 style="font-size: 28px; font-weight: 700;">이런 대표님만 신청하세요.</h2>
+        <div class="fit-grid">
+            <div class="fit-card fit-yes">
+                <div class="fit-title" style="color: #286bff;">✅ 추천 대상</div>
+                <p>
+                    1. 월 매출은 나오는데 <strong>순수익이 얼마인지 모르는 분</strong><br>
+                    2. 직원보다 대표가 더 바쁘게 일하는 분<br>
+                    3. <strong>"1년 뒤 내 회사는?"</strong> 질문에 말문이 막히는 분
+                </p>
+            </div>
+            <div class="fit-card fit-no">
+                <div class="fit-title">❌ 비추천 대상</div>
+                <p>
+                    1. 아직 매출이 없는 예비 창업자<br>
+                    2. 실행 대신 위로와 공감을 원하는 분<br>
+                    3. 변화할 의지 없이 '마법'만 바라는 분
+                </p>
+            </div>
         </div>
     </section>
 
     <section class="pricing-section">
         <div class="price-card">
-            <div class="anchor-price">정상가 2,400만 원</div>
-            <div class="final-price">990만 원<span class="unit">/년</span></div>
-            <p style="color: #888; font-size: 16px;">(월 200만 원짜리 임원을 월 80에 고용)</p>
+            <div class="urgent-badge">🚨 선착순 10명 마감 시, 가격 2배 인상</div>
             
-            <a href="#" class="cta-btn">10명 마감 전 합류하기</a>
+            <div style="margin-top: 20px;">
+                <div class="anchor-price">정상가 2,400만 원</div>
+                <div class="final-price">990만 원<span style="font-size: 20px; font-weight: 400; color: #888;">/년</span></div>
+                <p style="color: #aaa; font-size: 16px;">(월 200만 원짜리 임원을 월 80에 고용)</p>
+            </div>
+            
+            <a href="#" class="cta-btn">1년 치 불안 끝내러 가기</a>
             
             <div class="guarantee">
-                * 30일 내 불만족 시 100% 환불. <br>
-                (근데 환불할 일 없을 겁니다.)
+                <strong>[100% 환불 보장]</strong><br>
+                30일 써보고 '확신'이 안 든다면 말씀하세요.<br>
+                묻지도 따지지도 않고 전액 돌려드립니다.
             </div>
         </div>
     </section>
-
-    <div class="footer-msg">
-        설득은 하지 않습니다. 증명만 할 뿐.<br>
-        Shadow Partner.
-    </div>
 
 </body>
 </html>
