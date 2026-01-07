@@ -6,179 +6,143 @@
     <title>Shadow Partner - Private Membership</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
+        /* [Global Reset & Typography] */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Pretendard Variable", Pretendard, sans-serif;
             line-height: 1.5;
-            background-color: #050505;
+            background-color: #050505; /* Deep Black */
             color: #fff;
-            word-break: keep-all;
+            word-break: keep-all; /* 한글 줄바꿈 최적화 */
             overflow-x: hidden;
         }
 
-        /* HERO: 고객의 속마음을 그대로 (빙의) */
+        /* [Colors & Utilities] */
+        .highlight { color: #ffd93d; } /* Gold Yellow */
+        .text-gray { color: #888; }
+        .bg-dark { background: #111; }
+        .border-dark { border: 1px solid #222; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* [1. HERO: 빙의 카피 (고객의 속마음)] */
         .hero {
-            padding: 120px 20px 60px;
+            padding: 100px 0 60px;
             text-align: center;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #000 80%);
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 70%);
+        }
+        .hero-tag {
+            display: inline-block;
+            border: 1px solid #444;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
         }
         .hero h1 {
-            font-size: clamp(36px, 6vw, 68px);
+            font-size: clamp(32px, 5vw, 64px); /* 반응형 폰트 */
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.25;
             margin-bottom: 30px;
         }
-        .highlight { color: #ffd93d; }
         .hero p {
-            font-size: clamp(18px, 4vw, 24px);
-            color: #bbb;
+            font-size: clamp(16px, 3.5vw, 20px);
+            color: #ccc;
+            opacity: 0.9;
             max-width: 600px;
-            margin: 0 auto 50px;
+            margin: 0 auto;
         }
 
-        /* SECTION: 짧고 명확하게 */
-        .section-box { padding: 80px 20px; text-align: center; border-bottom: 1px solid #1a1a1a; }
-        .section-title { font-size: 28px; font-weight: 700; margin-bottom: 40px; color: #fff; }
-
-        /* PAIN POINTS: 입말 그대로 */
+        /* [2. PAIN POINTS: 공감 ("이거 내 얘기네")] */
+        .pain-section { padding: 80px 0; }
         .pain-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .pain-card {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+        }
+        .quote-mark { font-size: 40px; color: #333; line-height: 0; margin-bottom: 20px; }
+        .pain-text { font-size: 18px; font-weight: 700; color: #eee; margin-bottom: 10px; }
+        .pain-sub { font-size: 14px; color: #777; }
+
+        /* [3. EVIDENCE: 압도적 숫자 증명 (비교)] */
+        .evidence-section { padding: 80px 0; background: #0a0a0a; text-align: center; border-top: 1px solid #222; }
+        .section-title { font-size: 28px; font-weight: 800; margin-bottom: 40px; }
+        
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             max-width: 900px;
             margin: 0 auto;
         }
-        .pain-card {
-            background: #111;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #333;
-            text-align: left;
-        }
-        .pain-quote {
-            font-size: 20px;
-            font-weight: 700;
-            color: #ddd;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-        .pain-sub { color: #666; font-size: 14px; }
-
-        /* PRICING: 감정으로 사고 논리로 합리화 */
-        .price-card {
-            background: linear-gradient(145deg, #161616, #000);
-            border: 1px solid #333;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 60px 40px;
-            border-radius: 30px;
+        .compare-item { padding: 40px 30px; border-radius: 20px; }
+        .compare-bad { background: #111; border: 1px solid #333; opacity: 0.7; }
+        .compare-good { 
+            background: rgba(255, 217, 61, 0.05); 
+            border: 2px solid #ffd93d; 
+            transform: scale(1.02); 
             position: relative;
-            box-shadow: 0 0 60px rgba(255, 217, 61, 0.1);
         }
-        .urgent-badge {
+        
+        .list-check { text-align: left; margin-top: 20px; }
+        .list-check li { list-style: none; margin-bottom: 12px; font-size: 15px; color: #ccc; }
+        
+        /* [4. PRICING: 3단 심리 트릭 (Decoy - Hero - Anchor)] */
+        .pricing-section { padding: 100px 0; border-top: 1px solid #222; }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        .price-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        /* Hero Card Style (Middle) */
+        .hero-card {
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            border: 2px solid #ffd93d;
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 0 50px rgba(255, 217, 61, 0.1);
+        }
+        .scarcity-badge {
             position: absolute;
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
             background: #e74c3c;
             color: #fff;
-            padding: 8px 20px;
-            font-weight: 800;
-            font-size: 14px;
+            padding: 6px 15px;
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            font-size: 12px;
+            font-weight: 800;
             white-space: nowrap;
         }
-        .final-price { font-size: 56px; font-weight: 800; color: #fff; margin: 10px 0; letter-spacing: -1px; }
+
+        .price-tag { font-size: 38px; font-weight: 800; color: #fff; margin: 15px 0; }
+        .price-sub { font-size: 14px; color: #888; text-decoration: line-through; }
         
-        .cta-btn {
+        /* Buttons */
+        .btn {
             display: block;
             width: 100%;
-            padding: 25px 0;
-            background: #ffd93d;
-            color: #000;
-            font-size: 22px;
-            font-weight: 800;
-            text-decoration: none;
-            border-radius: 15px;
-            margin-top: 40px;
-            transition: transform 0.2s;
-            box-shadow: 0 10px 30px rgba(255, 217, 61, 0.2);
-        }
-        .cta-btn:hover { transform: scale(1.02); }
-    </style>
-</head>
-<body>
-
-    <section class="hero">
-        <h1>
-            "통장에 돈은 꽂히는데<br>
-            <span class="highlight">왜 남는 게 없지?</span>"
-        </h1>
-        <p>
-            그 고민, 대표님 탓이 아닙니다.<br>
-            돈 버는 재능과 <strong>돈 지키는 시스템</strong>은 다르니까요.
-        </p>
-    </section>
-
-    <section class="section-box">
-        <h2 class="section-title">혹시 매일 밤, 이런 생각 하시나요?</h2>
-        <div class="pain-grid">
-            <div class="pain-card">
-                <div class="pain-quote">"왜 다들 내 입만 쳐다봐?"</div>
-                <div class="pain-sub">내가 없으면 멈추는 회사, 지치셨죠?</div>
-            </div>
-            <div class="pain-card">
-                <div class="pain-quote">"이거 진짜 돈이 되나?"</div>
-                <div class="pain-sub">감으로 하는 경영, 이제 멈추세요.</div>
-            </div>
-            <div class="pain-card">
-                <div class="pain-quote">"내년엔 뭐 먹고 살지?"</div>
-                <div class="pain-sub">1년 뒤가 안 그려지는 공포, 압니다.</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-box" style="background: #0a0a0a;">
-        <h2 class="section-title">복잡한 건 질색이시죠?<br><span class="highlight">딱 3가지만</span> 대신합니다.</h2>
-        
-        <div style="max-width: 600px; margin: 0 auto; text-align: left;">
-            <div style="padding: 20px; border-bottom: 1px solid #333;">
-                <span style="font-size: 24px; font-weight: 800; color: #286bff;">01. 돈</span>
-                <p style="color: #aaa; margin-top: 5px;">어디서 새는지 1원까지 잡아냅니다.</p>
-            </div>
-            <div style="padding: 20px; border-bottom: 1px solid #333;">
-                <span style="font-size: 24px; font-weight: 800; color: #286bff;">02. 시간</span>
-                <p style="color: #aaa; margin-top: 5px;">'해야 할 일'만 남기고 싹 버립니다.</p>
-            </div>
-            <div style="padding: 20px;">
-                <span style="font-size: 24px; font-weight: 800; color: #286bff;">03. 멘탈</span>
-                <p style="color: #aaa; margin-top: 5px;">불안할 때마다 '데이터'로 답해드립니다.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-box">
-        <div class="price-card">
-            <div class="urgent-badge">🚨 선착순 10명 마감 (3석 남음)</div>
-            
-            <div style="margin-top: 20px;">
-                <p style="color: #888; margin-bottom: 10px;">월 200만 원 직원? 아니요.</p>
-                <div class="final-price">월 82만 원</div>
-                <p style="color: #fff; font-size: 18px; font-weight: 400;">
-                    10년 치 시행착오를 사는 비용입니다.
-                </p>
-            </div>
-            
-            <a href="#" class="cta-btn">지긋지긋한 야근 끝내기</a>
-            
-            <div style="margin-top: 30px; font-size: 14px; color: #666;">
-                <strong>[30일 환불 보장]</strong><br>
-                써보고 별로면 환불하세요.<br>
-                그만큼 자신 있습니다.
-            </div>
-        </div>
-    </section>
-
-</body>
-</html>
+            padding: 18px 0;
+            border-radius: 12px;
+            text-
