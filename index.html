@@ -3,360 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clone-OS | Founder Cloning System</title>
+    <title>Clone-OS | 대표님을 복제하세요</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <script src="https://unpkg.com/feather-icons"></script>
     
     <style>
-        /* 기본 설정 */
-        body { 
-            font-family: "Pretendard Variable", Pretendard, sans-serif; 
-            background-color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        :root {
-            --brand: #286bff;
-            --brand-dark: #1e40af;
-        }
-
-        /* 1. 오로라 배경 애니메이션 */
-        .aurora-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 10s infinite alternate ease-in-out;
-        }
-        .blob-1 { background: #286bff; width: 500px; height: 500px; top: -10%; left: -10%; animation-delay: 0s; }
-        .blob-2 { background: #9333ea; width: 400px; height: 400px; bottom: -10%; right: -10%; animation-delay: 2s; }
-        .blob-3 { background: #06b6d4; width: 300px; height: 300px; top: 40%; left: 40%; animation-delay: 4s; opacity: 0.3; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, -30px) scale(1.1); }
-        }
-
-        /* 2. 프리미엄 글래스모피즘 */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
-        .glass-dark {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 3. 스크롤 인터랙션 */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-up.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 4. 네비게이션바 트랜지션 */
-        #navbar {
-            transition: all 0.3s ease;
-        }
-        #navbar.scrolled {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        /* 텍스트 강조 */
-        .text-gradient {
-            background: linear-gradient(135deg, #286bff 0%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        body { font-family: "Pretendard Variable", Pretendard, sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        .aurora-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); position: relative; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: float 10s infinite alternate ease-in-out; }
+        .blob-1 { background: #286bff; width: 400px; height: 400px; top: -10%; left: -10%; }
+        .blob-2 { background: #9333ea; width: 300px; height: 300px; bottom: -10%; right: -10%; animation-delay: 2s; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(20px, -20px); } }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .text-gradient { background: linear-gradient(135deg, #286bff 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body class="text-slate-800 antialiased">
 
-    <nav id="navbar" class="fixed top-0 w-full z-50 py-6 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                <div class="w-3 h-3 bg-[#286bff] rounded-full animate-pulse"></div>
+    <nav class="fixed top-0 w-full z-50 py-4 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
+            <div class="text-xl font-bold flex items-center gap-2">
+                <div class="w-2.5 h-2.5 bg-[#286bff] rounded-full animate-pulse"></div>
                 Clone-OS
             </div>
-            <a href="#apply" class="hidden md:inline-flex bg-[#0f172a] text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-[#286bff] transition-colors shadow-lg">
-                베타 멤버 신청하기
+            <a href="#apply" class="hidden md:inline-flex bg-[#0f172a] text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-[#286bff] transition-colors">
+                베타 신청하기
             </a>
         </div>
     </nav>
 
-    <header class="aurora-bg min-h-[110vh] flex items-center relative px-6 pb-20 pt-32">
+    <header class="aurora-bg min-h-screen flex items-center justify-center px-6 pt-20 relative">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
 
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <div class="reveal-up active">
-                <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-8">
-                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    현재 10명 중 7명 마감
-                </span>
-                <h1 class="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8 tracking-tight">
-                    직원을 더 뽑지 마세요.<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">당신의 뇌를 복제하세요.</span>
-                </h1>
-                <p class="text-slate-300 text-lg md:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed">
-                    연매출 5억인데 시간은 없는 대표님을 위한<br>
-                    <b>퍼스널 AI 클로닝 시스템 (Founder Cloning System)</b>
-                </p>
-                
-                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                    <a href="#apply" class="relative group bg-[#286bff] text-white px-10 py-5 rounded-2xl font-bold text-xl hover:bg-blue-600 transition-all shadow-[0_0_40px_rgba(40,107,255,0.4)] hover:shadow-[0_0_60px_rgba(40,107,255,0.6)] transform hover:-translate-y-1">
-                        내 분신 만들고 퇴근하기
-                        <i data-feather="arrow-right" class="inline ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                </div>
-                <p class="mt-6 text-sm text-slate-400 flex justify-center items-center gap-6">
-                    <span class="flex items-center gap-1"><i data-feather="check" class="w-4 h-4 text-[#286bff]"></i> 14일 100% 환불 보장</span>
-                    <span class="flex items-center gap-1"><i data-feather="check" class="w-4 h-4 text-[#286bff]"></i> B2B 전용 서비스</span>
-                </p>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/50 animate-bounce">
-            <i data-feather="chevrons-down" class="w-8 h-8"></i>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="inline-block bg-white/10 border border-white/20 text-white px-3 py-1 rounded-full text-sm font-bold mb-6">
+                🚀 현재 선착순 10명 모집 중
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-8">
+                직원을 더 뽑지 마세요.<br>
+                <span class="text-blue-400">당신의 뇌를 복제하세요.</span>
+            </h1>
+            <p class="text-slate-300 text-lg md:text-xl mb-12">
+                돈은 벌리는데 시간은 없는 대표님.<br>
+                <b>내가 자는 동안에도 돈을 버는 'AI 분신'을 만들어 드립니다.</b>
+            </p>
+            
+            <a href="#apply" class="inline-flex items-center bg-[#286bff] text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/50 transform hover:-translate-y-1">
+                내 분신 만들고 퇴근하기 <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
+            </a>
+            <p class="mt-6 text-sm text-slate-400 flex justify-center gap-4">
+                <span>✅ 14일 100% 환불 보장</span>
+                <span>✅ 세금계산서 발행 가능</span>
+            </p>
         </div>
     </header>
 
-    <section class="py-32 px-6 bg-white relative z-20 -mt-20 rounded-t-[3rem]">
+    <section class="py-24 px-6 bg-white rounded-t-[3rem] -mt-10 relative z-20">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">
+                혹시 <span class="text-gradient">이런 상황</span> 아니신가요?
+            </h2>
+            <div class="space-y-6">
+                <div class="glass p-6 rounded-2xl flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-red-100 p-3 rounded-full text-red-500"><i data-feather="clock"></i></div>
+                    <p class="font-bold text-lg text-slate-700">"매출 5억인데... 내 시급은 알바생보다 낮다."</p>
+                </div>
+                <div class="glass p-6 rounded-2xl flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-red-100 p-3 rounded-full text-red-500"><i data-feather="users"></i></div>
+                    <p class="font-bold text-lg text-slate-700">"직원 교육시키느라 내가 더 바쁘고 힘들다."</p>
+                </div>
+                <div class="glass p-6 rounded-2xl flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-red-100 p-3 rounded-full text-red-500"><i data-feather="frown"></i></div>
+                    <p class="font-bold text-lg text-slate-700">"내가 아파서 눕는 순간, 회사 매출도 0원이 된다."</p>
+                </div>
+            </div>
+            <p class="text-center mt-10 text-lg font-bold text-slate-900">
+                대표님의 능력이 부족해서가 아닙니다.<br>
+                <span class="bg-yellow-100 px-1">대표님의 '감'이 '시스템'이 되지 않았기 때문입니다.</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-slate-50">
         <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-20 reveal-up">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
-                    혹시 지금 <span class="text-gradient">이런 상황</span> 아니신가요?
-                </h2>
-                <p class="text-slate-500 text-lg">성공할수록 불행해지는 '성장의 역설'에 빠져 계십니다.</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">도입 2주 뒤, 확 달라진 월요일</h2>
+                <p class="text-slate-500">지옥 같던 아침이 이렇게 변합니다.</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="reveal-up group p-8 rounded-3xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500">
-                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-feather="clock" class="text-red-500 w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">시간 빈곤</h3>
-                    <p class="text-slate-600 leading-relaxed">매출은 5억인데 내 시급은 알바생보다 낮다. 주말에도 노트북을 켜야 마음이 놓인다.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 opacity-60 grayscale hover:grayscale-0 transition-all">
+                    <h3 class="text-xl font-bold text-slate-500 mb-4 flex items-center gap-2"><i data-feather="x-circle"></i> 이전의 삶</h3>
+                    <ul class="space-y-3 text-slate-600">
+                        <li>- 눈 뜨자마자 쌓인 카톡 50개 확인</li>
+                        <li>- "죄송합니다" 사과하느라 오전 다 감</li>
+                        <li>- 직원에게 일일이 업무 지시하느라 진 빠짐</li>
+                    </ul>
                 </div>
-                <div class="reveal-up group p-8 rounded-3xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 delay-100">
-                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-feather="users" class="text-red-500 w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">관리의 늪</h3>
-                    <p class="text-slate-600 leading-relaxed">직원을 뽑았는데 교육하느라 더 바쁘다. "이건 어떻게 해요?" 질문에 지쳐버렸다.</p>
-                </div>
-                <div class="reveal-up group p-8 rounded-3xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 delay-200">
-                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-feather="activity" class="text-red-500 w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">매출 불안</h3>
-                    <p class="text-slate-600 leading-relaxed">내가 아파서 눕는 순간 회사 매출도 0원이 된다. 시스템이 없다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-32 px-6 bg-slate-50">
-        <div class="max-w-6xl mx-auto">
-            <div class="mb-16 reveal-up">
-                <span class="text-[#286bff] font-bold tracking-wider text-sm uppercase">Future Preview</span>
-                <h2 class="text-3xl md:text-5xl font-bold mt-2 text-slate-900">Clone-OS 도입 2주 후,<br>대표님의 월요일 아침</h2>
-            </div>
-
-            <div class="grid md:grid-cols-12 gap-6 h-auto md:h-[600px]">
-                
-                <div class="md:col-span-7 bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl relative overflow-hidden flex flex-col justify-between group reveal-up">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-50 -mr-10 -mt-10"></div>
-                    <div>
-                        <div class="inline-flex items-center gap-2 bg-blue-50 text-[#286bff] px-4 py-2 rounded-full text-sm font-bold mb-6">
-                            AM 10:00 알람 없는 기상
-                        </div>
-                        <h3 class="text-3xl font-bold mb-4">"밤새 매출 150만원 달성"</h3>
-                        <p class="text-slate-600 text-lg leading-relaxed">
-                            예전엔 눈뜨자마자 카톡 50개를 확인했지만,<br>
-                            이젠 <b>[주간 리포트]</b> 하나만 확인합니다.<br>
-                            AI 분신이 밤새 12명을 상담하고 3명을 결제시켰습니다.
-                        </p>
-                    </div>
-                    <div class="mt-8 bg-slate-50 rounded-2xl p-6 border border-slate-100 transform group-hover:scale-[1.02] transition-transform">
-                        <div class="flex items-center gap-4 mb-3">
-                            <div class="w-10 h-10 rounded-full bg-[#286bff] flex items-center justify-center text-white"><i data-feather="message-circle" class="w-5 h-5"></i></div>
-                            <div>
-                                <div class="text-xs text-slate-400">Clone-OS (AM 02:30)</div>
-                                <div class="font-bold text-slate-800">"고객님, 환불 규정은 걱정 마세요. 제가 책임지겠습니다!"</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="md:col-span-5 flex flex-col gap-6">
-                    <div class="flex-1 bg-[#286bff] text-white rounded-[2.5rem] p-8 relative overflow-hidden reveal-up delay-100 shadow-lg shadow-blue-500/30">
-                        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-black/20"></div>
-                        <div class="relative z-10">
-                            <i data-feather="cpu" class="w-10 h-10 mb-6 text-blue-200"></i>
-                            <h3 class="text-2xl font-bold mb-2">100% 뇌 복제</h3>
-                            <p class="text-blue-100">단순 챗봇이 아닙니다.<br>대표님의 말투, 철학, 노하우를<br>그대로 학습한 '디지털 자아'입니다.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex-1 bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-lg reveal-up delay-200 flex flex-col justify-center">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                <i data-feather="coffee" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-xl font-bold">진짜 CEO의 삶</h3>
-                        </div>
-                        <p class="text-slate-600">직원 지시 대신, 노트북 들고 카페로 가서<br><b>신규 사업을 구상</b>하세요.</p>
-                    </div>
+                <div class="bg-white p-8 rounded-3xl border-2 border-[#286bff] shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-[#286bff] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Clone-OS</div>
+                    <h3 class="text-xl font-bold text-[#286bff] mb-4 flex items-center gap-2"><i data-feather="check-circle"></i> 바뀐 삶</h3>
+                    <ul class="space-y-4 text-slate-800 font-medium">
+                        <li class="flex items-start gap-3">
+                            <i data-feather="zap" class="text-yellow-500 w-5 h-5 shrink-0"></i>
+                            <span>밤새 <b>AI가 12명 상담하고 3명 결제</b> 완료</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-feather="coffee" class="text-brown-500 w-5 h-5 shrink-0"></i>
+                            <span>알람 없이 기상해서 <b>매출 리포트만 확인</b></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-feather="trending-up" class="text-blue-500 w-5 h-5 shrink-0"></i>
+                            <span>노트북 들고 카페 가서 <b>신규 사업 구상</b></span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="apply" class="py-32 px-6 bg-[#0f172a] relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        <div class="blob blob-1 opacity-20"></div>
-        
-        <div class="max-w-4xl mx-auto relative z-10 text-center reveal-up">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">지금이 가장 저렴합니다</h2>
-            <p class="text-slate-400 mb-12 text-xl">베타 기간이 끝나면 가격은 2배(990만 원)로 즉시 인상됩니다.</p>
+    <section class="py-24 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-10">
+                사람 1명 쓸 돈으로<br>
+                <span class="text-[#286bff]">평생 안 나가는 AI 팀장 3명</span>을 쓰세요.
+            </h2>
+            
+            <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-lg">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 text-slate-500 font-medium">
+                        <tr>
+                            <th class="p-5">구분</th>
+                            <th class="p-5">사람 직원</th>
+                            <th class="p-5 text-[#286bff] font-bold">Clone-OS (AI)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="p-5 font-bold">비용</td>
+                            <td class="p-5 text-slate-500">연 3,000만 원</td>
+                            <td class="p-5 font-bold text-[#286bff] bg-blue-50">연 495만 원 (1/6)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold">시간</td>
+                            <td class="p-5 text-slate-500">하루 8시간 (주말 쉼)</td>
+                            <td class="p-5 font-bold text-[#286bff] bg-blue-50">24시간 365일</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold">퇴사</td>
+                            <td class="p-5 text-slate-500">1년 뒤 퇴사함</td>
+                            <td class="p-5 font-bold text-[#286bff] bg-blue-50">평생 내꺼</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
-            <div class="glass-dark rounded-[3rem] p-10 md:p-16 border border-[#286bff] relative shadow-[0_0_100px_rgba(40,107,255,0.2)]">
-                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#286bff] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-500/50 uppercase tracking-widest text-sm">
-                    Limited Beta Offer
-                </div>
+    <section id="apply" class="py-24 px-6 bg-[#0f172a] text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-4">지금이 가장 저렴합니다</h2>
+            <p class="text-slate-400 mb-10">베타 기간 끝나면 가격은 2배(990만 원)로 오릅니다.</p>
 
-                <div class="flex flex-col md:flex-row justify-center items-end gap-4 mb-8">
-                    <span class="text-slate-500 text-xl line-through decoration-slate-500 decoration-2">정상가 990만 원</span>
-                    <span class="text-6xl md:text-7xl font-bold text-white tracking-tighter">495<span class="text-3xl text-slate-400 font-medium">만 원/연</span></span>
-                </div>
-
-                <p class="text-blue-400 font-medium mb-10 bg-blue-500/10 inline-block px-6 py-2 rounded-full">
-                    🔥 월 41만 원으로 24시간 일하는 팀장 채용
+            <div class="bg-white/10 backdrop-blur-md border border-[#286bff] rounded-3xl p-8 md:p-12 shadow-[0_0_50px_rgba(40,107,255,0.2)]">
+                <p class="text-slate-400 text-lg line-through mb-2">정상가 990만 원</p>
+                <h2 class="text-5xl md:text-6xl font-bold text-white mb-4">연 495만 원</h2>
+                <p class="text-[#286bff] font-bold bg-[#286bff]/10 inline-block px-4 py-1 rounded-full mb-8">
+                    📢 베타 한정 50% 할인 (월 41만 원)
                 </p>
 
-                <div class="grid md:grid-cols-2 gap-6 text-left mb-12 max-w-2xl mx-auto">
-                    <div class="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
-                        <i data-feather="shield" class="text-[#286bff]"></i> 
-                        <span><b>14일 100% 환불 보장</b> (Risk Free)</span>
-                    </div>
-                    <div class="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
-                        <i data-feather="file-text" class="text-[#286bff]"></i> 
-                        <span><b>세금계산서 발행 OK</b> (비용처리)</span>
-                    </div>
-                </div>
+                <ul class="text-left text-slate-300 space-y-4 max-w-sm mx-auto mb-10 text-lg">
+                    <li class="flex items-center gap-3"><i data-feather="check" class="text-[#286bff]"></i> 14일 써보고 결정 (100% 환불)</li>
+                    <li class="flex items-center gap-3"><i data-feather="check" class="text-[#286bff]"></i> 세금계산서 발행 (비용 처리)</li>
+                    <li class="flex items-center gap-3"><i data-feather="check" class="text-[#286bff]"></i> 1:1 맞춤 세팅 (B2B 전용)</li>
+                </ul>
 
-                <a href="https://your-typeform-link.com" target="_blank" class="block w-full bg-[#286bff] hover:bg-white hover:text-[#286bff] text-white font-bold text-2xl py-6 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] shadow-xl">
+                <a href="https://your-typeform-link.com" target="_blank" class="block w-full bg-[#286bff] hover:bg-white hover:text-[#286bff] text-white font-bold text-2xl py-5 rounded-xl transition-all shadow-lg transform hover:-translate-y-1">
                     선착순 10명 신청서 작성하기
                 </a>
-                
-                <p class="mt-6 text-sm text-slate-500">
-                    * B2B 기업 전용 서비스로, 법인 계좌이체로만 진행됩니다.<br>
-                    * 카드 수수료 거품을 빼고 서비스 퀄리티(튜닝)에 재투자합니다.
-                </p>
             </div>
         </div>
     </section>
 
-    <section class="py-32 px-6 bg-white">
-        <div class="max-w-3xl mx-auto reveal-up">
-            <h2 class="text-3xl font-bold text-center mb-16 text-slate-900">자주 묻는 질문</h2>
-            
+    <section class="py-24 px-6 bg-white">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-center mb-10">자주 묻는 질문</h2>
             <div class="space-y-4">
-                <details class="group bg-slate-50 p-6 rounded-2xl cursor-pointer open:bg-white open:shadow-xl open:ring-1 open:ring-black/5 transition-all duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg list-none text-slate-800">
-                        <span>Q. 500만 원인데 미팅 안 하나요?</span>
-                        <span class="transition-transform group-open:rotate-180"><i data-feather="chevron-down"></i></span>
+                <details class="group bg-slate-50 p-5 rounded-xl cursor-pointer open:bg-blue-50">
+                    <summary class="flex justify-between font-bold text-lg list-none">
+                        Q. 500만 원인데 미팅 안 하나요?
+                        <span><i data-feather="chevron-down"></i></span>
                     </summary>
-                    <div class="text-slate-600 mt-4 leading-relaxed pl-4 border-l-2 border-[#286bff]">
-                        네, 안 합니다. 사람의 '말'은 날아가지만 '글'은 남습니다. 대표님의 노하우를 완벽하게 복제하기 위해 모든 과정은 <b>기록이 남는 문서와 설문</b>으로만 진행합니다. 대신 확실한 결과로 증명합니다.
-                    </div>
+                    <p class="mt-3 text-slate-600 leading-relaxed">네, 안 합니다. 말은 휘발되지만 글은 남습니다. 대표님의 노하우를 정확히 복제하기 위해 <b>모든 소통은 문서로만 진행</b>합니다. 대신 결과로 증명합니다.</p>
                 </details>
-                
-                <details class="group bg-slate-50 p-6 rounded-2xl cursor-pointer open:bg-white open:shadow-xl open:ring-1 open:ring-black/5 transition-all duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg list-none text-slate-800">
-                        <span>Q. 컴퓨터 잘 못하는데 괜찮나요?</span>
-                        <span class="transition-transform group-open:rotate-180"><i data-feather="chevron-down"></i></span>
+                <details class="group bg-slate-50 p-5 rounded-xl cursor-pointer open:bg-blue-50">
+                    <summary class="flex justify-between font-bold text-lg list-none">
+                        Q. 컴맹인데 괜찮나요?
+                        <span><i data-feather="chevron-down"></i></span>
                     </summary>
-                    <div class="text-slate-600 mt-4 leading-relaxed pl-4 border-l-2 border-[#286bff]">
-                        대표님은 아무것도 안 하셔도 됩니다. 복잡한 연결은 저희가 다 해드립니다. 완성된 시스템을 <b>카톡처럼 편하게 쓰시기만 하면 됩니다.</b>
-                    </div>
+                    <p class="mt-3 text-slate-600 leading-relaxed">네, 복잡한 건 저희가 다 합니다. 대표님은 완성된 시스템을 <b>카톡처럼 쓰시기만 하면 됩니다.</b></p>
                 </details>
-
-                <details class="group bg-slate-50 p-6 rounded-2xl cursor-pointer open:bg-white open:shadow-xl open:ring-1 open:ring-black/5 transition-all duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg list-none text-slate-800">
-                        <span>Q. 진짜 환불 되나요?</span>
-                        <span class="transition-transform group-open:rotate-180"><i data-feather="chevron-down"></i></span>
+                <details class="group bg-slate-50 p-5 rounded-xl cursor-pointer open:bg-blue-50">
+                    <summary class="flex justify-between font-bold text-lg list-none">
+                        Q. 진짜 환불 되나요?
+                        <span><i data-feather="chevron-down"></i></span>
                     </summary>
-                    <div class="text-slate-600 mt-4 leading-relaxed pl-4 border-l-2 border-[#286bff]">
-                        물론입니다. 입금 전에 <b>'법적 효력이 있는 환불 확약서'</b>를 먼저 써드립니다. 14일 동안 써보시고 업무가 안 줄어들면 100% 돌려드립니다.
-                    </div>
+                    <p class="mt-3 text-slate-600 leading-relaxed">네, 입금 전에 <b>'법적 효력이 있는 환불 확약서'</b>를 먼저 써드립니다. 14일 동안 써보시고 효과 없으면 100% 돌려드립니다.</p>
                 </details>
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-50 py-20 px-6 text-center border-t border-slate-200 pb-32 md:pb-20">
-        <div class="reveal-up">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-slate-900">망설이는 지금도,<br>고객 카톡은 울리고 있습니다.</h2>
-            <p class="text-slate-500 mb-10 text-lg">오늘 퇴근하시겠습니까, 아니면 또 답장하시겠습니까?</p>
-            <a href="#apply" class="inline-flex items-center text-[#286bff] font-bold text-xl hover:text-blue-800 transition-colors border-b-2 border-transparent hover:border-[#286bff]">
-                마지막 기회 잡고 자유 얻기 <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
-            </a>
-            <p class="mt-16 text-sm text-slate-400">© 2024 Clone-OS. All rights reserved.</p>
-        </div>
+    <footer class="bg-slate-50 py-16 px-6 text-center border-t border-gray-200 mb-20 md:mb-0">
+        <h2 class="text-2xl font-bold mb-4">망설이는 지금도, 카톡은 울리고 있습니다.</h2>
+        <p class="text-slate-500 mb-8">오늘 퇴근하시겠습니까, 아니면 또 답장하시겠습니까?</p>
+        <a href="#apply" class="text-[#286bff] font-bold text-lg hover:underline">마지막 기회 잡기 &rarr;</a>
+        <p class="mt-10 text-xs text-slate-400">© 2024 Clone-OS. All rights reserved.</p>
     </footer>
 
-    <div class="fixed bottom-0 left-0 w-full p-4 bg-white/90 backdrop-blur-md border-t border-slate-200 md:hidden z-50">
-        <a href="#apply" class="block w-full bg-[#286bff] text-white text-center font-bold py-4 rounded-xl shadow-lg hover:bg-blue-600 transition-colors">
+    <div class="fixed bottom-0 left-0 w-full p-4 bg-white/90 backdrop-blur border-t border-gray-200 md:hidden z-50">
+        <a href="#apply" class="block w-full bg-[#286bff] text-white text-center font-bold py-4 rounded-xl shadow-lg">
             월 41만원으로 자유 얻기 🚀
         </a>
     </div>
 
-    <script>
-        // 아이콘 초기화
-        feather.replace();
-
-        // 스크롤 애니메이션
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
-
-        // 네비게이션바 스크롤 효과
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    </script>
+    <script> feather.replace(); </script>
 </body>
 </html>
