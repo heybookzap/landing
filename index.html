@@ -3,352 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow Partner - Private Membership</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <title>Clone-OS | 대표님의 뇌를 복제하세요</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
-        /* [Global Variables & Reset] */
-        :root {
-            --brand-color: #286bff; /* 요청하신 브랜드 컬러 */
-            --bg-dark: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-sub: #aaaaaa;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: "Pretendard Variable", Pretendard, sans-serif;
-            line-height: 1.6;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            word-break: keep-all;
-            overflow-x: hidden;
-        }
-
-        /* [Utilities] */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .highlight { color: var(--brand-color); font-weight: 800; }
-        .text-center { text-align: center; }
-        .section-padding { padding: 120px 0; position: relative; }
-
-        /* [Glassmorphism Effect Class] */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px); /* 유리 효과 핵심 */
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-color);
-            box-shadow: 0 12px 40px 0 rgba(40, 107, 255, 0.15); /* 블루 글로우 효과 */
-        }
-
-        /* [Animation Classes] */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-        /* [1. HERO SECTION] */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: radial-gradient(circle at 50% 50%, rgba(40, 107, 255, 0.15) 0%, #050505 60%);
-            position: relative;
-        }
-        
-        /* 배경 장식 (Floating Glow) */
-        .hero::before {
-            content: ''; position: absolute; top: -10%; left: -10%;
-            width: 500px; height: 500px; background: var(--brand-color);
-            filter: blur(150px); opacity: 0.15; border-radius: 50%; animation: float 10s infinite alternate;
-        }
-
-        @keyframes float { from { transform: translate(0,0); } to { transform: translate(50px, 50px); } }
-
-        .hero-tag {
-            display: inline-block; padding: 8px 20px;
-            background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.3);
-            border-radius: 50px; color: var(--brand-color); font-weight: 700; font-size: 14px;
-            margin-bottom: 24px; letter-spacing: 1px;
-        }
-        
-        .hero h1 {
-            font-size: clamp(40px, 6vw, 72px);
-            font-weight: 800; line-height: 1.2; margin-bottom: 30px;
-            background: linear-gradient(to right, #fff, #bbb);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: clamp(18px, 4vw, 22px); color: var(--text-sub);
-            max-width: 640px; margin: 0 auto 50px;
-        }
-
-        /* [2. PROBLEM & SOLUTION GRID] */
-        .grid-2 {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px; align-items: start;
-        }
-        .ps-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
-        .ps-desc { font-size: 15px; color: var(--text-sub); }
-
-        /* [3. STORYTELLING - Timeline] */
-        .story-timeline {
-            display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap;
-        }
-        .time-card {
-            flex: 1; min-width: 250px; background: rgba(255,255,255,0.02);
-            padding: 24px; border-radius: 16px; border-left: 3px solid var(--brand-color);
-        }
-        .time-label { color: var(--brand-color); font-weight: 800; font-size: 14px; margin-bottom: 8px; display: block; }
-
-        /* [4. PRICING - Glass Tables] */
-        .pricing-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px; align-items: center; margin-top: 60px;
-        }
-        
-        /* Hero Pricing Card */
-        .glass-card.hero-price {
-            background: rgba(40, 107, 255, 0.05); /* Blue Tint */
-            border: 2px solid var(--brand-color);
-            transform: scale(1.05);
-            z-index: 10;
-        }
-        .glass-card.hero-price:hover { transform: scale(1.07); }
-
-        .price-tag { font-size: 42px; font-weight: 800; color: #fff; margin: 16px 0; letter-spacing: -1px; }
-        .price-sub { text-decoration: line-through; color: #666; font-size: 14px; }
-        
-        .list-check { text-align: left; margin: 30px 0; }
-        .list-check li { 
-            list-style: none; margin-bottom: 12px; font-size: 15px; color: #ddd; 
-            padding-left: 24px; position: relative;
-        }
-        .list-check li::before {
-            content: '✓'; position: absolute; left: 0; color: var(--brand-color); font-weight: bold;
-        }
-
-        /* [Buttons] */
-        .btn {
-            display: block; width: 100%; padding: 20px; border-radius: 12px;
-            text-decoration: none; font-weight: 700; font-size: 18px; text-align: center;
-            transition: all 0.3s ease; cursor: pointer;
-        }
-        .btn-primary {
-            background: var(--brand-color); color: #fff;
-            box-shadow: 0 0 20px rgba(40, 107, 255, 0.4);
-        }
-        .btn-primary:hover {
-            background: #1a5cff; box-shadow: 0 0 40px rgba(40, 107, 255, 0.6); transform: translateY(-2px);
-        }
-        .btn-outline {
-            background: transparent; border: 1px solid #444; color: #666; cursor: not-allowed;
-        }
-
-        /* [FAQ - Accordion] */
-        details {
-            background: rgba(255, 255, 255, 0.02); border: 1px solid #222;
-            margin-bottom: 12px; border-radius: 12px; overflow: hidden; transition: 0.3s;
-        }
-        details[open] { background: rgba(40, 107, 255, 0.05); border-color: rgba(40, 107, 255, 0.3); }
-        summary {
-            padding: 24px; cursor: pointer; font-weight: 700; font-size: 17px;
-            list-style: none; display: flex; justify-content: space-between; align-items: center;
-        }
-        summary::after { content: '+'; color: var(--brand-color); font-size: 24px; }
-        details[open] summary::after { content: '-'; }
-        .faq-body { padding: 0 24px 24px; color: #ccc; line-height: 1.6; font-size: 15px; }
-
-        /* [Responsive] */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 36px; }
-            .glass-card.hero-price { transform: scale(1); }
-            .story-timeline { flex-direction: column; }
-        }
+        body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; }
+        .highlight { background: linear-gradient(120deg, #facc15 0%, #facc15 100%); background-repeat: no-repeat; background-size: 100% 0.4em; background-position: 0 88%; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-900 leading-relaxed">
 
-    <header class="hero">
-        <div class="container fade-up">
-            <span class="hero-tag">Shadow Partner: 감정을 뺀 데이터 경영</span>
-            <h1>
-                "직원들은 칼퇴하는데<br>
-                <span class="highlight">왜 대표님만 야근하나요?</span>"
+    <section class="bg-[#0f172a] text-white py-20 px-6 text-center">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm mb-6">
+                선착순 10명 베타 모집 중
+            </span>
+            <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-6">
+                연매출 5억, 직원 3명...<br>
+                그런데 왜 대표님은 아직도<br>
+                <span class="text-yellow-400">직접 CS 카톡을 치고 계십니까?</span>
             </h1>
-            <p>
-                그동안 혼자 짊어지느라 고생 많으셨습니다.<br>
-                이제 그 짐, <strong>'시스템'</strong>에 넘기고 자유를 되찾으세요.
+            <p class="text-gray-300 text-lg md:text-xl mb-10">
+                돈은 벌리는데 시간은 없는 대표님.<br>
+                이제 직원을 더 뽑지 마세요. <b>당신을 복제하세요.</b>
             </p>
-            <div style="margin-top: 40px;">
-                <div style="width: 1px; height: 60px; background: linear-gradient(to bottom, var(--brand-color), transparent); margin: 0 auto;"></div>
-            </div>
+            <a href="#apply" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold text-xl py-4 px-8 rounded-lg transition transform hover:scale-105 shadow-lg">
+                👉 내 분신(Clone) 만들고 퇴근하기
+            </a>
+            <p class="mt-4 text-sm text-gray-400">* 신청 마감 임박 | 14일 100% 환불 보장</p>
         </div>
-    </header>
+    </section>
 
-    <section class="section-padding">
-        <div class="container">
-            <h2 class="text-center fade-up" style="font-size: 32px; margin-bottom: 60px;">
-                열심히 하는데 제자리라면,<br><span class="highlight">도구</span>가 틀린 겁니다.
+    <section class="py-16 px-6 bg-white">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10">
+                혹시 지금 이런 상황 아니신가요?
             </h2>
+            <div class="space-y-4">
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <span class="text-red-500 font-bold mr-3">✔</span>
+                    <p class="font-medium">"매출은 올랐는데, 창업 초기보다 내 시간은 더 없어졌다."</p>
+                </div>
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <span class="text-red-500 font-bold mr-3">✔</span>
+                    <p class="font-medium">"직원을 뽑았는데, 교육하고 관리하느라 내가 더 바쁘다."</p>
+                </div>
+                <div class="flex items-start p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <span class="text-red-500 font-bold mr-3">✔</span>
+                    <p class="font-medium">"내가 아파서 눕는 순간, 우리 회사 매출도 0원이 된다."</p>
+                </div>
+            </div>
+            <p class="text-center mt-8 text-lg font-semibold text-gray-700">
+                그건 대표님의 능력이 부족해서가 아닙니다.<br>
+                <span class="highlight">대표님의 '직관'이 '시스템'이 되지 못했기 때문입니다.</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 px-6 bg-gray-100">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8">Clone-OS를 도입한 2주 뒤, 월요일 아침</h2>
             
-            <div class="grid-2">
-                <div class="fade-up">
-                    <div style="margin-bottom: 20px; color: #666; font-weight: 700; letter-spacing: 1px;">🔻 YOUR PROBLEMS</div>
-                    <div class="glass-card" style="margin-bottom: 20px;">
-                        <div class="ps-title">😰 "결정할 게 너무 많아..."</div>
-                        <div class="ps-desc">사소한 결정까지 하느라 뇌 과부하 상태</div>
-                    </div>
-                    <div class="glass-card" style="margin-bottom: 20px;">
-                        <div class="ps-title">📉 "남는 돈이 얼마지?"</div>
-                        <div class="ps-desc">매출은 오르는데 정산해보면 허무함</div>
-                    </div>
-                    <div class="glass-card">
-                        <div class="ps-title">🚧 "내년엔 어떡하지?"</div>
-                        <div class="ps-desc">당장 쳐내기 바빠 미래 설계가 없음</div>
-                    </div>
-                </div>
-                
-                <div class="fade-up" style="transition-delay: 0.2s;">
-                    <div style="margin-bottom: 20px; color: var(--brand-color); font-weight: 700; letter-spacing: 1px;">⚡ OUR SOLUTIONS</div>
-                    <div class="glass-card" style="border-color: rgba(40,107,255,0.4); margin-bottom: 20px;">
-                        <div class="ps-title">✅ 생각과 실행의 분리</div>
-                        <div class="ps-desc">대표는 '결정'만 하세요. 실행 루틴은 제가 짭니다.</div>
-                    </div>
-                    <div class="glass-card" style="border-color: rgba(40,107,255,0.4); margin-bottom: 20px;">
-                        <div class="ps-title">✅ 감정 없는 데이터 리포트</div>
-                        <div class="ps-desc">매주 1원 단위까지 분석해 순수익을 찾아냅니다.</div>
-                    </div>
-                    <div class="glass-card" style="border-color: rgba(40,107,255,0.4);">
-                        <div class="ps-title">✅ 1년 성장 로드맵</div>
-                        <div class="ps-desc">어디로 가야 할지 명확한 네비게이션을 드립니다.</div>
-                    </div>
-                </div>
+            <div class="bg-white p-8 rounded-xl shadow-md text-left">
+                <p class="text-lg text-gray-700 mb-6">
+                    ⏰ <b>오전 10시, 알람 없이 눈을 떴습니다.</b><br>
+                    예전 같았으면 밤새 쌓인 문의 카톡 50개를 처리하느라 지옥이었겠죠.
+                </p>
+                <p class="text-lg text-gray-700 mb-6">
+                    하지만 오늘은 핸드폰에 <b>[주간 리포트]</b>만 와있네요.<br>
+                    <span class="bg-blue-100 px-2 py-1 rounded text-blue-800 font-bold">"대표님, 밤사이 12명을 상담했고 3명이 결제했습니다."</span>
+                </p>
+                <p class="text-lg text-gray-700">
+                    제가 잠든 사이, 저보다 친절한 AI 분신이 돈을 벌어놨습니다.<br>
+                    저는 이제 직원 지시 대신, <b>노트북 하나 들고 카페로 가서 신규 사업을 구상합니다.</b><br>
+                    이게 바로 진짜 CEO의 삶 아닐까요?
+                </p>
             </div>
         </div>
     </section>
 
-    <section class="section-padding" style="background: rgba(40, 107, 255, 0.02);">
-        <div class="container fade-up">
-            <div class="text-center" style="max-width: 700px; margin: 0 auto;">
-                <h2 style="font-size: 32px; margin-bottom: 20px;">Shadow Partner와 함께하는<br><span class="highlight">내일의 풍경</span></h2>
-                <p style="color: #bbb;">"더 이상 알람 소리에 놀라 깨지 않습니다."</p>
-            </div>
-            
-            <div class="story-timeline">
-                <div class="time-card">
-                    <span class="time-label">AM 09:00</span>
-                    <p style="font-size: 15px; color: #ccc;">책상 위에 <strong>'오늘 핵심 업무 1가지'</strong>가 정리되어 있습니다. 고민 없이 바로 시작합니다.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">PM 06:00</span>
-                    <p style="font-size: 15px; color: #ccc;">야근 없이 퇴근합니다. 잡무는 시스템이 처리했으니, 대표님은 <strong>가족과 저녁</strong>을 드세요.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">WEEKEND</span>
-                    <p style="font-size: 15px; color: #ccc;">불안해서 노트북을 켜지 않습니다. <strong>"목표 초과 달성"</strong> 리포트만 확인하고 편안히 쉽니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-4">
+                사람 1명 쓸 돈으로<br>평생 퇴사 안 하는 AI 팀장 3명을 쓰세요.
+            </h2>
+            <p class="text-center text-gray-500 mb-10">이건 비용이 아닙니다. 돈 버는 투자입니다.</p>
 
-    <section class="section-padding">
-        <div class="container">
-            <h2 class="text-center fade-up" style="font-size: 32px; margin-bottom: 20px;">딱 10명만 모시고 문 닫습니다.</h2>
-            <p class="text-center fade-up" style="color: #888; margin-bottom: 60px;">10년의 시행착오를 단 1년 가격으로 구매하세요.</p>
-            
-            <div class="pricing-grid fade-up">
-                <div class="glass-card text-center" style="opacity: 0.7;">
-                    <div style="font-size: 14px; color: #888;">Monthly Plan</div>
-                    <div style="font-size: 24px; font-weight: 700; margin: 15px 0;">월 250만 원</div>
-                    <div style="font-size: 13px; color: #666; margin-bottom: 30px;">단기 프로젝트용</div>
-                    <a href="#" class="btn btn-outline" onclick="alert('연간 멤버십이 이득입니다.'); return false;">비추천</a>
-                </div>
-
-                <div class="glass-card hero-price text-center">
-                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #e74c3c; color: white; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 15px rgba(231,76,60,0.4);">🚨 마감 임박 (잔여 3석)</div>
-                    <div style="color: var(--brand-color); font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;">FOUNDERS CLUB</div>
-                    <div class="price-sub">정상가 2,400만 원</div>
-                    <div class="price-tag">연 990만 원</div>
-                    <div style="color: #ddd; font-size: 15px; margin-bottom: 20px;">월 82만 원으로 누리는 자유</div>
-                    
-                    <ul class="list-check">
-                        <li><strong>[핵심] 1년 성장 방정식 설계</strong></li>
-                        <li>매주 [변화의 증거] 데이터 리포트</li>
-                        <li>24시간 전용 컨시어지 (직통)</li>
-                        <li class="highlight">30일 내 불만족 시 100% 환불</li>
-                    </ul>
-
-                    <a href="#" class="btn btn-primary">1년 치 불안 끝내기 (신청)</a>
-                </div>
-
-                <div class="glass-card text-center" style="opacity: 0.7;">
-                    <div style="font-size: 14px; color: #888;">Standard</div>
-                    <div style="font-size: 24px; font-weight: 700; margin: 15px 0;">연 2,400만 원</div>
-                    <div style="font-size: 13px; color: #666; margin-bottom: 30px;">정식 런칭 가격</div>
-                    <a href="#" class="btn btn-outline">오픈 예정</a>
-                </div>
-            </div>
-            
-            <div class="text-center fade-up" style="margin-top: 40px; color: #666; font-size: 14px;">
-                * 제 이름을 걸고 약속합니다. 30일 써보고 변화가 없다면 <strong style="color: #fff;">전액 환불</strong>해 드립니다.
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="p-4 border-b-2 border-gray-200 w-1/3">구분</th>
+                            <th class="p-4 border-b-2 border-gray-200 text-gray-500 font-normal">사람 직원 (CS)</th>
+                            <th class="p-4 border-b-2 border-blue-600 bg-blue-50 text-blue-900 font-bold text-lg">Clone-OS (AI)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="p-4 border-b border-gray-100 font-bold">연간 비용</td>
+                            <td class="p-4 border-b border-gray-100">3,000만 원 (비쌈)</td>
+                            <td class="p-4 border-b border-blue-100 bg-blue-50 text-blue-700 font-bold">495만 원 (1/6 가격)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-gray-100 font-bold">근무 시간</td>
+                            <td class="p-4 border-b border-gray-100">하루 8시간 (주말 쉼)</td>
+                            <td class="p-4 border-b border-blue-100 bg-blue-50 font-bold">24시간 365일 (풀가동)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-gray-100 font-bold">퇴사 위험</td>
+                            <td class="p-4 border-b border-gray-100">1년 뒤 나감 (스트레스)</td>
+                            <td class="p-4 border-b border-blue-100 bg-blue-50 font-bold">평생 대표님 소유</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-gray-100 font-bold">교육 기간</td>
+                            <td class="p-4 border-b border-gray-100">3개월 (답답함)</td>
+                            <td class="p-4 border-b border-blue-100 bg-blue-50 font-bold">단 2주 (세팅 끝)</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
 
-    <section class="section-padding" style="background: rgba(255,255,255,0.01);">
-        <div class="container fade-up" style="max-width: 800px;">
-            <h2 class="text-center" style="font-size: 28px; margin-bottom: 40px;">자주 묻는 질문</h2>
-            
-            <details>
-                <summary>Q. 제 얼굴이나 정보를 공개해야 하나요?</summary>
-                <div class="faq-body">아닙니다. 100% 익명으로 진행 가능하며, 모든 데이터는 철저한 보안 계약하에 관리됩니다.</div>
-            </details>
-            <details>
-                <summary>Q. 기계치인데, 툴 사용이 어렵지 않을까요?</summary>
-                <div class="faq-body">걱정 마세요. 복잡한 세팅은 저희가 다 해서 '링크'만 드립니다. 대표님은 클릭만 하시면 됩니다.</div>
-            </details>
-            <details>
-                <summary>Q. 정말 환불이 가능한가요?</summary>
-                <div class="faq-body">네, 제 이름을 걸고 약속합니다. 30일 동안 써보시고 확신이 안 드시면 전액 돌려드립니다.</div>
-            </details>
-            <details>
-                <summary>Q. 990만 원... 너무 비싼 거 아닌가요?</summary>
-                <div class="faq-body">직원 한 달 월급도 안 되는 돈입니다. 이 비용으로 1년 동안 '임원급 파트너'를 고용한다고 생각해보세요. 가장 싼 투자입니다.</div>
-            </details>
-        </div>
-    </section>
-
-    <footer style="padding: 60px 0; text-align: center; color: #444; font-size: 13px;">
-        <p>Shadow Partner © 2026. All rights reserved.</p>
-        <p style="margin-top: 10px;">우리는 감정을 뺀 데이터로 성장을 증명합니다.</p>
-    </footer>
-
-    <script>
-        // Scroll Animation Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
-    </script>
-</body>
-</html>
+    <section id="apply" class="py-20 px-6 bg-[#0f172a] text-white text-center">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">지금이 가장
