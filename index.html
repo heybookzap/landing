@@ -2,502 +2,155 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SYNAPSE 0430 | 1%의 새벽 프로토콜</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oura Routine OS - 매출 엔진 자동화</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* Brand Identity */
-            --primary: #286bff;
-            --primary-dark: #1a4dbf;
-            --primary-light: #5c8dff;
-            --primary-glow: rgba(40, 107, 255, 0.5);
-            
-            /* Background System */
-            --bg-body: #05070a; /* 더 깊은 블랙 */
-            --text-main: #ffffff;
-            --text-sub: #cfd6e6;
-            --text-muted: #8a94a6;
-            
-            /* Glassmorphism System */
-            --glass-bg: rgba(20, 25, 40, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shine: rgba(255, 255, 255, 0.03);
-            
-            /* Accent */
-            --accent-red: #ff4757;
-            --accent-red-glow: rgba(255, 71, 87, 0.4);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.65;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            word-break: keep-all;
-        }
-
-        /* --- 1. Background System (Noise & Grid) --- */
-        .bg-layer { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-        
-        /* Noise Texture: 고급스러운 질감 추가 */
-        .noise-overlay {
-            position: absolute; inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            opacity: 0.4; mix-blend-mode: overlay;
-        }
-
-        /* Gradient Blobs */
-        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite ease-in-out; }
-        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--primary-dark), transparent 70%); }
-        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #4c1d95, transparent 70%); animation-delay: -5s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(20px, -20px); }
-        }
-
-        /* Animated Grid */
-        .grid {
-            position: absolute; inset: 0;
-            background-image: linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-        }
-
-        /* --- 2. Typography & Components --- */
-        .container { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; position: relative; z-index: 10; }
-
-        /* Urgent Banner */
-        .banner {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255, 71, 87, 0.1);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 71, 87, 0.2);
-            color: #ff8a93; text-align: center; padding: 12px;
-            font-size: 0.9rem; font-weight: 700;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
-        .banner span { width: 8px; height: 8px; background: var(--accent-red); border-radius: 50%; box-shadow: 0 0 10px var(--accent-red); animation: blink 1.5s infinite; }
-        @keyframes blink { 50% { opacity: 0.4; } }
-
-        /* Hero Section */
-        .hero { text-align: center; padding: 100px 0 60px; }
-        
-        .tag {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(40, 107, 255, 0.1);
-            border: 1px solid rgba(40, 107, 255, 0.3);
-            color: var(--primary-light);
-            padding: 8px 16px; border-radius: 100px;
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
-            margin-bottom: 24px; text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: clamp(2.4rem, 6vw, 4.2rem);
-            font-weight: 800; line-height: 1.15;
-            margin-bottom: 28px; letter-spacing: -0.03em;
-        }
-        
+        body { font-family: 'Pretendard', sans-serif; }
         .gradient-text {
-            background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        
-        .highlight {
-            position: relative;
-            color: var(--primary-light);
-            display: inline-block;
-        }
-        
-        .hero p {
-            font-size: clamp(1.1rem, 3vw, 1.25rem);
-            color: var(--text-sub);
-            max-width: 600px; margin: 0 auto 40px;
-            font-weight: 400; opacity: 0.9;
-        }
-
-        /* High-End CTA Button (Shimmer Effect) */
-        .cta-btn {
-            position: relative;
-            display: block; width: 100%; max-width: 420px; margin: 0 auto;
-            padding: 22px;
-            background: var(--primary);
-            color: white; font-size: 1.2rem; font-weight: 700;
-            text-decoration: none; border-radius: 16px;
-            overflow: hidden; transition: all 0.3s ease;
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 10px 30px rgba(40, 107, 255, 0.3);
-        }
-        
-        .cta-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-20deg);
-            animation: shimmer 3s infinite;
-        }
-        
-        @keyframes shimmer {
-            0%, 70% { left: -100%; }
-            100% { left: 200%; }
-        }
-        
-        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 15px 40px rgba(40, 107, 255, 0.5); }
-        .cta-btn:active { transform: scale(0.98); }
-
-        /* Divider */
-        hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 80px 0; }
-
-        /* Section Title */
-        h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; text-align: center; margin-bottom: 50px; letter-spacing: -0.02em; }
-        h2 span { color: var(--primary); }
-
-        /* --- 3. Glass Cards (Interactive) --- */
-        .card-grid { display: flex; flex-direction: column; gap: 20px; }
-        
-        .glass-card {
-            background: linear-gradient(180deg, rgba(30, 35, 50, 0.6) 0%, rgba(20, 25, 40, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 32px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; overflow: hidden;
-        }
-        
-        /* Neon Glow Hover Effect */
-        .glass-card::after {
-            content: ''; position: absolute; inset: 0; border-radius: 20px;
-            padding: 1px; 
-            background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent); 
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            pointer-events: none;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(40, 107, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(40, 107, 255, 0.1);
-        }
-
-        .icon { font-size: 2.8rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
-        .card-head { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
-        .card-body { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
-        .solution { 
-            margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-main); font-size: 1rem; font-weight: 600;
-        }
-        .solution span { color: var(--primary-light); margin-right: 6px; }
-
-        /* --- 4. Timeline System --- */
-        .timeline { position: relative; padding-left: 40px; margin: 40px 0; }
-        .timeline::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
-        }
-        
-        .t-item { position: relative; margin-bottom: 48px; }
-        .t-dot {
-            position: absolute; left: -45px; top: 4px; width: 12px; height: 12px;
-            background: var(--bg-body); border: 2px solid var(--primary); border-radius: 50%;
-            box-shadow: 0 0 15px var(--primary);
-        }
-        
-        .t-time {
-            display: inline-block; color: var(--primary); font-size: 0.85rem; font-weight: 800;
-            letter-spacing: 1px; margin-bottom: 8px;
-        }
-        .t-desc {
-            font-size: 1.1rem; color: var(--text-sub); line-height: 1.6;
-            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px;
-            border: 1px solid var(--glass-border);
-        }
-        .t-desc b { color: #fff; font-weight: 700; }
-
-        /* --- 5. Offer Box (High Contrast) --- */
-        .offer {
-            background: rgba(10, 12, 18, 0.8);
-            border: 1px solid var(--primary-dark);
-            box-shadow: 0 0 50px rgba(40, 107, 255, 0.15);
-            border-radius: 24px; overflow: hidden; margin: 80px 0;
-        }
-        
-        .offer-head {
-            background: linear-gradient(180deg, rgba(40, 107, 255, 0.15), transparent);
-            padding: 40px 24px 20px; text-align: center;
-        }
-        
-        .badge {
-            background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 800;
-            padding: 6px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(40, 107, 255, 0.4); display: inline-block; margin-bottom: 20px;
-        }
-        
-        .offer ul { list-style: none; padding: 0 30px 30px; }
-        .offer li {
-            padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-sub); display: flex; align-items: center; gap: 12px;
-        }
-        .offer li svg { width: 20px; height: 20px; fill: var(--primary); flex-shrink: 0; }
-        
-        .price-area {
-            background: #0f1219; padding: 40px 24px; text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .price-tag { font-size: 3.5rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; margin-bottom: 8px; }
-        .price-sub { color: var(--text-muted); font-size: 0.95rem; }
-
-        /* Guarantee Box */
-        .guarantee {
-            background: linear-gradient(135deg, rgba(255, 71, 87, 0.05), transparent);
-            border: 1px solid rgba(255, 71, 87, 0.2);
-            border-radius: 20px; padding: 32px;
-        }
-        .guarantee h3 { color: #ff6b77; font-size: 1.3rem; margin-bottom: 16px; text-align: left; }
-        .guarantee p { color: var(--text-sub); font-size: 1rem; }
-
-        /* FAQ Accordion */
-        details {
-            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
-            border-radius: 16px; margin-bottom: 16px; transition: all 0.3s;
-        }
-        details[open] { background: rgba(40, 107, 255, 0.05); border-color: rgba(40, 107, 255, 0.2); }
-        summary {
-            padding: 20px 24px; cursor: pointer; font-weight: 600; font-size: 1.05rem;
-            list-style: none; display: flex; justify-content: space-between; align-items: center;
-        }
-        summary::after { content: '+'; font-size: 1.5rem; color: var(--primary); font-weight: 300; transition: transform 0.3s; }
-        details[open] summary::after { transform: rotate(45deg); }
-        .a-body { padding: 0 24px 24px; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
-
-        /* Scroll Animation Class */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; padding: 0 10px; }
-            .container { padding: 0 20px 100px; }
-            .cta-btn { font-size: 1.1rem; padding: 18px; }
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body>
+<body class="bg-black text-white antialiased">
 
-    <div class="bg-layer">
-        <div class="noise-overlay"></div>
-        <div class="grid"></div>
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-
-    <div class="banner">
-        <span></span> 제1기 '새벽 벙커' 잔여 3석 (7/10 완료)
-    </div>
-
-    <div class="container">
-        
-        <section class="hero reveal">
-            <div class="tag">@For Solopreneurs</div>
-            <h1>
-                의지력은 <span class="gradient-text">쓰는 게 아닙니다.</span><br>
-                그냥 <span class="highlight">맡기는 겁니다.</span>
+    <header class="relative overflow-hidden pt-20 pb-32">
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-gray-800 text-green-400 text-sm font-semibold mb-6 border border-gray-700">
+                Only for High-Performers
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+                당신의 루틴을 <br>
+                <span class="gradient-text">시스템으로 강제합니다.</span>
             </h1>
-            <p>
-                매일 아침 '일어날까' 고민하는 에너지가 당신을 망칩니다.<br>
-                고민, 결심, 노력? 전부 하지 마십시오.<br>
-                <strong>SYNAPSE OS가 당신의 몸을 책상까지 배달합니다.</strong>
+            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+                의지력은 고갈되지만, 시스템은 지치지 않습니다.<br>
+                오우라 링 데이터와 연동된 <strong>자동 벌금 집행 시스템</strong>이<br>
+                당신을 책상 앞에 앉힙니다.
             </p>
-            
-            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
-                👉 3분 만에 '자동 성장 시스템' 장착
-            </a>
-            <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
-                *지금 닫으면 50만원 상당 Oura Ring 혜택 소멸
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#apply" class="bg-white text-black font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-200 transition">
+                    지금 신청하기 (Early Access)
+                </a>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <hr>
-
-        <section class="reveal">
-            <h2>매일 아침, 당신을 괴롭히는<br><span>'3가지 귀찮음'</span>을 삭제했습니다.</h2>
-            
-            <div class="card-grid">
-                <div class="glass-card">
-                    <span class="icon">🛌</span>
-                    <div class="card-head">1. "일어날까?" 고민 삭제</div>
-                    <div class="card-body">
-                        알람을 끌까 말까 고민하는 찰나의 순간을 없앴습니다.
-                        <div class="solution">
-                            <span>→ Solution:</span> 4시 40분까지 책상 인증 안 하면 <strong>벌금 5만 원 자동 결제.</strong>
-                        </div>
-                    </div>
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center">왜 스스로와의 약속을 어깁니까?</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-black p-8 rounded-2xl border border-gray-800">
+                    <h3 class="text-gray-500 text-lg mb-2">기존의 방식</h3>
+                    <p class="text-2xl font-semibold text-red-500 mb-4">"좀 더 자도 되겠지..."</p>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center">
+                            <span class="mr-2">❌</span> 알람을 끄고 다시 잠듭니다.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">❌</span> 타협하고 루틴을 건너뜁니다.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">❌</span> 잃을 것이 없으니 행동하지 않습니다.
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="glass-card">
-                    <span class="icon">🧠</span>
-                    <div class="card-head">2. "뭐부터 하지?" 결정 삭제</div>
-                    <div class="card-body">
-                        비몽사몽 간에 우선순위를 정하는 고통을 없앴습니다.
-                        <div class="solution">
-                            <span>→ Solution:</span> 화면을 켜자마자 <strong>'단 하나의 미션'</strong>만 강제로 띄워집니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card">
-                    <span class="icon">📵</span>
-                    <div class="card-head">3. "안 봐야지" 참는 고통 삭제</div>
-                    <div class="card-body">
-                        유튜브를 보고 싶은 충동을 참는 에너지를 아껴드립니다.
-                        <div class="solution">
-                            <span>→ Solution:</span> 딴짓 앱은 <strong>물리적으로 실행조차 안 되게</strong> 막아버립니다.
-                        </div>
-                    </div>
+                <div class="bg-gray-800 p-8 rounded-2xl border border-green-900/50 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-2 py-1">SOLUTION</div>
+                    <h3 class="text-green-400 text-lg mb-2">Oura Routine OS</h3>
+                    <p class="text-2xl font-semibold text-white mb-4">"실패 시, 즉시 결제됩니다."</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-center">
+                            <span class="mr-2">✅</span> 오우라 링 데이터 미수신 시 감지.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✅</span> <span class="text-white font-bold underline decoration-red-500">설정된 벌금이 즉시 자동 결제됩니다.</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✅</span> 돈을 잃지 않으려면 일어날 수밖에 없습니다.
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <hr>
-
-        <section class="reveal">
-            <h2>SYNAPSE와 함께하는<br><span>내일 아침 시뮬레이션</span></h2>
-            
-            <div class="timeline">
-                <div class="t-item">
-                    <div class="t-dot"></div>
-                    <span class="t-time">AM 04:30 | WAKE UP</span>
-                    <div class="t-desc">
-                        알람과 동시에 당신의 카드에서 <b>5만 원 차감 카운트다운</b>이 시작됩니다. 침대에 누워있을 수 없습니다.
-                    </div>
+    <section class="py-20 bg-black">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center">매일 아침, 전쟁이 시작됩니다.</h2>
+            <div class="relative border-l border-gray-800 ml-4 space-y-12">
+                <div class="relative pl-8">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-gray-800 rounded-full border-2 border-black"></div>
+                    <span class="text-sm text-gray-500 font-mono">05:55 AM</span>
+                    <h3 class="text-xl font-bold mt-1">시스템 동기화 대기</h3>
+                    <p class="text-gray-400 mt-2">Oura Ring 수면 데이터가 클라우드로 전송될 준비를 마칩니다.</p>
                 </div>
-                <div class="t-item">
-                    <div class="t-dot"></div>
-                    <span class="t-time">AM 04:45 | DEEP WORK</span>
-                    <div class="t-desc">
-                        책상에 앉아 인증하면 벌금이 취소됩니다. <b>뇌가 가장 맑은 상태</b>에서, 남들이 잘 때 가장 비싼 일을 처리합니다.
-                    </div>
+                <div class="relative pl-8">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-red-600 rounded-full border-2 border-black shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
+                    <span class="text-sm text-red-500 font-mono font-bold">06:00 AM (DEADLINE)</span>
+                    <h3 class="text-xl font-bold mt-1 text-white">데드라인 카운트다운 & 벌금 시스템 가동</h3>
+                    <p class="text-gray-400 mt-2">
+                        기상 인증이 확인되지 않으면, <span class="text-red-400 font-bold">카운트다운 종료 즉시 벌금 50,000원이 결제됩니다.</span> 자비는 없습니다.
+                    </p>
                 </div>
-                <div class="t-item">
-                    <div class="t-dot"></div>
-                    <span class="t-time">AM 07:00 | VICTORY</span>
-                    <div class="t-desc">
-                        세상이 깨어날 때, <b>당신은 이미 승리했습니다.</b> 압도적인 결과물을 쥐고 여유롭게 웃으세요.
-                    </div>
+                <div class="relative pl-8">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-green-500 rounded-full border-2 border-black"></div>
+                    <span class="text-sm text-green-500 font-mono">06:10 AM</span>
+                    <h3 class="text-xl font-bold mt-1">루틴 리포트 생성</h3>
+                    <p class="text-gray-400 mt-2">벌금을 방어하고 획득한 승리의 기록(수면 점수, 기상 시간)이 대시보드에 기록됩니다.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="offer reveal">
-            <div class="offer-head">
-                <span class="badge">Only for 1st Batch</span>
-                <h3>💎 SYNAPSE 1기 패키지</h3>
+    <section class="py-20 bg-gray-900 border-t border-gray-800">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center">자주 묻는 질문</h2>
+            <div class="space-y-6">
+                <div class="bg-black p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2">Q. 정말로 돈이 바로 빠져나가나요?</h3>
+                    <p class="text-gray-400">네, 그렇습니다. 서비스 가입 시 카드를 등록하며, 오우라 링 데이터상 '기상 실패'로 판정되는 즉시 PG사를 통해 예치금이 차감되거나 벌금이 결제됩니다.</p>
+                </div>
+                <div class="bg-black p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2">Q. 아파서 못 일어난 경우는요? 봐주나요?</h3>
+                    <p class="text-gray-400">
+                        <span class="text-red-400 font-bold">예외 없이 벌금을 걷습니다.</span> 
+                        시스템은 당신의 사정을 봐주지 않습니다. 이 가혹함이 당신을 침대에서 끌어내는 유일한 원동력이기 때문입니다.
+                    </p>
+                </div>
+                <div class="bg-black p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2">Q. 오우라 링이 없으면 사용할 수 없나요?</h3>
+                    <p class="text-gray-400">네, 이 OS는 오우라 링의 바이오 데이터 API를 기반으로 작동하므로 링이 필수입니다.</p>
+                </div>
             </div>
-            <ul>
-                <li>
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span><strong>3개월 1:1 강제 기상 관리</strong> (금융 치료 포함)</span>
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span><strong>나만의 자동화 봇 설치</strong> (시스템 구축)</span>
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span><strong>[한정] Oura Ring 무료 증정</strong> (50만 상당)</span>
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span>뇌 각성 호흡법 영상 (비매품)</span>
-                </li>
-            </ul>
-            <div class="price-area">
-                <div style="text-decoration: line-through; color: #555; margin-bottom: 5px;">정가 500만 원</div>
-                <div class="price-tag">200만 원</div>
-                <div class="price-sub">3개월 과정 일시불 / 추가 비용 없음<br>*기기값 포함된 최종 가격</div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="reveal">
-            <div class="guarantee">
-                <h3>🛡️ 후기가 없어 불안하신가요?</h3>
-                <p>
-                    당연합니다. 당신이 <strong>'첫 번째'</strong>이기 때문입니다.<br>
-                    그래서 리스크는 제가 100% 지겠습니다.<br><br>
-                    3개월간 시키는 대로 했는데 성과가 없다?<br>
-                    <strong style="color:#fff;">묻지도 따지지도 않고 전액 환불해 드립니다.</strong><br>
-                    심지어 받으신 50만 원짜리 링도 가지세요.
-                </p>
-            </div>
-        </section>
-
-        <section class="reveal" style="margin-top: 60px;">
-            <h2>자주 묻는 질문</h2>
-            
-            <details>
-                <summary>Q. Oura Ring이 없는데 어떡하죠?</summary>
-                <div class="a-body">걱정 마세요. 1기 멤버에게는 50만 원 상당의 Oura Ring을 무료로 보내드립니다. 몸만 오시면 됩니다.</div>
-            </details>
-            <details>
-                <summary>Q. 프리랜서/창업가에게도 효과가 있나요?</summary>
-                <div class="a-body">필수입니다. 출퇴근이 없는 1인 기업가에게 '강제 마감'과 '규율'을 만들어주어 생산성을 2배로 높여줍니다.</div>
-            </details>
-            <details>
-                <summary>Q. 너무 힘들어서 포기하면요?</summary>
-                <div class="a-body">포기 불가능합니다. <strong>'금융 치료(자동 벌금)'</strong> 시스템이 당신을 억지로라도 책상에 앉힙니다. 실패를 허용하지 않습니다.</div>
-            </details>
-            <details>
-                <summary>Q. 왜 이렇게 비싼가요?</summary>
-                <div class="a-body">단순 앱이 아닙니다. 연봉을 높이는 '컨설팅'이자 '고가 장비'가 포함된 가격입니다. 하루 커피 한 잔 값으로 인생을 바꿀 기회입니다.</div>
-            </details>
-            <details>
-                <summary>Q. 환불 절차는 복잡한가요?</summary>
-                <div class="a-body">전혀 복잡하지 않습니다. 성과가 없다면 <strong>이메일 한 통이면 끝납니다.</strong> 즉시 환불해 드립니다.</div>
-            </details>
-        </section>
-
-        <section class="hero reveal" style="margin-top: 40px;">
-            <p style="font-size: 1.1rem; margin-bottom: 30px;">
-                ❌ 힐링하고 싶은 분은 오지 마세요.<br>
-                ✅ <strong>새벽을 '현금'으로 바꿀 야망가 10명</strong>만 모십니다.
+    <section id="apply" class="py-24 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-black to-gray-900 -z-10"></div>
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-6">지금 신청하고, <br>내일 아침을 <span class="text-green-500">매수</span>하세요.</h2>
+            <p class="text-gray-400 mb-10">
+                벌금보다 더 무서운 것은, <br>아무것도 변하지 않는 당신의 내일입니다.
             </p>
-            
-            <div style="display:inline-block; border:1px solid var(--accent-red); color:var(--accent-red); padding:8px 16px; border-radius:30px; font-weight:700; font-size:0.9rem; margin-bottom:20px; background:rgba(255,71,87,0.1);">
-                현재 잔여석: 3자리
-            </div>
-            
-            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
-                👉 [지원서 쓰고 새벽 벙커 합류하기]
-            </a>
-        </section>
+            <form class="space-y-4 max-w-md mx-auto">
+                <input type="email" placeholder="이메일을 입력하세요" class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-500 transition">
+                <button type="button" class="w-full bg-green-500 text-black font-bold py-4 rounded-lg text-lg hover:bg-green-400 transition shadow-[0_0_20px_rgba(74,222,128,0.3)]">
+                    Early Access 신청하기
+                </button>
+            </form>
+            <p class="text-xs text-gray-600 mt-6">
+                * 서비스 런칭 시 가장 먼저 안내 메일과 카드 등록 링크를 보내드립니다.
+            </p>
+        </div>
+    </section>
 
-    </div>
+    <footer class="py-8 text-center text-gray-600 text-sm border-t border-gray-900">
+        &copy; 2026 Oura Routine OS. All rights reserved.
+    </footer>
 
-    <script>
-        // Scroll Reveal Animation
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        reveal(); // Trigger on load
-    </script>
 </body>
 </html>
