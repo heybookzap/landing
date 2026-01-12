@@ -4,226 +4,437 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYNAPSE 0430 | 1%의 새벽 프로토콜</title>
-    
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <style>
-        /* [CORE SETTINGS] */
         :root {
             --primary: #286bff;
             --primary-dark: #1a4dbf;
-            --primary-glow: rgba(40, 107, 255, 0.5);
+            --primary-glow: rgba(40, 107, 255, 0.6);
             --bg-body: #0a0e1a;
             --text-main: #ffffff;
-            --text-sub: #e0e6ed; /* 가독성을 위해 조금 더 밝게 조정 */
+            --text-sub: #e0e6ed;
             --accent-red: #ff4757;
-            --glass-bg: rgba(20, 25, 40, 0.7); /* 글씨가 잘 보이도록 배경 불투명도 조정 */
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(20, 25, 40, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; /* 폰트 적용 */
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
             background: #0a0e1a;
             color: var(--text-main);
             line-height: 1.7;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            word-break: keep-all; /* 단어 단위 줄바꿈 (가독성 핵심) */
+            word-break: keep-all;
         }
 
-        /* [BACKGROUND LAYERS] - 글씨 뒤로 보내기 */
+        /* Enhanced Background System */
         .bg-fixed-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* 가장 뒤로 */
+            z-index: -1;
             overflow: hidden;
-            pointer-events: none; /* 마우스 방해 금지 */
+            pointer-events: none;
         }
 
-        /* 배경 효과들 */
-        .gradient-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: blobMove 20s infinite alternate; }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--primary); }
-        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #7f5af0; animation-delay: -5s; }
-        .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(white 1px, transparent 1px); background-size: 50px 50px; opacity: 0.1; }
-
-        @keyframes blobMove {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(20px, 20px) scale(1.1); }
+        .gradient-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: blobFloat 25s infinite ease-in-out;
         }
 
-        /* [LAYOUT CONTAINER] - 글씨 앞으로 가져오기 */
-        .container {
-            position: relative;
-            z-index: 10; /* 배경보다 확실히 앞에 배치 */
-            max-width: 800px; /* 가독성 최적화 너비 */
-            margin: 0 auto;
-            padding: 40px 24px 100px;
+        .blob-1 { top: -15%; left: -15%; width: 55vw; height: 55vw; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); animation-delay: 0s; }
+        .blob-2 { bottom: -15%; right: -15%; width: 55vw; height: 55vw; background: radial-gradient(circle, #7f5af0 0%, transparent 70%); animation-delay: -8s; }
+        .blob-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(255, 71, 87, 0.3) 0%, transparent 70%); animation-delay: -16s; }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(30px, -30px) scale(1.1) rotate(120deg); }
+            66% { transform: translate(-30px, 30px) scale(0.9) rotate(240deg); }
         }
 
-        /* [TYPOGRAPHY] - 시인성 강화 */
-        h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5); /* 배경이 밝아도 글씨가 보이게 그림자 추가 */
-        }
-
-        h2 {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            font-weight: 700;
-            text-align: center;
-            margin: 100px 0 50px;
-            color: #fff;
-        }
-
-        p {
-            font-size: 1.15rem;
-            color: var(--text-sub);
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        /* [COMPONENTS] */
-        
-        /* 1. Urgent Banner */
-        .urgent-banner {
-            position: sticky;
+        /* Animated Grid */
+        .grid-overlay {
+            position: absolute;
             top: 0;
-            z-index: 1000;
-            background: rgba(255, 71, 87, 0.95); /* 배경색 진하게 해서 글씨 보호 */
-            color: white;
-            text-align: center;
-            padding: 12px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
         }
 
-        /* 2. Hero Section */
-        .hero {
-            text-align: center;
-            padding: 80px 0;
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
+
+        /* Floating Particles */
+        .particle { position: absolute; background: var(--primary); border-radius: 50%; opacity: 0.15; animation: particleFloat 15s infinite ease-in-out; }
+        .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 3s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; top: 40%; left: 60%; animation-delay: 6s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 20%; animation-delay: 9s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; top: 30%; left: 90%; animation-delay: 12s; }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0); opacity: 0.15; }
+            25% { transform: translate(20px, -30px); opacity: 0.3; }
+            50% { transform: translate(-20px, -60px); opacity: 0.15; }
+            75% { transform: translate(10px, -30px); opacity: 0.3; }
+        }
+
+        /* Stars Background */
+        .stars {
+            position: absolute; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 30% 80%, white, transparent);
+            background-size: 200% 200%;
+            animation: starsTwinkle 10s ease-in-out infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes starsTwinkle {
+            0%, 100% { opacity: 0.15; background-position: 0% 0%; }
+            50% { opacity: 0.25; background-position: 100% 100%; }
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, #7f5af0 100%);
+            z-index: 10000; box-shadow: 0 0 20px var(--primary-glow);
+            transition: width 0.1s ease-out;
+        }
+
+        /* Urgent Banner Enhanced */
+        .urgent-banner {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 71, 87, 0.95); backdrop-filter: blur(20px);
+            color: white; text-align: center; padding: 14px;
+            font-weight: 700; font-size: 0.95rem;
+            box-shadow: 0 4px 30px rgba(255, 71, 87, 0.3);
+            position: relative; overflow: hidden;
+        }
+
+        .urgent-banner::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: bannerShine 3s infinite;
+        }
+
+        @keyframes bannerShine { 0% { left: -100%; } 100% { left: 200%; } }
+
+        /* Container */
+        .container { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 40px 24px 100px; }
+
+        /* Hero Section Enhanced */
+        .hero { text-align: center; padding: 100px 0; position: relative; }
+        .hero::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            filter: blur(80px); opacity: 0.3;
+            animation: heroPulse 4s ease-in-out infinite; pointer-events: none;
+        }
+
+        @keyframes heroPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+        }
+
+        .hero-tag {
+            display: inline-block; color: var(--primary); font-weight: 700; letter-spacing: 2px;
+            margin-bottom: 20px; padding: 10px 24px;
+            background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.3);
+            border-radius: 30px; backdrop-filter: blur(10px); font-size: 0.85rem;
+            position: relative; overflow: hidden; z-index: 1;
+        }
+
+        .hero-tag::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(40, 107, 255, 0.3), transparent);
+            animation: tagShimmer 3s infinite;
+        }
+
+        @keyframes tagShimmer { 0% { left: -100%; } 100% { left: 200%; } }
+
+        /* Typography Enhanced */
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 30px; position: relative; z-index: 1; }
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a8b2d1 50%, #fff 100%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; animation: textShine 4s linear infinite;
+        }
+        @keyframes textShine { to { background-position: 200% center; } }
 
         .highlight-text {
             color: var(--primary);
-            background: rgba(40, 107, 255, 0.1);
-            padding: 0 8px;
-            border-radius: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, #7f5af0 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            position: relative; display: inline-block; padding: 0 8px;
         }
 
-        /* 3. CTA Button */
+        .highlight-text::before {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(40, 107, 255, 0.1); border-radius: 8px; z-index: -1;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem); color: var(--text-sub);
+            line-height: 1.9; margin-bottom: 40px; position: relative; z-index: 1;
+        }
+
+        /* Premium CTA Button */
         .cta-btn {
-            display: block;
-            width: 100%;
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 22px;
+            display: block; width: 100%; max-width: 500px; margin: 30px auto; padding: 24px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 800;
-            text-decoration: none;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(40, 107, 255, 0.4);
-            transition: transform 0.2s;
-            text-align: center;
+            color: white; font-size: 1.3rem; font-weight: 800; text-decoration: none;
+            border-radius: 60px; box-shadow: 0 10px 40px rgba(40, 107, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-align: center;
+            position: relative; overflow: hidden; cursor: pointer;
         }
-        .cta-btn:active { transform: scale(0.98); }
 
-        /* 4. Cards (Glassmorphism) - 가독성 개선 */
+        .cta-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); transition: left 0.6s;
+        }
+
+        .cta-btn::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            border-radius: 50%; background: rgba(255, 255, 255, 0.2); transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-btn:hover::before { left: 100%; }
+        .cta-btn:hover::after { width: 400px; height: 400px; }
+        .cta-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(40, 107, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+        .cta-btn:active { transform: translateY(-2px) scale(0.98); }
+
+        /* Section Heading */
+        h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; text-align: center; margin: 120px 0 60px; color: #fff; letter-spacing: -0.02em; line-height: 1.3; }
+        h2 .highlight { color: var(--primary); position: relative; }
+        h2 .highlight::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), transparent); border-radius: 2px; }
+
+        /* Premium Glass Cards */
         .glass-card {
-            background: rgba(20, 20, 25, 0.6); /* 배경을 좀 더 어둡게 */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 24px;
-            text-align: left;
+            background: var(--glass-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 36px; margin-bottom: 24px;
+            text-align: left; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; cursor: pointer;
         }
 
-        .card-icon { font-size: 2.5rem; display: block; margin-bottom: 16px; }
-        .card-title { font-size: 1.3rem; font-weight: 700; color: white; margin-bottom: 10px; }
-        .card-desc { font-size: 1rem; color: #d1d5db; } /* 회색 텍스트 밝기 조절 */
-
-        /* 5. Timeline */
-        .timeline {
-            border-left: 2px solid var(--primary);
-            padding-left: 30px;
-            margin: 40px 0 40px 20px;
-            text-align: left;
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(40, 107, 255, 0.1) 0%, transparent 100%); opacity: 0; transition: opacity 0.5s;
         }
-        .time-item { position: relative; margin-bottom: 50px; }
+
+        .glass-card::after {
+            content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent); transform: rotate(45deg); transition: all 0.6s;
+        }
+
+        .glass-card:hover::before { opacity: 1; }
+        .glass-card:hover::after { right: -150%; }
+        .glass-card:hover { transform: translateY(-12px); border-color: rgba(40, 107, 255, 0.5); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(40, 107, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+
+        .card-icon { font-size: 3rem; display: block; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(40, 107, 255, 0.5)); animation: iconFloat 3s ease-in-out infinite; }
+        @keyframes iconFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .card-title { font-size: 1.35rem; font-weight: 700; color: white; margin-bottom: 14px; letter-spacing: -0.01em; }
+        .card-desc { font-size: 1.05rem; color: #d1d5db; line-height: 1.7; }
+        .card-desc strong { color: var(--primary); font-weight: 700; }
+
+        /* Enhanced Timeline */
+        .timeline { border-left: 3px solid rgba(40, 107, 255, 0.3); padding-left: 40px; margin: 60px 0 60px 30px; text-align: left; position: relative; }
+        .timeline::before { content: ''; position: absolute; left: -3px; top: 0; width: 3px; height: 100%; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%); box-shadow: 0 0 10px var(--primary-glow); }
+
+        .time-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateX(-30px); }
+        .time-item.visible { animation: timelineSlide 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes timelineSlide { to { opacity: 1; transform: translateX(0); } }
+        .time-item:nth-child(1) { animation-delay: 0.2s; }
+        .time-item:nth-child(2) { animation-delay: 0.4s; }
+        .time-item:nth-child(3) { animation-delay: 0.6s; }
+
         .time-item::before {
-            content: ''; position: absolute; left: -36px; top: 8px;
-            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
-            box-shadow: 0 0 0 5px rgba(40, 107, 255, 0.3);
+            content: ''; position: absolute; left: -51px; top: 10px; width: 18px; height: 18px;
+            background: var(--primary); border: 4px solid var(--bg-body); border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(40, 107, 255, 0.2), 0 0 20px var(--primary-glow); z-index: 1; animation: timelinePulse 2s infinite;
         }
-        .time-label { color: var(--primary); font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-        .time-text { font-size: 1.1rem; color: white; }
 
-        /* 6. Offer Box */
+        @keyframes timelinePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(40, 107, 255, 0.7), 0 0 20px var(--primary-glow); }
+            50% { box-shadow: 0 0 0 10px rgba(40, 107, 255, 0), 0 0 30px var(--primary-glow); }
+        }
+
+        .time-label {
+            color: var(--primary); font-weight: 800; font-size: 0.9rem; letter-spacing: 1.5px;
+            margin-bottom: 12px; display: inline-block; padding: 8px 18px;
+            background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.3); border-radius: 20px; backdrop-filter: blur(10px);
+        }
+
+        .time-text {
+            font-size: 1.1rem; color: white; line-height: 1.8;
+            background: rgba(20, 25, 40, 0.4); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px);
+        }
+
+        /* Premium Offer Box */
         .offer-box {
-            background: rgba(40, 107, 255, 0.05);
-            border: 2px solid var(--primary);
-            border-radius: 24px;
-            padding: 40px 24px;
-            text-align: center;
-            margin: 60px 0;
-            position: relative;
+            background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%);
+            border: 2px solid var(--primary); border-radius: 32px; padding: 60px 40px; text-align: center; margin: 80px 0;
+            position: relative; box-shadow: 0 30px 80px rgba(40, 107, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); overflow: hidden;
         }
+
+        .offer-box::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(40, 107, 255, 0.1) 0%, transparent 70%); animation: offerRotate 15s linear infinite;
+        }
+
+        @keyframes offerRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
         .badge {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: var(--primary); color: white; padding: 6px 16px;
-            font-weight: 800; font-size: 0.8rem; border-radius: 20px;
+            position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; padding: 10px 28px; font-weight: 900; font-size: 0.8rem; border-radius: 30px; letter-spacing: 1.5px;
+            box-shadow: 0 8px 30px rgba(40, 107, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3); z-index: 1;
         }
-        .offer-list { list-style: none; text-align: left; margin: 30px 0; }
-        .offer-list li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
-        .offer-list li strong { color: var(--primary); }
 
-        /* 7. FAQ */
+        .offer-box h3 { font-size: 2rem; margin-bottom: 30px; color: #fff; position: relative; z-index: 1; }
+        .offer-list { list-style: none; text-align: left; margin: 40px 0; position: relative; z-index: 1; }
+        .offer-list li { padding: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: #fff; font-size: 1.05rem; display: flex; align-items: center; gap: 12px; transition: all 0.3s; }
+        .offer-list li:hover { padding-left: 10px; background: rgba(40, 107, 255, 0.05); border-radius: 12px; }
+        .offer-list li strong { color: var(--primary); font-weight: 700; }
+
+        .price-section { margin-top: 40px; position: relative; z-index: 1; }
+        .price-old { text-decoration: line-through; color: #666; font-size: 1.1rem; display: block; margin-bottom: 10px; }
+        .price-new {
+            font-size: 3rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, #7f5af0 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            display: block; line-height: 1; margin-bottom: 10px;
+        }
+
+        /* Enhanced Guarantee Box */
+        .guarantee-box {
+            background: rgba(255, 71, 87, 0.08); backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 71, 87, 0.3); border-radius: 24px; padding: 40px; margin: 50px 0; position: relative; overflow: hidden;
+        }
+
+        .guarantee-box::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-red), transparent, var(--accent-red));
+            border-radius: 24px; z-index: -1; opacity: 0.3; animation: guaranteeBorder 3s linear infinite;
+        }
+
+        @keyframes guaranteeBorder { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+        .guarantee-box h3 { color: var(--accent-red); font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; justify-content: center; }
+        .guarantee-box p { color: #ddd; margin: 0; line-height: 1.8; }
+
+        /* Premium FAQ */
         details {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            overflow: hidden;
+            background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border: 1px solid var(--glass-border); border-radius: 20px; margin-bottom: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        details:hover { border-color: rgba(40, 107, 255, 0.5); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
         summary {
-            padding: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            list-style: none;
+            padding: 24px 28px; cursor: pointer; font-weight: 700; font-size: 1.1rem;
+            display: flex; justify-content: space-between; align-items: center; list-style: none; transition: all 0.3s; user-select: none;
         }
-        .faq-content { padding: 0 20px 20px; color: #ccc; font-size: 0.95rem; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '+'; font-size: 2rem; color: var(--primary); width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center; background: rgba(40, 107, 255, 0.1); border-radius: 50%; transition: all 0.4s; flex-shrink: 0;
+        }
+        details[open] summary::after { transform: rotate(135deg); background: var(--primary); color: white; }
+        details[open] summary { background: rgba(40, 107, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .faq-content { padding: 24px 28px; color: #ccc; font-size: 1.05rem; line-height: 1.8; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .faq-content strong { color: var(--primary); font-weight: 700; }
 
-        hr { border: 0; border-top: 1px solid #333; margin: 80px 0; }
-        
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
+        /* Final CTA Section */
+        .final-cta { text-align: center; padding: 80px 0; position: relative; }
+        .final-cta::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%); filter: blur(100px); opacity: 0.2; pointer-events: none;
+        }
+
+        .spots-remaining {
+            display: inline-block; color: var(--accent-red); font-weight: 800; font-size: 1.15rem; margin-bottom: 30px; padding: 14px 32px;
+            background: rgba(255, 71, 87, 0.15); border: 2px solid var(--accent-red); border-radius: 30px;
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.3); position: relative; z-index: 1; animation: spotsPulse 2s infinite;
+        }
+
+        @keyframes spotsPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 71, 87, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 71, 87, 0.5); }
+        }
+
+        /* Divider */
+        hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); margin: 100px 0; }
+
+        /* Cursor Glow Effect */
+        .cursor-glow {
+            position: fixed; width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            pointer-events: none; transform: translate(-50%, -50%); z-index: 9999; opacity: 0; transition: opacity 0.3s; filter: blur(60px); mix-blend-mode: screen;
+        }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .container { padding: 20px 20px 80px; }
+            .hero { padding: 60px 0; }
             h1 { font-size: 2.2rem; }
-            .cta-btn { font-size: 1.1rem; padding: 18px; }
+            h2 { margin: 80px 0 40px; }
+            .cta-btn { font-size: 1.15rem; padding: 20px; }
+            .glass-card { padding: 28px; }
+            .timeline { padding-left: 30px; margin-left: 15px; }
+            .time-item::before { left: -41px; }
+            .offer-box { padding: 50px 28px; }
+            .card-icon { font-size: 2.5rem; }
+            .blob-1, .blob-2, .blob-3 { width: 80vw; height: 80vw; }
+        }
+
+        @media (max-width: 480px) {
+            .hero p { font-size: 1rem; }
+            .offer-box h3 { font-size: 1.6rem; }
+            .price-new { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="bg-fixed-layer">
         <div class="gradient-blob blob-1"></div>
         <div class="gradient-blob blob-2"></div>
+        <div class="gradient-blob blob-3"></div>
+        <div class="grid-overlay"></div>
         <div class="stars"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
     </div>
 
     <div class="urgent-banner">
@@ -233,9 +444,9 @@
     <div class="container">
         
         <div class="hero">
-            <p style="color:var(--primary); font-weight:700; letter-spacing:1px; margin-bottom:10px;">@For High-Performers</p>
+            <div class="hero-tag">@For High-Performers</div>
             <h1>
-                연봉 1억을 2억으로 만드는<br>
+                <span class="text-gradient">연봉 1억을 2억으로 만드는</span><br>
                 <span class="highlight-text">단 15분의 차이.</span>
             </h1>
             <p>
@@ -245,79 +456,101 @@
             </p>
             
             <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">👉 3분 만에 지원하고 시작하기</a>
-            <p style="font-size:0.9rem; color:#888; margin-top:10px;">*지금 창을 닫으면 Oura Ring 무료 혜택은 사라집니다.</p>
+            <p style="font-size:0.95rem; color:#888; margin-top:16px;">*지금 창을 닫으면 Oura Ring 무료 혜택은 사라집니다.</p>
         </div>
 
         <hr>
 
-        <h2>혹시 이런 <span style="color:var(--primary)">'가짜 새벽'</span>을<br>보내시나요?</h2>
+        <div class="reveal">
+            <h2>혹시 이런 <span class="highlight">'가짜 새벽'</span>을<br>보내시나요?</h2>
+        </div>
         
-        <div class="glass-card">
-            <span class="card-icon">🤯</span>
-            <div class="card-title">Brain Fog (멍때림)</div>
-            <div class="card-desc">일어나긴 했는데 뇌가 안 깹니다. 멍하니 모니터만 보다가 40분을 날립니다.</div>
+        <div class="reveal">
+            <div class="glass-card">
+                <span class="card-icon">🤯</span>
+                <div class="card-title">1. Brain Fog (멍때림)</div>
+                <div class="card-desc">일어나긴 했는데 뇌가 안 깹니다. 멍하니 모니터만 보다가 40분을 날립니다. <br><strong>→ Solution:</strong> Oura 데이터로 뇌 상태를 즉시 진단하여 각성시킵니다.</div>
+            </div>
         </div>
 
-        <div class="glass-card">
-            <span class="card-icon">📱</span>
-            <div class="card-title">Dopamine Trap (도파민)</div>
-            <div class="card-desc">업무 전 '잠깐' 켠 인스타/뉴스. 정신 차려보니 이미 출근 시간입니다.</div>
+        <div class="reveal">
+            <div class="glass-card">
+                <span class="card-icon">📱</span>
+                <div class="card-title">2. Dopamine Trap (도파민)</div>
+                <div class="card-desc">업무 전 '잠깐' 켠 인스타/뉴스. 정신 차려보니 이미 출근 시간입니다. <br><strong>→ Solution:</strong> 기상 직후 앱/사이트를 OS 레벨에서 강제 차단합니다.</div>
+            </div>
         </div>
 
-        <div class="glass-card">
-            <span class="card-icon">🥱</span>
-            <div class="card-title">Decision Fatigue (결정 피로)</div>
-            <div class="card-desc">"오늘 뭐부터 하지?" 고민하다가, 하루 중 가장 맑은 에너지를 소모합니다.</div>
+        <div class="reveal">
+            <div class="glass-card">
+                <span class="card-icon">🥱</span>
+                <div class="card-title">3. Decision Fatigue (결정 피로)</div>
+                <div class="card-desc">"오늘 뭐부터 하지?" 고민하다가, 하루 중 가장 맑은 에너지를 소모합니다. <br><strong>→ Solution:</strong> 15분 내 미션 미수행 시 벌금이 차감되는 환경을 설계합니다.</div>
+            </div>
         </div>
 
         <hr>
 
-        <h2>SYNAPSE와 함께하는<br><span style="color:var(--primary)">당신의 내일 아침</span></h2>
+        <div class="reveal">
+            <h2>SYNAPSE와 함께하는<br><span class="highlight">당신의 내일 아침</span></h2>
+        </div>
         
         <div class="timeline">
             <div class="time-item">
                 <span class="time-label">AM 04:30 | WAKE UP</span>
-                <div class="time-text">알람이 울립니다. 폰을 켜면 다른 앱은 모두 잠겨있고, <strong>'오늘의 미션'</strong> 하나만 떠 있습니다.</div>
+                <div class="time-text">알람이 울립니다. 폰을 켜면 다른 앱은 모두 잠겨있고, <strong>'오늘의 미션'</strong> 하나만 떠 있습니다. 고민할 틈 없이 하루가 시작됩니다.</div>
             </div>
             <div class="time-item">
                 <span class="time-label">AM 04:45 | DEEP WORK</span>
-                <div class="time-text">고민 없이 책상에 앉습니다. <strong>뇌가 가장 맑은 상태</strong>에서, 남들이 잘 때 가장 중요한 일을 처리합니다.</div>
+                <div class="time-text">책상에 앉습니다. <strong>뇌가 가장 맑은 상태</strong>에서, 남들이 잘 때 가장 중요한 일을 처리합니다. 방해 요소는 0%입니다.</div>
             </div>
             <div class="time-item">
                 <span class="time-label">AM 07:00 | VICTORY</span>
-                <div class="time-text">세상이 깨어날 때, <strong>당신은 이미 승리했습니다.</strong> 압도적인 결과물을 손에 쥐고 하루를 시작합니다.</div>
+                <div class="time-text">세상이 깨어날 때, <strong>당신은 이미 승리했습니다.</strong> 압도적인 결과물을 손에 쥐고, 여유롭게 하루를 시작합니다.</div>
             </div>
         </div>
 
         <hr>
 
-        <div class="offer-box">
-            <div class="badge">ONLY FOR 1st BATCH</div>
-            <h3 style="font-size:1.8rem; margin-bottom:10px; color:#fff;">💎 SYNAPSE 1기 패키지</h3>
-            <ul class="offer-list">
-                <li>✅ 3개월 1:1 강제 기상 관리 (월 100만 가치)</li>
-                <li>✅ 나만의 자동화 봇 설치 (시스템 구축)</li>
-                <li><strong>🎁 [한정] Oura Ring 무료 증정 (50만 상당)</strong></li>
-                <li>🎁 뇌 각성 호흡법 영상 (비매품)</li>
-            </ul>
-            <div style="text-decoration:line-through; color:#666;">정가 500만 원</div>
-            <div style="font-size:2.5rem; font-weight:900; color:var(--primary);">200만 원</div>
-            <p style="font-size:0.9rem; color:#888;">(기기값 포함 / 3개월 통합)</p>
+        <div class="reveal">
+            <div class="offer-box">
+                <div class="badge">ONLY FOR 1st BATCH</div>
+                <h3>💎 SYNAPSE 1기 패키지</h3>
+                <ul class="offer-list">
+                    <li>✅ <strong>3개월 1:1 강제 기상 관리</strong> (월 100만 가치)</li>
+                    <li>✅ <strong>나만의 자동화 봇 설치</strong> (시스템 구축)</li>
+                    <li><strong>🎁 [한정] Oura Ring 무료 증정 (50만 상당)</strong></li>
+                    <li>🎁 뇌 각성 호흡법 영상 (비매품)</li>
+                </ul>
+                <div class="price-section">
+                    <div class="price-old">정가 500만 원</div>
+                    <div class="price-new">200만 원</div>
+                    <p style="font-size:1rem; color:#fff; font-weight:700; margin-top:10px;">(3개월 과정 일시불 / 추가 비용 없음)</p>
+                    <p style="font-size:0.9rem; color:#888;">*기기값 포함된 최종 가격입니다.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="glass-card" style="border-color:var(--accent-red); background:rgba(255, 71, 87, 0.05);">
-            <h3 style="color:var(--accent-red); font-size:1.4rem; margin-bottom:10px;">🛡️ 100% 전액 환불 보증</h3>
-            <p style="color:#ddd; margin:0;">
-                3개월간 시키는 대로 했는데 성과가 없다?<br>
-                <strong>묻지도 따지지도 않고 전액 환불합니다.</strong><br>
-                심지어 받으신 50만 원짜리 링도 가지세요.
-            </p>
+        <div class="reveal">
+            <div class="guarantee-box">
+                <h3>🛡️ 후기가 없어 불안하신가요?</h3>
+                <p>
+                    당연합니다. 당신이 <strong>'첫 번째'</strong>이기 때문입니다.<br>
+                    그래서 모든 리스크는 제가 지겠습니다.<br><br>
+                    3개월간 시키는 대로 했는데 성과가 없다?<br>
+                    <strong>묻지도 따지지도 않고 100% 전액 환불해 드립니다.</strong><br>
+                    심지어 받으신 50만 원짜리 링도 가지셔도 좋습니다.
+                </p>
+            </div>
         </div>
 
         <hr>
 
-        <h2>자주 묻는 질문</h2>
-        <div style="margin-bottom:60px;">
+        <div class="reveal">
+            <h2>자주 묻는 질문</h2>
+        </div>
+        
+        <div class="reveal" style="margin-bottom:80px;">
             <details>
                 <summary>Q. Oura Ring이 없는데 어떡하죠?</summary>
                 <div class="faq-content">걱정 마세요. 1기 멤버에게는 50만 원 상당의 Oura Ring을 무료로 보내드립니다. 몸만 오시면 됩니다.</div>
@@ -331,26 +564,203 @@
                 <div class="faq-content">네, 출근 전 04:30~07:00 시간을 활용합니다. 퇴근 후 시간이 자유로워집니다.</div>
             </details>
             <details>
-                <summary>Q. 운영자는 누구인가요?</summary>
-                <div class="faq-content">저는 시스템 뒤에 있는 <strong>익명의 설계자</strong>입니다. 친목 없이 오직 데이터와 규칙으로만 관리합니다.</div>
+                <summary>Q. 왜 이렇게 비싼가요?</summary>
+                <div class="faq-content">단순 앱이 아닙니다. 연봉을 높이는 '컨설팅'이자 '고가 장비'가 포함된 가격입니다. 하루 커피 한 잔 값으로 인생을 바꿀 기회입니다.</div>
+            </details>
+            <details>
+                <summary>Q. 환불 절차는 복잡한가요?</summary>
+                <div class="faq-content">전혀 복잡하지 않습니다. 성과가 없다면 <strong>이메일 한 통이면 끝납니다.</strong> 묻지도 따지지도 않고 즉시 처리해 드립니다.</div>
             </details>
         </div>
 
-        <div style="text-align:center;">
-            <p style="font-size:1.2rem; margin-bottom:20px;">
+        <div class="final-cta reveal">
+            <p style="font-size:1.25rem; margin-bottom:30px; line-height:1.8;">
                 ❌ 힐링하고 싶은 분은 오지 마세요.<br>
                 ✅ <strong>새벽을 '현금'으로 바꿀 야망가 10명</strong>만 모십니다.
             </p>
             
-            <p style="color:var(--accent-red); font-weight:800; margin-bottom:10px;">현재 잔여석: 3자리</p>
-            
-            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
-                👉 [지원서 쓰고 새벽 벙커 합류하기]
-            </a>
-            <p style="font-size:0.9rem; color:#666;">*선착순 마감 시 링크가 자동으로 닫힙니다.</p>
+            <div id="apply">
+                <p class="spots-remaining">현재 잔여석: 3자리</p>
+                <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
+                    👉 [지원서 쓰고 새벽 벙커 합류하기]
+                </a>
+                <p style="font-size:0.95rem; color:#666; margin-top:16px;">*선착순 마감 시 링크가 자동으로 닫힙니다.</p>
+            </div>
         </div>
 
     </div>
 
+    <script>
+        // Scroll Progress Bar
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollProgress);
+
+        // Reveal on Scroll
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 120;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Timeline Animation
+        function animateTimeline() {
+            const timelineItems = document.querySelectorAll('.time-item');
+            const windowHeight = window.innerHeight;
+            
+            timelineItems.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+                
+                if (itemTop < windowHeight - 150) {
+                    item.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateTimeline);
+        animateTimeline();
+
+        // Cursor Glow Effect (Desktop only)
+        if (window.innerWidth > 768) {
+            const cursorGlow = document.getElementById('cursorGlow');
+            let mouseX = 0, mouseY = 0;
+            let glowX = 0, glowY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cursorGlow.style.opacity = '0.4';
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursorGlow.style.opacity = '0';
+            });
+
+            function animateGlow() {
+                glowX += (mouseX - glowX) * 0.15;
+                glowY += (mouseY - glowY) * 0.15;
+                
+                cursorGlow.style.left = glowX + 'px';
+                cursorGlow.style.top = glowY + 'px';
+                
+                requestAnimationFrame(animateGlow);
+            }
+
+            animateGlow();
+        }
+
+        // Smooth Scroll for Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Card 3D Tilt Effect (Desktop only)
+        if (window.innerWidth > 768) {
+            const cards = document.querySelectorAll('.glass-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 15;
+                    const rotateY = (centerX - x) / 15;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+                });
+            });
+        }
+
+        // FAQ Auto-close Others
+        const allDetails = document.querySelectorAll('details');
+        
+        allDetails.forEach(detail => {
+            detail.addEventListener('toggle', () => {
+                if (detail.open) {
+                    allDetails.forEach(otherDetail => {
+                        if (otherDetail !== detail && otherDetail.open) {
+                            otherDetail.open = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        // Hero Parallax Effect
+        let ticking = false;
+        
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.4}px)`;
+                hero.style.opacity = 1 - (scrolled / 700);
+            }
+            
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+
+        // Performance: Reduce animations on low-end devices
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
+            document.body.style.setProperty('--reduced-motion', '1');
+        }
+
+        // Add entrance animation on page load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+            document.body.style.transition = 'opacity 0.5s ease-in';
+        });
+
+        // Initialize all animations
+        document.addEventListener('DOMContentLoaded', () => {
+            updateScrollProgress();
+            revealOnScroll();
+            animateTimeline();
+        });
+    </script>
 </body>
 </html>
