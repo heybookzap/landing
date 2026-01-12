@@ -2,360 +2,502 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SYNAPSE 0430 | 1%의 새벽 프로토콜</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <style>
         :root {
+            /* Brand Identity */
             --primary: #286bff;
             --primary-dark: #1a4dbf;
-            --primary-glow: rgba(40, 107, 255, 0.6);
-            --bg-body: #0a0e1a;
+            --primary-light: #5c8dff;
+            --primary-glow: rgba(40, 107, 255, 0.5);
+            
+            /* Background System */
+            --bg-body: #05070a; /* 더 깊은 블랙 */
             --text-main: #ffffff;
-            --text-sub: #e0e6ed;
+            --text-sub: #cfd6e6;
+            --text-muted: #8a94a6;
+            
+            /* Glassmorphism System */
+            --glass-bg: rgba(20, 25, 40, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shine: rgba(255, 255, 255, 0.03);
+            
+            /* Accent */
             --accent-red: #ff4757;
-            --glass-bg: rgba(15, 20, 35, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --accent-red-glow: rgba(255, 71, 87, 0.4);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: #0a0e1a;
+            background: var(--bg-body);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.65;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             word-break: keep-all;
         }
 
-        /* 배경 레이어 */
-        .bg-fixed-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
-        .gradient-blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.4; animation: blobFloat 25s infinite ease-in-out; }
-        .blob-1 { top: -15%; left: -15%; width: 55vw; height: 55vw; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); }
-        .blob-2 { bottom: -15%; right: -15%; width: 55vw; height: 55vw; background: radial-gradient(circle, #7f5af0 0%, transparent 70%); animation-delay: -8s; }
-        .blob-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(255, 71, 87, 0.3) 0%, transparent 70%); animation-delay: -16s; }
-        @keyframes blobFloat { 0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); } 33% { transform: translate(30px, -30px) scale(1.1) rotate(120deg); } 66% { transform: translate(-30px, 30px) scale(0.9) rotate(240deg); } }
-        .grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px); background-size: 50px 50px; animation: gridMove 20s linear infinite; }
-        @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
-        .stars { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(white 1px, transparent 1px); background-size: 100px 100px; opacity: 0.1; animation: starsTwinkle 10s infinite; }
-        @keyframes starsTwinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.2; } }
-
-        .scroll-progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary) 0%, #7f5af0 100%); z-index: 10000; box-shadow: 0 0 20px var(--primary-glow); transition: width 0.1s ease-out; }
-        .urgent-banner { position: sticky; top: 0; z-index: 1000; background: rgba(255, 71, 87, 0.95); backdrop-filter: blur(20px); color: white; text-align: center; padding: 14px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 30px rgba(255, 71, 87, 0.3); }
-        .container { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 40px 24px 100px; }
-
-        /* Hero */
-        .hero { text-align: center; padding: 100px 0; position: relative; }
-        .hero-tag { display: inline-block; color: var(--primary); font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; padding: 10px 24px; background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.3); border-radius: 30px; font-size: 0.85rem; }
+        /* --- 1. Background System (Noise & Grid) --- */
+        .bg-layer { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
         
-        h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 900; line-height: 1.2; margin-bottom: 24px; }
-        .text-gradient { background: linear-gradient(135deg, #fff 0%, #a8b2d1 50%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .highlight-text { color: var(--primary); background: rgba(40, 107, 255, 0.1); padding: 0 8px; border-radius: 8px; display: inline-block; }
-        
-        .hero p { 
-            font-size: clamp(1.1rem, 2.5vw, 1.25rem); color: var(--text-sub); 
-            line-height: 1.7; margin-bottom: 40px; 
-            font-weight: 500;
+        /* Noise Texture: 고급스러운 질감 추가 */
+        .noise-overlay {
+            position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.4; mix-blend-mode: overlay;
         }
 
-        /* CTA Button */
-        .cta-btn { display: block; width: 100%; max-width: 500px; margin: 30px auto; padding: 24px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; font-size: 1.3rem; font-weight: 800; text-decoration: none; border-radius: 60px; box-shadow: 0 10px 40px rgba(40, 107, 255, 0.4); transition: transform 0.2s; text-align: center; }
+        /* Gradient Blobs */
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite ease-in-out; }
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--primary-dark), transparent 70%); }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #4c1d95, transparent 70%); animation-delay: -5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        /* Animated Grid */
+        .grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* --- 2. Typography & Components --- */
+        .container { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; position: relative; z-index: 10; }
+
+        /* Urgent Banner */
+        .banner {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 71, 87, 0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 71, 87, 0.2);
+            color: #ff8a93; text-align: center; padding: 12px;
+            font-size: 0.9rem; font-weight: 700;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .banner span { width: 8px; height: 8px; background: var(--accent-red); border-radius: 50%; box-shadow: 0 0 10px var(--accent-red); animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.4; } }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 100px 0 60px; }
+        
+        .tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(40, 107, 255, 0.1);
+            border: 1px solid rgba(40, 107, 255, 0.3);
+            color: var(--primary-light);
+            padding: 8px 16px; border-radius: 100px;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
+            margin-bottom: 24px; text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 800; line-height: 1.15;
+            margin-bottom: 28px; letter-spacing: -0.03em;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        .highlight {
+            position: relative;
+            color: var(--primary-light);
+            display: inline-block;
+        }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            color: var(--text-sub);
+            max-width: 600px; margin: 0 auto 40px;
+            font-weight: 400; opacity: 0.9;
+        }
+
+        /* High-End CTA Button (Shimmer Effect) */
+        .cta-btn {
+            position: relative;
+            display: block; width: 100%; max-width: 420px; margin: 0 auto;
+            padding: 22px;
+            background: var(--primary);
+            color: white; font-size: 1.2rem; font-weight: 700;
+            text-decoration: none; border-radius: 16px;
+            overflow: hidden; transition: all 0.3s ease;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 10px 30px rgba(40, 107, 255, 0.3);
+        }
+        
+        .cta-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 70% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 15px 40px rgba(40, 107, 255, 0.5); }
         .cta-btn:active { transform: scale(0.98); }
 
-        h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; text-align: center; margin: 100px 0 50px; color: #fff; }
-        h2 .highlight { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        /* Divider */
+        hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 80px 0; }
 
-        /* Glass Card */
-        .glass-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 32px; margin-bottom: 24px; text-align: left; }
-        .card-icon { font-size: 3rem; display: block; margin-bottom: 16px; }
-        .card-title { font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 10px; }
-        .card-desc { font-size: 1.05rem; color: #d1d5db; line-height: 1.6; }
-        .card-desc strong { color: var(--primary); display: block; margin-top: 8px; font-weight: 700; }
+        /* Section Title */
+        h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; text-align: center; margin-bottom: 50px; letter-spacing: -0.02em; }
+        h2 span { color: var(--primary); }
 
-        /* Timeline */
-        .timeline { border-left: 3px solid rgba(40, 107, 255, 0.3); padding-left: 30px; margin: 50px 0 50px 20px; text-align: left; }
-        .time-item { position: relative; margin-bottom: 50px; }
-        .time-item::before { content: ''; position: absolute; left: -41px; top: 8px; width: 18px; height: 18px; background: var(--primary); border: 4px solid var(--bg-body); border-radius: 50%; box-shadow: 0 0 20px var(--primary-glow); }
-        .time-label { color: var(--primary); font-weight: 800; font-size: 0.9rem; margin-bottom: 8px; display: inline-block; padding: 6px 14px; background: rgba(40, 107, 255, 0.1); border-radius: 20px; }
-        .time-text { font-size: 1.1rem; color: white; background: rgba(20, 25, 40, 0.6); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); }
-
-        /* Offer Box */
-        .offer-box {
-            background: rgba(10, 14, 26, 0.9);
-            border: 2px solid var(--primary); border-radius: 32px; padding: 0;
-            text-align: center; margin: 80px 0; position: relative; box-shadow: 0 30px 80px rgba(40, 107, 255, 0.2); overflow: hidden;
-        }
-        .offer-header { padding: 50px 30px 20px; }
-        .badge { display: inline-block; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 8px 20px; font-weight: 800; font-size: 0.8rem; border-radius: 30px; margin-bottom: 20px; }
-        .offer-box h3 { font-size: 2rem; margin-bottom: 30px; color: #fff; }
-        .offer-list { list-style: none; text-align: left; margin: 0 30px 40px; }
-        .offer-list li { padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
-        .offer-list li strong { color: var(--primary); }
-
-        /* Price Wrapper */
-        .price-wrapper { background: linear-gradient(180deg, rgba(40, 107, 255, 0.05) 0%, rgba(40, 107, 255, 0.15) 100%); border-top: 1px solid rgba(40, 107, 255, 0.3); padding: 40px 20px; }
-        .price-old { text-decoration: line-through; color: #888; font-size: 1.1rem; display: block; margin-bottom: 5px; }
-        .price-new { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 30px rgba(40, 107, 255, 0.6); display: block; line-height: 1.1; margin-bottom: 10px; }
-        .price-desc { font-size: 1rem; color: #fff; font-weight: 700; margin-bottom: 5px; }
-        .price-sub { font-size: 0.9rem; color: #aaa; }
-
-        /* FAQ & Guarantee */
-        .guarantee-box { background: rgba(255, 71, 87, 0.08); border: 1px solid rgba(255, 71, 87, 0.3); border-radius: 24px; padding: 30px; margin: 50px 0; }
-        .guarantee-box h3 { color: var(--accent-red); font-size: 1.4rem; margin-bottom: 16px; }
+        /* --- 3. Glass Cards (Interactive) --- */
+        .card-grid { display: flex; flex-direction: column; gap: 20px; }
         
-        details { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
-        summary { padding: 20px 24px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; list-style: none; }
-        .faq-content { padding: 0 24px 24px; color: #ccc; line-height: 1.6; font-size: 1rem; }
+        .glass-card {
+            background: linear-gradient(180deg, rgba(30, 35, 50, 0.6) 0%, rgba(20, 25, 40, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 32px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative; overflow: hidden;
+        }
+        
+        /* Neon Glow Hover Effect */
+        .glass-card::after {
+            content: ''; position: absolute; inset: 0; border-radius: 20px;
+            padding: 1px; 
+            background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent); 
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            pointer-events: none;
+        }
 
-        .final-cta { text-align: center; padding: 80px 0; }
-        .spots-remaining { display: inline-block; color: var(--accent-red); font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; padding: 10px 24px; border: 2px solid var(--accent-red); border-radius: 30px; background: rgba(255, 71, 87, 0.1); }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(40, 107, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(40, 107, 255, 0.1);
+        }
 
-        hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); margin: 80px 0; }
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .icon { font-size: 2.8rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        .card-head { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+        .card-body { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
+        .solution { 
+            margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-main); font-size: 1rem; font-weight: 600;
+        }
+        .solution span { color: var(--primary-light); margin-right: 6px; }
+
+        /* --- 4. Timeline System --- */
+        .timeline { position: relative; padding-left: 40px; margin: 40px 0; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+        }
+        
+        .t-item { position: relative; margin-bottom: 48px; }
+        .t-dot {
+            position: absolute; left: -45px; top: 4px; width: 12px; height: 12px;
+            background: var(--bg-body); border: 2px solid var(--primary); border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .t-time {
+            display: inline-block; color: var(--primary); font-size: 0.85rem; font-weight: 800;
+            letter-spacing: 1px; margin-bottom: 8px;
+        }
+        .t-desc {
+            font-size: 1.1rem; color: var(--text-sub); line-height: 1.6;
+            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+        .t-desc b { color: #fff; font-weight: 700; }
+
+        /* --- 5. Offer Box (High Contrast) --- */
+        .offer {
+            background: rgba(10, 12, 18, 0.8);
+            border: 1px solid var(--primary-dark);
+            box-shadow: 0 0 50px rgba(40, 107, 255, 0.15);
+            border-radius: 24px; overflow: hidden; margin: 80px 0;
+        }
+        
+        .offer-head {
+            background: linear-gradient(180deg, rgba(40, 107, 255, 0.15), transparent);
+            padding: 40px 24px 20px; text-align: center;
+        }
+        
+        .badge {
+            background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 800;
+            padding: 6px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(40, 107, 255, 0.4); display: inline-block; margin-bottom: 20px;
+        }
+        
+        .offer ul { list-style: none; padding: 0 30px 30px; }
+        .offer li {
+            padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-sub); display: flex; align-items: center; gap: 12px;
+        }
+        .offer li svg { width: 20px; height: 20px; fill: var(--primary); flex-shrink: 0; }
+        
+        .price-area {
+            background: #0f1219; padding: 40px 24px; text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .price-tag { font-size: 3.5rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; margin-bottom: 8px; }
+        .price-sub { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Guarantee Box */
+        .guarantee {
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.05), transparent);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            border-radius: 20px; padding: 32px;
+        }
+        .guarantee h3 { color: #ff6b77; font-size: 1.3rem; margin-bottom: 16px; text-align: left; }
+        .guarantee p { color: var(--text-sub); font-size: 1rem; }
+
+        /* FAQ Accordion */
+        details {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
+            border-radius: 16px; margin-bottom: 16px; transition: all 0.3s;
+        }
+        details[open] { background: rgba(40, 107, 255, 0.05); border-color: rgba(40, 107, 255, 0.2); }
+        summary {
+            padding: 20px 24px; cursor: pointer; font-weight: 600; font-size: 1.05rem;
+            list-style: none; display: flex; justify-content: space-between; align-items: center;
+        }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--primary); font-weight: 300; transition: transform 0.3s; }
+        details[open] summary::after { transform: rotate(45deg); }
+        .a-body { padding: 0 24px 24px; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+        /* Scroll Animation Class */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero { padding: 60px 0; }
             h1 { font-size: 2.2rem; }
-            .offer-header { padding: 40px 20px 10px; }
-            .offer-list { margin: 0 20px 30px; }
-            .price-new { font-size: 2.8rem; }
+            .hero p { font-size: 1rem; padding: 0 10px; }
+            .container { padding: 0 20px 100px; }
+            .cta-btn { font-size: 1.1rem; padding: 18px; }
         }
     </style>
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
-    <div class="bg-fixed-layer">
-        <div class="gradient-blob blob-1"></div><div class="gradient-blob blob-2"></div><div class="gradient-blob blob-3"></div>
-        <div class="grid-overlay"></div><div class="stars"></div>
+
+    <div class="bg-layer">
+        <div class="noise-overlay"></div>
+        <div class="grid"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
     </div>
 
-    <div class="urgent-banner">⚠️ 마감 임박: 제1기 '새벽 벙커' 잔여 3석 (7/10 완료)</div>
+    <div class="banner">
+        <span></span> 제1기 '새벽 벙커' 잔여 3석 (7/10 완료)
+    </div>
 
     <div class="container">
         
-        <div class="hero">
-            <div class="hero-tag">@For Solopreneurs</div>
+        <section class="hero reveal">
+            <div class="tag">@For Solopreneurs</div>
             <h1>
-                의지력은 <span class="highlight-text">쓰는 게 아닙니다.</span><br>
-                그냥 맡기는 겁니다.
+                의지력은 <span class="gradient-text">쓰는 게 아닙니다.</span><br>
+                그냥 <span class="highlight">맡기는 겁니다.</span>
             </h1>
             <p>
-                매일 아침 '일어날까 말까' 고민하는 에너지가 당신을 망치고 있습니다.<br>
-                고민도, 결심도, 노력도 하지 마십시오.<br>
-                <strong>SYNAPSE OS가 당신의 몸을 책상까지 배달해 드립니다.</strong>
+                매일 아침 '일어날까' 고민하는 에너지가 당신을 망칩니다.<br>
+                고민, 결심, 노력? 전부 하지 마십시오.<br>
+                <strong>SYNAPSE OS가 당신의 몸을 책상까지 배달합니다.</strong>
             </p>
             
-            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">👉 3분 만에 '자동 성장 시스템' 장착하기</a>
-            <p style="font-size:0.9rem; color:#888; margin-top:16px;">*지금 신청하면 50만 원 상당 Oura Ring 무료</p>
-        </div>
+            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
+                👉 3분 만에 '자동 성장 시스템' 장착
+            </a>
+            <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+                *지금 닫으면 50만원 상당 Oura Ring 혜택 소멸
+            </div>
+        </section>
 
         <hr>
 
-        <div class="reveal">
-            <h2>매일 아침, 당신을 괴롭히는<br><span class="highlight">'3가지 귀찮음'</span>을 삭제했습니다.</h2>
-        </div>
-        
-        <div class="reveal">
-            <div class="glass-card">
-                <span class="card-icon">🛌</span>
-                <div class="card-title">1. "일어날까?" 고민 삭제</div>
-                <div class="card-desc">
-                    알람을 끌까 말까 고민하는 찰나의 순간을 없앴습니다.<br>
-                    <strong style="color:var(--primary)">→ Solution: Oura 링이 각성 상태를 확인하고, 안 일어나면 AI가 전화를 겁니다.</strong>
+        <section class="reveal">
+            <h2>매일 아침, 당신을 괴롭히는<br><span>'3가지 귀찮음'</span>을 삭제했습니다.</h2>
+            
+            <div class="card-grid">
+                <div class="glass-card">
+                    <span class="icon">🛌</span>
+                    <div class="card-head">1. "일어날까?" 고민 삭제</div>
+                    <div class="card-body">
+                        알람을 끌까 말까 고민하는 찰나의 순간을 없앴습니다.
+                        <div class="solution">
+                            <span>→ Solution:</span> 4시 40분까지 책상 인증 안 하면 <strong>벌금 5만 원 자동 결제.</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <span class="icon">🧠</span>
+                    <div class="card-head">2. "뭐부터 하지?" 결정 삭제</div>
+                    <div class="card-body">
+                        비몽사몽 간에 우선순위를 정하는 고통을 없앴습니다.
+                        <div class="solution">
+                            <span>→ Solution:</span> 화면을 켜자마자 <strong>'단 하나의 미션'</strong>만 강제로 띄워집니다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <span class="icon">📵</span>
+                    <div class="card-head">3. "안 봐야지" 참는 고통 삭제</div>
+                    <div class="card-body">
+                        유튜브를 보고 싶은 충동을 참는 에너지를 아껴드립니다.
+                        <div class="solution">
+                            <span>→ Solution:</span> 딴짓 앱은 <strong>물리적으로 실행조차 안 되게</strong> 막아버립니다.
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="glass-card">
-                <span class="card-icon">🧠</span>
-                <div class="card-title">2. "뭐부터 하지?" 결정 삭제</div>
-                <div class="card-desc">
-                    비몽사몽 간에 우선순위를 정하는 고통을 없앴습니다.<br>
-                    <strong style="color:var(--primary)">→ Solution: 화면을 켜자마자 '단 하나의 미션'만 강제로 띄워집니다.</strong>
-                </div>
-            </div>
-            <div class="glass-card">
-                <span class="card-icon">📵</span>
-                <div class="card-title">3. "안 봐야지" 참는 고통 삭제</div>
-                <div class="card-desc">
-                    유튜브를 보고 싶은 충동을 참는 에너지를 아껴드립니다.<br>
-                    <strong style="color:var(--primary)">→ Solution: 딴짓 앱은 물리적으로 실행조차 안 되게 막아버립니다.</strong>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <hr>
 
-        <div class="reveal">
-            <h2>SYNAPSE와 함께하는<br><span class="highlight">내일 아침 시뮬레이션</span></h2>
-        </div>
-        
-        <div class="timeline">
-            <div class="time-item">
-                <span class="time-label">AM 04:30 | WAKE UP</span>
-                <div class="time-text">알람이 울립니다. 딴짓 앱은 잠겨있고 '미션' 하나만 뜹니다. <strong>고민할 틈 없이 하루가 시작됩니다.</strong></div>
-            </div>
-            <div class="time-item">
-                <span class="time-label">AM 04:45 | DEEP WORK</span>
-                <div class="time-text">책상에 앉습니다. <strong>뇌가 가장 맑은 상태</strong>에서, 남들이 잘 때 가장 비싼 일을 처리합니다.</div>
-            </div>
-            <div class="time-item">
-                <span class="time-label">AM 07:00 | VICTORY</span>
-                <div class="time-text">세상이 깨어날 때, <strong>당신은 이미 승리했습니다.</strong> 압도적인 결과물을 쥐고 여유롭게 웃으세요.</div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="reveal">
-            <div class="offer-box">
-                <div class="offer-header">
-                    <div class="badge">ONLY FOR 1st BATCH</div>
-                    <h3>💎 SYNAPSE 1기 패키지</h3>
+        <section class="reveal">
+            <h2>SYNAPSE와 함께하는<br><span>내일 아침 시뮬레이션</span></h2>
+            
+            <div class="timeline">
+                <div class="t-item">
+                    <div class="t-dot"></div>
+                    <span class="t-time">AM 04:30 | WAKE UP</span>
+                    <div class="t-desc">
+                        알람과 동시에 당신의 카드에서 <b>5만 원 차감 카운트다운</b>이 시작됩니다. 침대에 누워있을 수 없습니다.
+                    </div>
                 </div>
-                
-                <ul class="offer-list">
-                    <li>✅ <strong>3개월 1:1 강제 기상 관리</strong> (월 100만 가치)</li>
-                    <li>✅ <strong>나만의 자동화 봇 설치</strong> (시스템 구축)</li>
-                    <li><strong>🎁 [한정] Oura Ring 무료 증정 (50만 상당)</strong></li>
-                    <li>🎁 뇌 각성 호흡법 영상 (비매품)</li>
-                </ul>
-
-                <div class="price-wrapper">
-                    <span class="price-old">정가 500만 원</span>
-                    <span class="price-new">200만 원</span>
-                    <p class="price-desc">(3개월 과정 일시불 / 추가 비용 없음)</p>
-                    <p class="price-sub">*기기값 포함된 최종 가격입니다.</p>
+                <div class="t-item">
+                    <div class="t-dot"></div>
+                    <span class="t-time">AM 04:45 | DEEP WORK</span>
+                    <div class="t-desc">
+                        책상에 앉아 인증하면 벌금이 취소됩니다. <b>뇌가 가장 맑은 상태</b>에서, 남들이 잘 때 가장 비싼 일을 처리합니다.
+                    </div>
+                </div>
+                <div class="t-item">
+                    <div class="t-dot"></div>
+                    <span class="t-time">AM 07:00 | VICTORY</span>
+                    <div class="t-desc">
+                        세상이 깨어날 때, <b>당신은 이미 승리했습니다.</b> 압도적인 결과물을 쥐고 여유롭게 웃으세요.
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="reveal">
-            <div class="guarantee-box">
+        <section class="offer reveal">
+            <div class="offer-head">
+                <span class="badge">Only for 1st Batch</span>
+                <h3>💎 SYNAPSE 1기 패키지</h3>
+            </div>
+            <ul>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    <span><strong>3개월 1:1 강제 기상 관리</strong> (금융 치료 포함)</span>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    <span><strong>나만의 자동화 봇 설치</strong> (시스템 구축)</span>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    <span><strong>[한정] Oura Ring 무료 증정</strong> (50만 상당)</span>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    <span>뇌 각성 호흡법 영상 (비매품)</span>
+                </li>
+            </ul>
+            <div class="price-area">
+                <div style="text-decoration: line-through; color: #555; margin-bottom: 5px;">정가 500만 원</div>
+                <div class="price-tag">200만 원</div>
+                <div class="price-sub">3개월 과정 일시불 / 추가 비용 없음<br>*기기값 포함된 최종 가격</div>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="guarantee">
                 <h3>🛡️ 후기가 없어 불안하신가요?</h3>
                 <p>
                     당연합니다. 당신이 <strong>'첫 번째'</strong>이기 때문입니다.<br>
                     그래서 리스크는 제가 100% 지겠습니다.<br><br>
                     3개월간 시키는 대로 했는데 성과가 없다?<br>
-                    <strong>묻지도 따지지도 않고 전액 환불해 드립니다.</strong><br>
+                    <strong style="color:#fff;">묻지도 따지지도 않고 전액 환불해 드립니다.</strong><br>
                     심지어 받으신 50만 원짜리 링도 가지세요.
                 </p>
             </div>
-        </div>
+        </section>
 
-        <hr>
-
-        <div class="reveal">
+        <section class="reveal" style="margin-top: 60px;">
             <h2>자주 묻는 질문</h2>
-        </div>
-        
-        <div class="reveal" style="margin-bottom:80px;">
+            
             <details>
                 <summary>Q. Oura Ring이 없는데 어떡하죠?</summary>
-                <div class="faq-content">걱정 마세요. 1기 멤버에게는 50만 원 상당의 Oura Ring을 무료로 보내드립니다. 몸만 오시면 됩니다.</div>
+                <div class="a-body">걱정 마세요. 1기 멤버에게는 50만 원 상당의 Oura Ring을 무료로 보내드립니다. 몸만 오시면 됩니다.</div>
             </details>
             <details>
                 <summary>Q. 프리랜서/창업가에게도 효과가 있나요?</summary>
-                <div class="faq-content">필수입니다. 출퇴근이 없는 1인 기업가에게 '강제 마감'과 '규율'을 만들어주어 생산성을 2배로 높여줍니다.</div>
+                <div class="a-body">필수입니다. 출퇴근이 없는 1인 기업가에게 '강제 마감'과 '규율'을 만들어주어 생산성을 2배로 높여줍니다.</div>
             </details>
             <details>
                 <summary>Q. 너무 힘들어서 포기하면요?</summary>
-                <div class="faq-content">포기 불가능합니다. <strong>AI 보이스 에이전트</strong>가 전화를 걸어서라도 깨웁니다. 저희 시스템은 실패를 허용하지 않습니다.</div>
+                <div class="a-body">포기 불가능합니다. <strong>'금융 치료(자동 벌금)'</strong> 시스템이 당신을 억지로라도 책상에 앉힙니다. 실패를 허용하지 않습니다.</div>
             </details>
             <details>
                 <summary>Q. 왜 이렇게 비싼가요?</summary>
-                <div class="faq-content">단순 앱이 아닙니다. 연봉을 높이는 '컨설팅'이자 '고가 장비'가 포함된 가격입니다. 하루 커피 한 잔 값으로 인생을 바꿀 기회입니다.</div>
+                <div class="a-body">단순 앱이 아닙니다. 연봉을 높이는 '컨설팅'이자 '고가 장비'가 포함된 가격입니다. 하루 커피 한 잔 값으로 인생을 바꿀 기회입니다.</div>
             </details>
             <details>
                 <summary>Q. 환불 절차는 복잡한가요?</summary>
-                <div class="faq-content">전혀 복잡하지 않습니다. 성과가 없다면 <strong>이메일 한 통이면 끝납니다.</strong> 즉시 환불해 드립니다.</div>
+                <div class="a-body">전혀 복잡하지 않습니다. 성과가 없다면 <strong>이메일 한 통이면 끝납니다.</strong> 즉시 환불해 드립니다.</div>
             </details>
-        </div>
+        </section>
 
-        <div class="final-cta reveal">
-            <p style="font-size:1.2rem; margin-bottom:30px; line-height:1.7;">
+        <section class="hero reveal" style="margin-top: 40px;">
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">
                 ❌ 힐링하고 싶은 분은 오지 마세요.<br>
                 ✅ <strong>새벽을 '현금'으로 바꿀 야망가 10명</strong>만 모십니다.
             </p>
             
-            <div id="apply">
-                <p class="spots-remaining">현재 잔여석: 3자리</p>
-                <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
-                    👉 [지원서 쓰고 새벽 벙커 합류하기]
-                </a>
-                <p style="font-size:0.9rem; color:#666; margin-top:16px;">*선착순 마감 시 링크가 자동으로 닫힙니다.</p>
+            <div style="display:inline-block; border:1px solid var(--accent-red); color:var(--accent-red); padding:8px 16px; border-radius:30px; font-weight:700; font-size:0.9rem; margin-bottom:20px; background:rgba(255,71,87,0.1);">
+                현재 잔여석: 3자리
             </div>
-        </div>
+            
+            <a href="YOUR_TYPEFORM_LINK_HERE" class="cta-btn">
+                👉 [지원서 쓰고 새벽 벙커 합류하기]
+            </a>
+        </section>
 
     </div>
 
     <script>
-        function updateScrollProgress() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const progress = (scrollTop / scrollHeight) * 100;
-            document.getElementById('scrollProgress').style.width = progress + '%';
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
         }
-        window.addEventListener('scroll', updateScrollProgress);
-
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll('.reveal');
-            const windowHeight = window.innerHeight;
-            reveals.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 120) {
-                    element.classList.add('active');
-                }
-            });
-        }
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
-
-        function animateTimeline() {
-            const timelineItems = document.querySelectorAll('.time-item');
-            const windowHeight = window.innerHeight;
-            timelineItems.forEach(item => {
-                const itemTop = item.getBoundingClientRect().top;
-                if (itemTop < windowHeight - 150) {
-                    item.classList.add('visible');
-                }
-            });
-        }
-        window.addEventListener('scroll', animateTimeline);
-        animateTimeline();
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && href !== '') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            });
-        });
-
-        const allDetails = document.querySelectorAll('details');
-        allDetails.forEach(detail => {
-            detail.addEventListener('toggle', () => {
-                if (detail.open) {
-                    allDetails.forEach(otherDetail => {
-                        if (otherDetail !== detail && otherDetail.open) {
-                            otherDetail.open = false;
-                        }
-                    });
-                }
-            });
-        });
-
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
-            document.body.style.transition = 'opacity 0.5s ease-in';
-        });
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
     </script>
 </body>
 </html>
