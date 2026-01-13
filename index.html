@@ -3,218 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Sync OS : HRV Based Productivity</title>
+    <title>BIO-SYNC: PERFORMANCE OS</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            --neon-blue: #00F0FF; /* 사이버펑크 블루 */
-            --neon-green: #00FF94; /* 바이오 그린 */
-            --alert-red: #FF2E2E;
-            --bg-black: #050505;
-            --glass-panel: rgba(20, 20, 20, 0.6);
-            --border-line: rgba(255, 255, 255, 0.1);
+            --primary: #286bff;
+            --accent: #00FF94;
+            --alert: #FF453A;
+            --bg: #030305;
+            --surface: rgba(20, 20, 25, 0.6);
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-glow: 0 0 10px rgba(40, 107, 255, 0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard", monospace; word-break: keep-all; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: var(--bg-black);
-            color: #fff;
-            line-height: 1.5;
+            font-family: 'Pretendard', -apple-system, monospace;
+            background: var(--bg);
+            color: var(--text-main);
             overflow-x: hidden;
-            font-size: 15px;
+            line-height: 1.5;
+            cursor: default;
         }
 
-        /* 배경 그리드 (데이터 느낌) */
-        .grid-bg {
+        /* 1. Dynamic Background System */
+        .canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .grid-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: 
-                linear-gradient(var(--border-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-line) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 40px 40px;
-            opacity: 0.2;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            pointer-events: none;
+        }
+        
+        /* Mouse Follower Glow */
+        .cursor-glow {
+            position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, rgba(40,107,255,0.15), transparent 70%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1;
+            transition: width 0.3s, height 0.3s;
         }
 
-        .container { max-width: 500px; margin: 0 auto; padding: 0 20px 100px; }
+        /* 2. Layout & Typography */
+        .container { max-width: 520px; margin: 0 auto; padding: 0 24px 120px; position: relative; z-index: 1; }
 
-        /* 상태바 스타일 배너 */
+        /* Status Bar (Typing Effect) */
         .status-bar {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(0, 255, 148, 0.1);
-            backdrop-filter: blur(10px); border-bottom: 1px solid var(--neon-green);
-            padding: 10px; text-align: center; color: var(--neon-green);
-            font-size: 12px; font-weight: 700; letter-spacing: 1px;
-            text-transform: uppercase;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0; margin-bottom: 60px; font-size: 11px;
+            font-family: 'Courier New', monospace; color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--accent); animation: typing 3s steps(30, end), blink-caret .75s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent) } }
+
+        .live-badge {
+            display: flex; align-items: center; gap: 6px; color: var(--accent);
+            background: rgba(0, 255, 148, 0.05); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0,255,148,0.2);
+        }
+        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* Hero Section */
-        .hero { padding: 60px 0 40px; text-align: left; }
-        .tag { 
-            color: var(--neon-blue); border: 1px solid var(--neon-blue); 
-            padding: 4px 8px; font-size: 11px; display: inline-block; margin-bottom: 20px;
+        .hero { margin-bottom: 60px; }
+        .tag {
+            display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--primary);
+            margin-bottom: 20px; padding: 6px 12px; border: 1px solid rgba(40,107,255,0.3); border-radius: 20px;
+            background: rgba(40,107,255,0.05);
         }
-        
         h1 {
-            font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 20px;
-            letter-spacing: -1px;
+            font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .highlight { color: var(--neon-green); }
-        
-        .sub-desc { color: #888; font-size: 16px; margin-bottom: 40px; border-left: 2px solid #333; padding-left: 15px; }
+        .highlight { color: var(--primary); -webkit-text-fill-color: var(--primary); text-shadow: var(--neon-glow); }
+        .sub-text { font-size: 1rem; color: var(--text-muted); padding-left: 16px; border-left: 2px solid #333; }
 
-        /* Data Panel Style */
-        .panel {
-            background: var(--glass-panel); border: 1px solid var(--border-line);
-            padding: 25px; margin-bottom: 20px; position: relative;
+        /* Glass Cards (High-End) */
+        .card {
+            background: var(--surface); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 30px;
+            margin-bottom: 24px; position: relative; overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
         }
-        .panel::before {
-            content: ''; position: absolute; top: -1px; left: -1px; 
-            width: 10px; height: 10px; border-top: 2px solid var(--neon-blue); border-left: 2px solid var(--neon-blue);
-        }
-        .panel::after {
-            content: ''; position: absolute; bottom: -1px; right: -1px; 
-            width: 10px; height: 10px; border-bottom: 2px solid var(--neon-blue); border-right: 2px solid var(--neon-blue);
+        .card:hover { transform: translateY(-5px); border-color: rgba(40,107,255,0.3); }
+        /* Corner Accents */
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+        
+        .card-head {
+            font-family: 'Courier New', monospace; font-size: 11px; color: #666; font-weight: 700; letter-spacing: 1px;
+            margin-bottom: 25px; display: flex; justify-content: space-between;
         }
 
-        .panel-head { font-size: 12px; color: #666; text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        
         /* Stats Grid */
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; }
-        .stat-val { font-size: 24px; font-weight: 700; color: #fff; display: block; }
-        .stat-label { font-size: 11px; color: #666; text-transform: uppercase; margin-top: 5px; display: block; }
+        .stat-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+        .stat-label { font-size: 0.9rem; color: #ccc; }
+        .stat-val { font-family: 'Courier New', monospace; font-size: 1.6rem; font-weight: 700; }
+        .bad { color: var(--alert); text-shadow: 0 0 15px rgba(255, 69, 58, 0.4); }
+        .good { color: var(--accent); text-shadow: 0 0 15px rgba(0, 255, 148, 0.4); }
+
+        /* Timeline Process */
+        .timeline { padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
+        .step { position: relative; margin-bottom: 30px; }
+        .step:last-child { margin-bottom: 0; }
+        .step::before {
+            content: ''; position: absolute; left: -25px; top: 0; width: 9px; height: 9px;
+            background: var(--bg); border: 2px solid var(--primary); border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        .step-time { font-family: 'Courier New', monospace; color: var(--primary); font-size: 12px; font-weight: 700; margin-bottom: 4px; display: block; }
+        .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .step p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Pricing & CTA */
+        .pricing { text-align: center; margin-top: 60px; padding: 40px 20px; background: rgba(255,255,255,0.02); border-radius: 30px; border: 1px solid var(--glass-border); }
+        .roi-tag { display: inline-block; background: rgba(0,255,148,0.1); color: var(--accent); font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(0,255,148,0.2); }
         
-        .loss-val { color: var(--alert-red); }
-        .gain-val { color: var(--neon-green); }
+        .price-box { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .price-old { text-decoration: line-through; color: #555; font-size: 1rem; }
+        .price-now { font-size: 2.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
 
-        /* Solution List */
-        .logic-list { list-style: none; }
-        .logic-item { 
-            display: flex; gap: 15px; margin-bottom: 20px; 
-            border-bottom: 1px solid #222; padding-bottom: 20px;
+        .btn-main {
+            width: 100%; background: var(--primary); color: #fff;
+            padding: 22px; font-size: 1.1rem; font-weight: 800; border: none; border-radius: 16px;
+            cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(40, 107, 255, 0.4);
         }
-        .logic-icon { color: var(--neon-blue); font-size: 18px; margin-top: 2px; }
-        .logic-title { font-weight: 700; font-size: 16px; margin-bottom: 5px; color: #ddd; }
-        .logic-desc { font-size: 13px; color: #777; }
+        .btn-main:hover { background: #fff; color: #000; box-shadow: 0 0 50px rgba(40, 107, 255, 0.8); transform: translateY(-2px); }
+        
+        .guarantee { margin-top: 20px; font-size: 12px; color: #666; }
 
-        /* Pricing (Terminal Style) */
-        .terminal {
-            background: #111; border: 1px solid #333; padding: 20px; font-family: monospace;
-            color: #ccc; font-size: 13px; margin-bottom: 30px;
-        }
-        .cmd { color: var(--neon-green); }
-        .cursor { display: inline-block; width: 8px; height: 15px; background: var(--neon-green); animation: blink 1s infinite; vertical-align: middle; }
+        /* Scroll Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* CTA Button */
-        .btn-bio {
-            width: 100%; background: var(--neon-blue); color: #000;
-            padding: 20px; font-weight: 800; font-size: 16px; border: none;
-            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-            transition: all 0.3s;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-        .btn-bio:hover { background: #fff; box-shadow: 0 0 40px rgba(0, 240, 255, 0.8); }
-
+        @media (max-width: 400px) { h1 { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
 
-    <div class="grid-bg"></div>
-
-    <div class="status-bar">
-        ● SYSTEM ONLINE : 잔여석 02 / 20
-    </div>
+    <canvas class="canvas-bg" id="canvas"></canvas>
+    <div class="grid-overlay"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="container">
         
-        <section class="hero">
-            <span class="tag">SYNC: OURA RING + NOTION API</span>
+        <div class="system-bar">
+            <div class="typewriter">INITIALIZING BIO-SYNC OS...</div>
+            <div class="live-badge"><div class="dot"></div> 2 SEATS</div>
+        </div>
+
+        <section class="hero reveal">
+            <span class="tag">FOR BIO-HACKERS</span>
             <h1>
                 HRV 데이터가<br>
-                <span class="highlight">오늘의 업무를 결정합니다.</span>
+                당신의 <span class="highlight">연봉을 결정합니다.</span>
             </h1>
-            <p class="sub-desc">
-                기상 후 멍때리는 15분, 우선순위 정하는 25분.<br>
-                당신의 뇌를 낭비하지 마십시오.<br>
-                <strong>생체 데이터 기반으로 '실행'만 하십시오.</strong>
+            <p class="sub-text">
+                새벽 4시 반 기상은 노력의 영역이지만,<br>
+                <strong>성과는 '최적화'의 영역입니다.</strong>
             </p>
         </section>
 
-        <div class="panel">
-            <div class="panel-head">
-                <span>⚠ DETECTED INEFFICIENCY</span>
-                <span style="color: var(--alert-red);">CRITICAL</span>
-            </div>
-            <div class="stat-grid">
-                <div class="stat-box">
-                    <span class="stat-val loss-val">-85 min</span>
-                    <span class="stat-label">Daily Time Loss</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val loss-val">-1.6 M</span>
-                    <span class="stat-label">Monthly KRW Loss</span>
-                </div>
-                <div class="stat-box" style="grid-column: span 2; text-align: left; border-top: 1px solid #222; margin-top: 10px; padding-top: 20px;">
-                    <span style="color:#888; font-size:12px;">CAUSE ANALYSIS:</span><br>
-                    <span style="color:#fff;">• HRV Peak Time(04:30) 활용 실패</span><br>
-                    <span style="color:#fff;">• Notion 템플릿 관리 과부하</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel" style="border-color: var(--neon-green);">
-            <div class="panel-head">
-                <span>⚡ OPTIMIZATION PROTOCOL</span>
-                <span style="color: var(--neon-green);">ACTIVE</span>
+        <div class="card reveal">
+            <div class="card-head">
+                <span>📉 LOSS ANALYSIS</span>
+                <span style="color:var(--alert);">CRITICAL</span>
             </div>
             
-            <ul class="logic-list">
-                <li class="logic-item">
-                    <span class="logic-icon">①</span>
-                    <div>
-                        <div class="logic-title">Bio-Rhythm Analysis</div>
-                        <div class="logic-desc">Oura Ring/Apple Watch의 수면 데이터와 HRV를 분석해 오늘 뇌의 '가용 용량'을 계산합니다.</div>
-                    </div>
-                </li>
-                <li class="logic-item">
-                    <span class="logic-icon">②</span>
-                    <div>
-                        <div class="logic-title">Notion Deep Link</div>
-                        <div class="logic-desc">3년 치 기록 중, 오늘 컨디션에서 처리해야 할 '최고 효율 과제 3개'를 AI가 추출합니다.</div>
-                    </div>
-                </li>
-                <li class="logic-item">
-                    <span class="logic-icon">③</span>
-                    <div>
-                        <div class="logic-title">06:00 Auto-Push</div>
-                        <div class="logic-desc">슬랙으로 과제가 도착합니다. 당신은 생각하지 말고 수행만 하십시오.</div>
-                    </div>
-                </li>
-            </ul>
+            <div class="stat-row">
+                <span class="stat-label">Daily Time Loss</span>
+                <span class="stat-val bad" data-val="-85" data-unit=" min">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Productivity Gap</span>
+                <span class="stat-val bad" data-val="27" data-unit="%">0</span>
+            </div>
+            <div class="stat-row" style="border-bottom:none; padding-bottom:0;">
+                <span class="stat-label">Monthly Waste</span>
+                <span class="stat-val bad" data-val="-1600000" data-unit="">0</span>
+            </div>
         </div>
 
-        <div class="terminal">
-            <span class="cmd">root@server:~$</span> check_price<br>
-            <br>
-            > [PLAN] : BIO-SYNC PRO (1기)<br>
-            > [COST] : 450,000 KRW / Month<br>
-            > [ROI] : +1,600,000 KRW (Recovered)<br>
-            <br>
-            <span class="cmd">root@server:~$</span> check_guarantee<br>
-            > <strong>RESULT <span style="color:var(--alert-red);">FAIL</span>? → 100% REFUND EXECUTE.</strong><span class="cursor"></span>
+        <div class="card reveal" style="border-color: rgba(40,107,255,0.3);">
+            <div class="card-head">
+                <span style="color:var(--primary);">⚡ OPTIMIZATION PROTOCOL</span>
+                <span>ACTIVE</span>
+            </div>
+            <div class="timeline">
+                <div class="step">
+                    <span class="step-time">04:30 AM</span>
+                    <h3>Bio-Data Sync</h3>
+                    <p>Oura Ring/Watch 데이터 분석. 뇌 가용량 계산.</p>
+                </div>
+                <div class="step">
+                    <span class="step-time">06:00 AM</span>
+                    <h3>Target Lock (3 Tasks)</h3>
+                    <p>3년 데이터 기반, 당장 돈 되는 3가지만 전송.</p>
+                </div>
+                <div class="step">
+                    <span class="step-time">07:00 AM</span>
+                    <h3>Deep Work Complete</h3>
+                    <p>고민 없이 실행 완료. 도파민/성취감 최적화.</p>
+                </div>
+            </div>
         </div>
 
-        <button class="btn-bio" onclick="alert('바이오 데이터 연동 페이지 데모')">
-            CONNECT BIO-DATA & START
-        </button>
-        <p style="text-align: center; color: #555; font-size: 11px; margin-top: 15px;">
-            *Compatible with Oura Ring, Apple Watch, Notion API
-        </p>
+        <section class="pricing reveal">
+            <div class="roi-tag">🚀 ROI +355% GUARANTEED</div>
+            <div class="price-box">
+                <span class="price-old">가치 160만</span>
+                <span class="price-now">월 45만</span>
+            </div>
+            
+            <button class="btn-main" onclick="alert('데이터 연동 데모 페이지로 이동')">
+                내 바이오 데이터 연동하기 →
+            </button>
+            
+            <div class="guarantee">
+                🛡️ 목표(실행률 85%) 미달성 시 <strong>100% 전액 환불</strong>
+            </div>
+        </section>
 
     </div>
 
+    <script>
+        // 1. Mouse Follow Glow
+        const glow = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // 2. Canvas Particles (Neural Network Style)
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(40, 107, 255, 0.5)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function init() { for(let i=0; i<70; i++) particles.push(new Particle()); }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update(); p.draw();
+                // Connect Logic
+                particles.forEach(p2 => {
+                    let dx = p.x - p2.x; let dy = p.y - p2.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(40, 107, 255, ${0.1 - dist/1200})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
+
+        // 3. Number Counting Animation
+        function animateValue(obj, start, end, duration, unit) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                // Ease-out cubic
+                const ease = 1 - Math.pow(1 - progress, 3);
+                
+                const current = Math.floor(ease * (end - start) + start);
+                
+                // Format logic
+                let formatted = current.toLocaleString();
+                if (end < 0 && current > end) formatted = current.toLocaleString(); // handle negative growth
+                
+                obj.innerHTML = (end < 0 ? "" : "") + formatted + unit;
+
+                if (progress < 1) window.requestAnimationFrame(step);
+                else obj.innerHTML = (end < 0 ? "" : "") + end.toLocaleString() + unit;
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 4. Scroll Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Trigger counters inside the card
+                    const counters = entry.target.querySelectorAll('.stat-val');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-val'));
+                        const unit = counter.getAttribute('data-unit');
+                        animateValue(counter, 0, target, 2000, unit);
+                    });
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
