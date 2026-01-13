@@ -3,154 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oura Routine OS - 매출 엔진 자동화</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <title>무결점 결정 OS - 1기</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; }
-        .gradient-text {
-            background: linear-gradient(to right, #4ade80, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        :root {
+            --black: #111;
+            --white: #fff;
+            --highlight: #FFE600; /* 형광 노랑 (눈에 띔) */
+            --alert: #FF3B30; /* 강렬한 빨강 */
+            --bg: #F5F5F7;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; word-break: keep-all; font-family: "Pretendard", sans-serif; }
+        body { background: var(--bg); color: var(--black); line-height: 1.4; }
+
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; } /* 모바일 집중 */
+
+        /* 1. 긴급 배너 */
+        .sticky-alert {
+            background: var(--alert); color: var(--white); text-align: center;
+            padding: 10px; font-weight: 800; font-size: 14px;
+            position: sticky; top: 0; z-index: 999;
+        }
+
+        /* 2. 히어로 (3초 컷) */
+        .hero { text-align: center; padding: 50px 0; }
+        h1 { font-size: 32px; font-weight: 900; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
+        .mark { background: var(--highlight); padding: 0 4px; }
+        .sub { font-size: 18px; color: #555; margin-bottom: 30px; font-weight: 500; }
+
+        /* 3. 버튼 (왕사탕) */
+        .btn {
+            display: block; width: 100%; background: var(--black); color: var(--white);
+            padding: 22px; font-size: 20px; font-weight: 800; border-radius: 16px;
+            border: none; cursor: pointer; text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn-sub { text-align: center; font-size: 13px; color: #888; margin-top: 10px; }
+
+        /* 4. 고통 (아야!) */
+        .card { background: var(--white); padding: 30px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .pain-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; text-align: center; }
+        .pain-list li { 
+            list-style: none; font-size: 17px; margin-bottom: 15px; 
+            padding-left: 30px; position: relative; font-weight: 600;
+        }
+        .pain-list li::before { content: "😭"; position: absolute; left: 0; }
+
+        /* 5. 해결 (마법) */
+        .magic-box { background: #E9F1FF; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
+        .magic-title { font-weight: 800; font-size: 18px; color: #0055FF; margin-bottom: 5px; }
+        .magic-desc { font-size: 16px; font-weight: 400; }
+
+        /* 6. 증거 (진짜야) */
+        .proof { text-align: center; font-size: 16px; color: #444; background: #eee; padding: 20px; border-radius: 16px; font-weight: 600; }
+
+        /* 7. 가격 & 보장 (약속) */
+        .price-section { text-align: center; border: 3px solid var(--black); }
+        .price-big { font-size: 40px; font-weight: 900; margin: 10px 0; color: var(--alert); }
+        .guarantee { background: #FFF9C4; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 15px; font-weight: 700; }
+
     </style>
 </head>
-<body class="bg-black text-white antialiased">
+<body>
 
-    <header class="relative overflow-hidden pt-20 pb-32">
-        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-            <span class="inline-block py-1 px-3 rounded-full bg-gray-800 text-green-400 text-sm font-semibold mb-6 border border-gray-700">
-                Only for High-Performers
-            </span>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-                당신의 루틴을 <br>
-                <span class="gradient-text">시스템으로 강제합니다.</span>
+    <div class="sticky-alert">
+        🔥 딱 2명 남았어요! (곧 마감)
+    </div>
+
+    <div class="container">
+        
+        <div class="hero">
+            <h1>
+                생각 그만하고<br>
+                <span class="mark">돈이나 버세요.</span>
             </h1>
-            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-                의지력은 고갈되지만, 시스템은 지치지 않습니다.<br>
-                오우라 링 데이터와 연동된 <strong>자동 벌금 집행 시스템</strong>이<br>
-                당신을 책상 앞에 앉힙니다.
+            <p class="sub">
+                자책하느라 침대에서 2시간 날렸죠?<br>
+                <strong>그거, 돈으로 바꿔드립니다.</strong>
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#apply" class="bg-white text-black font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-200 transition">
-                    지금 신청하기 (Early Access)
-                </a>
+            
+            <button class="btn">
+                👉 내 '돈 그릇' 진단하고 신청하기
+            </button>
+            <p class="btn-sub">지금 결제 안 됨. 3분이면 끝.</p>
+        </div>
+
+        <div class="card">
+            <div class="pain-title">이거 대표님 얘기죠?</div>
+            <ul class="pain-list">
+                <li>인스타 경쟁자 보고 <strong>우울함</strong></li>
+                <li>환불 해달랄까 봐 <strong>메일 못 봄</strong></li>
+                <li>성공했는데 <strong>불안해서 잠 못 잠</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="pain-title">뇌 쓰지 마세요.<br>저희가 다 합니다.</div>
+            
+            <div class="magic-box">
+                <div class="magic-title">🧠 고민 금지</div>
+                <div class="magic-desc">아침 6시, <strong>"오늘 할 일 3개"</strong>만 딱 정해줌.</div>
+            </div>
+            <div class="magic-box">
+                <div class="magic-title">👄 감정 노동 금지</div>
+                <div class="magic-desc">직원 혼낼 때? <strong>AI 대본 읽기만 하세요.</strong></div>
+            </div>
+            <div class="magic-box">
+                <div class="magic-title">💰 그냥 돈 버세요</div>
+                <div class="magic-desc">자책할 시간에 <strong>판매 글 쓰게 강제함.</strong></div>
             </div>
         </div>
-    </header>
 
-    <section class="py-20 bg-gray-900">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-12 text-center">왜 스스로와의 약속을 어깁니까?</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-black p-8 rounded-2xl border border-gray-800">
-                    <h3 class="text-gray-500 text-lg mb-2">기존의 방식</h3>
-                    <p class="text-2xl font-semibold text-red-500 mb-4">"좀 더 자도 되겠지..."</p>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-center">
-                            <span class="mr-2">❌</span> 알람을 끄고 다시 잠듭니다.
-                        </li>
-                        <li class="flex items-center">
-                            <span class="mr-2">❌</span> 타협하고 루틴을 건너뜁니다.
-                        </li>
-                        <li class="flex items-center">
-                            <span class="mr-2">❌</span> 잃을 것이 없으니 행동하지 않습니다.
-                        </li>
-                    </ul>
-                </div>
-                <div class="bg-gray-800 p-8 rounded-2xl border border-green-900/50 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-2 py-1">SOLUTION</div>
-                    <h3 class="text-green-400 text-lg mb-2">Oura Routine OS</h3>
-                    <p class="text-2xl font-semibold text-white mb-4">"실패 시, 즉시 결제됩니다."</p>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-center">
-                            <span class="mr-2">✅</span> 오우라 링 데이터 미수신 시 감지.
-                        </li>
-                        <li class="flex items-center">
-                            <span class="mr-2">✅</span> <span class="text-white font-bold underline decoration-red-500">설정된 벌금이 즉시 자동 결제됩니다.</span>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="mr-2">✅</span> 돈을 잃지 않으려면 일어날 수밖에 없습니다.
-                        </li>
-                    </ul>
-                </div>
+        <div class="proof">
+            "저도 매일 울면서 일했습니다.<br>
+            <strong>3년 치 데이터로 만든 비법</strong>입니다.<br>
+            저만 믿고 따라오세요."
+        </div>
+        <br>
+
+        <div class="card price-section">
+            <p>👑 1기 창립 멤버만</p>
+            <div class="price-big">연 900만 원</div>
+            <p>(월 75만 원 / 할부 가능)</p>
+
+            <div style="text-align: left; margin-top: 20px; font-size: 15px;">
+                🎁 <strong>선물 1:</strong> 환불 방어 대본 (200만원)<br>
+                🎁 <strong>선물 2:</strong> 직원 관리 매뉴얼 (150만원)<br>
+                🎁 <strong>선물 3:</strong> 멘탈 케어 오디오 (평생)
+            </div>
+
+            <div class="guarantee">
+                🛡️ 효과 없으면?<br>
+                100% 전액 환불 + 스타벅스 10만원<br>
+                (잃을 게 없죠?)
             </div>
         </div>
-    </section>
 
-    <section class="py-20 bg-black">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-12 text-center">매일 아침, 전쟁이 시작됩니다.</h2>
-            <div class="relative border-l border-gray-800 ml-4 space-y-12">
-                <div class="relative pl-8">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-gray-800 rounded-full border-2 border-black"></div>
-                    <span class="text-sm text-gray-500 font-mono">05:55 AM</span>
-                    <h3 class="text-xl font-bold mt-1">시스템 동기화 대기</h3>
-                    <p class="text-gray-400 mt-2">Oura Ring 수면 데이터가 클라우드로 전송될 준비를 마칩니다.</p>
-                </div>
-                <div class="relative pl-8">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-red-600 rounded-full border-2 border-black shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
-                    <span class="text-sm text-red-500 font-mono font-bold">06:00 AM (DEADLINE)</span>
-                    <h3 class="text-xl font-bold mt-1 text-white">데드라인 카운트다운 & 벌금 시스템 가동</h3>
-                    <p class="text-gray-400 mt-2">
-                        기상 인증이 확인되지 않으면, <span class="text-red-400 font-bold">카운트다운 종료 즉시 벌금 50,000원이 결제됩니다.</span> 자비는 없습니다.
-                    </p>
-                </div>
-                <div class="relative pl-8">
-                    <div class="absolute -left-3 top-1 w-6 h-6 bg-green-500 rounded-full border-2 border-black"></div>
-                    <span class="text-sm text-green-500 font-mono">06:10 AM</span>
-                    <h3 class="text-xl font-bold mt-1">루틴 리포트 생성</h3>
-                    <p class="text-gray-400 mt-2">벌금을 방어하고 획득한 승리의 기록(수면 점수, 기상 시간)이 대시보드에 기록됩니다.</p>
-                </div>
-            </div>
+        <div style="text-align: center; padding-bottom: 40px;">
+            <h2 style="color: var(--alert); margin-bottom: 10px;">마지막 2자리!</h2>
+            <p style="margin-bottom: 20px;">지금 안 하면 3개월 기다려야 해요.</p>
+            <button class="btn">
+                👉 내 '가면 증후군' 끝내러 가기
+            </button>
         </div>
-    </section>
 
-    <section class="py-20 bg-gray-900 border-t border-gray-800">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-12 text-center">자주 묻는 질문</h2>
-            <div class="space-y-6">
-                <div class="bg-black p-6 rounded-xl border border-gray-800">
-                    <h3 class="font-bold text-lg mb-2">Q. 정말로 돈이 바로 빠져나가나요?</h3>
-                    <p class="text-gray-400">네, 그렇습니다. 서비스 가입 시 카드를 등록하며, 오우라 링 데이터상 '기상 실패'로 판정되는 즉시 PG사를 통해 예치금이 차감되거나 벌금이 결제됩니다.</p>
-                </div>
-                <div class="bg-black p-6 rounded-xl border border-gray-800">
-                    <h3 class="font-bold text-lg mb-2">Q. 아파서 못 일어난 경우는요? 봐주나요?</h3>
-                    <p class="text-gray-400">
-                        <span class="text-red-400 font-bold">예외 없이 벌금을 걷습니다.</span> 
-                        시스템은 당신의 사정을 봐주지 않습니다. 이 가혹함이 당신을 침대에서 끌어내는 유일한 원동력이기 때문입니다.
-                    </p>
-                </div>
-                <div class="bg-black p-6 rounded-xl border border-gray-800">
-                    <h3 class="font-bold text-lg mb-2">Q. 오우라 링이 없으면 사용할 수 없나요?</h3>
-                    <p class="text-gray-400">네, 이 OS는 오우라 링의 바이오 데이터 API를 기반으로 작동하므로 링이 필수입니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="apply" class="py-24 text-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-black to-gray-900 -z-10"></div>
-        <div class="max-w-2xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-6">지금 신청하고, <br>내일 아침을 <span class="text-green-500">매수</span>하세요.</h2>
-            <p class="text-gray-400 mb-10">
-                벌금보다 더 무서운 것은, <br>아무것도 변하지 않는 당신의 내일입니다.
-            </p>
-            <form class="space-y-4 max-w-md mx-auto">
-                <input type="email" placeholder="이메일을 입력하세요" class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-500 transition">
-                <button type="button" class="w-full bg-green-500 text-black font-bold py-4 rounded-lg text-lg hover:bg-green-400 transition shadow-[0_0_20px_rgba(74,222,128,0.3)]">
-                    Early Access 신청하기
-                </button>
-            </form>
-            <p class="text-xs text-gray-600 mt-6">
-                * 서비스 런칭 시 가장 먼저 안내 메일과 카드 등록 링크를 보내드립니다.
-            </p>
-        </div>
-    </section>
-
-    <footer class="py-8 text-center text-gray-600 text-sm border-t border-gray-900">
-        &copy; 2026 Oura Routine OS. All rights reserved.
-    </footer>
+    </div>
 
 </body>
 </html>
