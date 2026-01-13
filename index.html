@@ -3,153 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>무결점 결정 OS - 1기</title>
+    <title>무결점 결정 OS - 1기 창립 멤버</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            --black: #111;
-            --white: #fff;
-            --highlight: #FFE600; /* 형광 노랑 (눈에 띔) */
-            --alert: #FF3B30; /* 강렬한 빨강 */
-            --bg: #F5F5F7;
+            --brand-color: #286bff;
+            --brand-glow: rgba(40, 107, 255, 0.6);
+            --accent-color: #FFD700;
+            --danger-color: #FF453A;
+            --text-main: #ffffff;
+            --text-sub: #d1d1d6;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --bg-dark: #050505;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; word-break: keep-all; font-family: "Pretendard", sans-serif; }
-        body { background: var(--bg); color: var(--black); line-height: 1.4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard", -apple-system, system-ui, sans-serif; word-break: keep-all; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; } /* 모바일 집중 */
+        /* 배경 효과 (움직이는 그라디언트 + 노이즈) */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: radial-gradient(circle at 50% -20%, #1a2a6c, #000000 70%);
+        }
+        .bg-noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
 
-        /* 1. 긴급 배너 */
+        .container { max-width: 540px; margin: 0 auto; padding: 0 20px 80px; position: relative; z-index: 1; }
+
+        /* 1. 긴급 배너 (타이머 포함) */
         .sticky-alert {
-            background: var(--alert); color: var(--white); text-align: center;
-            padding: 10px; font-weight: 800; font-size: 14px;
-            position: sticky; top: 0; z-index: 999;
+            background: rgba(255, 69, 58, 0.9);
+            backdrop-filter: blur(10px);
+            color: white; text-align: center; padding: 12px;
+            font-weight: 700; font-size: 14px;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(255, 69, 58, 0.3);
+            display: flex; justify-content: center; align-items: center; gap: 8px;
         }
+        .timer { background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; font-variant-numeric: tabular-nums; }
 
-        /* 2. 히어로 (3초 컷) */
-        .hero { text-align: center; padding: 50px 0; }
-        h1 { font-size: 32px; font-weight: 900; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
-        .mark { background: var(--highlight); padding: 0 4px; }
-        .sub { font-size: 18px; color: #555; margin-bottom: 30px; font-weight: 500; }
-
-        /* 3. 버튼 (왕사탕) */
-        .btn {
-            display: block; width: 100%; background: var(--black); color: var(--white);
-            padding: 22px; font-size: 20px; font-weight: 800; border-radius: 16px;
-            border: none; cursor: pointer; text-decoration: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+        /* 공통 글래스 카드 (고급형) */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.2); /* 윗면 하이라이트 */
+            border-radius: 24px;
+            padding: 30px 24px; margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .btn:active { transform: scale(0.96); }
-        .btn-sub { text-align: center; font-size: 13px; color: #888; margin-top: 10px; }
+        .glass-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.25); }
 
-        /* 4. 고통 (아야!) */
-        .card { background: var(--white); padding: 30px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .pain-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; text-align: center; }
-        .pain-list li { 
-            list-style: none; font-size: 17px; margin-bottom: 15px; 
-            padding-left: 30px; position: relative; font-weight: 600;
+        /* 2. 히어로 섹션 */
+        .hero { text-align: center; padding: 60px 0 40px; }
+        .hero h1 {
+            font-size: 36px; font-weight: 900; line-height: 1.2; margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #a5c0ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
-        .pain-list li::before { content: "😭"; position: absolute; left: 0; }
+        .highlight { color: var(--accent-color); font-style: italic; position: relative; display: inline-block; }
+        .highlight::after {
+            content: ''; position: absolute; bottom: 2px; left: 0; width: 100%; height: 8px;
+            background: var(--brand-color); opacity: 0.4; z-index: -1; transform: skewX(-10deg);
+        }
+        .sub-text { font-size: 17px; color: var(--text-sub); margin-bottom: 35px; font-weight: 400; }
 
-        /* 5. 해결 (마법) */
-        .magic-box { background: #E9F1FF; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
-        .magic-title { font-weight: 800; font-size: 18px; color: #0055FF; margin-bottom: 5px; }
-        .magic-desc { font-size: 16px; font-weight: 400; }
+        /* 3. 메인 버튼 (Glow Effect) */
+        .btn-main {
+            display: flex; justify-content: center; align-items: center; width: 100%;
+            background: var(--brand-color); color: white;
+            padding: 20px; font-size: 18px; font-weight: 800;
+            border-radius: 16px; border: none; cursor: pointer;
+            box-shadow: 0 0 20px var(--brand-glow);
+            transition: all 0.3s ease; text-decoration: none;
+            position: relative; overflow: hidden;
+        }
+        .btn-main::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--brand-glow); }
+        .btn-main:hover::before { left: 100%; }
+        .btn-caption { font-size: 13px; color: #666; margin-top: 10px; text-align: center; }
 
-        /* 6. 증거 (진짜야) */
-        .proof { text-align: center; font-size: 16px; color: #444; background: #eee; padding: 20px; border-radius: 16px; font-weight: 600; }
+        /* 4. 고통 섹션 (알림 스타일) */
+        .notification {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 14px; padding: 16px; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 12px;
+            border-left: 3px solid var(--danger-color);
+        }
+        .noti-icon { font-size: 20px; filter: grayscale(0.5); }
+        .noti-text { font-size: 15px; font-weight: 600; color: #ddd; }
+        .noti-time { font-size: 12px; color: #666; margin-left: auto; }
 
-        /* 7. 가격 & 보장 (약속) */
-        .price-section { text-align: center; border: 3px solid var(--black); }
-        .price-big { font-size: 40px; font-weight: 900; margin: 10px 0; color: var(--alert); }
-        .guarantee { background: #FFF9C4; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 15px; font-weight: 700; }
+        /* 5. 솔루션 (카드 그리드) */
+        .solution-grid { display: grid; gap: 15px; }
+        .sol-item {
+            background: rgba(40, 107, 255, 0.1); border: 1px solid rgba(40, 107, 255, 0.2);
+            padding: 20px; border-radius: 16px;
+        }
+        .sol-badge { 
+            font-size: 11px; font-weight: 800; color: var(--brand-color); 
+            background: rgba(40, 107, 255, 0.15); padding: 4px 8px; border-radius: 6px;
+            display: inline-block; margin-bottom: 8px;
+        }
+        .sol-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+        .sol-desc { font-size: 14px; color: var(--text-sub); }
 
+        /* 6. 가격 섹션 */
+        .price-card { text-align: center; position: relative; overflow: hidden; }
+        .price-badge {
+            background: var(--accent-color); color: #000; font-weight: 800; font-size: 12px;
+            padding: 6px 12px; border-radius: 20px; display: inline-block; margin-bottom: 15px;
+        }
+        .price-val { font-size: 42px; font-weight: 900; color: #fff; letter-spacing: -1px; }
+        .price-sub { text-decoration: line-through; color: #666; font-size: 14px; display: block; margin-bottom: 20px; }
+        .bonus-list { text-align: left; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .bonus-item { display: flex; gap: 10px; font-size: 14px; margin-bottom: 8px; color: #eee; }
+        .check { color: var(--accent-color); }
+
+        /* 7. FAQ (아코디언) */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .faq-q {
+            padding: 18px 0; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between;
+            font-size: 15px; color: #eee;
+        }
+        .faq-a {
+            max-height: 0; overflow: hidden; transition: 0.3s ease; color: var(--text-sub); font-size: 14px;
+            line-height: 1.5; padding-right: 10px;
+        }
+        .faq-a.open { max-height: 100px; padding-bottom: 18px; }
+        .arrow { transition: 0.3s; }
+        .faq-q.active .arrow { transform: rotate(180deg); }
+
+        /* 애니메이션 */
+        .fade-up { opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 380px) {
+            .hero h1 { font-size: 30px; }
+            .price-val { font-size: 36px; }
+        }
     </style>
 </head>
 <body>
 
+    <div class="bg-gradient"></div>
+    <div class="bg-noise"></div>
+
     <div class="sticky-alert">
-        🔥 딱 2명 남았어요! (곧 마감)
+        <span>🔥 1기 마감 임박</span>
+        <span class="timer" id="countdown">04:59:00</span>
+        <span>남음</span>
     </div>
 
     <div class="container">
         
-        <div class="hero">
+        <section class="hero fade-up">
+            <span style="color: var(--brand-color); font-weight: 700; font-size: 14px; letter-spacing: 1px;">FOR CEO</span>
             <h1>
                 생각 그만하고<br>
-                <span class="mark">돈이나 버세요.</span>
+                <span class="highlight" style="color: var(--accent-color);">돈이나 버세요</span>
             </h1>
-            <p class="sub">
+            <p class="sub-text">
                 자책하느라 침대에서 2시간 날렸죠?<br>
                 <strong>그거, 돈으로 바꿔드립니다.</strong>
             </p>
             
-            <button class="btn">
-                👉 내 '돈 그릇' 진단하고 신청하기
+            <button class="btn-main" onclick="alert('진단 페이지로 이동합니다 (데모)')">
+                👉 내 '돈 그릇' 진단하고 신청
             </button>
-            <p class="btn-sub">지금 결제 안 됨. 3분이면 끝.</p>
-        </div>
+            <p class="btn-caption">지금 결제 안 됨. 3분이면 끝.</p>
+        </section>
 
-        <div class="card">
-            <div class="pain-title">이거 대표님 얘기죠?</div>
-            <ul class="pain-list">
-                <li>인스타 경쟁자 보고 <strong>우울함</strong></li>
-                <li>환불 해달랄까 봐 <strong>메일 못 봄</strong></li>
-                <li>성공했는데 <strong>불안해서 잠 못 잠</strong></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <div class="pain-title">뇌 쓰지 마세요.<br>저희가 다 합니다.</div>
+        <section class="glass-card fade-up">
+            <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">이거 대표님 폰 아니에요?</h2>
             
-            <div class="magic-box">
-                <div class="magic-title">🧠 고민 금지</div>
-                <div class="magic-desc">아침 6시, <strong>"오늘 할 일 3개"</strong>만 딱 정해줌.</div>
+            <div class="notification">
+                <span class="noti-icon">😭</span>
+                <div>
+                    <div class="noti-text">인스타 경쟁자 보고 우울함...</div>
+                    <div style="font-size: 13px; color: #888;">자책하느라 2시간 삭제됨</div>
+                </div>
+                <span class="noti-time">방금</span>
             </div>
-            <div class="magic-box">
-                <div class="magic-title">👄 감정 노동 금지</div>
-                <div class="magic-desc">직원 혼낼 때? <strong>AI 대본 읽기만 하세요.</strong></div>
+            
+            <div class="notification">
+                <span class="noti-icon">🫣</span>
+                <div>
+                    <div class="noti-text">환불 메일 왔을까 봐 겁남</div>
+                    <div style="font-size: 13px; color: #888;">메일함 못 열고 도망침</div>
+                </div>
+                <span class="noti-time">10분 전</span>
             </div>
-            <div class="magic-box">
-                <div class="magic-title">💰 그냥 돈 버세요</div>
-                <div class="magic-desc">자책할 시간에 <strong>판매 글 쓰게 강제함.</strong></div>
-            </div>
-        </div>
 
-        <div class="proof">
+            <div class="notification">
+                <span class="noti-icon">😮‍💨</span>
+                <div>
+                    <div class="noti-text">성공했는데 뭔가 불안해</div>
+                    <div style="font-size: 13px; color: #888;">"다음엔 망할 거야" (불면증)</div>
+                </div>
+                <span class="noti-time">1시간 전</span>
+            </div>
+        </section>
+
+        <section class="glass-card fade-up">
+            <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">뇌 쓰지 마세요.<br>저희가 다 합니다.</h2>
+            
+            <div class="solution-grid">
+                <div class="sol-item">
+                    <span class="sol-badge">THINKING ZERO</span>
+                    <div class="sol-title">🧠 고민 금지</div>
+                    <div class="sol-desc">아침 6시, <strong>"오늘 돈 되는 일 3개"</strong>만 딱 정해줍니다. 딴생각 차단.</div>
+                </div>
+                <div class="sol-item">
+                    <span class="sol-badge">EMOTION ZERO</span>
+                    <div class="sol-title">👄 감정 노동 금지</div>
+                    <div class="sol-desc">직원 혼낼 때? <strong>AI 대본 읽기만 하세요.</strong> 떨지 마세요.</div>
+                </div>
+                <div class="sol-item">
+                    <span class="sol-badge">MONEY ONLY</span>
+                    <div class="sol-title">💰 그냥 돈 버세요</div>
+                    <div class="sol-desc">자책할 시간에 <strong>판매 글 쓰게 강제</strong>합니다.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card fade-up" style="border-left: 4px solid var(--brand-color); font-style: italic; color: #ddd; text-align: center;">
             "저도 매일 울면서 일했습니다.<br>
             <strong>3년 치 데이터로 만든 비법</strong>입니다.<br>
-            저만 믿고 따라오세요."
-        </div>
-        <br>
+            <br>
+            저만 믿고 따라오세요.<br>
+            대표님은 틀리지 않았습니다."
+        </section>
 
-        <div class="card price-section">
-            <p>👑 1기 창립 멤버만</p>
-            <div class="price-big">연 900만 원</div>
-            <p>(월 75만 원 / 할부 가능)</p>
+        <section class="glass-card price-card fade-up">
+            <span class="price-badge">👑 1기 창립 멤버만</span>
+            <span class="price-sub">가치: 연 1,800만 원</span>
+            <div class="price-val">연 900만 원</div>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 20px;">(월 75만 원 / 할부 가능)</p>
 
-            <div style="text-align: left; margin-top: 20px; font-size: 15px;">
-                🎁 <strong>선물 1:</strong> 환불 방어 대본 (200만원)<br>
-                🎁 <strong>선물 2:</strong> 직원 관리 매뉴얼 (150만원)<br>
-                🎁 <strong>선물 3:</strong> 멘탈 케어 오디오 (평생)
+            <div class="bonus-list">
+                <div class="bonus-item"><span class="check">✔</span> 🎁 선물 1: 환불 방어 대본 (200만원)</div>
+                <div class="bonus-item"><span class="check">✔</span> 🎁 선물 2: 직원 관리 매뉴얼 (150만원)</div>
+                <div class="bonus-item"><span class="check">✔</span> 🎁 선물 3: 멘탈 케어 오디오 (평생)</div>
             </div>
 
-            <div class="guarantee">
-                🛡️ 효과 없으면?<br>
-                100% 전액 환불 + 스타벅스 10만원<br>
-                (잃을 게 없죠?)
+            <div style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); padding: 15px; border-radius: 12px; margin-top: 20px;">
+                <strong style="color: var(--accent-color);">🛡️ 효과 없으면?</strong><br>
+                <span style="font-size: 14px; color: #eee;">100% 전액 환불 + 스타벅스 10만원<br>(잃을 게 없죠?)</span>
             </div>
-        </div>
+        </section>
 
-        <div style="text-align: center; padding-bottom: 40px;">
-            <h2 style="color: var(--alert); margin-bottom: 10px;">마지막 2자리!</h2>
-            <p style="margin-bottom: 20px;">지금 안 하면 3개월 기다려야 해요.</p>
-            <button class="btn">
+        <section class="glass-card fade-up">
+            <h2 style="font-size: 18px; margin-bottom: 10px;">자주 묻는 질문</h2>
+            
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    Q. 900만원 너무 비싸요. <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    대표님이 자책하느라 날리는 매출이 연 3,000만 원입니다. 손실의 1/3만 투자해서 전부 지키세요.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    Q. 제가 의지박약이라 못 하면요? <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    그래서 '벌금 시스템'이 있습니다. 하기 싫어도 억지로 하게 만듭니다.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    Q. 사업 아이디어 유출 안 되나요? <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    절대 없습니다. AI봇이 분석 후 즉시 데이터를 파기합니다.
+                </div>
+            </div>
+        </section>
+
+        <div style="text-align: center; margin-top: 40px;" class="fade-up">
+            <h2 style="color: var(--danger-color); margin-bottom: 10px;">마지막 2자리!</h2>
+            <p style="margin-bottom: 20px; color: #aaa;">지금 안 하면 3개월 기다려야 해요.</p>
+            <button class="btn-main" onclick="alert('진단 페이지로 이동합니다 (데모)')">
                 👉 내 '가면 증후군' 끝내러 가기
             </button>
         </div>
 
     </div>
 
+    <script>
+        // 1. 스크롤 애니메이션
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // 2. FAQ 토글
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('open');
+        }
+
+        // 3. 카운트다운 타이머 (가짜 긴급성 - 매번 4시간 59분부터 시작)
+        function startTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            let fiveHours = 60 * 60 * 5 - 1,
+                display = document.querySelector('#countdown');
+            startTimer(fiveHours, display);
+        };
+    </script>
 </body>
 </html>
