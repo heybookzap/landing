@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURALIS : Own the Dawn, Seize the Day</title>
     <style>
-        /* 기존 스타일(CSS)은 그대로 유지 (화려한 디자인) */
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
         :root {
-            --primary: #286bff; 
-            --accent: #00FF94;  
-            --accent2: #00D4FF; 
-            --danger: #FF453A;  
-            --gold: #FFD700;    
-            --bg: #050507;      
-            --surface: rgba(255, 255, 255, 0.04);
+            /* [Visual Identity: Intellectual Sexiness] */
+            --primary: #2F65FF; /* Electric Blue: 지성, 데이터, 새벽 */
+            --bg: #08080A;      /* Matte Black: 무광 블랙 */
+            --surface: #121214; /* Deep Gray: 딥 그레이 */
+            --surface-light: #1E1E24;
             --text-main: #FFFFFF;
-            --text-muted: #A0A0A0;
+            --text-muted: #8B8B9E; /* 차분한 그레이 */
+            --danger: #FF3B30;  /* 경고는 확실하게 (Red) */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,103 +25,132 @@
             line-height: 1.6; overflow-x: hidden; word-break: keep-all; 
         }
 
-        /* [배경 시스템] */
+        /* --- [배경 시스템: Minimal & Cold] --- */
         .bg-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+        
+        /* 그리드: 아주 얇고 희미하게 (분석적인 느낌) */
         .hex-grid {
             position: absolute; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+            background-image: linear-gradient(rgba(47, 101, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(47, 101, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at 50% 30%, black, transparent 70%);
         }
-        .orb-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
-        .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3; mix-blend-mode: screen; }
-        .orb1 { width: 600px; height: 600px; background: var(--primary); top: -200px; left: 50%; transform: translateX(-50%); animation: float 20s infinite; }
-        .orb2 { width: 500px; height: 500px; background: var(--accent); bottom: -100px; right: -100px; animation: float 25s infinite reverse; }
-        @keyframes float { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-40%, 50px); } }
 
-        /* [플로팅 타임] */
+        /* 오라(Orb): 컬러를 Blue 단일 톤으로 통일 (차가운 새벽 공기) */
+        .orb-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15; }
+        .orb1 { width: 500px; height: 500px; background: var(--primary); top: -200px; left: 50%; transform: translateX(-50%); }
+        .orb2 { width: 600px; height: 600px; background: #1a2a4f; bottom: -200px; right: -100px; }
+
+        /* --- [플로팅 타임: 미니멀한 UI] --- */
         .time-display {
-            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
-            padding: 10px 24px; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
-            font-family: 'Courier New', monospace; font-weight: 900; color: var(--accent);
-            text-shadow: 0 0 15px var(--accent); z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+            padding: 8px 20px; background: rgba(8,8,10,0.8); backdrop-filter: blur(10px);
+            border: 1px solid rgba(47, 101, 255, 0.2); border-radius: 4px; /* 둥근 거 말고 각지게 */
+            font-family: 'Courier New', monospace; font-weight: 700; color: var(--primary);
+            font-size: 0.9rem; letter-spacing: 2px; z-index: 999;
         }
 
-        /* [레이아웃] */
-        .container { max-width: 560px; margin: 0 auto; padding: 0 24px 180px; position: relative; z-index: 1; }
+        /* --- [레이아웃] --- */
+        .container { max-width: 520px; margin: 0 auto; padding: 0 24px 180px; position: relative; z-index: 1; }
 
-        /* [Hero 섹션] */
+        /* --- [Hero 섹션: 타이포그래피 중심] --- */
         .hero { padding: 140px 0 60px; text-align: left; }
         .badge {
-            display: inline-block; color: var(--primary); font-weight: 800; font-size: 11px;
-            padding: 8px 16px; background: rgba(40, 107, 255, 0.1); border-radius: 20px;
-            border: 1px solid rgba(40, 107, 255, 0.3); margin-bottom: 24px; letter-spacing: 1px;
+            display: inline-block; color: var(--primary); font-weight: 700; font-size: 10px;
+            padding: 6px 0; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase;
+            border-bottom: 1px solid var(--primary); /* 미니멀한 라인 포인트 */
         }
-        h1 { font-size: 2.6rem; font-weight: 900; line-height: 1.2; letter-spacing: -1px; margin-bottom: 20px; }
-        .highlight { 
-            background: linear-gradient(135deg, var(--primary), var(--accent)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        h1 { 
+            font-size: 2.8rem; font-weight: 800; line-height: 1.15; 
+            letter-spacing: -1.5px; margin-bottom: 24px; color: #fff;
         }
-        .hero p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
-
-        /* [고통 수치화 박스] */
-        .pain-box {
-            background: rgba(255, 69, 58, 0.08); border: 1px solid rgba(255, 69, 58, 0.3);
-            border-radius: 20px; padding: 30px; text-align: center; margin: 40px 0;
-            position: relative; overflow: hidden;
-        }
-        .pain-num { font-size: 2rem; font-weight: 900; color: var(--danger); margin: 10px 0; }
-        .pain-desc { font-size: 0.95rem; color: #ffcccb; font-weight: 600; }
-
-        /* [적합성 필터] */
-        .filter-section { margin: 60px 0; }
-        .check-list { 
-            background: var(--surface); padding: 24px; border-radius: 16px; 
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .check-item { display: flex; gap: 12px; margin-bottom: 12px; font-size: 0.95rem; color: #ddd; }
-        .check-item::before { content: "✔"; color: var(--accent); font-weight: bold; }
+        .highlight { color: var(--primary); } /* 그라데이션 제거, 단색 블루로 깔끔하게 */
         
+        .hero p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; font-weight: 400; }
+        .hero p strong { color: #fff; font-weight: 600; }
+
+        /* --- [Pain Box: 무광 블랙 & 레드 포인트] --- */
+        .pain-box {
+            background: var(--surface); border-left: 3px solid var(--danger);
+            padding: 32px 24px; text-align: center; margin: 40px 0; border-radius: 0 8px 8px 0;
+        }
+        .pain-num { font-size: 2.2rem; font-weight: 800; color: var(--danger); margin: 12px 0; letter-spacing: -1px; }
+        .pain-desc { font-size: 0.9rem; color: #bbb; font-weight: 500; }
+
+        /* --- [적합성 필터: Deep Gray 박스] --- */
+        .filter-section { margin: 70px 0; }
+        .check-list { 
+            background: var(--surface); padding: 30px; border-radius: 2px;
+            border: 1px solid #222;
+        }
+        .check-item { display: flex; gap: 14px; margin-bottom: 16px; font-size: 0.95rem; color: #ccc; align-items: flex-start; }
+        .check-item::before { content: "■"; color: var(--primary); font-size: 0.6rem; margin-top: 6px; } /* 체크 표시도 미니멀하게 */
+
+        /* [증거 시각화] */
         .evidence-img {
-            width: 100%; height: 200px; background: #111; border-radius: 12px; margin-top: 30px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px dashed rgba(255,255,255,0.2); color: #555; font-size: 0.9rem;
+            width: 100%; height: 220px; background: #000; border: 1px solid #222;
+            margin-top: 24px; display: flex; align-items: center; justify-content: center;
+            color: #444; font-size: 0.8rem; letter-spacing: 1px;
+            /* 실제 구현 시엔 여기에 이미지가 들어갑니다 */
         }
 
-        /* [가격 테이블] */
+        /* --- [Vision: 텍스트 중심] --- */
+        .vision-section { text-align: center; margin: 80px 0; padding: 40px 0; border-top: 1px solid #111; border-bottom: 1px solid #111; }
+        .vision-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; color: #fff; }
+        
+        /* --- [Pricing: 미니멀 리스트] --- */
         .pricing { margin-top: 80px; }
+        .pricing-title { text-align: center; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; font-weight: 600; }
+        
         .price-card {
-            background: var(--surface); padding: 28px; border-radius: 20px; margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; position: relative;
+            background: var(--surface); padding: 32px; margin-bottom: 16px;
+            border: 1px solid #222; transition: 0.3s; position: relative;
         }
+        
+        /* Featured Card: 일렉트릭 블루 글로우 */
         .price-card.featured {
-            background: linear-gradient(180deg, rgba(40,107,255,0.1), rgba(0,0,0,0));
-            border: 2px solid var(--primary); transform: scale(1.02); z-index: 10;
+            background: var(--surface-light);
+            border: 1px solid var(--primary); 
+            box-shadow: 0 0 30px rgba(47, 101, 255, 0.05); /* 은은한 블루 빛 */
         }
+        
         .tag {
-            position: absolute; top: -12px; right: 20px; background: var(--primary); color: white;
-            font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 12px;
+            position: absolute; top: 0; right: 0; background: var(--primary); color: #fff;
+            font-size: 10px; font-weight: 700; padding: 6px 14px; letter-spacing: 1px;
         }
-        .p-amount { font-size: 1.8rem; font-weight: 900; margin: 10px 0 20px; font-family: 'Courier New'; }
-        .p-list li { list-style: none; margin-bottom: 8px; font-size: 0.9rem; color: #ccc; display: flex; gap: 8px; }
+        
+        .p-name { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;}
+        .featured .p-name { color: var(--primary); }
+        
+        .p-amount { font-size: 1.8rem; font-weight: 800; margin-bottom: 24px; color: #fff; letter-spacing: -0.5px; }
+        .p-list li { list-style: none; margin-bottom: 10px; font-size: 0.9rem; color: #bbb; display: flex; gap: 10px; align-items: center; }
+        .p-list li::before { content: "•"; color: #444; }
+        .featured .p-list li::before { content: "•"; color: var(--primary); }
 
-        /* [Sticky CTA] */
+        /* --- [Urgency & CTA] --- */
+        .urgency-msg {
+            text-align: center; margin-top: 40px; 
+            color: var(--danger); font-weight: 700; font-size: 0.9rem;
+            background: rgba(255, 59, 48, 0.05); padding: 12px; display: inline-block;
+            border-radius: 4px; left: 50%; position: relative; transform: translateX(-50%);
+        }
+
         .cta-sticky {
-            position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px;
-            background: linear-gradient(to top, #050507 85%, transparent); z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%; padding: 24px;
+            background: rgba(8, 8, 10, 0.95); backdrop-filter: blur(10px);
+            z-index: 1000; border-top: 1px solid #222;
         }
         .cta-btn {
-            display: block; width: 100%; max-width: 560px; margin: 0 auto;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #000; font-weight: 900; text-align: center; padding: 22px;
-            border-radius: 16px; text-decoration: none; font-size: 1.2rem;
-            box-shadow: 0 10px 40px rgba(0, 255, 148, 0.3);
-            transition: transform 0.2s;
+            display: block; width: 100%; max-width: 520px; margin: 0 auto;
+            background: var(--primary); /* Electric Blue 단색 */
+            color: #fff; font-weight: 700; text-align: center; padding: 20px;
+            border-radius: 2px; text-decoration: none; font-size: 1.1rem;
+            transition: 0.2s; letter-spacing: -0.5px;
         }
-        .cta-btn:active { transform: scale(0.98); }
+        .cta-btn:hover { background: #1a4cdb; }
+        .cta-btn:active { transform: translateY(2px); }
     </style>
 </head>
 <body>
@@ -140,7 +167,7 @@
 
     <div class="container">
         <section class="hero">
-            <span class="badge">AURALIS : BIO-HACKING OS</span>
+            <span class="badge">Auralis : Bio-Hacking OS</span>
             <h1>Own the Dawn,<br><span class="highlight">Seize the Day.</span></h1>
             <p>
                 새벽 4시 반, 눈은 떴는데<br>
@@ -151,13 +178,13 @@
         </section>
 
         <div class="pain-box">
-            <p style="font-weight: 700; color: #fff;">당신이 고민하는 오늘도</p>
+            <p style="font-weight: 600; color: #888; margin-bottom: 8px;">당신이 고민하는 오늘도</p>
             <div class="pain-num">-1,600,000원</div>
             <div class="pain-desc">매달 길바닥에 <strong>버리고 있는 돈</strong></div>
         </div>
 
         <div class="filter-section">
-            <h3 style="font-size: 1.2rem; margin-bottom: 16px; font-weight: 800; line-height: 1.4;">
+            <h3 style="font-size: 1.3rem; margin-bottom: 24px; font-weight: 800; color: #fff; line-height: 1.3;">
                 스마트워치만 있다면<br>누구나 참여 가능합니다
             </h3>
             <div class="check-list">
@@ -167,18 +194,18 @@
             </div>
 
             <div class="evidence-img">
-                ⌚ [워치 & 링 데이터 통합 분석 예시 이미지]
+                [ 데이터 분석 그래프 / 인증샷 예시 ]
             </div>
             
-            <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; line-height: 1.5;">
+            <p style="text-align: center; font-size: 0.8rem; color: #666; margin-top: 16px; line-height: 1.5;">
                 *최소 3년, <strong>고객들의 실제 새벽 몸 상태 데이터</strong>가<br>
                 검증한 '성과 엔진'입니다.
             </p>
         </div>
 
-        <div style="text-align: center; margin: 60px 0;">
-            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 16px; color: var(--accent);">결제 이후의 장면</h2>
-            <p style="color: #ddd;">
+        <div class="vision-section">
+            <h2 class="vision-title">결제 이후의 장면</h2>
+            <p style="color: #ccc; font-size: 1.05rem;">
                 눈을 뜨면 오라리스가 <strong>'돈 되는 일'</strong>을 알려줍니다.<br>
                 90분 만에 하루치 성과를 다 내고,<br>
                 여유롭게 아침을 시작하세요.
@@ -186,47 +213,49 @@
         </div>
 
         <section class="pricing">
-            <h2 style="text-align:center; font-size: 1.3rem; margin-bottom: 24px;">선택권은 당신에게 있습니다</h2>
+            <div class="pricing-title">선택권은 당신에게 있습니다</div>
             
             <div class="price-card">
-                <div style="font-size: 0.9rem; color:var(--text-muted); font-weight:700;">STARTER KIT</div>
+                <div class="p-name">Starter Kit</div>
                 <div class="p-amount">49,000원</div>
                 <ul class="p-list">
-                    <li>▫️ 브랜드 원칙집 (PDF)</li>
-                    <li>▫️ 새벽 성공 체크리스트</li>
+                    <li>브랜드 원칙집 (PDF)</li>
+                    <li>새벽 성공 체크리스트</li>
                 </ul>
             </div>
 
             <div class="price-card featured">
-                <span class="tag">가장 많이 선택함</span>
-                <div style="font-size: 0.9rem; color:var(--primary); font-weight:900;">DAWN 4:30 PROTOCOL</div>
-                <div class="p-amount" style="color:var(--text-main);">450,000원</div>
+                <span class="tag">BEST CHOICE</span>
+                <div class="p-name">Dawn 4:30 Protocol</div>
+                <div class="p-amount">450,000원</div>
                 <ul class="p-list">
-                    <li>🔹 <strong>몸 상태 해독 & 통제 매뉴얼</strong></li>
-                    <li>🔹 <strong>개인 데이터 분석 코칭</strong></li>
-                    <li><span style="color: var(--accent);">✔ 성과 없으면 100% 전액 환불</span></li>
+                    <li style="color:#fff"><strong>몸 상태 해독 & 통제 매뉴얼</strong></li>
+                    <li style="color:#fff"><strong>개인 데이터 분석 코칭</strong></li>
+                    <li>성과 없으면 100% 전액 환불</li>
                 </ul>
             </div>
 
             <div class="price-card">
-                <div style="font-size: 0.9rem; color:var(--text-muted); font-weight:700;">VIP CONSULTING</div>
+                <div class="p-name">VIP Consulting</div>
                 <div class="p-amount">1,500,000원</div>
                 <ul class="p-list">
-                    <li>▫️ 1:1 초개인화 밀착 케어</li>
-                    <li>▫️ 월 2명 한정 비밀 세션</li>
+                    <li>1:1 초개인화 밀착 케어</li>
+                    <li>월 2명 한정 비밀 세션</li>
                 </ul>
             </div>
         </section>
 
-        <div style="text-align: center; margin-top: 40px; color: var(--danger); font-weight: 800;">
-            ⚠️ 이번 달 남은 자리 : 2명 (마감 임박)
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="urgency-msg">
+                ⚠️ 이번 달 남은 자리 : 2명 (마감 임박)
+            </div>
         </div>
 
     </div>
 
     <div class="cta-sticky">
         <a href="#" class="cta-btn">
-            👉 지금 바로 하루 장악하기
+            지금 바로 하루 장악하기
         </a>
     </div>
 
