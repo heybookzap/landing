@@ -7,332 +7,126 @@
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            --primary: #286bff;
-            --accent: #00FF94;
-            --alert: #FF453A;
-            --bg: #030305;
-            --surface: rgba(20, 20, 25, 0.6);
-            --text-main: #FFFFFF;
-            --text-muted: #888888;
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --neon-glow: 0 0 10px rgba(40, 107, 255, 0.5);
+            --primary: #286bff; --accent: #00FF94; --danger: #FF453A;
+            --bg: #030305; --surface: rgba(20, 20, 25, 0.8);
+            --text-main: #FFFFFF; --text-muted: #888888;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; word-break: keep-all; }
+        body { background: var(--bg); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 540px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 1; }
         
-        body {
-            font-family: 'Pretendard', -apple-system, monospace;
-            background: var(--bg);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.5;
-            cursor: default;
-        }
-
-        /* 1. Dynamic Background System */
-        .canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-        .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-            pointer-events: none;
-        }
+        /* 10초 안에 각인되는 시각 효과 */
+        .grid-3d { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(40, 107, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(40, 107, 255, 0.05) 1px, transparent 1px); background-size: 60px 60px; transform: perspective(1000px) rotateX(60deg); z-index: -1; opacity: 0.3; animation: flow 20s linear infinite; }
+        @keyframes flow { from { background-position: 0 0; } to { background-position: 0 60px; } }
         
-        /* Mouse Follower Glow */
-        .cursor-glow {
-            position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, rgba(40,107,255,0.15), transparent 70%);
-            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1;
-            transition: width 0.3s, height 0.3s;
-        }
-
-        /* 2. Layout & Typography */
-        .container { max-width: 520px; margin: 0 auto; padding: 0 24px 120px; position: relative; z-index: 1; }
-
-        /* Status Bar (Typing Effect) */
-        .status-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; margin-bottom: 60px; font-size: 11px;
-            font-family: 'Courier New', monospace; color: var(--text-muted);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--accent); animation: typing 3s steps(30, end), blink-caret .75s step-end infinite; }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent) } }
-
-        .live-badge {
-            display: flex; align-items: center; gap: 6px; color: var(--accent);
-            background: rgba(0, 255, 148, 0.05); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0,255,148,0.2);
-        }
-        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        /* Hero Section */
-        .hero { margin-bottom: 60px; }
-        .tag {
-            display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--primary);
-            margin-bottom: 20px; padding: 6px 12px; border: 1px solid rgba(40,107,255,0.3); border-radius: 20px;
-            background: rgba(40,107,255,0.05);
-        }
-        h1 {
-            font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px;
-            background: linear-gradient(180deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .highlight { color: var(--primary); -webkit-text-fill-color: var(--primary); text-shadow: var(--neon-glow); }
-        .sub-text { font-size: 1rem; color: var(--text-muted); padding-left: 16px; border-left: 2px solid #333; }
-
-        /* Glass Cards (High-End) */
-        .card {
-            background: var(--surface); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 24px; padding: 30px;
-            margin-bottom: 24px; position: relative; overflow: hidden;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); border-color: rgba(40,107,255,0.3); }
-        /* Corner Accents */
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+        /* 훅(Hook) & 헤드라인 */
+        .hero { padding: 80px 0 60px; text-align: left; }
+        .hero-label { color: var(--primary); font-weight: 800; font-size: 11px; letter-spacing: 2px; margin-bottom: 20px; display: inline-block; padding: 6px 14px; background: rgba(40,107,255,0.1); border-radius: 20px; border: 1px solid rgba(40,107,255,0.4); text-transform: uppercase; }
+        h1 { font-size: 3rem; font-weight: 900; line-height: 1.1; margin-bottom: 28px; letter-spacing: -1.5px; }
+        .highlight { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .card-head {
-            font-family: 'Courier New', monospace; font-size: 11px; color: #666; font-weight: 700; letter-spacing: 1px;
-            margin-bottom: 25px; display: flex; justify-content: space-between;
-        }
+        /* 문제 제시 카드 (손실 명세서) */
+        .card { background: var(--surface); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 36px 30px; margin-bottom: 28px; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-head { font-size: 11px; color: var(--text-muted); font-family: monospace; letter-spacing: 1.5px; margin-bottom: 28px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
+        .stat-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 14px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+        .stat-label { font-size: 1rem; color: #ccc; font-weight: 600; }
+        .stat-val { font-size: 2rem; font-weight: 900; color: var(--danger); font-family: monospace; text-shadow: 0 0 15px rgba(255, 69, 58, 0.4); }
 
-        /* Stats Grid */
-        .stat-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
-        .stat-label { font-size: 0.9rem; color: #ccc; }
-        .stat-val { font-family: 'Courier New', monospace; font-size: 1.6rem; font-weight: 700; }
-        .bad { color: var(--alert); text-shadow: 0 0 15px rgba(255, 69, 58, 0.4); }
-        .good { color: var(--accent); text-shadow: 0 0 15px rgba(0, 255, 148, 0.4); }
+        /* 스토리텔링 섹션 */
+        .story { margin: 60px 0; padding: 30px; border-radius: 24px; background: linear-gradient(145deg, rgba(40,107,255,0.08), transparent); position: relative; }
+        .story::before { content: '"'; position: absolute; top: 10px; left: 20px; font-size: 4rem; color: var(--primary); opacity: 0.2; }
+        .story-text { font-size: 1.15rem; line-height: 1.9; color: #eee; font-weight: 500; }
 
-        /* Timeline Process */
-        .timeline { padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
-        .step { position: relative; margin-bottom: 30px; }
-        .step:last-child { margin-bottom: 0; }
-        .step::before {
-            content: ''; position: absolute; left: -25px; top: 0; width: 9px; height: 9px;
-            background: var(--bg); border: 2px solid var(--primary); border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary);
-        }
-        .step-time { font-family: 'Courier New', monospace; color: var(--primary); font-size: 12px; font-weight: 700; margin-bottom: 4px; display: block; }
-        .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .step p { font-size: 0.85rem; color: var(--text-muted); }
+        /* FAQ 아코디언 */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 24px 0; cursor: pointer; transition: 0.3s; }
+        .faq-q { font-weight: 700; font-size: 1.1rem; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { max-height: 0; overflow: hidden; color: var(--text-muted); font-size: 1rem; margin-top: 14px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+        .faq-item.active .faq-a { max-height: 200px; opacity: 1; padding-bottom: 10px; }
+        .faq-item.active .faq-q span { transform: rotate(45deg); color: var(--danger); }
 
-        /* Pricing & CTA */
-        .pricing { text-align: center; margin-top: 60px; padding: 40px 20px; background: rgba(255,255,255,0.02); border-radius: 30px; border: 1px solid var(--glass-border); }
-        .roi-tag { display: inline-block; background: rgba(0,255,148,0.1); color: var(--accent); font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(0,255,148,0.2); }
-        
-        .price-box { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .price-old { text-decoration: line-through; color: #555; font-size: 1rem; }
-        .price-now { font-size: 2.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
+        /* 신뢰 및 보장 문구 */
+        .trust { text-align: center; margin: 60px 0; padding: 40px 30px; border: 1px dashed var(--accent); border-radius: 28px; background: rgba(0,255,148,0.02); }
+        .trust h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 16px; font-weight: 800; }
+        .trust p { font-size: 1rem; color: #ccc; line-height: 1.7; }
 
-        .btn-main {
-            width: 100%; background: var(--primary); color: #fff;
-            padding: 22px; font-size: 1.1rem; font-weight: 800; border: none; border-radius: 16px;
-            cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(40, 107, 255, 0.4);
-        }
-        .btn-main:hover { background: #fff; color: #000; box-shadow: 0 0 50px rgba(40, 107, 255, 0.8); transform: translateY(-2px); }
-        
-        .guarantee { margin-top: 20px; font-size: 12px; color: #666; }
+        /* 최종 CTA 버튼 (임팩트) */
+        .cta-box { position: sticky; bottom: 30px; z-index: 100; }
+        .cta-btn { width: 100%; background: linear-gradient(135deg, var(--primary), #0040aa); color: #fff; padding: 26px; font-size: 1.35rem; font-weight: 900; border: none; border-radius: 20px; cursor: pointer; box-shadow: 0 15px 50px rgba(40, 107, 255, 0.5); transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .cta-btn:hover { transform: scale(1.02) translateY(-5px); box-shadow: 0 20px 60px rgba(40, 107, 255, 0.7); }
+        .cta-btn:active { transform: scale(0.98); }
+        .guarantee { margin-top: 16px; font-size: 0.9rem; color: #888; text-align: center; letter-spacing: 0.5px; }
 
-        /* Scroll Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 400px) { h1 { font-size: 2.5rem; } }
+        @media (max-width: 480px) { h1 { font-size: 2.4rem; } .stat-val { font-size: 1.6rem; } }
     </style>
 </head>
 <body>
-
-    <canvas class="canvas-bg" id="canvas"></canvas>
-    <div class="grid-overlay"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
-
+    <div class="grid-3d"></div>
     <div class="container">
-        
-        <div class="system-bar">
-            <div class="typewriter">INITIALIZING BIO-SYNC OS...</div>
-            <div class="live-badge"><div class="dot"></div> 2 SEATS</div>
+        <section class="hero">
+            <span class="hero-label">High Performance OS</span>
+            <h1>새벽 기상은 <span class="highlight">성공</span>하셨군요.<br>그런데 왜 '연봉'은 그대로입니까?</h1>
+            <p class="hero-subtitle">의지력은 이미 상위 1%입니다. 당신에게 부족한 것은 노력이 아니라 <strong>데이터 기반의 '강제 의사결정 시스템'</strong>입니다.</p>
+        </section>
+
+        <div class="card">
+            <div class="card-head"><span>📉 CURRENT LOSS ANALYSIS</span><span style="color:var(--danger)">CRITICAL</span></div>
+            <div class="stat-row">
+                <span class="stat-label">기상 후 멍때림 (15분)</span>
+                <span class="stat-val">-15m</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--primary); margin: 12px 0 24px; font-weight: 700;">→ 해결: HRV Peak 감지 즉시 '3초 실행 명령' 전송</p>
+            
+            <div class="stat-row">
+                <span class="stat-label">우선순위 결정장애 (25분)</span>
+                <span class="stat-val">-25m</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--primary); margin: 12px 0 24px; font-weight: 700;">→ 해결: 3년 데이터 기반 '수익직결 과제' 강제 할당</p>
+            
+            <div class="stat-row" style="border:none;">
+                <span class="stat-label">인스타 도둑시간 (45분)</span>
+                <span class="stat-val">-45m</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--primary); margin: 12px 0 10px; font-weight: 700;">→ 해결: 딥워크 시간 내 SNS 자동 차단 프로토콜</p>
         </div>
 
-        <section class="hero reveal">
-            <span class="tag">FOR BIO-HACKERS</span>
-            <h1>
-                HRV 데이터가<br>
-                당신의 <span class="highlight">연봉을 결정합니다.</span>
-            </h1>
-            <p class="sub-text">
-                새벽 4시 반 기상은 노력의 영역이지만,<br>
-                <strong>성과는 '최적화'의 영역입니다.</strong>
+        <div class="story">
+            <p class="story-text">
+                새벽 4시 30분, 눈을 뜨자마자 슬랙 알림이 울립니다. "오늘 컨디션 최상입니다. 어제 미뤄둔 제안서 3페이지부터 끝내세요." 멍때릴 틈도 없이 책상 앞에 앉습니다. 90분 뒤, 남들이 이제 막 눈을 뜰 때 당신은 이미 하루치 성과를 달성했습니다. 자책 없는 아침, 연봉이 오르는 소리가 들리기 시작합니다.
             </p>
-        </section>
+        </div>
 
-        <div class="card reveal">
-            <div class="card-head">
-                <span>📉 LOSS ANALYSIS</span>
-                <span style="color:var(--alert);">CRITICAL</span>
+        <div class="trust">
+            <h3>"리뷰 대신 '데이터'로 증명합니다."</h3>
+            <p>상위 1%의 성공 패턴을 당신의 바이오 데이터에 이식합니다. 3년 치 HRV 최적화 알고리즘이 당신을 강제로 성취하게 만듭니다. 효과가 없다면 저희 시스템이 틀린 것이니 100% 환불해 드립니다.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-head"><span>❓ FREQUENTLY ASKED QUESTIONS</span></div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-q">Q. 기기가 없어도 이용 가능한가요? <span style="font-size:1.5rem">+</span></div>
+                <div class="faq-a">아니요. 정확한 생체 데이터 기반 최적화를 위해 웨어러블 기기(Oura, Watch 등) 연동이 필수입니다.</div>
             </div>
-            
-            <div class="stat-row">
-                <span class="stat-label">Daily Time Loss</span>
-                <span class="stat-val bad" data-val="-85" data-unit=" min">0</span>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-q">Q. 45만 원, 너무 비싼 것 같아요. <span style="font-size:1.5rem">+</span></div>
+                <div class="faq-a">매달 버려지는 160만 원의 기회비용을 월 45만 원으로 막는 가장 경제적인 최적화 투자입니다.</div>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Productivity Gap</span>
-                <span class="stat-val bad" data-val="27" data-unit="%">0</span>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-q">Q. 데이터 보안은 철저한가요? <span style="font-size:1.5rem">+</span></div>
+                <div class="faq-a">분석 즉시 모든 데이터는 비식별화 처리되며, 오직 당신의 생산성 향상 알고리즘 개선에만 쓰입니다.</div>
             </div>
-            <div class="stat-row" style="border-bottom:none; padding-bottom:0;">
-                <span class="stat-label">Monthly Waste</span>
-                <span class="stat-val bad" data-val="-1600000" data-unit="">0</span>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-q">Q. 어떤 분들이 신청하면 안 되나요? <span style="font-size:1.5rem">+</span></div>
+                <div class="faq-a">단순히 툴을 예쁘게 꾸미거나 이론만 공부하고 싶은 분들은 정중히 거절합니다. 우리는 오직 '실질적 성과'만 만듭니다.</div>
             </div>
         </div>
 
-        <div class="card reveal" style="border-color: rgba(40,107,255,0.3);">
-            <div class="card-head">
-                <span style="color:var(--primary);">⚡ OPTIMIZATION PROTOCOL</span>
-                <span>ACTIVE</span>
-            </div>
-            <div class="timeline">
-                <div class="step">
-                    <span class="step-time">04:30 AM</span>
-                    <h3>Bio-Data Sync</h3>
-                    <p>Oura Ring/Watch 데이터 분석. 뇌 가용량 계산.</p>
-                </div>
-                <div class="step">
-                    <span class="step-time">06:00 AM</span>
-                    <h3>Target Lock (3 Tasks)</h3>
-                    <p>3년 데이터 기반, 당장 돈 되는 3가지만 전송.</p>
-                </div>
-                <div class="step">
-                    <span class="step-time">07:00 AM</span>
-                    <h3>Deep Work Complete</h3>
-                    <p>고민 없이 실행 완료. 도파민/성취감 최적화.</p>
-                </div>
-            </div>
-        </div>
-
-        <section class="pricing reveal">
-            <div class="roi-tag">🚀 ROI +355% GUARANTEED</div>
-            <div class="price-box">
-                <span class="price-old">가치 160만</span>
-                <span class="price-now">월 45만</span>
-            </div>
-            
-            <button class="btn-main" onclick="alert('데이터 연동 데모 페이지로 이동')">
-                내 바이오 데이터 연동하기 →
+        <div class="cta-box">
+            <button class="cta-btn" onclick="alert('수익 최적화 진단 프로세스로 이동합니다.')">
+                👉 3분 안에 '수익 최적화' 진단하기
             </button>
-            
-            <div class="guarantee">
-                🛡️ 목표(실행률 85%) 미달성 시 <strong>100% 전액 환불</strong>
-            </div>
-        </section>
-
+            <div class="guarantee">목표 실행률 85% 미달성 시 <strong>100% 전액 환불 보장</strong></div>
+        </div>
     </div>
-
-    <script>
-        // 1. Mouse Follow Glow
-        const glow = document.getElementById('cursorGlow');
-        document.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
-
-        // 2. Canvas Particles (Neural Network Style)
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5;
-                this.speedX = Math.random() * 0.4 - 0.2;
-                this.speedY = Math.random() * 0.4 - 0.2;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                else if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                else if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(40, 107, 255, 0.5)';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-
-        function init() { for(let i=0; i<70; i++) particles.push(new Particle()); }
-        
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update(); p.draw();
-                // Connect Logic
-                particles.forEach(p2 => {
-                    let dx = p.x - p2.x; let dy = p.y - p2.y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(40, 107, 255, ${0.1 - dist/1200})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-                    }
-                });
-            });
-            requestAnimationFrame(animate);
-        }
-        init(); animate();
-
-        // 3. Number Counting Animation
-        function animateValue(obj, start, end, duration, unit) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                // Ease-out cubic
-                const ease = 1 - Math.pow(1 - progress, 3);
-                
-                const current = Math.floor(ease * (end - start) + start);
-                
-                // Format logic
-                let formatted = current.toLocaleString();
-                if (end < 0 && current > end) formatted = current.toLocaleString(); // handle negative growth
-                
-                obj.innerHTML = (end < 0 ? "" : "") + formatted + unit;
-
-                if (progress < 1) window.requestAnimationFrame(step);
-                else obj.innerHTML = (end < 0 ? "" : "") + end.toLocaleString() + unit;
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // 4. Scroll Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    
-                    // Trigger counters inside the card
-                    const counters = entry.target.querySelectorAll('.stat-val');
-                    counters.forEach(counter => {
-                        const target = parseInt(counter.getAttribute('data-val'));
-                        const unit = counter.getAttribute('data-unit');
-                        animateValue(counter, 0, target, 2000, unit);
-                    });
-                    
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.3 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
 </body>
 </html>
