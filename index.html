@@ -1,263 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURALIS : Own the Dawn, Seize the Day</title>
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        
-        :root {
-            /* [Visual Identity: Intellectual Sexiness] */
-            --primary: #2F65FF; /* Electric Blue: 지성, 데이터, 새벽 */
-            --bg: #08080A;      /* Matte Black: 무광 블랙 */
-            --surface: #121214; /* Deep Gray: 딥 그레이 */
-            --surface-light: #1E1E24;
-            --text-main: #FFFFFF;
-            --text-muted: #8B8B9E; /* 차분한 그레이 */
-            --danger: #FF3B30;  /* 경고는 확실하게 (Red) */
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Pretendard', -apple-system, sans-serif; 
-            background: var(--bg); color: var(--text-main); 
-            line-height: 1.6; overflow-x: hidden; word-break: keep-all; 
-        }
-
-        /* --- [배경 시스템: Minimal & Cold] --- */
-        .bg-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
-        
-        /* 그리드: 아주 얇고 희미하게 (분석적인 느낌) */
-        .hex-grid {
-            position: absolute; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(47, 101, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(47, 101, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            mask-image: radial-gradient(circle at 50% 30%, black, transparent 70%);
-        }
-
-        /* 오라(Orb): 컬러를 Blue 단일 톤으로 통일 (차가운 새벽 공기) */
-        .orb-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15; }
-        .orb1 { width: 500px; height: 500px; background: var(--primary); top: -200px; left: 50%; transform: translateX(-50%); }
-        .orb2 { width: 600px; height: 600px; background: #1a2a4f; bottom: -200px; right: -100px; }
-
-        /* --- [플로팅 타임: 미니멀한 UI] --- */
-        .time-display {
-            position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-            padding: 8px 20px; background: rgba(8,8,10,0.8); backdrop-filter: blur(10px);
-            border: 1px solid rgba(47, 101, 255, 0.2); border-radius: 4px; /* 둥근 거 말고 각지게 */
-            font-family: 'Courier New', monospace; font-weight: 700; color: var(--primary);
-            font-size: 0.9rem; letter-spacing: 2px; z-index: 999;
-        }
-
-        /* --- [레이아웃] --- */
-        .container { max-width: 520px; margin: 0 auto; padding: 0 24px 180px; position: relative; z-index: 1; }
-
-        /* --- [Hero 섹션: 타이포그래피 중심] --- */
-        .hero { padding: 140px 0 60px; text-align: left; }
-        .badge {
-            display: inline-block; color: var(--primary); font-weight: 700; font-size: 10px;
-            padding: 6px 0; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase;
-            border-bottom: 1px solid var(--primary); /* 미니멀한 라인 포인트 */
-        }
-        h1 { 
-            font-size: 2.8rem; font-weight: 800; line-height: 1.15; 
-            letter-spacing: -1.5px; margin-bottom: 24px; color: #fff;
-        }
-        .highlight { color: var(--primary); } /* 그라데이션 제거, 단색 블루로 깔끔하게 */
-        
-        .hero p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; font-weight: 400; }
-        .hero p strong { color: #fff; font-weight: 600; }
-
-        /* --- [Pain Box: 무광 블랙 & 레드 포인트] --- */
-        .pain-box {
-            background: var(--surface); border-left: 3px solid var(--danger);
-            padding: 32px 24px; text-align: center; margin: 40px 0; border-radius: 0 8px 8px 0;
-        }
-        .pain-num { font-size: 2.2rem; font-weight: 800; color: var(--danger); margin: 12px 0; letter-spacing: -1px; }
-        .pain-desc { font-size: 0.9rem; color: #bbb; font-weight: 500; }
-
-        /* --- [적합성 필터: Deep Gray 박스] --- */
-        .filter-section { margin: 70px 0; }
-        .check-list { 
-            background: var(--surface); padding: 30px; border-radius: 2px;
-            border: 1px solid #222;
-        }
-        .check-item { display: flex; gap: 14px; margin-bottom: 16px; font-size: 0.95rem; color: #ccc; align-items: flex-start; }
-        .check-item::before { content: "■"; color: var(--primary); font-size: 0.6rem; margin-top: 6px; } /* 체크 표시도 미니멀하게 */
-
-        /* [증거 시각화] */
-        .evidence-img {
-            width: 100%; height: 220px; background: #000; border: 1px solid #222;
-            margin-top: 24px; display: flex; align-items: center; justify-content: center;
-            color: #444; font-size: 0.8rem; letter-spacing: 1px;
-            /* 실제 구현 시엔 여기에 이미지가 들어갑니다 */
-        }
-
-        /* --- [Vision: 텍스트 중심] --- */
-        .vision-section { text-align: center; margin: 80px 0; padding: 40px 0; border-top: 1px solid #111; border-bottom: 1px solid #111; }
-        .vision-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; color: #fff; }
-        
-        /* --- [Pricing: 미니멀 리스트] --- */
-        .pricing { margin-top: 80px; }
-        .pricing-title { text-align: center; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; font-weight: 600; }
-        
-        .price-card {
-            background: var(--surface); padding: 32px; margin-bottom: 16px;
-            border: 1px solid #222; transition: 0.3s; position: relative;
-        }
-        
-        /* Featured Card: 일렉트릭 블루 글로우 */
-        .price-card.featured {
-            background: var(--surface-light);
-            border: 1px solid var(--primary); 
-            box-shadow: 0 0 30px rgba(47, 101, 255, 0.05); /* 은은한 블루 빛 */
-        }
-        
-        .tag {
-            position: absolute; top: 0; right: 0; background: var(--primary); color: #fff;
-            font-size: 10px; font-weight: 700; padding: 6px 14px; letter-spacing: 1px;
-        }
-        
-        .p-name { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;}
-        .featured .p-name { color: var(--primary); }
-        
-        .p-amount { font-size: 1.8rem; font-weight: 800; margin-bottom: 24px; color: #fff; letter-spacing: -0.5px; }
-        .p-list li { list-style: none; margin-bottom: 10px; font-size: 0.9rem; color: #bbb; display: flex; gap: 10px; align-items: center; }
-        .p-list li::before { content: "•"; color: #444; }
-        .featured .p-list li::before { content: "•"; color: var(--primary); }
-
-        /* --- [Urgency & CTA] --- */
-        .urgency-msg {
-            text-align: center; margin-top: 40px; 
-            color: var(--danger); font-weight: 700; font-size: 0.9rem;
-            background: rgba(255, 59, 48, 0.05); padding: 12px; display: inline-block;
-            border-radius: 4px; left: 50%; position: relative; transform: translateX(-50%);
-        }
-
-        .cta-sticky {
-            position: fixed; bottom: 0; left: 0; width: 100%; padding: 24px;
-            background: rgba(8, 8, 10, 0.95); backdrop-filter: blur(10px);
-            z-index: 1000; border-top: 1px solid #222;
-        }
-        .cta-btn {
-            display: block; width: 100%; max-width: 520px; margin: 0 auto;
-            background: var(--primary); /* Electric Blue 단색 */
-            color: #fff; font-weight: 700; text-align: center; padding: 20px;
-            border-radius: 2px; text-decoration: none; font-size: 1.1rem;
-            transition: 0.2s; letter-spacing: -0.5px;
-        }
-        .cta-btn:hover { background: #1a4cdb; }
-        .cta-btn:active { transform: translateY(2px); }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>430 Deal OS</title>
+  <meta name="description" content="뭐부터 해야 할지 몰라 0계약이 반복되는 Founder-sales를 위한 새벽 4:30 '3분 결정'. 72시간 Quick Win 3종 미제공 시 14일 100% 환불." />
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#11131a;
+      --text:#f7f7ff;
+      --muted:#b9bfd6;
+      --line:rgba(255,255,255,.14);
+      --accent:#7c5cff;
+      --good:#4ade80;
+      --bad:#fb7185;
+      --radius:18px;
+      --max:820px;
+      --shadow:0 12px 30px rgba(0,0,0,.38);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 20% 0%, rgba(124,92,255,.26), transparent 60%),
+        radial-gradient(900px 520px at 80% 20%, rgba(255,255,255,.07), transparent 60%),
+        var(--bg);
+      letter-spacing:-.2px;
+      line-height:1.35;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:20px 16px 42px}
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:10px 12px;
+      position:sticky; top:10px; backdrop-filter:blur(10px);
+      z-index:10;
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width:0}
+    .logo{
+      width:30px; height:30px; border-radius:10px;
+      background:linear-gradient(135deg, var(--accent), rgba(124,92,255,.25));
+      box-shadow:0 10px 24px rgba(124,92,255,.22);
+      flex:0 0 auto;
+    }
+    .brand b{font-size:13px}
+    .brand small{display:block; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+      transition:.15s transform ease, .15s background ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
+    .btn.primary{
+      background:linear-gradient(135deg, var(--accent), rgba(124,92,255,.65));
+      border-color:rgba(124,92,255,.65);
+    }
+    .btn.primary:hover{background:linear-gradient(135deg, rgba(124,92,255,1), rgba(124,92,255,.72))}
+    .hero{
+      margin-top:16px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .pills{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    h1{margin:8px 0 10px; font-size:34px; letter-spacing:-1px; line-height:1.08}
+    .line{margin:0}
+    .lead{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+      max-width:46ch;
+    }
+    .stack{margin-top:14px; display:grid; gap:8px}
+    .say{
+      font-size:18px;
+      font-weight:950;
+      letter-spacing:-.5px;
+    }
+    .say .accent{color:var(--text); background:rgba(124,92,255,.18); border:1px solid rgba(124,92,255,.35); padding:2px 8px; border-radius:999px}
+    .cta{margin-top:14px; display:grid; gap:10px}
+    .cta .btn{width:100%; padding:13px 14px; font-size:14px}
+    .micro{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+    }
+    .bar{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
+      border-top:1px solid var(--line);
+      padding-top:14px;
+    }
+    .miniCard{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.02);
+      border-radius:14px;
+      padding:12px;
+    }
+    .miniTitle{
+      display:flex; align-items:center; gap:8px;
+      font-size:13px; color:var(--muted); margin:0 0 6px;
+      font-weight:800;
+    }
+    .dot{width:9px; height:9px; border-radius:999px; background:var(--good)}
+    .dot.bad{background:var(--bad)}
+    .big{margin:0; font-size:18px; font-weight:950; letter-spacing:-.5px}
+    .small{margin:4px 0 0; font-size:12.5px; color:var(--muted)}
+    .faq{
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.02);
+      padding:12px;
+    }
+    details + details{margin-top:8px}
+    summary{cursor:pointer; font-weight:900; font-size:13.5px}
+    summary::-webkit-details-marker{display:none}
+    .ans{margin:8px 0 0; color:var(--muted); font-size:12.5px; line-height:1.45}
+    footer{margin-top:16px; color:var(--muted); font-size:11.5px}
+    @media (max-width:520px){
+      h1{font-size:30px}
+      .say{font-size:17px}
+    }
+  </style>
 </head>
+
 <body>
+  <div class="wrap">
 
-    <div class="bg-system">
-        <div class="hex-grid"></div>
-    </div>
-    <div class="orb-system">
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
-    </div>
-
-    <div class="time-display">04:30:00</div>
-
-    <div class="container">
-        <section class="hero">
-            <span class="badge">Auralis : Bio-Hacking OS</span>
-            <h1>Own the Dawn,<br><span class="highlight">Seize the Day.</span></h1>
-            <p>
-                새벽 4시 반, 눈은 떴는데<br>
-                왜 <strong>통장 잔고</strong>는 그대로일까요?<br><br>
-                의지는 믿지 마세요.<br>
-                저절로 돈을 벌게 하는 <strong>'시스템'</strong>만 믿으세요.
-            </p>
-        </section>
-
-        <div class="pain-box">
-            <p style="font-weight: 600; color: #888; margin-bottom: 8px;">당신이 고민하는 오늘도</p>
-            <div class="pain-num">-1,600,000원</div>
-            <div class="pain-desc">매달 길바닥에 <strong>버리고 있는 돈</strong></div>
+    <!-- TOP -->
+    <div class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div style="min-width:0">
+          <b>430 Deal OS</b>
+          <small>새벽 4:30 · 3분 결정</small>
         </div>
-
-        <div class="filter-section">
-            <h3 style="font-size: 1.3rem; margin-bottom: 24px; font-weight: 800; color: #fff; line-height: 1.3;">
-                스마트워치만 있다면<br>누구나 참여 가능합니다
-            </h3>
-            <div class="check-list">
-                <div class="check-item">애플워치 / 갤럭시워치 사용자 (환영)</div>
-                <div class="check-item">Oura 링 사용자 (강력 추천)</div>
-                <div class="check-item">기상 직후 데이터를 찍어서 보낼 분</div>
-            </div>
-
-            <div class="evidence-img">
-                [ 데이터 분석 그래프 / 인증샷 예시 ]
-            </div>
-            
-            <p style="text-align: center; font-size: 0.8rem; color: #666; margin-top: 16px; line-height: 1.5;">
-                *최소 3년, <strong>고객들의 실제 새벽 몸 상태 데이터</strong>가<br>
-                검증한 '성과 엔진'입니다.
-            </p>
-        </div>
-
-        <div class="vision-section">
-            <h2 class="vision-title">결제 이후의 장면</h2>
-            <p style="color: #ccc; font-size: 1.05rem;">
-                눈을 뜨면 오라리스가 <strong>'돈 되는 일'</strong>을 알려줍니다.<br>
-                90분 만에 하루치 성과를 다 내고,<br>
-                여유롭게 아침을 시작하세요.
-            </p>
-        </div>
-
-        <section class="pricing">
-            <div class="pricing-title">선택권은 당신에게 있습니다</div>
-            
-            <div class="price-card">
-                <div class="p-name">Starter Kit</div>
-                <div class="p-amount">49,000원</div>
-                <ul class="p-list">
-                    <li>브랜드 원칙집 (PDF)</li>
-                    <li>새벽 성공 체크리스트</li>
-                </ul>
-            </div>
-
-            <div class="price-card featured">
-                <span class="tag">BEST CHOICE</span>
-                <div class="p-name">Dawn 4:30 Protocol</div>
-                <div class="p-amount">450,000원</div>
-                <ul class="p-list">
-                    <li style="color:#fff"><strong>몸 상태 해독 & 통제 매뉴얼</strong></li>
-                    <li style="color:#fff"><strong>개인 데이터 분석 코칭</strong></li>
-                    <li>성과 없으면 100% 전액 환불</li>
-                </ul>
-            </div>
-
-            <div class="price-card">
-                <div class="p-name">VIP Consulting</div>
-                <div class="p-amount">1,500,000원</div>
-                <ul class="p-list">
-                    <li>1:1 초개인화 밀착 케어</li>
-                    <li>월 2명 한정 비밀 세션</li>
-                </ul>
-            </div>
-        </section>
-
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div class="urgency-msg">
-                ⚠️ 이번 달 남은 자리 : 2명 (마감 임박)
-            </div>
-        </div>
-
+      </div>
+      <a class="btn primary" href="#start">60초 진단</a>
     </div>
 
-    <div class="cta-sticky">
-        <a href="#" class="cta-btn">
-            지금 바로 하루 장악하기
+    <!-- HERO (1스크롤 중심) -->
+    <section class="hero" id="start">
+      <p class="pills">
+        <span class="pill">Founder-sales 전용</span>
+        <span class="pill">주당 8명 · 월요일 시작</span>
+        <span class="pill">72시간 보장</span>
+      </p>
+
+      <!-- 1) 고객 문제 1개 -->
+      <h1>
+        “뭐부터 해야 할지” 몰라서<br class="line" />
+        콜이 0계약으로 끝나나요?
+      </h1>
+
+      <!-- 2) 해결 방식 1문장 -->
+      <p class="lead">
+        매일 새벽 4:30,<br />
+        오늘 할 일 <b>하나</b>를 <b>3분</b> 안에 정해줍니다.
+      </p>
+
+      <!-- 브랜드 기준 1개 (짧게) -->
+      <div class="stack" aria-label="브랜드 기준">
+        <div class="say">결정은 <span class="accent">1개</span>만.</div>
+        <div class="say">나머지는 <span class="accent">지움</span>.</div>
+        <div class="micro">강제/통제 없음 · Proof는 텍스트 1줄</div>
+      </div>
+
+      <!-- CTA: 버튼 1개가 메인 -->
+      <div class="cta">
+        <!-- 실제 링크로 교체 -->
+        <a class="btn primary" href="https://example.com/diagnosis" target="_blank" rel="noopener">
+          60초 진단으로 내일 04:30 카드 받기
         </a>
-    </div>
+        <div class="micro">
+          ✅ 72시간 안 되면 14일 내 100% 환불<br />
+          ❗ 매출/계약 성사 보장은 아님 (산출물 제공 보장)
+        </div>
+      </div>
 
+      <!-- 3단 심리구간을 "짧게" (증거-적합성-타이밍) -->
+      <div class="bar">
+
+        <!-- 증거 -->
+        <div class="miniCard">
+          <p class="miniTitle"><span class="dot"></span>증거</p>
+          <p class="big">3일 안에 “끝낸 기록”이 남습니다</p>
+          <p class="small">Day1 제안서 1개 · Day2 DM 1개 전송 · Day3 착수 계약 패키지 1건</p>
+        </div>
+
+        <!-- 적합성 -->
+        <div class="miniCard">
+          <p class="miniTitle"><span class="dot"></span>적합성</p>
+          <p class="big">이런 분에게만 맞아요</p>
+          <p class="small">낮엔 일정 깨지고, 새벽이 고정 시간인 초기 B2B SaaS Founder-sales</p>
+        </div>
+
+        <!-- 타이밍 -->
+        <div class="miniCard">
+          <p class="miniTitle"><span class="dot bad"></span>지금</p>
+          <p class="big">미루면, 다음 월요일까지 또 미룹니다</p>
+          <p class="small">주당 8명만 승인 · 정원 초과 시 다음 주로 이월</p>
+        </div>
+
+      </div>
+
+      <!-- FAQ (아주 짧게) -->
+      <div class="faq" aria-label="FAQ">
+        <details>
+          <summary>환불 기준이 뭐예요?</summary>
+          <p class="ans">승인 시점(매일 10:00 KST)부터 72시간 안에 Quick Win 3종을 제공하지 못하면, 14일 내 100% 환불합니다.</p>
+        </details>
+        <details>
+          <summary>강제/통제 있어요?</summary>
+          <p class="ans">없습니다. “오늘 할 일 하나”를 3분 안에 정해주는 방식입니다.</p>
+        </details>
+        <details>
+          <summary>결제는 어떻게 해요?</summary>
+          <p class="ans">연 선불 · 계좌이체만. 입금 캡처는 이름 모자이크 OK, 확인 후 즉시 파기합니다.</p>
+        </details>
+      </div>
+
+      <footer>
+        - 본 서비스는 매출/계약 성사를 보장하지 않습니다. 보장은 “72시간 Quick Win 3종 제공 여부”입니다.<br />
+        - 링크(진단)는 예시입니다. 실제 폼 주소로 교체하세요.
+      </footer>
+    </section>
+
+  </div>
 </body>
 </html>
