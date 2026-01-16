@@ -1,243 +1,635 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>430 Deal OS</title>
-  <meta name="description" content="뭐부터 해야 할지 몰라 0계약이 반복되는 Founder-sales를 위한 새벽 4:30 '3분 결정'. 72시간 Quick Win 3종 미제공 시 14일 100% 환불." />
-  <style>
-    :root{
-      --bg:#0b0c10;
-      --card:#11131a;
-      --text:#f7f7ff;
-      --muted:#b9bfd6;
-      --line:rgba(255,255,255,.14);
-      --accent:#7c5cff;
-      --good:#4ade80;
-      --bad:#fb7185;
-      --radius:18px;
-      --max:820px;
-      --shadow:0 12px 30px rgba(0,0,0,.38);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 520px at 20% 0%, rgba(124,92,255,.26), transparent 60%),
-        radial-gradient(900px 520px at 80% 20%, rgba(255,255,255,.07), transparent 60%),
-        var(--bg);
-      letter-spacing:-.2px;
-      line-height:1.35;
-    }
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:20px 16px 42px}
-    .top{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      border-radius:999px;
-      padding:10px 12px;
-      position:sticky; top:10px; backdrop-filter:blur(10px);
-      z-index:10;
-    }
-    .brand{display:flex; align-items:center; gap:10px; min-width:0}
-    .logo{
-      width:30px; height:30px; border-radius:10px;
-      background:linear-gradient(135deg, var(--accent), rgba(124,92,255,.25));
-      box-shadow:0 10px 24px rgba(124,92,255,.22);
-      flex:0 0 auto;
-    }
-    .brand b{font-size:13px}
-    .brand small{display:block; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      text-decoration:none;
-      font-weight:900;
-      font-size:13px;
-      transition:.15s transform ease, .15s background ease;
-      white-space:nowrap;
-    }
-    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
-    .btn.primary{
-      background:linear-gradient(135deg, var(--accent), rgba(124,92,255,.65));
-      border-color:rgba(124,92,255,.65);
-    }
-    .btn.primary:hover{background:linear-gradient(135deg, rgba(124,92,255,1), rgba(124,92,255,.72))}
-    .hero{
-      margin-top:16px;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-    .pills{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px}
-    .pill{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color:var(--muted);
-    }
-    h1{margin:8px 0 10px; font-size:34px; letter-spacing:-1px; line-height:1.08}
-    .line{margin:0}
-    .lead{
-      margin:0;
-      color:var(--muted);
-      font-size:16px;
-      max-width:46ch;
-    }
-    .stack{margin-top:14px; display:grid; gap:8px}
-    .say{
-      font-size:18px;
-      font-weight:950;
-      letter-spacing:-.5px;
-    }
-    .say .accent{color:var(--text); background:rgba(124,92,255,.18); border:1px solid rgba(124,92,255,.35); padding:2px 8px; border-radius:999px}
-    .cta{margin-top:14px; display:grid; gap:10px}
-    .cta .btn{width:100%; padding:13px 14px; font-size:14px}
-    .micro{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:12.5px;
-    }
-    .bar{
-      margin-top:14px;
-      display:grid;
-      gap:10px;
-      border-top:1px solid var(--line);
-      padding-top:14px;
-    }
-    .miniCard{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.02);
-      border-radius:14px;
-      padding:12px;
-    }
-    .miniTitle{
-      display:flex; align-items:center; gap:8px;
-      font-size:13px; color:var(--muted); margin:0 0 6px;
-      font-weight:800;
-    }
-    .dot{width:9px; height:9px; border-radius:999px; background:var(--good)}
-    .dot.bad{background:var(--bad)}
-    .big{margin:0; font-size:18px; font-weight:950; letter-spacing:-.5px}
-    .small{margin:4px 0 0; font-size:12.5px; color:var(--muted)}
-    .faq{
-      margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:rgba(255,255,255,.02);
-      padding:12px;
-    }
-    details + details{margin-top:8px}
-    summary{cursor:pointer; font-weight:900; font-size:13.5px}
-    summary::-webkit-details-marker{display:none}
-    .ans{margin:8px 0 0; color:var(--muted); font-size:12.5px; line-height:1.45}
-    footer{margin-top:16px; color:var(--muted); font-size:11.5px}
-    @media (max-width:520px){
-      h1{font-size:30px}
-      .say{font-size:17px}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURALIS - Decision Lock Architecture</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --bg-deep: #050810;
+            --bg-navy: #0B1020;
+            --teal: #00C2B2;
+            --teal-dim: rgba(0, 194, 178, 0.15);
+            --mist: #F2F4F7;
+            --slate: #949EB3;
+            --glass-surface: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --accent-warn: #FFB020;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--mist);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 1. Background Architecture (Blueprint Grid & Aurora) --- */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Blueprint Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--glass-border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.07;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Moving Aurora Blobs */
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .blob-1 { width: 600px; height: 600px; background: var(--teal); top: -20%; left: -10%; }
+        .blob-2 { width: 500px; height: 500px; background: #1a2c55; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .blob-3 { width: 300px; height: 300px; background: rgba(0, 194, 178, 0.2); top: 40%; left: 30%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* --- 2. Typography & Utilities --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .text-teal { color: var(--teal); }
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, var(--slate) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .font-bold { font-weight: 700; }
+        .text-center { text-align: center; }
+        
+        /* --- 3. Premium Glass Component --- */
+        .glass-panel {
+            background: var(--glass-surface);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight); /* Top highlight for 3D feel */
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 194, 178, 0.1);
+            border-color: rgba(0, 194, 178, 0.3);
+        }
+
+        /* --- 4. Buttons (Glow Effect) --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: var(--bg-navy);
+            border: 1px solid var(--teal);
+            box-shadow: 0 0 20px rgba(0, 194, 178, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 194, 178, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--mist);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--teal);
+            background: rgba(0, 194, 178, 0.05);
+        }
+
+        /* --- 5. Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            background: rgba(5, 8, 16, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 18px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo::before {
+            content: '';
+            display: block;
+            width: 4px; height: 20px;
+            background: var(--teal);
+            border-radius: 2px;
+        }
+
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-item { color: var(--slate); text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
+        .nav-item:hover { color: var(--teal); }
+
+        /* Mobile Menu */
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+            background: var(--bg-navy); border-left: 1px solid var(--glass-border);
+            padding: 80px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; gap: 24px; z-index: 999;
+        }
+        .mobile-nav.active { right: 0; }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 998; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .overlay.active { opacity: 1; pointer-events: all; }
+
+        /* --- 6. Hero Section --- */
+        .hero {
+            padding: 220px 0 160px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 32px;
+            letter-spacing: -0.03em;
+        }
+
+        .typewriter {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--teal), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-right: 3px solid var(--teal);
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--slate);
+            max-width: 640px;
+            margin: 0 auto 50px;
+        }
+
+        .hero-tags {
+            display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;
+        }
+
+        .hero-tag {
+            padding: 8px 16px; border-radius: 100px; font-size: 0.9rem;
+            background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,194,178,0.2);
+            animation: floatBadge 3s infinite ease-in-out;
+        }
+        .hero-tag:nth-child(2) { animation-delay: 1s; }
+        .hero-tag:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* --- 7. Sections (Scroll Reveal) --- */
+        section { padding: 120px 0; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-title { font-size: 2.5rem; margin-bottom: 16px; }
+        
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Problem Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .problem-card { padding: 40px; height: 100%; display: flex; flex-direction: column; }
+        .problem-card h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; color: #fff; }
+        .problem-dot { width: 8px; height: 8px; background: var(--accent-warn); border-radius: 50%; box-shadow: 0 0 10px var(--accent-warn); }
+        .solution-box {
+            margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);
+            color: var(--teal); font-weight: 600; font-size: 0.95rem;
+        }
+
+        /* Value Prop (Central Message) */
+        .value-prop {
+            background: linear-gradient(180deg, rgba(0,194,178,0.05) 0%, transparent 100%);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Process (Timeline) */
+        .timeline-wrap { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline-line {
+            position: absolute; left: 24px; top: 0; bottom: 0; width: 2px;
+            background: var(--glass-border);
+        }
+        .timeline-progress {
+            position: absolute; left: 24px; top: 0; width: 2px; height: 0%;
+            background: var(--teal); transition: height 0.5s;
+            box-shadow: 0 0 10px var(--teal);
+        }
+        
+        .timeline-item { display: flex; gap: 40px; margin-bottom: 60px; position: relative; }
+        .timeline-marker {
+            width: 50px; height: 50px; border-radius: 50%; background: var(--bg-navy);
+            border: 2px solid var(--glass-border); color: var(--slate);
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+            z-index: 2; transition: 0.3s; flex-shrink: 0;
+        }
+        .timeline-item.active .timeline-marker {
+            border-color: var(--teal); color: var(--teal); box-shadow: 0 0 20px rgba(0,194,178,0.3);
+        }
+        .timeline-content { flex: 1; }
+
+        /* Pricing (Hero Card) */
+        .pricing-wrapper { max-width: 500px; margin: 0 auto; position: relative; }
+        .pricing-glow {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 120%; height: 120%; background: radial-gradient(circle, rgba(0,194,178,0.2) 0%, transparent 70%);
+            z-index: -1; pointer-events: none;
+        }
+        .price-original { text-decoration: line-through; color: var(--slate); font-size: 1.1rem; }
+        .price-final { font-size: 3.5rem; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0 30px; }
+        .feature-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
+        .check-icon { color: var(--teal); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--glass-border); }
+        .faq-q {
+            padding: 24px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-weight: 600; font-size: 1.1rem; transition: color 0.3s;
+        }
+        .faq-q:hover { color: var(--teal); }
+        .faq-a { max-height: 0; overflow: hidden; transition: 0.4s ease; color: var(--slate); padding-right: 40px; }
+        .faq-a.open { padding-bottom: 24px; max-height: 200px; }
+        .toggle-icon { transition: 0.3s; }
+        .faq-q.active .toggle-icon { transform: rotate(45deg); color: var(--teal); }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--glass-border); padding: 80px 0 40px; font-size: 0.9rem; color: var(--slate); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding-top: 160px; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .timeline-item { gap: 20px; }
+            .timeline-marker { width: 40px; height: 40px; font-size: 0.9rem; }
+            .timeline-line, .timeline-progress { left: 19px; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="wrap">
 
-    <!-- TOP -->
-    <div class="top">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div style="min-width:0">
-          <b>430 Deal OS</b>
-          <small>새벽 4:30 · 3분 결정</small>
-        </div>
-      </div>
-      <a class="btn primary" href="#start">60초 진단</a>
+    <div class="bg-layer">
+        <div class="grid-pattern"></div>
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
     </div>
 
-    <!-- HERO (1스크롤 중심) -->
-    <section class="hero" id="start">
-      <p class="pills">
-        <span class="pill">Founder-sales 전용</span>
-        <span class="pill">주당 8명 · 월요일 시작</span>
-        <span class="pill">72시간 보장</span>
-      </p>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo">AURALIS</a>
+            
+            <div class="nav-links">
+                <a href="#problem" class="nav-item">Problem</a>
+                <a href="#process" class="nav-item">Process</a>
+                <a href="#pricing" class="nav-item">Pricing</a>
+                <a href="#faq" class="nav-item">FAQ</a>
+                <a href="#pricing" class="btn btn-primary" style="padding: 10px 20px; font-size:0.9rem;">무료 10분 Audit</a>
+            </div>
 
-      <!-- 1) 고객 문제 1개 -->
-      <h1>
-        “뭐부터 해야 할지” 몰라서<br class="line" />
-        콜이 0계약으로 끝나나요?
-      </h1>
-
-      <!-- 2) 해결 방식 1문장 -->
-      <p class="lead">
-        매일 새벽 4:30,<br />
-        오늘 할 일 <b>하나</b>를 <b>3분</b> 안에 정해줍니다.
-      </p>
-
-      <!-- 브랜드 기준 1개 (짧게) -->
-      <div class="stack" aria-label="브랜드 기준">
-        <div class="say">결정은 <span class="accent">1개</span>만.</div>
-        <div class="say">나머지는 <span class="accent">지움</span>.</div>
-        <div class="micro">강제/통제 없음 · Proof는 텍스트 1줄</div>
-      </div>
-
-      <!-- CTA: 버튼 1개가 메인 -->
-      <div class="cta">
-        <!-- 실제 링크로 교체 -->
-        <a class="btn primary" href="https://example.com/diagnosis" target="_blank" rel="noopener">
-          60초 진단으로 내일 04:30 카드 받기
-        </a>
-        <div class="micro">
-          ✅ 72시간 안 되면 14일 내 100% 환불<br />
-          ❗ 매출/계약 성사 보장은 아님 (산출물 제공 보장)
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
         </div>
-      </div>
+    </nav>
 
-      <!-- 3단 심리구간을 "짧게" (증거-적합성-타이밍) -->
-      <div class="bar">
+    <div class="overlay" onclick="toggleMenu()"></div>
+    <div class="mobile-nav">
+        <a href="#problem" class="nav-item" onclick="toggleMenu()">Problem</a>
+        <a href="#process" class="nav-item" onclick="toggleMenu()">Process</a>
+        <a href="#pricing" class="nav-item" onclick="toggleMenu()">Pricing</a>
+        <a href="#faq" class="nav-item" onclick="toggleMenu()">FAQ</a>
+    </div>
 
-        <!-- 증거 -->
-        <div class="miniCard">
-          <p class="miniTitle"><span class="dot"></span>증거</p>
-          <p class="big">3일 안에 “끝낸 기록”이 남습니다</p>
-          <p class="small">Day1 제안서 1개 · Day2 DM 1개 전송 · Day3 착수 계약 패키지 1건</p>
+    <header class="hero container">
+        <div class="reveal">
+            <h1>오늘, 회사에서<br>
+                <span class="text-gradient">실수하면 끝나는 </span><br>
+                <span class="typewriter">결정을 잠급니다.</span>
+            </h1>
+            <p>AURALIS LOCKIN은 대표의 Notion/Slack 흐름을 정리해<br>
+               결정 실패 확률을 매일 낮추는 <strong>CEO Decision OS</strong>입니다.</p>
+            
+            <div class="hero-tags">
+                <span class="hero-tag">✓ 매일 아침 결정 3개 고정</span>
+                <span class="hero-tag">✓ 30초 상태 체크</span>
+                <span class="hero-tag">✓ 병목 시각화 리포트</span>
+            </div>
+
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="#pricing" class="btn btn-primary">오늘 결정 1개 잠그기 (무료)</a>
+                <a href="#pricing" class="btn btn-outline">LOCKIN 30일 프로그램 보기</a>
+            </div>
+
+            <div style="margin-top: 32px; font-size: 0.9rem; color: var(--slate); opacity: 0.8;">
+                <span class="text-teal" style="font-weight: 600;">🛡️ 결정 흔적 보장:</span> 30일 내 로그 20개 미달성 시 전액 환불
+            </div>
         </div>
+    </header>
 
-        <!-- 적합성 -->
-        <div class="miniCard">
-          <p class="miniTitle"><span class="dot"></span>적합성</p>
-          <p class="big">이런 분에게만 맞아요</p>
-          <p class="small">낮엔 일정 깨지고, 새벽이 고정 시간인 초기 B2B SaaS Founder-sales</p>
+    <section id="problem" class="container reveal">
+        <div class="section-header">
+            <h2 class="section-title">PROBLEM</h2>
+            <p class="text-slate">대표의 결정이 흔들리면 회사는 멈춥니다.</p>
         </div>
-
-        <!-- 타이밍 -->
-        <div class="miniCard">
-          <p class="miniTitle"><span class="dot bad"></span>지금</p>
-          <p class="big">미루면, 다음 월요일까지 또 미룹니다</p>
-          <p class="small">주당 8명만 승인 · 정원 초과 시 다음 주로 이월</p>
+        <div class="grid-3">
+            <div class="glass-panel problem-card">
+                <h3><span class="problem-dot"></span> 마감 압박</h3>
+                <p style="color: var(--slate);">중요한 결정을 미루다가 결국 마감에 떠밀려 급하게 처리합니다.</p>
+                <div class="solution-box">→ 매일 아침 '오늘 잠글 3개' 고정</div>
+            </div>
+            <div class="glass-panel problem-card">
+                <h3><span class="problem-dot"></span> 결정 누수</h3>
+                <p style="color: var(--slate);">회의, 슬랙, 업무가 쏟아져서 결정이 밖으로 새고 팀 방향이 흔들립니다.</p>
+                <div class="solution-box">→ 흩어지기 전에 Decision Log '잠금'</div>
+            </div>
+            <div class="glass-panel problem-card">
+                <h3><span class="problem-dot"></span> 후회와 번복</h3>
+                <p style="color: var(--slate);">피곤한 상태에서 감으로 결정하고 나중에 "아차"하며 후회합니다.</p>
+                <div class="solution-box">→ 근거/리스크 3줄 압축으로 실수 방지</div>
+            </div>
         </div>
+    </section>
 
-      </div>
+    <section class="value-prop">
+        <div class="container text-center reveal">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2 style="font-size: 2rem; margin-bottom: 24px; color: var(--teal);">LOCKIN Method</h2>
+                <p style="font-size: 1.3rem; line-height: 1.8; color: #fff;">
+                    "우리는 더 많은 일을 시키지 않습니다.<br>
+                    대표의 결정이 밖으로 새지 않게<br> 
+                    <strong>'잠그는 구조(Architecture)'</strong>를 설치합니다."
+                </p>
+            </div>
+        </div>
+    </section>
 
-      <!-- FAQ (아주 짧게) -->
-      <div class="faq" aria-label="FAQ">
-        <details>
-          <summary>환불 기준이 뭐예요?</summary>
-          <p class="ans">승인 시점(매일 10:00 KST)부터 72시간 안에 Quick Win 3종을 제공하지 못하면, 14일 내 100% 환불합니다.</p>
-        </details>
-        <details>
-          <summary>강제/통제 있어요?</summary>
-          <p class="ans">없습니다. “오늘 할 일 하나”를 3분 안에 정해주는 방식입니다.</p>
+    <section id="process" class="container reveal">
+        <div class="section-header">
+            <h2 class="section-title">How It Works</h2>
+            <p class="text-slate">복잡한 도구는 쓰지 않습니다. Notion과 Slack을 재정렬합니다.</p>
+        </div>
+        
+        <div class="timeline-wrap">
+            <div class="timeline-line"></div>
+            <div class="timeline-progress" id="progress-bar"></div>
+
+            <div class="timeline-item reveal-step">
+                <div class="timeline-marker">01</div>
+                <div class="glass-panel timeline-content" style="padding: 30px;">
+                    <h4 class="font-bold text-teal mb-2">CEO Decision Audit (10분)</h4>
+                    <p class="text-slate">당신의 결정 병목 유형을 확인하고 진단합니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal-step">
+                <div class="timeline-marker">02</div>
+                <div class="glass-panel timeline-content" style="padding: 30px;">
+                    <h4 class="font-bold text-white mb-2">매일 06:00 (Morning)</h4>
+                    <p class="text-slate">"오늘 잠가야 할 결정 3가지 + 근거"가 Slack으로 도착합니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal-step">
+                <div class="timeline-marker">03</div>
+                <div class="glass-panel timeline-content" style="padding: 30px;">
+                    <h4 class="font-bold text-white mb-2">매일 17:30 (Evening)</h4>
+                    <p class="text-slate">완료/진행/미완 상태만 30초 만에 체크하고 퇴근합니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal-step">
+                <div class="timeline-marker">04</div>
+                <div class="glass-panel timeline-content" style="padding: 30px;">
+                    <h4 class="font-bold text-white mb-2">매주 금요일 (Report)</h4>
+                    <p class="text-slate">이번 주 병목 원인과 다음 주 결정 테마가 담긴 리포트를 받습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="container reveal">
+        <div class="section-header">
+            <h2 class="section-title">Pricing</h2>
+        </div>
+        
+        <div class="pricing-wrapper">
+            <div class="pricing-glow"></div>
+            <div class="glass-panel" style="padding: 60px 40px; text-align: center; border-color: var(--teal);">
+                <div style="display:inline-block; background:rgba(0,194,178,0.1); color:var(--teal); padding:6px 12px; border-radius:4px; font-weight:bold; font-size:0.9rem; margin-bottom:20px;">
+                    LOCKIN 30일 프로그램
+                </div>
+                <p class="text-slate" style="margin-bottom: 20px;">대표님의 결정 실수 1번이 만드는<br>손실 비용보다 저렴합니다.</p>
+                
+                <div class="price-original">정가 600,000원</div>
+                <div class="price-final">490,000원</div>
+                
+                <div style="text-align: left; margin: 0 auto 40px; max-width: 320px;">
+                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">세팅 + 30일 운영 전담</span></div>
+                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">매일 아침 Decision Brief</span></div>
+                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">주간 CEO 리포트 4회</span></div>
+                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-teal font-bold">Decision Log 활성화 보장</span></div>
+                    <div class="feature-item" style="opacity:0.7; font-size:0.9rem; margin-top:10px;">
+                        ⚠️ 선착순 20명 마감 시 가격 인상
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-primary" style="width: 100%;">베타 런칭가로 시작하기</a>
+                <div style="margin-top: 20px;">
+                    <a href="#" style="color: var(--slate); font-size: 0.9rem; text-decoration: underline;">먼저 무료 10분 Audit 받기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="container reveal" style="max-width: 800px;">
+        <h2 class="section-title text-center">FAQ</h2>
+        <div class="glass-panel" style="padding: 10px 30px;">
+            <div class="faq-item">
+                <div class="faq-q">AI가 우선순위를 결정해 주나요? <span class="toggle-icon">+</span></div>
+                <div class="faq-a">아니요. AI는 정보를 정리만 합니다. 최종 결정은 대표님이 하십니다. 우리는 결정에 필요한 근거를 요약해 드릴 뿐입니다.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">하루에 시간을 얼마나 쓰나요? <span class="toggle-icon">+</span></div>
+                <div class="faq-a">평균 3분(아침 확인) + 30초(저녁 체크) 수준입니다. 더 많은 시간을 쓰게 하는 툴은 실패한 툴입니다.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Notion/Slack을 잘 못 써도 되나요? <span class="toggle-icon">+</span></div>
+                <div class="faq-a">네, 최소한의 구조만 사용합니다. 복잡한 세팅 없이 결정 로그용으로 단순화된 템플릿을 저희가 설치해 드립니다.</div>
+            </div>
+             <div class="faq-item">
+                <div class="faq-q" style="border:none;">30일 이후에는 어떻게 되나요? <span class="toggle-icon">+</span></div>
+                <div class="faq-a">30일 동안 작동 여부를 확인하는 것이 먼저입니다. 유지보수가 필요한 경우에만 추가 옵션을 안내드립니다.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center">
+        <div class="container">
+            <div class="logo" style="justify-content: center; margin-bottom: 20px; color: var(--slate);">AURALIS</div>
+            <p style="margin-bottom: 10px;">본 서비스는 생산성/매출을 보장하지 않으며,<br>의사결정 기록 및 운영 보조 시스템을 제공합니다.</p>
+            <p style="font-size: 0.8rem; opacity: 0.6;">Copyright © 2026 AURALIS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const timelineItems = document.querySelectorAll('.reveal-step');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => scrollObserver.observe(el));
+        timelineItems.forEach(el => scrollObserver.observe(el));
+
+        // 2. Timeline Progress Bar
+        window.addEventListener('scroll', () => {
+            const processSection = document.getElementById('process');
+            const progressBar = document.getElementById('progress-bar');
+            const items = document.querySelectorAll('.timeline-item');
+            
+            const rect = processSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                // Calculate percentage
+                let percentage = (windowHeight - rect.top) / (windowHeight + rect.height) * 100;
+                percentage = Math.min(Math.max(percentage, 0), 100); // Clamp 0-100
+                progressBar.style.height = `${percentage}%`;
+
+                // Highlight Active Steps
+                items.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    if (itemTop < windowHeight * 0.7) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+        // 3. FAQ Toggle
+        document.querySelectorAll('.faq-q').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                question.classList.toggle('active');
+                
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                    answer.classList.remove('open');
+                } else {
+                    document.querySelectorAll('.faq-a').forEach(el => {
+                        el.style.maxHeight = null;
+                        el.classList.remove('open');
+                        el.previousElementSibling.classList.remove('active');
+                    });
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                    answer.classList.add('open');
+                    question.classList.add('active');
+                }
+            });
+        });
+
+        // 4. Mobile Menu
+        function toggleMenu() {
+            document.querySelector('.mobile-nav').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
         </details>
         <details>
           <summary>결제는 어떻게 해요?</summary>
