@@ -3,646 +3,1336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURALIS - Decision Lock Architecture</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <title>AURALIS - CEO Decision OS</title>
     <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
         :root {
-            --bg-deep: #050810;
-            --bg-navy: #0B1020;
+            --navy: #0B1020;
+            --navy-light: #151D30;
             --teal: #00C2B2;
-            --teal-dim: rgba(0, 194, 178, 0.15);
             --mist: #F2F4F7;
             --slate: #949EB3;
-            --glass-surface: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.15);
             --accent-warn: #FFB020;
+            --border: #2A344A;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Pretendard', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-deep);
+            font-family: 'Pretendard', -apple-system, system-ui, sans-serif;
+            background: var(--navy);
             color: var(--mist);
+            line-height: 1.6;
+            word-break: keep-all;
             overflow-x: hidden;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 1. Background Architecture (Blueprint Grid & Aurora) --- */
-        .bg-layer {
+        /* Advanced Background System */
+        .bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
         }
 
-        /* Blueprint Grid Pattern */
-        .grid-pattern {
-            position: absolute;
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 194, 178, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 176, 32, 0.1), transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(21, 29, 48, 0.8), transparent);
+            z-index: 0;
+            animation: gradientShift 20s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.8; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(var(--glass-border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.07;
-            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+                linear-gradient(rgba(0, 194, 178, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 194, 178, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            z-index: 0;
+            animation: gridMove 40s linear infinite;
         }
 
-        /* Moving Aurora Blobs */
-        .aurora-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
-            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(80px, 80px); }
         }
 
-        .blob-1 { width: 600px; height: 600px; background: var(--teal); top: -20%; left: -10%; }
-        .blob-2 { width: 500px; height: 500px; background: #1a2c55; bottom: -10%; right: -10%; animation-delay: -5s; }
-        .blob-3 { width: 300px; height: 300px; background: rgba(0, 194, 178, 0.2); top: 40%; left: 30%; animation-duration: 30s; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, -30px) scale(1.1); }
-        }
-
-        /* --- 2. Typography & Utilities --- */
+        /* Container */
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 24px;
+            position: relative;
+            z-index: 1;
         }
 
-        .text-teal { color: var(--teal); }
-        .text-gradient {
-            background: linear-gradient(135deg, #fff 0%, var(--slate) 100%);
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 16, 32, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(11, 16, 32, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.6rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--mist), var(--teal));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .font-bold { font-weight: 700; }
-        .text-center { text-align: center; }
-        
-        /* --- 3. Premium Glass Component --- */
-        .glass-panel {
-            background: var(--glass-surface);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-highlight); /* Top highlight for 3D feel */
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
+            position: relative;
         }
 
-        .glass-panel:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 60px rgba(0, 194, 178, 0.1);
-            border-color: rgba(0, 194, 178, 0.3);
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--teal);
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--teal);
         }
 
-        /* --- 4. Buttons (Glow Effect) --- */
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover {
+            color: var(--teal);
+            background: rgba(0, 194, 178, 0.1);
+        }
+
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 16px 32px;
             border-radius: 12px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
-            background: var(--teal);
-            color: var(--bg-navy);
-            border: 1px solid var(--teal);
-            box-shadow: 0 0 20px rgba(0, 194, 178, 0.3);
+            background: linear-gradient(135deg, var(--teal), #009688);
+            color: var(--navy);
+            box-shadow: 0 10px 40px rgba(0, 194, 178, 0.4);
         }
 
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-primary:hover::before { left: 100%; }
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(0, 194, 178, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0, 194, 178, 0.6);
         }
 
-        .btn-outline {
+        .btn-secondary {
             background: transparent;
-            border: 1px solid var(--glass-border);
             color: var(--mist);
+            border: 2px solid var(--slate);
         }
 
-        .btn-outline:hover {
+        .btn-secondary:hover {
             border-color: var(--teal);
-            background: rgba(0, 194, 178, 0.05);
+            background: rgba(0, 194, 178, 0.1);
         }
 
-        /* --- 5. Navigation --- */
-        nav {
-            position: fixed;
-            top: 0; width: 100%; z-index: 1000;
-            background: rgba(5, 8, 16, 0.7);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 18px 0;
-            transition: all 0.3s;
-        }
-
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo::before {
-            content: '';
-            display: block;
-            width: 4px; height: 20px;
-            background: var(--teal);
-            border-radius: 2px;
-        }
-
-        .nav-links { display: flex; gap: 24px; align-items: center; }
-        .nav-item { color: var(--slate); text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
-        .nav-item:hover { color: var(--teal); }
-
-        /* Mobile Menu */
-        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .mobile-nav {
-            position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
-            background: var(--bg-navy); border-left: 1px solid var(--glass-border);
-            padding: 80px 30px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; gap: 24px; z-index: 999;
-        }
-        .mobile-nav.active { right: 0; }
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 998; opacity: 0; pointer-events: none; transition: 0.3s;
-        }
-        .overlay.active { opacity: 1; pointer-events: all; }
-
-        /* --- 6. Hero Section --- */
+        /* Hero Section */
         .hero {
-            padding: 220px 0 160px;
+            padding: 200px 0 140px;
             text-align: center;
             position: relative;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            line-height: 1.1;
+            font-size: clamp(2.5rem, 7vw, 4.2rem);
+            line-height: 1.15;
             margin-bottom: 32px;
-            letter-spacing: -0.03em;
+            letter-spacing: -2px;
+            font-weight: 900;
+            animation: titleReveal 1s ease-out;
         }
 
-        .typewriter {
+        @keyframes titleReveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .text-teal {
+            color: var(--teal);
+            text-shadow: 0 0 30px rgba(0, 194, 178, 0.5);
+        }
+
+        .subhead {
+            font-size: 1.3rem;
+            color: var(--slate);
+            max-width: 760px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+            animation: subtitleReveal 1s ease-out 0.2s both;
+        }
+
+        @keyframes subtitleReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            animation: benefitsReveal 1s ease-out 0.4s both;
+        }
+
+        @keyframes benefitsReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .benefit-tag {
+            background: rgba(21, 29, 48, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 12px 24px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            color: var(--teal);
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 194, 178, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .benefit-tag:hover::before {
+            left: 100%;
+        }
+
+        .benefit-tag:hover {
+            border-color: var(--teal);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 194, 178, 0.3);
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            animation: ctaReveal 1s ease-out 0.6s both;
+        }
+
+        @keyframes ctaReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .trust-text {
+            font-size: 0.95rem;
+            color: var(--slate);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
             display: inline-block;
-            background: linear-gradient(90deg, var(--teal), #fff);
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            animation: trustReveal 1s ease-out 0.8s both;
+        }
+
+        @keyframes trustReveal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--teal);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 60px;
+            line-height: 1.3;
+            letter-spacing: -1px;
+            font-weight: 900;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Problem Cards */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .problem-card {
+            background: rgba(21, 29, 48, 0.6);
+            backdrop-filter: blur(25px);
+            padding: 36px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                rgba(0, 194, 178, 0.1),
+                transparent
+            );
+            animation: cardRotate 8s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .problem-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes cardRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .problem-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--teal);
+            box-shadow: 0 20px 60px rgba(0, 194, 178, 0.3);
+        }
+
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--mist);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .problem-card p {
+            position: relative;
+            z-index: 1;
+            color: var(--slate);
+            line-height: 1.7;
+        }
+
+        .problem-solve {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--teal);
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Definition Section */
+        .definition {
+            background: rgba(21, 29, 48, 0.4);
+            backdrop-filter: blur(20px);
+        }
+
+        .definition-box {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(0, 194, 178, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 194, 178, 0.2);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Steps */
+        .step-list {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 28px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+            padding: 24px;
+            background: rgba(21, 29, 48, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.4s;
+        }
+
+        .step-item:hover {
+            border-color: var(--teal);
+            transform: translateX(8px);
+            background: rgba(21, 29, 48, 0.6);
+        }
+
+        .step-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--teal);
+            min-width: 40px;
+            text-shadow: 0 0 20px rgba(0, 194, 178, 0.5);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        /* Story Section */
+        .story-content {
+            max-width: 680px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.9;
+        }
+
+        .story-content p {
+            margin-bottom: 32px;
+        }
+
+        /* Pricing Card */
+        .pricing-card {
+            background: linear-gradient(180deg, rgba(21, 29, 48, 0.8), rgba(21, 29, 48, 0.4));
+            backdrop-filter: blur(30px);
+            border: 2px solid var(--teal);
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 60px 50px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 194, 178, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 194, 178, 0.1), transparent);
+            animation: priceShine 3s infinite;
+        }
+
+        @keyframes priceShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .pricing-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .price-anchor {
+            text-decoration: line-through;
+            color: var(--slate);
+            font-size: 1.3rem;
+        }
+
+        .price-final {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--mist), var(--teal));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            border-right: 3px solid var(--teal);
-            padding-right: 5px;
-            animation: blink 0.7s infinite;
+            margin: 16px 0 32px;
         }
 
-        @keyframes blink { 50% { border-color: transparent; } }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--slate);
-            max-width: 640px;
-            margin: 0 auto 50px;
+        .price-tag {
+            background: rgba(0, 194, 178, 0.15);
+            color: var(--teal);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-left: 12px;
+            border: 1px solid rgba(0, 194, 178, 0.3);
         }
 
-        .hero-tags {
-            display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;
+        .price-features {
+            text-align: left;
+            margin: 32px 0;
         }
 
-        .hero-tag {
-            padding: 8px 16px; border-radius: 100px; font-size: 0.9rem;
-            background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,194,178,0.2);
-            animation: floatBadge 3s infinite ease-in-out;
-        }
-        .hero-tag:nth-child(2) { animation-delay: 1s; }
-        .hero-tag:nth-child(3) { animation-delay: 2s; }
-
-        @keyframes floatBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        .price-features div {
+            padding: 12px 0;
+            color: var(--mist);
+            font-weight: 600;
         }
 
-        /* --- 7. Sections (Scroll Reveal) --- */
-        section { padding: 120px 0; }
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-title { font-size: 2.5rem; margin-bottom: 16px; }
-        
-        .reveal {
-            opacity: 0; transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Problem Grid */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .problem-card { padding: 40px; height: 100%; display: flex; flex-direction: column; }
-        .problem-card h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; color: #fff; }
-        .problem-dot { width: 8px; height: 8px; background: var(--accent-warn); border-radius: 50%; box-shadow: 0 0 10px var(--accent-warn); }
-        .solution-box {
-            margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);
-            color: var(--teal); font-weight: 600; font-size: 0.95rem;
+        /* Guarantee Box */
+        .guarantee-box {
+            border: 2px solid var(--accent-warn);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+            background: rgba(255, 176, 32, 0.05);
+            backdrop-filter: blur(20px);
         }
 
-        /* Value Prop (Central Message) */
-        .value-prop {
-            background: linear-gradient(180deg, rgba(0,194,178,0.05) 0%, transparent 100%);
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
+        .guarantee-title {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            font-weight: 900;
         }
 
-        /* Process (Timeline) */
-        .timeline-wrap { position: relative; max-width: 800px; margin: 0 auto; }
-        .timeline-line {
-            position: absolute; left: 24px; top: 0; bottom: 0; width: 2px;
-            background: var(--glass-border);
+        .guarantee-promise {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-warn);
+            margin: 24px 0;
         }
-        .timeline-progress {
-            position: absolute; left: 24px; top: 0; width: 2px; height: 0%;
-            background: var(--teal); transition: height 0.5s;
-            box-shadow: 0 0 10px var(--teal);
-        }
-        
-        .timeline-item { display: flex; gap: 40px; margin-bottom: 60px; position: relative; }
-        .timeline-marker {
-            width: 50px; height: 50px; border-radius: 50%; background: var(--bg-navy);
-            border: 2px solid var(--glass-border); color: var(--slate);
-            display: flex; align-items: center; justify-content: center; font-weight: bold;
-            z-index: 2; transition: 0.3s; flex-shrink: 0;
-        }
-        .timeline-item.active .timeline-marker {
-            border-color: var(--teal); color: var(--teal); box-shadow: 0 0 20px rgba(0,194,178,0.3);
-        }
-        .timeline-content { flex: 1; }
-
-        /* Pricing (Hero Card) */
-        .pricing-wrapper { max-width: 500px; margin: 0 auto; position: relative; }
-        .pricing-glow {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 120%; height: 120%; background: radial-gradient(circle, rgba(0,194,178,0.2) 0%, transparent 70%);
-            z-index: -1; pointer-events: none;
-        }
-        .price-original { text-decoration: line-through; color: var(--slate); font-size: 1.1rem; }
-        .price-final { font-size: 3.5rem; font-weight: 800; color: #fff; line-height: 1; margin: 10px 0 30px; }
-        .feature-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
-        .check-icon { color: var(--teal); }
 
         /* FAQ */
-        .faq-item { border-bottom: 1px solid var(--glass-border); }
-        .faq-q {
-            padding: 24px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            font-weight: 600; font-size: 1.1rem; transition: color 0.3s;
+        .faq-container {
+            max-width: 850px;
+            margin: 0 auto;
         }
-        .faq-q:hover { color: var(--teal); }
-        .faq-a { max-height: 0; overflow: hidden; transition: 0.4s ease; color: var(--slate); padding-right: 40px; }
-        .faq-a.open { padding-bottom: 24px; max-height: 200px; }
-        .toggle-icon { transition: 0.3s; }
-        .faq-q.active .toggle-icon { transform: rotate(45deg); color: var(--teal); }
+
+        .faq-item {
+            background: rgba(21, 29, 48, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--teal);
+        }
+
+        .faq-question {
+            padding: 28px 32px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.15rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--teal);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--teal);
+            transition: transform 0.3s;
+            font-weight: 300;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(135deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s, padding 0.4s;
+            padding: 0 32px;
+            color: var(--slate);
+            line-height: 1.8;
+        }
+
+        .faq-answer.active {
+            max-height: 300px;
+            padding: 0 32px 28px;
+        }
 
         /* Footer */
-        footer { border-top: 1px solid var(--glass-border); padding: 80px 0 40px; font-size: 0.9rem; color: var(--slate); }
+        footer {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            background: rgba(11, 16, 32, 0.8);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            max-width: 450px;
+        }
+
+        .footer-logo {
+            font-weight: 900;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--teal);
+        }
+
+        .footer-links a {
+            color: var(--slate);
+            text-decoration: none;
+            margin-right: 24px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--teal);
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero { padding-top: 160px; }
-            .grid-3 { grid-template-columns: 1fr; }
-            .timeline-item { gap: 20px; }
-            .timeline-marker { width: 40px; height: 40px; font-size: 0.9rem; }
-            .timeline-line, .timeline-progress { left: 19px; }
-            .btn { width: 100%; justify-content: center; }
+            .hero {
+                padding: 160px 0 100px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-item {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .pricing-card {
+                padding: 40px 28px;
+            }
+
+            .guarantee-box {
+                padding: 36px 24px;
+            }
+
+            .nav-link.mobile-hide {
+                display: none;
+            }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Particle */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: var(--teal);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--teal);
+            z-index: 0;
         }
     </style>
 </head>
 <body>
+    <!-- Canvas Background -->
+    <canvas class="bg-canvas" id="canvas"></canvas>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
 
-    <div class="bg-layer">
-        <div class="grid-pattern"></div>
-        <div class="aurora-blob blob-1"></div>
-        <div class="aurora-blob blob-2"></div>
-        <div class="aurora-blob blob-3"></div>
-    </div>
-
-    <nav>
-        <div class="container nav-inner">
-            <a href="#" class="logo">AURALIS</a>
-            
-            <div class="nav-links">
-                <a href="#problem" class="nav-item">Problem</a>
-                <a href="#process" class="nav-item">Process</a>
-                <a href="#pricing" class="nav-item">Pricing</a>
-                <a href="#faq" class="nav-item">FAQ</a>
-                <a href="#pricing" class="btn btn-primary" style="padding: 10px 20px; font-size:0.9rem;">무료 10분 Audit</a>
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="container nav-content">
+            <div class="logo">AURALIS</div>
+            <div class="nav-actions">
+                <a href="#faq" class="nav-link mobile-hide">FAQ</a>
+                <a href="#audit" class="btn btn-primary" style="padding: 12px 24px; font-size: 0.9rem;"><span>무료 10분 Audit</span></a>
             </div>
-
-            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
 
-    <div class="overlay" onclick="toggleMenu()"></div>
-    <div class="mobile-nav">
-        <a href="#problem" class="nav-item" onclick="toggleMenu()">Problem</a>
-        <a href="#process" class="nav-item" onclick="toggleMenu()">Process</a>
-        <a href="#pricing" class="nav-item" onclick="toggleMenu()">Pricing</a>
-        <a href="#faq" class="nav-item" onclick="toggleMenu()">FAQ</a>
-    </div>
-
-    <header class="hero container">
-        <div class="reveal">
-            <h1>오늘, 회사에서<br>
-                <span class="text-gradient">실수하면 끝나는 </span><br>
-                <span class="typewriter">결정을 잠급니다.</span>
-            </h1>
-            <p>AURALIS LOCKIN은 대표의 Notion/Slack 흐름을 정리해<br>
-               결정 실패 확률을 매일 낮추는 <strong>CEO Decision OS</strong>입니다.</p>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>오늘, 회사에서<br><span class="text-teal">"실수하면 끝나는 결정 1개"</span>를<br>잠급니다.</h1>
+            <p class="subhead">
+                AURALIS LOCKIN은 대표의 Notion/Slack 흐름을 정리해<br>
+                결정 실패 확률을 매일 낮추는 <strong>Decision OS</strong>입니다.
+            </p>
             
-            <div class="hero-tags">
-                <span class="hero-tag">✓ 매일 아침 결정 3개 고정</span>
-                <span class="hero-tag">✓ 30초 상태 체크</span>
-                <span class="hero-tag">✓ 병목 시각화 리포트</span>
+            <div class="hero-benefits">
+                <span class="benefit-tag">✓ 매일 아침 결정 3개 고정</span>
+                <span class="benefit-tag">✓ 30초 결정 상태 체크</span>
+                <span class="benefit-tag">✓ 매주 금요일 병목 리포트</span>
             </div>
 
-            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                <a href="#pricing" class="btn btn-primary">오늘 결정 1개 잠그기 (무료)</a>
-                <a href="#pricing" class="btn btn-outline">LOCKIN 30일 프로그램 보기</a>
+            <div class="hero-cta-group">
+                <a href="#audit" class="btn btn-primary"><span>10분 진단 받고, 오늘 결정 1개 잠그기</span></a>
+                <a href="#pricing" class="btn btn-secondary"><span>LOCKIN 30일 프로그램 보기</span></a>
             </div>
 
-            <div style="margin-top: 32px; font-size: 0.9rem; color: var(--slate); opacity: 0.8;">
-                <span class="text-teal" style="font-weight: 600;">🛡️ 결정 흔적 보장:</span> 30일 내 로그 20개 미달성 시 전액 환불
+            <div class="trust-text">
+                <span class="text-teal">🔒 결정 흔적 보장:</span> 30일 동안 Decision Log 20개 미만이면 전액 환불
             </div>
         </div>
     </header>
 
-    <section id="problem" class="container reveal">
-        <div class="section-header">
-            <h2 class="section-title">PROBLEM</h2>
-            <p class="text-slate">대표의 결정이 흔들리면 회사는 멈춥니다.</p>
-        </div>
-        <div class="grid-3">
-            <div class="glass-panel problem-card">
-                <h3><span class="problem-dot"></span> 마감 압박</h3>
-                <p style="color: var(--slate);">중요한 결정을 미루다가 결국 마감에 떠밀려 급하게 처리합니다.</p>
-                <div class="solution-box">→ 매일 아침 '오늘 잠글 3개' 고정</div>
+    <!-- Problem Section -->
+    <section class="reveal">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 70px;">
+                <div class="section-label">PROBLEM</div>
+                <h2>이런 날이 반복되나요?</h2>
             </div>
-            <div class="glass-panel problem-card">
-                <h3><span class="problem-dot"></span> 결정 누수</h3>
-                <p style="color: var(--slate);">회의, 슬랙, 업무가 쏟아져서 결정이 밖으로 새고 팀 방향이 흔들립니다.</p>
-                <div class="solution-box">→ 흩어지기 전에 Decision Log '잠금'</div>
-            </div>
-            <div class="glass-panel problem-card">
-                <h3><span class="problem-dot"></span> 후회와 번복</h3>
-                <p style="color: var(--slate);">피곤한 상태에서 감으로 결정하고 나중에 "아차"하며 후회합니다.</p>
-                <div class="solution-box">→ 근거/리스크 3줄 압축으로 실수 방지</div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-title">🔴 마감 압박</div>
+                    <p>중요한 결정을 계속 미루다가 결국 마감에 떠밀려 결정합니다.</p>
+                    <div class="problem-solve">→ 매일 아침 '오늘 잠글 3개'로 우선순위 고정</div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-title">🔴 결정 누수</div>
+                    <p>회의, 슬랙, 업무가 쏟아져서 결정이 새고 팀 방향이 흔들립니다.</p>
+                    <div class="problem-solve">→ 흩어지기 전에 Decision Log에 '잠금' 처리</div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-title">🔴 후회와 번복</div>
+                    <p>피곤한 상태에서 감으로 결정하고 나중에 후회합니다.</p>
+                    <div class="problem-solve">→ 근거/리스크를 3줄로 압축해 실수 확률 감소</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="value-prop">
-        <div class="container text-center reveal">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <h2 style="font-size: 2rem; margin-bottom: 24px; color: var(--teal);">LOCKIN Method</h2>
-                <p style="font-size: 1.3rem; line-height: 1.8; color: #fff;">
-                    "우리는 더 많은 일을 시키지 않습니다.<br>
-                    대표의 결정이 밖으로 새지 않게<br> 
-                    <strong>'잠그는 구조(Architecture)'</strong>를 설치합니다."
+    <!-- Definition Section -->
+    <section class="definition reveal">
+        <div class="container">
+            <div class="definition-box">
+                <h3 class="text-teal">LOCKIN = "대표의 결정을 밖으로 새지 않게 잠그는 OS"</h3>
+                <p style="color: var(--slate); margin-top: 20px; font-size: 1.1rem;">도구를 더 추가하는 게 아닙니다.<br>기존 Notion과 Slack을 '결정용'으로 재정렬하여 통제권을 드립니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="reveal">
+        <div class="container">
+            <h2 style="text-align: center;">작동 방식 (Process)</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <div class="step-title">CEO Decision Audit (10분)</div>
+                        <div style="color: var(--slate);">당신의 결정 병목 유형을 확인하고 진단합니다.</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <div class="step-title">초기 세팅 (15분)</div>
+                        <div style="color: var(--slate);">Notion/Slack 연동 및 결정 로그 템플릿을 설치합니다.</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <div class="step-title">매일 06:00 (Morning)</div>
+                        <div style="color: var(--slate);">"결정보조 3가지 + 근거"가 Slack으로 도착합니다.</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <div class="step-title">매일 17:30 (Evening)</div>
+                        <div style="color: var(--slate);">상태 체크(완료/진행/미완)를 30초 만에 끝냅니다.</div>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">05</div>
+                    <div class="step-content">
+                        <div class="step-title">매주 금요일 (Report)</div>
+                        <div style="color: var(--slate);">병목 TOP 원인과 다음 주 결정 테마가 담긴 CEO 리포트를 받습니다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="reveal">
+        <div class="container">
+            <div class="story-content">
+                <p><strong>아침 6시.</strong></p>
+                <p>슬랙에 메시지가 하나 뜹니다.<br>
+                <span class="text-teal">"오늘 잠가야 할 결정 3개"</span>가 이미 정리돼 있습니다.<br>
+                당신은 2분만 보고, 하나를 먼저 잠급니다.</p>
+                
+                <p>결정이 끝났다는 느낌이 들자, 머리가 가벼워집니다.</p>
+                
+                <p>오후엔 팀이 묻습니다.<br>
+                "대표님, 이건 어떻게 갈까요?"</p>
+                
+                <p>당신은 흔들리지 않습니다. 이미 아침에 잠갔으니까요.</p>
+                
+                <p><strong>저녁 5시 30분.</strong><br>
+                완료/진행/미완만 체크합니다. 끝.</p>
+                
+                <p><strong>금요일.</strong><br>
+                한 장짜리 리포트를 보면,<br>
+                이번 주에 회사가 어디서 새고 있었는지가 눈에 보입니다.<br>
+                다음 주엔 그 구멍부터 막으면 됩니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendation Section -->
+    <section class="definition reveal">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-card" style="border-color: var(--teal); background: rgba(0, 194, 178, 0.05);">
+                    <div style="font-weight: 800; color: var(--teal); margin-bottom: 24px; font-size: 1.3rem;">✅ 이런 분께 추천합니다</div>
+                    <ul style="list-style: none; color: var(--mist); line-height: 2;">
+                        <li>• 직원 1~10명, 대표가 결정 병목인 팀</li>
+                        <li>• Notion/Slack을 쓰거나 도입 가능한 팀</li>
+                        <li>• "일은 많은데 앞으로 가는 느낌이 없다"가 반복되는 대표</li>
+                    </ul>
+                </div>
+                <div class="problem-card">
+                    <div style="font-weight: 800; color: var(--slate); margin-bottom: 24px; font-size: 1.3rem;">❌ 추천하지 않습니다</div>
+                    <ul style="list-style: none; color: var(--slate); line-height: 2;">
+                        <li>• 결정을 대신 내려주는 AI를 원하는 경우</li>
+                        <li>• 기록/체크(하루 30초)조차 하기 싫은 경우</li>
+                        <li>• Notion/Slack을 전혀 쓸 의사가 없는 경우</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="reveal">
+        <div class="container">
+            <h2 style="text-align: center;">가격 및 플랜</h2>
+            <div class="pricing-card">
+                <div class="pricing-content">
+                    <div style="color: var(--teal); font-weight: 800; margin-bottom: 16px; font-size: 1.1rem;">LOCKIN 30일 도입 프로그램</div>
+                    <div class="price-anchor">정가 600,000원</div>
+                    <div class="price-final">
+                        490,000원<span class="price-tag">베타 런칭가</span>
+                    </div>
+                    <p style="color: var(--slate); margin-bottom: 40px; line-height: 1.7;">
+                        대표님의 결정 실수 1번이 발생시키는<br>손실 비용보다 저렴하게 책정했습니다.
+                    </p>
+                    <div class="price-features">
+                        <div>✓ 세팅 + 30일 운영 전담</div>
+                        <div>✓ 주간 CEO 리포트 4회 제공</div>
+                        <div>✓ 선착순 20명 한정 (품질 유지)</div>
+                    </div>
+                    <a href="#audit" class="btn btn-primary" style="width: 100%; margin-top: 20px;"><span>베타 런칭가로 30일 시작하기</span></a>
+                    <div style="margin-top: 24px;">
+                        <a href="#audit" style="color: var(--slate); font-size: 0.95rem; text-decoration: underline;">먼저 10분 Audit만 받아보기 (무료) →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantee Section -->
+    <section class="reveal">
+        <div class="container">
+            <div class="guarantee-box">
+                <h3 class="guarantee-title">🛡️ 과장 없이 약속합니다.</h3>
+                <p style="color: var(--slate); margin-bottom: 32px; line-height: 1.8; font-size: 1.1rem;">
+                    매출이나 성과를 무조건 보장한다는 거짓말은 하지 않습니다.<br>
+                    대신 <strong style="color: var(--mist);">'활성화(Decision Log 누적)'</strong>를 보장합니다.
                 </p>
+                <div class="guarantee-promise">
+                    "30일 동안 Decision Log 20개 미만이면 전액 환불해 드립니다."
+                </div>
+                <div style="font-size: 0.95rem; color: var(--slate); margin-top: 12px;">(누적된 리포트는 그대로 드립니다)</div>
             </div>
         </div>
     </section>
 
-    <section id="process" class="container reveal">
-        <div class="section-header">
-            <h2 class="section-title">How It Works</h2>
-            <p class="text-slate">복잡한 도구는 쓰지 않습니다. Notion과 Slack을 재정렬합니다.</p>
-        </div>
-        
-        <div class="timeline-wrap">
-            <div class="timeline-line"></div>
-            <div class="timeline-progress" id="progress-bar"></div>
-
-            <div class="timeline-item reveal-step">
-                <div class="timeline-marker">01</div>
-                <div class="glass-panel timeline-content" style="padding: 30px;">
-                    <h4 class="font-bold text-teal mb-2">CEO Decision Audit (10분)</h4>
-                    <p class="text-slate">당신의 결정 병목 유형을 확인하고 진단합니다.</p>
+    <!-- FAQ Section -->
+    <section id="faq" class="reveal">
+        <div class="container">
+            <h2 style="text-align: center;">자주 묻는 질문</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. AI가 우선순위를 "결정"해 주나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        아니요. AI는 흩어진 정보를 정리만 합니다. 최종 결정은 대표님이 하십니다. 우리는 결정에 필요한 근거를 3줄로 요약해 드릴 뿐입니다.
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item reveal-step">
-                <div class="timeline-marker">02</div>
-                <div class="glass-panel timeline-content" style="padding: 30px;">
-                    <h4 class="font-bold text-white mb-2">매일 06:00 (Morning)</h4>
-                    <p class="text-slate">"오늘 잠가야 할 결정 3가지 + 근거"가 Slack으로 도착합니다.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal-step">
-                <div class="timeline-marker">03</div>
-                <div class="glass-panel timeline-content" style="padding: 30px;">
-                    <h4 class="font-bold text-white mb-2">매일 17:30 (Evening)</h4>
-                    <p class="text-slate">완료/진행/미완 상태만 30초 만에 체크하고 퇴근합니다.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal-step">
-                <div class="timeline-marker">04</div>
-                <div class="glass-panel timeline-content" style="padding: 30px;">
-                    <h4 class="font-bold text-white mb-2">매주 금요일 (Report)</h4>
-                    <p class="text-slate">이번 주 병목 원인과 다음 주 결정 테마가 담긴 리포트를 받습니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="container reveal">
-        <div class="section-header">
-            <h2 class="section-title">Pricing</h2>
-        </div>
-        
-        <div class="pricing-wrapper">
-            <div class="pricing-glow"></div>
-            <div class="glass-panel" style="padding: 60px 40px; text-align: center; border-color: var(--teal);">
-                <div style="display:inline-block; background:rgba(0,194,178,0.1); color:var(--teal); padding:6px 12px; border-radius:4px; font-weight:bold; font-size:0.9rem; margin-bottom:20px;">
-                    LOCKIN 30일 프로그램
-                </div>
-                <p class="text-slate" style="margin-bottom: 20px;">대표님의 결정 실수 1번이 만드는<br>손실 비용보다 저렴합니다.</p>
                 
-                <div class="price-original">정가 600,000원</div>
-                <div class="price-final">490,000원</div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. 하루에 얼마나 시간을 쓰나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        평균 3분(아침 확인) + 30초(저녁 체크) 수준입니다. 더 많은 시간을 쓰게 하는 툴은 실패한 툴입니다.
+                    </div>
+                </div>
                 
-                <div style="text-align: left; margin: 0 auto 40px; max-width: 320px;">
-                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">세팅 + 30일 운영 전담</span></div>
-                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">매일 아침 Decision Brief</span></div>
-                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-white">주간 CEO 리포트 4회</span></div>
-                    <div class="feature-item"><span class="check-icon">✓</span> <span class="text-teal font-bold">Decision Log 활성화 보장</span></div>
-                    <div class="feature-item" style="opacity:0.7; font-size:0.9rem; margin-top:10px;">
-                        ⚠️ 선착순 20명 마감 시 가격 인상
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. Notion/Slack을 제대로 안 써도 되나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        네, 최소 구조만 씁니다. 복잡한 세팅이 아니라 결정 로그용으로 단순화된 템플릿을 설치해 드립니다.
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-primary" style="width: 100%;">베타 런칭가로 시작하기</a>
-                <div style="margin-top: 20px;">
-                    <a href="#" style="color: var(--slate); font-size: 0.9rem; text-decoration: underline;">먼저 무료 10분 Audit 받기</a>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. 우리 팀에 맞을지 확신이 없어요.</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        그래서 먼저 무료 10분 진단(Audit)을 제공합니다. 진단 결과로 나오는 "오늘 잠글 결정 1개"를 받아보시고 판단하세요.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q. 30일 이후는 어떻게 되나요?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        30일 동안 "작동하는지"가 먼저입니다. 종료 시점에 유지가 필요한 경우에만 다음 옵션을 안내해 드립니다. 강요는 없습니다.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="container reveal" style="max-width: 800px;">
-        <h2 class="section-title text-center">FAQ</h2>
-        <div class="glass-panel" style="padding: 10px 30px;">
-            <div class="faq-item">
-                <div class="faq-q">AI가 우선순위를 결정해 주나요? <span class="toggle-icon">+</span></div>
-                <div class="faq-a">아니요. AI는 정보를 정리만 합니다. 최종 결정은 대표님이 하십니다. 우리는 결정에 필요한 근거를 요약해 드릴 뿐입니다.</div>
+    <!-- Final CTA Section -->
+    <section class="hero" style="padding: 140px 0; border-bottom: none;">
+        <div class="container">
+            <h2 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 32px; text-align: center;">
+                오늘, 결정 1개만 잠그면<br>회사가 앞으로 갑니다.
+            </h2>
+            <div class="hero-cta-group">
+                <a href="#audit" class="btn btn-primary"><span>무료 10분 CEO Decision Audit 받기</span></a>
             </div>
-            <div class="faq-item">
-                <div class="faq-q">하루에 시간을 얼마나 쓰나요? <span class="toggle-icon">+</span></div>
-                <div class="faq-a">평균 3분(아침 확인) + 30초(저녁 체크) 수준입니다. 더 많은 시간을 쓰게 하는 툴은 실패한 툴입니다.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q">Notion/Slack을 잘 못 써도 되나요? <span class="toggle-icon">+</span></div>
-                <div class="faq-a">네, 최소한의 구조만 사용합니다. 복잡한 세팅 없이 결정 로그용으로 단순화된 템플릿을 저희가 설치해 드립니다.</div>
-            </div>
-             <div class="faq-item">
-                <div class="faq-q" style="border:none;">30일 이후에는 어떻게 되나요? <span class="toggle-icon">+</span></div>
-                <div class="faq-a">30일 동안 작동 여부를 확인하는 것이 먼저입니다. 유지보수가 필요한 경우에만 추가 옵션을 안내드립니다.</div>
+            <div style="margin-top: 24px; text-align: center;">
+                <a href="#pricing" class="text-teal" style="text-decoration: underline; font-weight: 700;">LOCKIN 30일 바로 시작하기 →</a>
             </div>
         </div>
     </section>
 
-    <footer class="text-center">
+    <!-- Footer -->
+    <footer>
         <div class="container">
-            <div class="logo" style="justify-content: center; margin-bottom: 20px; color: var(--slate);">AURALIS</div>
-            <p style="margin-bottom: 10px;">본 서비스는 생산성/매출을 보장하지 않으며,<br>의사결정 기록 및 운영 보조 시스템을 제공합니다.</p>
-            <p style="font-size: 0.8rem; opacity: 0.6;">Copyright © 2026 AURALIS. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">AURALIS</div>
+                    <p style="font-size: 0.9rem; color: var(--slate); line-height: 1.7;">
+                        본 서비스는 생산성/매출을 보장하지 않으며,<br>
+                        의사결정 기록 및 운영 보조 시스템을 제공합니다.
+                    </p>
+                </div>
+                <div style="text-align: right;">
+                    <div class="footer-links">
+                        <a href="#">개인정보처리방침</a>
+                        <a href="#">환불 정책</a>
+                    </div>
+                    <p style="margin-top: 16px; font-size: 0.85rem; color: var(--slate);">
+                        Copyright © 2026 AURALIS. All rights reserved.
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // 1. Scroll Reveal
-        const revealElements = document.querySelectorAll('.reveal');
-        const timelineItems = document.querySelectorAll('.reveal-step');
+        // Canvas Particle System
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+        const particles = [];
+        const particleCount = 70;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(0, 194, 178, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
             });
-        }, { threshold: 0.1 });
 
-        revealElements.forEach(el => scrollObserver.observe(el));
-        timelineItems.forEach(el => scrollObserver.observe(el));
+            // Connect particles
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // 2. Timeline Progress Bar
-        window.addEventListener('scroll', () => {
-            const processSection = document.getElementById('process');
-            const progressBar = document.getElementById('progress-bar');
-            const items = document.querySelectorAll('.timeline-item');
-            
-            const rect = processSection.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                // Calculate percentage
-                let percentage = (windowHeight - rect.top) / (windowHeight + rect.height) * 100;
-                percentage = Math.min(Math.max(percentage, 0), 100); // Clamp 0-100
-                progressBar.style.height = `${percentage}%`;
-
-                // Highlight Active Steps
-                items.forEach(item => {
-                    const itemTop = item.getBoundingClientRect().top;
-                    if (itemTop < windowHeight * 0.7) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
+                    if (distance < 150) {
+                        ctx.strokeStyle = `rgba(0, 194, 178, ${0.15 - distance / 1000})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
                     }
-                });
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        // Mouse Particle Trail
+        let lastParticleTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastParticleTime > 50) {
+                createParticle(e.clientX, e.clientY);
+                lastParticleTime = now;
             }
         });
 
-        // 3. FAQ Toggle
-        document.querySelectorAll('.faq-q').forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                question.classList.toggle('active');
-                
-                if (answer.style.maxHeight) {
-                    answer.style.maxHeight = null;
-                    answer.classList.remove('open');
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            document.body.appendChild(particle);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 2 + 1;
+            let currentX = x;
+            let currentY = y;
+            let opacity = 1;
+
+            function animate() {
+                currentX += Math.cos(angle) * velocity;
+                currentY += Math.sin(angle) * velocity - 1;
+                opacity -= 0.02;
+
+                particle.style.left = currentX + 'px';
+                particle.style.top = currentY + 'px';
+                particle.style.opacity = opacity;
+
+                if (opacity > 0) {
+                    requestAnimationFrame(animate);
                 } else {
-                    document.querySelectorAll('.faq-a').forEach(el => {
-                        el.style.maxHeight = null;
-                        el.classList.remove('open');
-                        el.previousElementSibling.classList.remove('active');
+                    particle.remove();
+                }
+            }
+
+            animate();
+        }
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 150);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        reveals.forEach(reveal => revealObserver.observe(reveal));
+
+        // Navigation Scroll Effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('.faq-icon');
+                
+                // Close other FAQs
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').classList.remove('active');
+                        otherItem.querySelector('.faq-icon').textContent = '+';
+                    }
+                });
+                
+                // Toggle current FAQ
+                item.classList.toggle('active');
+                answer.classList.toggle('active');
+                icon.textContent = item.classList.contains('active') ? '+' : '+';
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
-                    answer.style.maxHeight = answer.scrollHeight + "px";
-                    answer.classList.add('open');
-                    question.classList.add('active');
                 }
             });
         });
 
-        // 4. Mobile Menu
-        function toggleMenu() {
-            document.querySelector('.mobile-nav').classList.toggle('active');
-            document.querySelector('.overlay').classList.toggle('active');
-        }
+        // Button Ripple Effect
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.left = (e.clientX - rect.left) + 'px';
+                ripple.style.top = (e.clientY - rect.top) + 'px';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                from {
+                    width: 20px;
+                    height: 20px;
+                    opacity: 1;
+                }
+                to {
+                    width: 300px;
+                    height: 300px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        console.log('%cAURALIS Decision OS', 'color: #00C2B2; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #00C2B2;');
+        console.log('%c오늘, 결정 1개를 잠그세요', 'color: #949EB3; font-size: 14px;');
     </script>
-</body>
-</html>
-        </details>
-        <details>
-          <summary>결제는 어떻게 해요?</summary>
-          <p class="ans">연 선불 · 계좌이체만. 입금 캡처는 이름 모자이크 OK, 확인 후 즉시 파기합니다.</p>
-        </details>
-      </div>
-
-      <footer>
-        - 본 서비스는 매출/계약 성사를 보장하지 않습니다. 보장은 “72시간 Quick Win 3종 제공 여부”입니다.<br />
-        - 링크(진단)는 예시입니다. 실제 폼 주소로 교체하세요.
-      </footer>
-    </section>
-
-  </div>
 </body>
 </html>
