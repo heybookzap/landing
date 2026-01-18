@@ -222,7 +222,7 @@
             color: #B8BEC8;
             margin-bottom: 20px;
             animation: fadeInUp 1s ease 0.2s both;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .hero-description {
@@ -330,6 +330,7 @@
             color: #6B7280;
             animation: fadeInUp 1s ease 0.8s both;
             letter-spacing: 0.3px;
+            line-height: 1.8;
         }
 
         /* Section */
@@ -348,17 +349,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .section-subtitle {
-            font-size: clamp(19px, 2.8vw, 26px);
-            color: #8B92A0;
-            text-align: center;
-            margin-bottom: 90px;
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
         }
 
         /* Problem Section */
@@ -546,13 +536,6 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .process-desc {
-            font-size: 15px;
-            color: #8B92A0;
             position: relative;
             z-index: 1;
         }
@@ -760,6 +743,41 @@
             min-width: 28px;
         }
 
+        .beta-condition {
+            background: rgba(239, 68, 68, 0.1) !important;
+            border: 2px solid rgba(239, 68, 68, 0.5) !important;
+            color: #F2F4F7 !important;
+            font-weight: 700 !important;
+        }
+
+        .beta-condition::before {
+            content: '⚠' !important;
+            color: #EF4444 !important;
+        }
+
+        .beta-reject {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border: 1px solid rgba(239, 68, 68, 0.3) !important;
+            color: #EF4444 !important;
+            font-weight: 600 !important;
+            font-size: 18px !important;
+        }
+
+        .beta-reject::before {
+            content: '✕' !important;
+            color: #EF4444 !important;
+        }
+
+        .beta-warning {
+            color: #EF4444 !important;
+            font-weight: 700 !important;
+        }
+
+        .beta-warning::before {
+            content: '⚠' !important;
+            color: #EF4444 !important;
+        }
+
         /* Recommendation Section */
         .recommendation {
             display: grid;
@@ -946,11 +964,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Parallax Effect */
-        .parallax-item {
-            transition: transform 0.3s ease-out;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             nav {
@@ -1045,26 +1058,26 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content parallax-item">
-            <h1>매일 아침, <span class="highlight">"중요한 1개"</span>를 끝내는 창업자 OS.</h1>
-            <p class="hero-subtitle">04:30에 켜지고, 05:00에 50분 딥워크가 자동 시작됩니다.</p>
-            <p class="hero-description">Today 1 → 50분 Sprint → Proof 제출 → 07:00 리포트<br>의지가 아니라 구조로 고정합니다.</p>
+        <div class="hero-content">
+            <h1>매일 아침, <span class="highlight">"중요한 1개"</span>를 끝내는 OS.</h1>
+            <p class="hero-subtitle">04:30 → 오늘 1개 확정. 05:00 → 바로 시작.</p>
+            <p class="hero-description">오늘 1개 확정 → 50분 집중 → 증거 제출 → 07:00 리포트</p>
             
             <div class="cta-group">
-                <button class="btn-primary" onclick="scrollToBeta()">무료 베타 시작하기 (3분)</button>
-                <button class="btn-secondary" onclick="scrollToProcess()">작동 방식 10초로 보기</button>
+                <button class="btn-primary" onclick="scrollToBeta()">3분 신청</button>
+                <button class="btn-secondary" onclick="scrollToProcess()">작동 방식 보기</button>
             </div>
             
-            <p class="trust-line">선착순 50명 · 무료 7일 · 하루 50분 + Proof 1분 · Notion + Make 자동화</p>
+            <p class="trust-line">초기 창업자(팀 1~5명) 전용 · 7일 매일 실행 가능한 사람만<br>선착순 50명 · 무료 7일</p>
         </div>
     </section>
 
     <!-- Problem Section -->
     <section class="problem fade-in">
         <div class="container">
-            <div class="problem-text parallax-item">
+            <div class="problem-text">
                 문제는 의지가 아닙니다.<br>
-                시작이 자동이 아니라서, 새벽이 매일 새는 구조입니다.
+                시작이 자동이 아니라서 새벽이 샙니다.
             </div>
         </div>
     </section>
@@ -1073,25 +1086,25 @@
     <section class="fade-in">
         <div class="container">
             <div class="solutions-grid">
-                <div class="solution-card glass parallax-item">
+                <div class="solution-card glass">
                     <div class="solution-number">1</div>
-                    <h3 class="solution-title">눈은 떴는데, 시작이 안 된다</h3>
-                    <p class="solution-problem">폰/생각/알림으로 30분이 날아감</p>
-                    <p class="solution-answer">✅ 04:30 시그널로 시동 → 05:00 시작 고정</p>
+                    <h3 class="solution-title">눈은 떴는데 시작이 안 됨</h3>
+                    <p class="solution-problem">폰/생각/알림 → 30분 증발</p>
+                    <p class="solution-answer">✅ 04:30 알림 → 링크 1번 클릭</p>
                 </div>
                 
-                <div class="solution-card glass parallax-item">
+                <div class="solution-card glass">
                     <div class="solution-number">2</div>
-                    <h3 class="solution-title">오늘 뭐 할지 고민하다 힘이 빠진다</h3>
-                    <p class="solution-problem">결정하는 순간 집중이 새어 나김</p>
-                    <p class="solution-answer">✅ Today 1 자동 로드로 결정 피로 제거</p>
+                    <h3 class="solution-title">뭐 할지 고민하다 힘 빠짐</h3>
+                    <p class="solution-problem">결정하는 순간 집중 새어 나감</p>
+                    <p class="solution-answer">✅ 04:30에 자동 확정 → 고민 0</p>
                 </div>
                 
-                <div class="solution-card glass parallax-item">
+                <div class="solution-card glass">
                     <div class="solution-number">3</div>
-                    <h3 class="solution-title">해도 남는 게 없어 금방 끊긴다</h3>
-                    <p class="solution-problem">성취가 쌓이지 않아서 원점으로 돌아감</p>
-                    <p class="solution-answer">✅ Proof 제출 = 완료 조건 + 07:00 리포트</p>
+                    <h3 class="solution-title">해도 남는 게 없음</h3>
+                    <p class="solution-problem">성취가 안 쌓여서 원점</p>
+                    <p class="solution-answer">✅ 증거 제출 = 완료 → 리포트</p>
                 </div>
             </div>
         </div>
@@ -1100,29 +1113,27 @@
     <!-- Process Section -->
     <section id="process" class="fade-in">
         <div class="container">
-            <h2 class="section-title">Dawn 430 OS는 매일 똑같이 반복됩니다</h2>
+            <h2 class="section-title">매일 똑같이 반복</h2>
             
             <div class="process-grid">
-                <div class="process-card glass-light parallax-item">
+                <div class="process-card glass-light">
                     <div class="process-time">04:30</div>
-                    <h3 class="process-title">430 ON 시그널</h3>
+                    <h3 class="process-title">오늘 1개 확정</h3>
                 </div>
                 
-                <div class="process-card glass-light parallax-item">
+                <div class="process-card glass-light">
                     <div class="process-time">05:00</div>
-                    <h3 class="process-title">Today 1 → 50분 Sprint</h3>
+                    <h3 class="process-title">50분 집중</h3>
                 </div>
                 
-                <div class="process-card glass-light parallax-item">
+                <div class="process-card glass-light">
                     <div class="process-time">05:50</div>
-                    <h3 class="process-title">Proof 제출</h3>
-                    <p class="process-desc">(완료 조건)</p>
+                    <h3 class="process-title">증거 제출</h3>
                 </div>
                 
-                <div class="process-card glass-light parallax-item">
+                <div class="process-card glass-light">
                     <div class="process-time">07:00</div>
-                    <h3 class="process-title">자동 리포트</h3>
-                    <p class="process-desc">내일 1개 추천</p>
+                    <h3 class="process-title">리포트 + 내일</h3>
                 </div>
             </div>
         </div>
@@ -1131,43 +1142,43 @@
     <!-- Features Section -->
     <section class="fade-in">
         <div class="container">
-            <h2 class="section-title">딱 이것 때문에 계속 쓰게 됩니다</h2>
+            <h2 class="section-title">이것 때문에 계속 씀</h2>
             
             <div class="features-grid">
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">자동 시작</h3>
-                    <p class="feature-desc">04:30 시그널 → 05:00 시작</p>
+                    <h3 class="feature-title">자동 알림</h3>
+                    <p class="feature-desc">04:30 알림 → 링크 1클릭</p>
                 </div>
                 
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">🎯</div>
                     <h3 class="feature-title">오늘 1개만</h3>
-                    <p class="feature-desc">결정 없이 바로 실행</p>
+                    <p class="feature-desc">04:30에 자동 확정</p>
                 </div>
                 
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">✓</div>
-                    <h3 class="feature-title">Proof가 완료 조건</h3>
-                    <p class="feature-desc">남는 결과가 쌓임</p>
+                    <h3 class="feature-title">증거 = 완료</h3>
+                    <p class="feature-desc">결과가 쌓임</p>
                 </div>
                 
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">📊</div>
                     <h3 class="feature-title">07:00 리포트</h3>
-                    <p class="feature-desc">요약 + 내일 1개 추천</p>
+                    <p class="feature-desc">요약 + 내일 추천</p>
                 </div>
                 
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">🔄</div>
-                    <h3 class="feature-title">Recovery 모드</h3>
-                    <p class="feature-desc">끊겨도 다음날 복귀</p>
+                    <h3 class="feature-title">자동 반복</h3>
+                    <p class="feature-desc">증거 없으면 다음날 같은 거</p>
                 </div>
                 
-                <div class="feature-card glass parallax-item">
+                <div class="feature-card glass">
                     <div class="feature-icon">📝</div>
-                    <h3 class="feature-title">Notion OS 제공</h3>
-                    <p class="feature-desc">복제 후 즉시 사용</p>
+                    <h3 class="feature-title">Notion 제공</h3>
+                    <p class="feature-desc">복제 후 즉시 시작</p>
                 </div>
             </div>
         </div>
@@ -1176,14 +1187,14 @@
     <!-- Story Section -->
     <section class="story fade-in">
         <div class="container">
-            <h2 class="section-title">매일 아침의 루틴</h2>
+            <h2 class="section-title">매일 아침</h2>
             <div class="story-content">
-                <p class="story-line">04:30, 430 ON이 도착합니다.</p>
-                <p class="story-line">05:00, 화면엔 딱 한 줄. 오늘 1개.</p>
-                <p class="story-line">50분을 끝냅니다.</p>
-                <p class="story-line">Proof를 남깁니다.</p>
-                <p class="story-line">07:00, 리포트가 옵니다.</p>
-                <p class="story-line">내가 새벽을 통제한 기록이 쌓입니다.</p>
+                <p class="story-line">04:30, 오늘 1개 확정.</p>
+                <p class="story-line">05:00, 화면에 딱 한 줄.</p>
+                <p class="story-line">50분.</p>
+                <p class="story-line">증거 제출.</p>
+                <p class="story-line">07:00, 리포트.</p>
+                <p class="story-line">기록 쌓임.</p>
             </div>
         </div>
     </section>
@@ -1194,13 +1205,15 @@
             <div class="beta-info glass">
                 <h2 class="beta-title">무료 베타 7일</h2>
                 <div class="beta-details">
-                    <div class="beta-item">매일: 50분 Sprint + Proof 1개</div>
-                    <div class="beta-item">마지막 날: 피드백 3문항(2분)</div>
-                    <div class="beta-item">정원: 선착순 50명</div>
-                    <div class="beta-item">코칭/강의 없음</div>
-                    <div class="beta-item">실행만 고정</div>
+                    <div class="beta-item beta-condition">참가 조건: 초기 창업자(팀 1~5명) + 7일 동안 매일 오전 05:00에 50분 실행 가능한 분만</div>
+                    <div class="beta-item beta-reject">조건 미충족 시: 신청하셔도 선정되지 않습니다</div>
+                    <div class="beta-item">매일 50분 + 증거 1개</div>
+                    <div class="beta-item">마지막 날 피드백 3문항</div>
+                    <div class="beta-item">선착순 50명</div>
+                    <div class="beta-item">코칭 없음</div>
+                    <div class="beta-item beta-warning">증거 2번 누락 시 종료</div>
                 </div>
-                <button class="btn-primary" onclick="window.open('https://forms.gle/Cq1D3vkrVBcoSG9A8', '_blank')">지금 신청하기</button>
+                <button class="btn-primary" onclick="window.open('https://forms.gle/Cq1D3vkrVBcoSG9A8', '_blank')">신청</button>
             </div>
         </div>
     </section>
@@ -1208,23 +1221,23 @@
     <!-- Recommendation Section -->
     <section class="fade-in">
         <div class="container">
-            <h2 class="section-title">당신에게 맞는 서비스인가요?</h2>
+            <h2 class="section-title">맞는 사람</h2>
             <div class="recommendation">
-                <div class="rec-card glass positive parallax-item">
+                <div class="rec-card glass positive">
                     <h3 class="rec-title">✅ 추천</h3>
                     <ul class="rec-list">
-                        <li>초기 창업자(1~5명)</li>
-                        <li>중요한 1개가 매일 밀리는 사람</li>
-                        <li>새벽을 내 것으로 고정하고 싶은 사람</li>
+                        <li>초기 창업자(1~5명) + 7일 매일 05:00에 50분이 가능한 사람</li>
+                        <li>중요한 1개가 밀림</li>
+                        <li>새벽을 고정하고 싶음</li>
                     </ul>
                 </div>
                 
-                <div class="rec-card glass negative parallax-item">
+                <div class="rec-card glass negative">
                     <h3 class="rec-title">❌ 비추천</h3>
                     <ul class="rec-list">
-                        <li>50분 집중이 불가능한 사람</li>
+                        <li>7일 중 하루라도 05:00 실행이 어려운 사람</li>
+                        <li>초기 창업자가 아닌 사람</li>
                         <li>코칭/동기부여를 기대하는 사람</li>
-                        <li>정보만 받고 실행은 안 할 사람</li>
                     </ul>
                 </div>
             </div>
@@ -1234,31 +1247,31 @@
     <!-- FAQ Section -->
     <section class="fade-in">
         <div class="container">
-            <h2 class="section-title">자주 묻는 질문</h2>
+            <h2 class="section-title">FAQ</h2>
             <div class="faq-list">
-                <div class="faq-item glass-light parallax-item">
+                <div class="faq-item glass-light">
                     <div class="faq-question">Q1. 꼭 4:30에 일어나야 하나요?</div>
-                    <div class="faq-answer">A. 아니요. 04:30은 시그널, 시작은 05:00입니다.</div>
+                    <div class="faq-answer">A. 아니요. 04:30은 알림, 시작은 05:00입니다.</div>
                 </div>
                 
-                <div class="faq-item glass-light parallax-item">
-                    <div class="faq-question">Q2. '자동 시작'이 완전 자동인가요?</div>
-                    <div class="faq-answer">A. 시그널 도착 → 1클릭 즉시 시작 구조입니다.</div>
+                <div class="faq-item glass-light">
+                    <div class="faq-question">Q2. 04:30에 뭘 할지 자동으로 정해지나요?</div>
+                    <div class="faq-answer">A. 네. 오늘 1개가 자동 확정되어 05:00엔 시작만 하면 됩니다.</div>
                 </div>
                 
-                <div class="faq-item glass-light parallax-item">
+                <div class="faq-item glass-light">
                     <div class="faq-question">Q3. 매일 얼마나 걸리나요?</div>
-                    <div class="faq-answer">A. 50분 + Proof 1분이면 끝입니다.</div>
+                    <div class="faq-answer">A. 50분 + 증거 1분.</div>
                 </div>
                 
-                <div class="faq-item glass-light parallax-item">
-                    <div class="faq-question">Q4. Proof는 왜 꼭 제출해야 하나요?</div>
-                    <div class="faq-answer">A. Proof가 있어야 실행이 기록으로 고정됩니다.</div>
+                <div class="faq-item glass-light">
+                    <div class="faq-question">Q4. 증거는 왜 꼭 내나요?</div>
+                    <div class="faq-answer">A. 증거가 있어야 기록으로 고정됩니다.</div>
                 </div>
                 
-                <div class="faq-item glass-light parallax-item">
+                <div class="faq-item glass-light">
                     <div class="faq-question">Q5. 무엇으로 운영되나요?</div>
-                    <div class="faq-answer">A. Notion + Make 자동화 기반입니다.</div>
+                    <div class="faq-answer">A. Notion + Make 자동화.</div>
                 </div>
             </div>
         </div>
@@ -1267,9 +1280,9 @@
     <!-- Trust Section -->
     <section class="fade-in">
         <div class="container">
-            <div class="trust-text parallax-item">
-                Dawn 430 OS는 동기부여가 아니라 '실행 루프'입니다.<br>
-                결과를 약속하지 않습니다. 대신 시작/완료/기록이 끊기지 않게 설계합니다.
+            <div class="trust-text">
+                동기부여 아님. 실행 루프.<br>
+                결과 약속 안 함. 시작/완료/기록이 끊기지 않게 설계.
             </div>
         </div>
     </section>
@@ -1278,16 +1291,16 @@
     <section class="final-cta">
         <div class="container">
             <div class="final-cta-content">
-                <h2>내일 05:00, 중요한 1개를<br>"끝내는 쪽"으로 시작하세요.</h2>
-                <p class="subtitle">무료 베타 7일 동안 430 루프를 설치합니다.</p>
-                <button class="btn-primary" onclick="window.open('https://forms.gle/Cq1D3vkrVBcoSG9A8', '_blank')">무료 베타 신청하고 내일 04:30부터 시작하기</button>
-                <p class="final-note">선착순 50명 / 비용 0원 / 코칭·영상 없음 / 실행만 고정</p>
+                <h2>내일 05:00,<br>끝내는 쪽으로.</h2>
+                <p class="subtitle">7일간 430 루프 설치.</p>
+                <button class="btn-primary" onclick="window.open('https://forms.gle/Cq1D3vkrVBcoSG9A8', '_blank')">신청하고 내일 04:30 알림 받기</button>
+                <p class="final-note">선착순 50명 / 무료 / 코칭 없음 / 실행만</p>
             </div>
         </div>
     </section>
 
     <script>
-        // Scroll animations with Intersection Observer
+        // Scroll animations
         const observerOptions = {
             threshold: 0.15,
             rootMargin: '0px 0px -80px 0px'
@@ -1305,7 +1318,7 @@
             observer.observe(el);
         });
 
-        // Navigation scroll effect with smoother transition
+        // Navigation scroll effect
         const nav = document.getElementById('nav');
         let lastScroll = 0;
         
@@ -1333,7 +1346,7 @@
             });
         }
 
-        // Enhanced story animation
+        // Story animation
         const storyLines = document.querySelectorAll('.story-line');
         const storyObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1353,41 +1366,7 @@
             storyObserver.observe(storySection);
         }
 
-        // Parallax effect on mouse move
-        document.addEventListener('mousemove', (e) => {
-            const items = document.querySelectorAll('.parallax-item');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            items.forEach((item, index) => {
-                const speed = (index + 1) * 0.5;
-                const moveX = (x - 0.5) * speed;
-                const moveY = (y - 0.5) * speed;
-                item.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
-        });
-
-        // Button ripple effect
-        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // Smooth reveal for cards on scroll
+        // Card animations
         const cardObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
