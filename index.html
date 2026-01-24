@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            /* ✅ 브랜드 컬러: 청록(Teal) 통일 */
-            --bg-color: #0f1419;       /* Deep Dark Navy */
-            --primary: #3acbd4;        /* Main Teal */
-            --primary-light: #80e6ed;  /* Light Mint */
-            --primary-dark: #0097a7;   /* Dark Teal */
+            /* 브랜드 컬러: 청록(Teal) */
+            --bg-color: #0f1419;       
+            --primary: #3acbd4;        
+            --primary-light: #80e6ed;  
+            --primary-dark: #0097a7;   
             
-            /* 글로우 효과 (파란색 -> 청록색 변경 완료) */
             --primary-glow: rgba(58, 203, 212, 0.4); 
             --primary-dim: rgba(58, 203, 212, 0.1);
             --border-dim: rgba(58, 203, 212, 0.3);
@@ -34,11 +33,11 @@
             background: radial-gradient(ellipse at top, #1a252f 0%, var(--bg-color) 60%);
             color: var(--text-white);
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.7;
+            line-height: 1.6; /* 모바일 가독성 위해 줄간격 미세 조정 */
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* 폰트 선명하게 */
         }
 
-        /* 심플하고 가벼운 배경 그리드 (파란색 -> 청록색 변경) */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -53,20 +52,19 @@
             z-index: -1;
         }
 
-        /* Scroll Progress */
         .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             width: 0%;
-            height: 4px;
+            height: 3px; /* 모바일에서 너무 두껍지 않게 */
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             z-index: 9999;
             box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .container {
-            max-width: 600px; /* 모바일 가독성 최적화 */
+            max-width: 500px; /* 모바일 집중폭 */
             margin: 0 auto;
             padding: 0 20px;
             position: relative;
@@ -80,11 +78,10 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 16px 0;
-            background: rgba(15, 20, 25, 0.8);
-            backdrop-filter: blur(10px);
+            padding: 14px 0; /* 높이 살짝 축소 */
+            background: rgba(15, 20, 25, 0.85);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
         }
 
         .nav-content {
@@ -94,83 +91,101 @@
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 18px; /* 모바일 사이즈 조정 */
             font-weight: 800;
             color: var(--text-white);
             letter-spacing: -0.5px;
         }
 
         .nav-cta {
-            padding: 8px 20px;
+            padding: 8px 18px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-radius: 50px;
             font-weight: 700;
             font-size: 13px;
             border: none;
             cursor: pointer;
-            color: #0f1419; /* 텍스트 가독성 위해 어두운 색 */
+            color: #0f1419;
         }
 
         /* Hero Section */
         .hero {
-            min-height: 90vh;
+            min-height: 90vh; /* 모바일 브라우저 바 고려 */
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: left;
-            padding: 100px 0 60px;
+            padding: 90px 0 50px; /* 상단 여백 최적화 */
         }
 
         .hero-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 10px;
             background: var(--primary-dim);
             border: 1px solid var(--border-dim);
-            border-radius: 4px;
+            border-radius: 6px;
             color: var(--primary);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             margin-bottom: 20px;
+            letter-spacing: -0.3px;
         }
 
         .hero h1 {
-            font-size: 34px;
+            font-size: 32px; /* 모바일 최적화 사이즈 */
             font-weight: 800;
-            line-height: 1.3;
-            margin-bottom: 24px;
+            line-height: 1.35;
+            margin-bottom: 20px;
             letter-spacing: -1px;
+            word-break: keep-all; /* 단어 짤림 방지 */
         }
 
         .highlight {
             color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 형광펜 효과 추가 (선택사항) */
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--primary-dim);
+            z-index: -1;
+            opacity: 0.6;
         }
 
         .hero-subtitle {
-            font-size: 17px;
+            font-size: 16px;
             color: var(--text-gray);
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             line-height: 1.6;
+            word-break: keep-all;
         }
 
         /* Buttons */
         .btn-primary {
             display: block;
             width: 100%;
-            padding: 18px 0;
+            padding: 16px 0;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #0f1419;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             border-radius: 12px;
             border: none;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 0 20px var(--primary-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
             transition: transform 0.2s;
         }
         
         .btn-primary:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
         }
 
         .btn-secondary {
@@ -184,7 +199,7 @@
             text-align: center;
             padding: 14px 0;
             border-radius: 12px;
-            margin-top: 30px;
+            margin-top: 24px;
             cursor: pointer;
         }
 
@@ -194,28 +209,29 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
+            padding: 22px; /* 내부 여백 미세 조정 */
+            margin-bottom: 16px; /* 카드 간격 축소 */
         }
 
         /* Section Styles */
         .section {
-            padding: 80px 0;
+            padding: 60px 0; /* 섹션 간격 축소 (스크롤 피로도 감소) */
         }
 
         .section-header {
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .section-title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.3;
+            letter-spacing: -0.5px;
         }
 
         .section-subtitle {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-gray);
         }
 
@@ -224,8 +240,14 @@
             border-left: 3px solid var(--primary);
         }
         .problem-card h3 {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .problem-card p {
+            font-size: 15px;
+            color: #ccc;
             margin-bottom: 12px;
         }
         .loss {
@@ -233,32 +255,34 @@
             font-weight: 700;
             display: block;
             margin: 8px 0;
-            font-size: 15px;
+            font-size: 14px;
         }
         .solution-badge {
             display: inline-block;
-            margin-top: 12px;
-            padding: 8px 12px;
+            margin-top: 8px;
+            padding: 6px 10px;
             background: var(--primary-dim);
             color: var(--primary);
             font-weight: 700;
-            font-size: 14px;
-            border-radius: 8px;
+            font-size: 13px;
+            border-radius: 6px;
+            line-height: 1.4;
         }
 
         /* Pricing Section */
         .pricing-card {
             text-align: center;
             border: 2px solid var(--border-dim);
-            box-shadow: 0 0 30px rgba(58, 203, 212, 0.1);
+            box-shadow: 0 0 20px rgba(58, 203, 212, 0.05);
+            padding: 30px 20px;
         }
         .founder-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 10px;
             background: var(--primary-dim);
             color: var(--primary);
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             border-radius: 20px;
             margin-bottom: 16px;
         }
@@ -269,24 +293,27 @@
             display: block;
         }
         .price-new {
-            font-size: 32px;
+            font-size: 30px; /* 모바일에서 너무 크지 않게 */
             font-weight: 800;
             color: var(--text-white);
-            margin: 8px 0 24px;
+            margin: 6px 0 20px;
         }
         .info-row {
             text-align: left;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
             border-radius: 8px;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 13px;
             color: #d0d0d0;
+            display: flex;
+            align-items: center;
         }
         .info-label {
             font-weight: 700;
             color: var(--primary);
-            margin-right: 8px;
+            margin-right: 10px;
+            min-width: 40px; /* 라벨 정렬 */
         }
         .refund-notice {
             font-size: 13px;
@@ -296,6 +323,7 @@
             text-align: left;
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 16px;
+            word-break: keep-all;
         }
 
         /* FAQ */
@@ -305,9 +333,9 @@
             background: none;
             border: none;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            padding: 20px 0;
+            padding: 18px 0;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -319,7 +347,8 @@
             overflow: hidden;
             transition: max-height 0.3s ease;
             color: var(--text-gray);
-            font-size: 15px;
+            font-size: 14px;
+            line-height: 1.6;
         }
         .faq-answer p {
             padding: 16px 0;
@@ -328,16 +357,17 @@
 
         /* Footer CTA */
         .process-note {
-            font-size: 13px;
+            font-size: 12px;
             color: #666;
             margin-top: 16px;
+            word-break: keep-all;
         }
 
         /* Animation */
         .fade-up {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(20px); /* 움직임 폭 축소 */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
         .fade-up.visible {
             opacity: 1;
@@ -440,7 +470,7 @@
             <div class="glass-card pricing-card fade-up">
                 <span class="founder-badge">🎁 Founding Member 혜택</span>
                 <h3>⚠️ 14일 베타 스프린트</h3>
-                <p style="color:#aaa; font-size:14px; margin-bottom:24px;">정원 10명 되면 모집을 마감합니다.</p>
+                <p style="color:#aaa; font-size:13px; margin-bottom:24px;">정원 10명 되면 모집을 마감합니다.</p>
 
                 <div class="info-row">
                     <span class="info-label">📅 일정</span> 시작: 1/27(월) 새벽 4:30 / 기간: 14일
@@ -453,8 +483,8 @@
                 <span class="price-old" style="margin-bottom:20px;">정규 멤버십 가치: 연 4,800,000원</span>
 
                 <div style="background:rgba(58,203,212,0.1); padding:16px; border-radius:8px; text-align:left; margin-bottom:20px;">
-                    <p style="color:var(--primary); font-weight:700; margin-bottom:8px;">💰 [손실 없는 구조]</p>
-                    <p style="font-size:14px; margin-bottom:0; color:#ddd;">
+                    <p style="color:var(--primary); font-weight:700; margin-bottom:8px; font-size:14px;">💰 [손실 없는 구조]</p>
+                    <p style="font-size:13px; margin-bottom:0; color:#ddd; line-height:1.5;">
                         베타 종료 후 연간 멤버십 전환 시, <br>
                         <span style="color:#fff; font-weight:700; text-decoration:underline;">체험비 49만 원 전액 공제(크레딧)</span> 해 드립니다.
                     </p>
@@ -491,7 +521,7 @@
 
     <section class="cta-section">
         <div class="container fade-up">
-            <p style="font-size:18px; font-weight:700; margin-bottom:24px;">
+            <p style="font-size:16px; font-weight:700; margin-bottom:20px; line-height:1.5;">
                 지금 고민하는 이 시간에도,<br>
                 당신의 시간과 돈은 계속 낭비되고 있습니다.
             </p>
@@ -522,7 +552,6 @@
                 const answer = question.nextElementSibling;
                 const isOpen = answer.style.maxHeight;
                 
-                // Close all others
                 document.querySelectorAll('.faq-answer').forEach(ans => ans.style.maxHeight = null);
                 document.querySelectorAll('.faq-question span').forEach(sp => sp.innerText = '+');
 
