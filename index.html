@@ -7,15 +7,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            /* ✅ 수정된 브랜드 컬러 (이미지 기반 추출) */
-            --bg-color: #0f1419;       /* 더 깊은 다크 네이비 */
-            --primary: #3acbd4;        /* 밝은 청록 (메인) */
-            --primary-light: #80e6ed;  /* 더 밝은 민트 (글로우 효과용) */
-            --primary-dark: #0097a7;   /* 짙은 청록 (그라데이션용) */
+            /* ✅ 브랜드 컬러: 청록(Teal) 통일 */
+            --bg-color: #0f1419;       /* Deep Dark Navy */
+            --primary: #3acbd4;        /* Main Teal */
+            --primary-light: #80e6ed;  /* Light Mint */
+            --primary-dark: #0097a7;   /* Dark Teal */
             
-            /* 글로우 효과도 청록색으로 변경 */
+            /* 글로우 효과 (파란색 -> 청록색 변경 완료) */
             --primary-glow: rgba(58, 203, 212, 0.4); 
-            
+            --primary-dim: rgba(58, 203, 212, 0.1);
+            --border-dim: rgba(58, 203, 212, 0.3);
+
             --text-white: #ffffff;
             --text-gray: #9ca3af;
             --glass-bg: rgba(255, 255, 255, 0.03);
@@ -29,15 +31,14 @@
         }
 
         body {
-            background: radial-gradient(ellipse at top, #0f1419 0%, var(--bg-color) 50%);
+            background: radial-gradient(ellipse at top, #1a252f 0%, var(--bg-color) 60%);
             color: var(--text-white);
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.7;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Advanced Grid Background */
+        /* 심플하고 가벼운 배경 그리드 (파란색 -> 청록색 변경) */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -45,73 +46,11 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(40, 107, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(40, 107, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(58, 203, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(58, 203, 212, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
             pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Animated Gradient Orbs */
-        .orbs-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.2;
-            animation: float-orb 20s infinite ease-in-out;
-        }
-
-        .orb1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--primary), transparent);
-            top: -200px;
-            right: -100px;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--primary-light), transparent);
-            bottom: 0;
-            left: -150px;
-            animation-delay: 7s;
-        }
-
-        .orb3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, var(--primary), transparent);
-            top: 50%;
-            right: 10%;
-            animation-delay: 14s;
-        }
-
-        @keyframes float-orb {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1);
-                opacity: 0.2;
-            }
-            33% { 
-                transform: translate(80px, -80px) scale(1.2);
-                opacity: 0.15;
-            }
-            66% { 
-                transform: translate(-50px, 50px) scale(0.9);
-                opacity: 0.25;
-            }
+            z-index: -1;
         }
 
         /* Scroll Progress */
@@ -123,13 +62,13 @@
             height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             z-index: 9999;
-            box-shadow: 0 0 20px var(--primary-glow);
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 600px; /* 모바일 가독성 최적화 */
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 20px;
             position: relative;
             z-index: 1;
         }
@@ -142,16 +81,10 @@
             right: 0;
             z-index: 1000;
             padding: 16px 0;
-            background: rgba(6, 8, 13, 0.8);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 20, 25, 0.8);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
             transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            padding: 12px 0;
-            background: rgba(6, 8, 13, 0.95);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .nav-content {
@@ -161,733 +94,260 @@
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-white);
+            letter-spacing: -0.5px;
         }
 
         .nav-cta {
-            padding: 12px 32px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-radius: 50px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px var(--primary-glow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .nav-cta:hover::before {
-            left: 100%;
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px var(--primary-glow);
+            color: #0f1419; /* 텍스트 가독성 위해 어두운 색 */
         }
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 120px 0 80px;
-            position: relative;
+            text-align: left;
+            padding: 100px 0 60px;
         }
 
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            background: rgba(40, 107, 255, 0.1);
-            border: 1px solid rgba(40, 107, 255, 0.3);
-            border-radius: 50px;
-            color: var(--primary-light);
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--primary-dim);
+            border: 1px solid var(--border-dim);
+            border-radius: 4px;
+            color: var(--primary);
             font-size: 13px;
             font-weight: 700;
-            margin-bottom: 32px;
-            animation: pulse-glow 3s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                box-shadow: 0 0 0 0 var(--primary-glow);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 20px var(--primary-glow);
-                transform: scale(1.02);
-            }
+            margin-bottom: 20px;
         }
 
         .hero h1 {
-            font-size: clamp(40px, 7vw, 72px);
-            font-weight: 900;
-            line-height: 1.15;
-            margin-bottom: 32px;
-            letter-spacing: -3px;
-            background: linear-gradient(180deg, #ffffff 0%, #c5cad3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
         }
 
         .highlight {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light), #66a3ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
+            color: var(--primary);
         }
 
         .hero-subtitle {
-            font-size: clamp(17px, 2.5vw, 22px);
+            font-size: 17px;
             color: var(--text-gray);
-            max-width: 720px;
-            margin: 0 auto 48px;
-            line-height: 1.8;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
-        .hero-subtitle b {
-            color: var(--text-white);
-            font-weight: 700;
-        }
-
-        /* Enhanced Buttons */
+        /* Buttons */
         .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 22px 52px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
+            display: block;
+            width: 100%;
+            padding: 18px 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #0f1419;
             font-size: 18px;
             font-weight: 700;
-            border-radius: 50px;
+            border-radius: 12px;
             border: none;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 40px var(--primary-glow);
-            position: relative;
-            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 0 20px var(--primary-glow);
+            transition: transform 0.2s;
         }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 50px var(--primary-glow);
-        }
-
+        
         .btn-primary:active {
-            transform: translateY(-2px) scale(0.98);
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            padding: 14px 0;
+            border-radius: 12px;
+            margin-top: 30px;
+            cursor: pointer;
         }
 
         /* Glass Cards */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(40, 107, 255, 0.4);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 0 40px var(--primary-glow);
-        }
-
-        .glass-card:hover::before {
-            opacity: 1;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
         }
 
         /* Section Styles */
         .section {
-            padding: 120px 0;
-            position: relative;
+            padding: 80px 0;
         }
 
         .section-header {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 80px;
+            margin-bottom: 40px;
         }
 
         .section-title {
-            font-size: clamp(32px, 5vw, 52px);
-            font-weight: 900;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            letter-spacing: -2px;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.3;
         }
 
         .section-subtitle {
-            font-size: 19px;
+            font-size: 16px;
             color: var(--text-gray);
-            line-height: 1.8;
         }
 
-        /* Problem Cards Grid */
-        .problem-grid {
-            display: grid;
-            gap: 32px;
-            margin-bottom: 60px;
-        }
-
+        /* Problem Section */
         .problem-card {
-            position: relative;
-            padding-left: 24px;
+            border-left: 3px solid var(--primary);
         }
-
-        .problem-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--primary-light));
-            border-radius: 10px;
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-
         .problem-card h3 {
-            font-size: 22px;
-            margin-bottom: 16px;
-            font-weight: 800;
-        }
-
-        .problem-card p {
-            color: var(--text-gray);
-            line-height: 1.8;
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 12px;
         }
-
-        .problem-card .loss {
+        .loss {
             color: #ff6b6b;
             font-weight: 700;
-            margin: 12px 0;
             display: block;
+            margin: 8px 0;
+            font-size: 15px;
         }
-
         .solution-badge {
             display: inline-block;
-            margin-top: 16px;
-            padding: 12px 20px;
-            background: rgba(40, 107, 255, 0.15);
-            border: 1px solid rgba(40, 107, 255, 0.3);
-            border-radius: 12px;
-            color: var(--primary-light);
-            font-weight: 700;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .solution-badge:hover {
-            background: rgba(40, 107, 255, 0.25);
-            transform: translateX(5px);
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 48px 32px;
-        }
-
-        .feature-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            display: inline-block;
-            filter: drop-shadow(0 0 20px rgba(40, 107, 255, 0.3));
-            animation: float-icon 3s infinite ease-in-out;
-        }
-
-        @keyframes float-icon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            font-weight: 800;
-        }
-
-        .feature-card p {
-            color: var(--text-gray);
-            line-height: 1.8;
-        }
-
-        /* Checklist Section */
-        .checklist-card {
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.15), rgba(40, 107, 255, 0.05));
-            border: 2px solid rgba(40, 107, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .checklist-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(40, 107, 255, 0.1), transparent 70%);
-            animation: rotate-gradient 15s linear infinite;
-        }
-
-        @keyframes rotate-gradient {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .checklist-header {
-            text-align: center;
-            margin-bottom: 32px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .checklist-header h3 {
-            font-size: 26px;
-            color: var(--primary-light);
-            font-weight: 800;
-            line-height: 1.4;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
-            position: relative;
-            z-index: 1;
-        }
-
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-
-        .checklist-item:hover {
-            padding-left: 12px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .check-icon {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: var(--primary-dim);
             color: var(--primary);
-            font-size: 24px;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 10px var(--primary-glow));
-        }
-
-        /* Timeline */
-        .timeline {
-            margin-top: 60px;
-            position: relative;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 60px;
-            margin-bottom: 60px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: -60px;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary), transparent);
-        }
-
-        .timeline-item:last-child::before {
-            display: none;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 5px;
-            width: 24px;
-            height: 24px;
-            background: var(--primary);
-            border-radius: 50%;
-            border: 4px solid var(--bg-color);
-            box-shadow: 0 0 0 4px rgba(40, 107, 255, 0.2), 0 0 20px var(--primary-glow);
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .timeline-time {
-            color: var(--primary-light);
-            font-weight: 800;
-            font-size: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .timeline-content {
-            background: var(--glass-bg);
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .timeline-content p:first-child {
-            color: white;
             font-weight: 700;
-            margin-bottom: 12px;
-            font-size: 17px;
+            font-size: 14px;
+            border-radius: 8px;
         }
 
-        .timeline-content p:last-child {
-            color: var(--text-gray);
-            margin: 0;
-        }
-
-        /* Pricing Card */
+        /* Pricing Section */
         .pricing-card {
             text-align: center;
-            padding: 60px 48px;
-            background: linear-gradient(135deg, rgba(40, 107, 255, 0.2), rgba(40, 107, 255, 0.05));
-            border: 2px solid rgba(40, 107, 255, 0.4);
-            position: relative;
-            overflow: hidden;
+            border: 2px solid var(--border-dim);
+            box-shadow: 0 0 30px rgba(58, 203, 212, 0.1);
         }
-
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(40, 107, 255, 0.15), transparent 70%);
-            animation: rotate-gradient 20s linear infinite;
-        }
-
-        .pricing-content {
-            position: relative;
-            z-index: 1;
-        }
-
         .founder-badge {
             display: inline-block;
-            padding: 10px 24px;
-            background: rgba(40, 107, 255, 0.3);
-            border: 1px solid var(--primary);
-            border-radius: 50px;
-            color: white;
-            font-weight: 800;
-            font-size: 14px;
-            margin-bottom: 24px;
-            box-shadow: 0 0 30px var(--primary-glow);
+            padding: 6px 12px;
+            background: var(--primary-dim);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
-
-        .pricing-title {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 12px;
-        }
-
-        .pricing-subtitle {
-            color: var(--text-gray);
-            margin-bottom: 40px;
-            font-size: 16px;
-        }
-
-        .price-container {
-            margin: 40px 0;
-        }
-
         .price-old {
             text-decoration: line-through;
             color: #666;
-            font-size: 16px;
+            font-size: 14px;
             display: block;
-            margin-bottom: 12px;
         }
-
         .price-new {
-            font-size: 56px;
-            font-weight: 900;
-            background: linear-gradient(135deg, white, var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-
-        .guarantee-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 32px;
-            border-radius: 16px;
-            margin: 32px 0;
-            text-align: left;
-        }
-
-        .guarantee-title {
-            color: white;
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 12px;
-            font-size: 17px;
+            color: var(--text-white);
+            margin: 8px 0 24px;
         }
-
-        .guarantee-text {
-            color: var(--text-gray);
-            line-height: 1.8;
-            margin-bottom: 20px;
+        .info-row {
+            text-align: left;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #d0d0d0;
         }
-
-        .guarantee-text .highlight-text {
-            color: var(--primary-light);
+        .info-label {
             font-weight: 700;
+            color: var(--primary);
+            margin-right: 8px;
         }
-
         .refund-notice {
             font-size: 13px;
-            color: #999;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
+            color: #a0a0a0;
             margin-top: 20px;
-            line-height: 1.6;
+            line-height: 1.5;
+            text-align: left;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 16px;
         }
 
         /* FAQ */
-        .faq-container {
-            margin-top: 60px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .faq-item {
-            margin-bottom: 20px;
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s;
-        }
-
-        .faq-item:hover {
-            border-color: rgba(40, 107, 255, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
         .faq-question {
             width: 100%;
             text-align: left;
             background: none;
             border: none;
             color: white;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            padding: 28px 32px;
+            padding: 20px 0;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
+            border-bottom: 1px solid var(--glass-border);
         }
-
-        .faq-question:hover {
-            color: var(--primary-light);
-        }
-
-        .faq-toggle {
-            font-size: 28px;
-            transition: transform 0.3s;
-            color: var(--primary);
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(45deg);
-        }
-
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            padding: 0 32px;
+            transition: max-height 0.3s ease;
+            color: var(--text-gray);
+            font-size: 15px;
         }
-
-        .faq-item.active .faq-answer {
-            padding: 0 32px 28px;
-        }
-
         .faq-answer p {
-            color: var(--text-gray);
-            line-height: 1.9;
-            font-size: 16px;
+            padding: 16px 0;
+            margin: 0;
         }
 
-        /* CTA Section */
-        .cta-section {
-            padding: 100px 0 120px;
-            text-align: center;
-        }
-
-        .cta-text {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
+        /* Footer CTA */
         .process-note {
-            margin-top: 24px;
-            font-size: 14px;
-            color: var(--text-gray);
-            line-height: 1.6;
+            font-size: 13px;
+            color: #666;
+            margin-top: 16px;
         }
 
-        /* Fade Animations */
+        /* Animation */
         .fade-up {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .section {
-                padding: 80px 0;
-            }
-
-            .hero {
-                padding: 100px 0 60px;
-            }
-
-            .nav-cta {
-                padding: 10px 24px;
-                font-size: 13px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .glass-card {
-                padding: 28px;
-            }
-
-            .pricing-card {
-                padding: 40px 24px;
-            }
-
-            .guarantee-box {
-                padding: 24px;
-            }
-
-            .btn-primary {
-                padding: 18px 40px;
-                font-size: 16px;
-            }
-        }
-
-        /* Loading Animation */
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
         }
     </style>
 </head>
 <body>
     <div class="scroll-progress"></div>
     <div class="grid-bg"></div>
-    
-    <div class="orbs-container">
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
-        <div class="orb orb3"></div>
-    </div>
 
     <nav class="navbar">
         <div class="container">
@@ -900,418 +360,189 @@
 
     <section class="hero">
         <div class="container">
+            <span class="hero-badge">📅 1/26 낮 12:00 마감 · 정원 10명</span>
+            
+            <h1>
+                결정 하나 미루면,<br>
+                <span class="highlight">실행이 멈춥니다.</span>
+            </h1>
+            <p class="hero-subtitle">
+                매일 새벽 4:30, 오늘 결정할 기준이 도착합니다.<br>
+                의지가 아니라 시스템으로 병목을 뚫어드립니다.
+            </p>
+            <button class="btn-primary" onclick="scrollToApply()">
+                👉 14일 체험 신청하기
+            </button>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
             <div class="fade-up">
-                <span class="hero-badge">
-                    ⚡ 대표가 잃는 돈은 실패가 아니라 '결정 지연시간(Delay Hours)'입니다
-                </span>
-                <h1>
-                    매일 새벽 4:30,<br>
-                    당신의 뇌에<br>
-                    <span class="highlight">결정을 끝내는 '절대 기준'</span>을<br>
-                    장착해 드립니다
-                </h1>
-                <p class="hero-subtitle">
-                    의지로 버티지 마세요. 감정이 없는 <b>'로그(Log) 시스템'</b>으로<br>
-                    미루는 시간을 14일 동안 로그로 줄여드립니다.
-                </p>
-                <button class="btn-primary" onclick="scrollToApply()">
-                    <span>👉</span>
-                    <span>14일 파일럿 신청하기</span>
-                </button>
+                <h2 class="section-title">혹시 이 3가지 늪에<br>빠져 계신가요?</h2>
             </div>
+
+            <div class="glass-card problem-card fade-up">
+                <h3>🛑 정보 중독 ("좀 더 찾아보고...")</h3>
+                <p>증상: 찜찜한 기분으로 48시간 넘게 리서치만 반복합니다.</p>
+                <span class="loss">📉 손실: 타이밍 놓침 = 기회비용 발생</span>
+                <span class="solution-badge">✅ 해결: 새벽 4:30 "이 조건이면 NO" 기준 도착</span>
+            </div>
+
+            <div class="glass-card problem-card fade-up">
+                <h3>🛑 회의 병목 ("일단 보류합시다")</h3>
+                <p>증상: 대표가 결정을 못 내려서 팀원들이 눈치만 봅니다.</p>
+                <span class="loss">📉 손실: 직원 인건비 낭비 + 실행 속도 '0'</span>
+                <span class="solution-badge">✅ 해결: Delay Hours를 찍고, 오늘 10분만 실행</span>
+            </div>
+
+            <div class="glass-card problem-card fade-up">
+                <h3>🛑 퇴근 후 불안 ("아, 그거 해야 하는데")</h3>
+                <p>증상: 쉴 때도 뇌 용량을 낭비하며 번아웃이 옵니다.</p>
+                <span class="loss">📉 손실: 대표의 판단력 저하 (악순환)</span>
+                <span class="solution-badge">✅ 해결: 머릿속 고민을 '로그'로 추출 → '업무'로 전환</span>
+            </div>
+
+            <button class="btn-secondary fade-up" onclick="scrollToApply()">👉 지금 신청서 작성하기</button>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
-            <div class="section-header fade-up">
-                <h2 class="section-title">
-                    혹시 이 3가지 늪에 빠져<br>돈을 버리고 계신가요?
-                </h2>
+            <div class="fade-up">
+                <h2 class="section-title">"열심히"가 아니라<br>"시스템"으로 해결합니다</h2>
             </div>
 
-            <div class="problem-grid">
-                <div class="glass-card problem-card fade-up stagger-1">
-                    <h3>🛑 정보 중독 ("좀 더 찾아보고...")</h3>
-                    <p>증상: 찜찜한 기분으로 48시간 넘게 리서치만 반복합니다.</p>
-                    <span class="loss">📉 손실: 타이밍 놓침 = 기회비용 발생</span>
-                    <span class="solution-badge">✅ 해결: 새벽 4:30 "이 조건이면 NO" 기준 도착 → 고민 종료</span>
-                </div>
-
-                <div class="glass-card problem-card fade-up stagger-2">
-                    <h3>🛑 회의 병목 ("일단 보류합시다")</h3>
-                    <p>증상: 대표가 결정을 못 내려서 팀원들이 눈치만 봅니다.</p>
-                    <span class="loss">📉 손실: 직원 인건비 낭비 + 실행 속도 '0'</span>
-                    <span class="solution-badge">✅ 해결: Delay Hours를 찍고, 오늘 10분 행동 1개만 실행</span>
-                </div>
-
-                <div class="glass-card problem-card fade-up stagger-3">
-                    <h3>🛑 퇴근 후 불안 ("아, 그거 해야 하는데")</h3>
-                    <p>증상: 쉴 때도 뇌 용량을 낭비하며 번아웃이 옵니다.</p>
-                    <span class="loss">📉 손실: 대표의 판단력 저하 (악순환)</span>
-                    <span class="solution-badge">✅ 해결: 머릿속 고민을 '로그'로 추출 → '업무'로 전환</span>
-                </div>
+            <div class="glass-card fade-up">
+                <h3>📱 04:30 AM 모닝 브리핑</h3>
+                <p>복잡한 고민을 한 줄로 정리해 주는 '가이드'가 매일 배달됩니다. 눈뜨자마자 오늘 끝낼 결정이 명확해집니다.</p>
             </div>
 
-            <div class="fade-up" style="text-align: center; margin-top: 40px;">
-                <button class="btn-primary" onclick="scrollToApply()">
-                    <span>지금 신청서 작성하기</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2 class="section-title">
-                    "열심히"가 아니라<br>"시스템"으로 해결합니다
-                </h2>
-                <p class="section-subtitle">14일 뒤, 대표님이 장착하게 될 3가지 무기</p>
+            <div class="glass-card fade-up">
+                <h3>📊 Decision Inbox (결정함)</h3>
+                <p>단순한 메모장이 아닙니다. 적으면 자동으로 <b>"미룬 시간(Delay Hours)"</b>이 계산됩니다. 숫자를 보면 즉시 결정하게 됩니다.</p>
             </div>
 
-            <div class="features-grid">
-                <div class="glass-card feature-card fade-up stagger-1">
-                    <div class="feature-icon">📱</div>
-                    <h3>04:30 AM<br>모닝 브리핑</h3>
-                    <p>복잡한 고민을 한 줄로 정리해 주는 '가이드'가 매일 배달됩니다. 눈뜨자마자 오늘 끝낼 결정이 명확해집니다.</p>
-                </div>
-
-                <div class="glass-card feature-card fade-up stagger-2">
-                    <div class="feature-icon">📊</div>
-                    <h3>Decision Inbox<br>(결정함 템플릿)</h3>
-                    <p>단순한 메모장이 아닙니다. <b>등록일→완료일이 자동으로 찍히고, Delay Hours가 계산됩니다.</b> 숫자를 보면 즉시 결정하게 됩니다.</p>
-                </div>
-
-                <div class="glass-card feature-card fade-up stagger-3">
-                    <div class="feature-icon">📝</div>
-                    <h3>Audit 리포트<br>(7일차/14일차)</h3>
-                    <p><b>'내 병목 패턴'</b>을 정밀 진단해 드립니다. 내가 어디서 막히는지 원인을 알면 해결은 10분 컷입니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="glass-card checklist-card fade-up">
-                <div class="checklist-header">
-                    <h3>
-                        이 중 2개 이상 해당된다면,<br>지금이 '골든타임'입니다.
-                    </h3>
-                </div>
-                
-                <div class="checklist-item">
-                    <span class="check-icon">✔</span>
-                    <span>"좀 더 생각해 보자"라며 48시간 이상 미루는 안건이 있다.</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-icon">✔</span>
-                    <span>회의는 매일 하는데, 막상 실행되는 건 별로 없다.</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-icon">✔</span>
-                    <span>채용, 세일즈에서 "확신이 안 선다"며 결론을 계속 피한다.</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-icon">✔</span>
-                    <span>완벽한 선택을 하려다 타이밍을 놓친 적이 있다.</span>
-                </div>
-                
-                <p style="margin-top: 40px; color: white; font-weight: 800; text-align: center; font-size: 18px; position: relative; z-index: 1;">
-                    📉 체크하셨나요? 그렇다면 더 이상 미루지 마십시오.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2 class="section-title">
-                    감정이 사라진 '효율의 하루'를<br>미리 경험해 보세요
-                </h2>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item fade-up stagger-1">
-                    <div class="timeline-time">
-                        <span>🌅</span>
-                        <span>04:30 AM | 기준 장착</span>
-                    </div>
-                    <div class="timeline-content">
-                        <p>알림 도착: "리스크 1,000만 원 이하는 즉시 실행하라."</p>
-                        <p>침대에서 이 문장을 읽는 순간, 어제 고민하던 안건의 답이 나옵니다.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item fade-up stagger-2">
-                    <div class="timeline-time">
-                        <span>☕</span>
-                        <span>09:00 AM | 병목 제거</span>
-                    </div>
-                    <div class="timeline-content">
-                        <p>출근 즉시: "A안으로 갑시다."</p>
-                        <p>회의는 10분 만에 끝났고, 팀은 즉시 실행합니다. 대표의 병목 현상이 사라졌습니다.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item fade-up stagger-3">
-                    <div class="timeline-time">
-                        <span>🌙</span>
-                        <span>18:00 PM | 완전한 종료</span>
-                    </div>
-                    <div class="timeline-content">
-                        <p>퇴근길: 머릿속 미결 과제 0건.</p>
-                        <p>지연 시간(Delay Hours) '0'에 가까워지는 하루. 이것이 CEO가 누려야 할 진짜 자유입니다.</p>
-                    </div>
-                </div>
+            <div class="glass-card fade-up">
+                <h3>📝 Audit 리포트 (7일차/14일차)</h3>
+                <p><b>'내 병목 패턴'</b>을 정밀 진단해 드립니다. 내가 어디서 막히는지 원인을 알면 해결은 10분 컷입니다.</p>
             </div>
         </div>
     </section>
 
     <section class="section" id="apply">
         <div class="container">
-            <div class="section-header fade-up">
-                <h2 class="section-title">"후기는 단 하나도 없습니다."</h2>
-                <p class="section-subtitle">
-                    오늘 처음 공개되는 베타 서비스이기 때문입니다.<br>
-                    그래서 화려한 말 대신 <b style="color: var(--primary-light);">'파격적인 책임'</b>을 걸었습니다.
-                </p>
+            <div class="fade-up">
+                <h2 class="section-title">"후기는 아직 없습니다."</h2>
+                <p class="section-subtitle">오늘 처음 공개되는 서비스입니다.<br>그래서 화려한 말 대신 <b class="highlight">'확실한 약속'</b>을 드립니다.</p>
             </div>
 
             <div class="glass-card pricing-card fade-up">
-                <div class="pricing-content">
-                    <span class="founder-badge">🎁 Founding Member 혜택</span>
-                    <h3 class="pricing-title">⚠️ 14일 베타 스프린트</h3>
-                    <p class="pricing-subtitle">정원 10명 되면 모집을 마감합니다.</p>
+                <span class="founder-badge">🎁 Founding Member 혜택</span>
+                <h3>⚠️ 14일 베타 스프린트</h3>
+                <p style="color:#aaa; font-size:14px; margin-bottom:24px;">정원 10명 되면 모집을 마감합니다.</p>
 
-                    <div class="price-container">
-                        <span class="price-old">정규 멤버십 가치: 연 4,800,000원</span>
-                        <div class="price-new">참가비: 490,000원</div>
-                    </div>
-
-                    <div class="guarantee-box">
-                        <p class="guarantee-title">💰 [손실 회피 혜택]</p>
-                        <p class="guarantee-text">
-                            베타 종료 후 연간 멤버십 전환 시, <span class="highlight-text">참가비 49만 원 전액 공제(페이백)</span> 해 드립니다.<br>
-                            (리스크 없이 시스템을 체험하는 구조입니다.)
-                        </p>
-                        
-                        <p class="refund-notice">
-                            ✅ 14일 동안 <b>Decision Inbox에 결정 3건 이상</b> 기록했는데도 Delay Hours가 줄지 않으면 전액 환불해 드립니다.<br>
-                            (단, 기록이 없으면 판정이 불가합니다.)
-                        </p>
-                    </div>
-
-                    <button class="btn-primary" onclick="location.href='https://forms.gle/ssgjhHs26NoRx7Lu9'">
-                        <span>👉</span>
-                        <span>신청서 작성하고 자리 잡기</span>
-                    </button>
+                <div class="info-row">
+                    <span class="info-label">📅 일정</span> 시작: 1/27(월) 새벽 4:30 / 기간: 14일
                 </div>
+                <div class="info-row">
+                    <span class="info-label">📩 채널</span> 슬랙(Slack) DM / 이메일 중 택 1
+                </div>
+
+                <div class="price-new">체험비: 490,000원</div>
+                <span class="price-old" style="margin-bottom:20px;">정규 멤버십 가치: 연 4,800,000원</span>
+
+                <div style="background:rgba(58,203,212,0.1); padding:16px; border-radius:8px; text-align:left; margin-bottom:20px;">
+                    <p style="color:var(--primary); font-weight:700; margin-bottom:8px;">💰 [손실 없는 구조]</p>
+                    <p style="font-size:14px; margin-bottom:0; color:#ddd;">
+                        베타 종료 후 연간 멤버십 전환 시, <br>
+                        <span style="color:#fff; font-weight:700; text-decoration:underline;">체험비 49만 원 전액 공제(크레딧)</span> 해 드립니다.
+                    </p>
+                </div>
+
+                <p class="refund-notice">
+                    ✅ 14일 동안 <b>결정 3건 이상 기록했는데도</b> Delay Hours가 줄지 않으면 전액 환불해 드립니다.<br>
+                    (단, 기록이 없으면 판정이 불가합니다.)
+                </p>
+
+                <button class="btn-primary" onclick="location.href='https://forms.gle/ssgjhHs26NoRx7Lu9'">
+                    👉 신청하고 자리 잡기
+                </button>
             </div>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
-            <div class="section-header fade-up">
-                <h2 class="section-title">자주 묻는 질문</h2>
-            </div>
-
-            <div class="faq-container">
-                <div class="faq-item fade-up stagger-1">
-                    <button class="faq-question">
-                        <span>Q. 새벽 4:30에 못 일어나면요?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>A. 괜찮습니다. 메시지는 '배달'될 뿐, 확인은 편한 시간에 하셔도 됩니다. 중요한 건 하루 시작 전에 기준을 갖는 것입니다.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item fade-up stagger-2">
-                    <button class="faq-question">
-                        <span>Q. 효과가 없으면 환불 되나요?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>A. 네. 14일 동안 <b>Decision Inbox에 결정 3건 이상</b> 기록했는데도 Delay Hours가 줄지 않으면 전액 환불입니다.<br>(단, 기록이 없으면 판정이 불가합니다.)</p>
-                    </div>
-                </div>
-
-                <div class="faq-item fade-up stagger-3">
-                    <button class="faq-question">
-                        <span>Q. 1인 기업도 필요한가요?</span>
-                        <span class="faq-toggle">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>A. 1인 기업일수록 '결정=매출'입니다. 혼자 결정하고 실행해야 하기 때문에, 지연 습관을 잡는 것이 생존의 핵심입니다.</p>
-                    </div>
-                </div>
+            <h2 class="section-title fade-up">자주 묻는 질문</h2>
+            
+            <div class="fade-up">
+                <button class="faq-question">Q. 새벽 4:30에 못 일어나면요? <span>+</span></button>
+                <div class="faq-answer"><p>A. 괜찮습니다. 메시지는 '배달'될 뿐, 확인은 편한 시간에 하셔도 됩니다. 중요한 건 하루 시작 전에 기준을 갖는 것입니다.</p></div>
+                
+                <button class="faq-question">Q. 효과가 없으면 환불 되나요? <span>+</span></button>
+                <div class="faq-answer"><p>A. 네. 14일 동안 결정 3건 이상 기록했는데도 Delay Hours가 줄지 않으면 전액 환불입니다.</p></div>
+                
+                <button class="faq-question">Q. 1인 기업도 필요한가요? <span>+</span></button>
+                <div class="faq-answer"><p>A. 1인 기업일수록 '결정=매출'입니다. 혼자 결정하고 실행해야 하기 때문에, 지연 습관을 잡는 것이 생존의 핵심입니다.</p></div>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="container fade-up">
-            <p class="cta-text">
-                고민하는 지금 이 순간에도,<br>
-                대표님의 시급(결정 비용)은 계속 버려지고 있습니다.
+            <p style="font-size:18px; font-weight:700; margin-bottom:24px;">
+                지금 고민하는 이 시간에도,<br>
+                당신의 시간과 돈은 계속 낭비되고 있습니다.
             </p>
             <button class="btn-primary" onclick="location.href='https://forms.gle/ssgjhHs26NoRx7Lu9'">
-                <span>🚀</span>
-                <span>지금 신청하기 (정원 마감 시 종료)</span>
+                🚀 지금 신청하기 (10명 마감)
             </button>
             <p class="process-note">
-                신청서 제출 → 입금 안내 확인 → 입금 확인 후 1시간 내 웰컴 메시지 발송
+                신청서 제출 → 입금 안내 확인 → 입금 확인 후 시작 메시지 발송
             </p>
         </div>
     </section>
 
     <script>
-        // Smooth scroll function
+        // Smooth scroll
         function scrollToApply() {
-            document.getElementById('apply').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'center'
-            });
+            document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Scroll Progress Bar
-        function updateScrollProgress() {
-            const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / windowHeight) * 100;
-            document.querySelector('.scroll-progress').style.width = scrolled + '%';
-        }
-
-        window.addEventListener('scroll', updateScrollProgress);
-
-        // Navbar scroll effect
+        // Scroll Progress
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-up').forEach(el => {
-            observer.observe(el);
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
         });
 
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
                 const answer = question.nextElementSibling;
-                const isActive = faqItem.classList.contains('active');
+                const isOpen = answer.style.maxHeight;
+                
+                // Close all others
+                document.querySelectorAll('.faq-answer').forEach(ans => ans.style.maxHeight = null);
+                document.querySelectorAll('.faq-question span').forEach(sp => sp.innerText = '+');
 
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                    item.querySelector('.faq-answer').style.maxHeight = null;
-                });
-
-                if (!isActive) {
-                    faqItem.classList.add('active');
+                if (!isOpen) {
                     answer.style.maxHeight = answer.scrollHeight + 'px';
+                    question.querySelector('span').innerText = '-';
                 }
             });
         });
 
-        // Parallax effect for orbs
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = window.pageYOffset;
-                    const orbs = document.querySelectorAll('.orb');
-                    orbs.forEach((orb, index) => {
-                        const speed = 0.3 + (index * 0.15);
-                        orb.style.transform = `translateY(${scrolled * speed}px)`;
-                    });
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        // 3D tilt effect for cards
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 30;
-                const rotateY = (centerX - x) / 30;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        });
-
-        // Button ripple effect
-        document.querySelectorAll('.btn-primary, .nav-cta').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // Add ripple styles dynamically
-        const style = document.createElement('style');
-        style.textContent = `
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                transform: scale(0);
-                animation: ripple-animation 0.6s ease-out;
-                pointer-events: none;
-            }
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
+        // Simple Fade Up Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }
-        `;
-        document.head.appendChild(style);
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
