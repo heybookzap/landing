@@ -1,577 +1,1336 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dawn 430 OS | 14일 결정가속 스프린트</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
-    <style>
-        :root {
-            /* 브랜드 컬러: 청록(Teal) */
-            --bg-color: #0f1419;       
-            --primary: #3acbd4;        
-            --primary-light: #80e6ed;  
-            --primary-dark: #0097a7;   
-            
-            --primary-glow: rgba(58, 203, 212, 0.4); 
-            --primary-dim: rgba(58, 203, 212, 0.1);
-            --border-dim: rgba(58, 203, 212, 0.3);
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawn 430 Society | 결정 지연(Decision Delay) 무료 진단</title>
+  <meta name="description" content="초기 창업가가 원하는 속도와 확실성. 그걸 빼앗는 결정 지연(Decision Delay)을 3분 무료 진단으로 확인하세요." />
 
-            --text-white: #ffffff;
-            --text-gray: #9ca3af;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
+  <style>
+    :root{
+      --brand:#286bff;
+      --bg0:#05060a;
+      --bg1:#0a0d14;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --shadow: 0 18px 55px rgba(0,0,0,.48);
+      --radius: 16px;
+      --radius2: 22px;
+      --max: 1080px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+    }
+    
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html{ scroll-behavior: smooth; }
+    html,body{ height:100%; }
+    
+    body{
+      font-family: var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1100px 650px at 20% 0%, rgba(40,107,255,.24), transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(40,107,255,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+      position: relative;
+    }
+    
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding: 20px 18px 90px; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    /* Enhanced grid with animation */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; opacity:.22;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: radial-gradient(closest-side at 50% 18%, black 0%, transparent 80%);
+      animation: gridPulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes gridPulse{
+      0%, 100%{ opacity:.22; }
+      50%{ opacity:.28; }
+    }
 
-        body {
-            background: radial-gradient(ellipse at top, #1a252f 0%, var(--bg-color) 60%);
-            color: var(--text-white);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6; /* 모바일 가독성 위해 줄간격 미세 조정 */
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* 폰트 선명하게 */
-        }
+    /* Floating particles */
+    .particles{
+      position:fixed; inset:0; pointer-events:none; overflow:hidden;
+    }
+    .particle{
+      position:absolute;
+      width:3px; height:3px;
+      background: var(--brand);
+      border-radius:50%;
+      opacity:0;
+      animation: float linear infinite;
+    }
+    
+    @keyframes float{
+      0%{ transform: translateY(100vh) translateX(0); opacity:0; }
+      10%{ opacity:.6; }
+      90%{ opacity:.6; }
+      100%{ transform: translateY(-100px) translateX(50px); opacity:0; }
+    }
 
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(58, 203, 212, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(58, 203, 212, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: -1;
-        }
+    /* Nav with blur and shadow */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(5,6,10,.75);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 4px 24px rgba(0,0,0,.24);
+      transition: all .3s ease;
+    }
+    
+    .nav.scrolled{
+      background: rgba(5,6,10,.90);
+      border-bottom-color: rgba(255,255,255,.12);
+      box-shadow: 0 8px 32px rgba(0,0,0,.32);
+    }
+    
+    .nav .inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800;
+      letter-spacing:-.02em;
+      transition: transform .3s ease;
+    }
+    
+    .brand:hover{ transform: translateX(2px); }
+    
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 6px rgba(40,107,255,.18);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes dotPulse{
+      0%, 100%{ box-shadow: 0 0 0 6px rgba(40,107,255,.18); }
+      50%{ box-shadow: 0 0 0 10px rgba(40,107,255,.08); }
+    }
+    
+    .handle{
+      font-size:12px; color:var(--muted2);
+      font-family: var(--mono);
+      margin-top:2px;
+    }
+    
+    .navActions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
 
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px; /* 모바일에서 너무 두껍지 않게 */
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            z-index: 9999;
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
+    /* Enhanced buttons */
+    .btn{
+      appearance:none; border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color:var(--text);
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight:750;
+      font-size:15px;
+      cursor:pointer;
+      transition: all .24s cubic-bezier(0.4, 0, 0.2, 1);
+      display:inline-flex; align-items:center; gap:10px;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .btn::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,.1), transparent);
+      opacity:0;
+      transition: opacity .24s ease;
+    }
+    
+    .btn:hover::before{ opacity:1; }
+    .btn:hover{ 
+      transform: translateY(-2px); 
+      border-color: rgba(255,255,255,.22); 
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    }
+    
+    .btn.primary{
+      border-color: rgba(40,107,255,.70);
+      background: linear-gradient(135deg, rgba(40,107,255,.98), rgba(40,107,255,.75));
+      box-shadow: 0 20px 50px rgba(40,107,255,.28), 0 0 0 0 rgba(40,107,255,.4);
+      animation: buttonPulse 3s ease-in-out infinite;
+      font-size: 16px;
+      padding: 14px 24px;
+    }
+    
+    @keyframes buttonPulse{
+      0%, 100%{ box-shadow: 0 20px 50px rgba(40,107,255,.28), 0 0 0 0 rgba(40,107,255,.4); }
+      50%{ box-shadow: 0 24px 60px rgba(40,107,255,.32), 0 0 0 8px rgba(40,107,255,0); }
+    }
+    
+    .btn.primary:hover{
+      border-color: rgba(40,107,255,.90);
+      box-shadow: 0 28px 70px rgba(40,107,255,.38);
+      transform: translateY(-3px) scale(1.02);
+      animation: none;
+    }
+    
+    .btn.primary::before{
+      background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+    }
+    
+    .pill{
+      font-size:12px;
+      color: rgba(255,255,255,.88);
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      padding: 4px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+      font-weight:600;
+    }
 
-        .container {
-            max-width: 500px; /* 모바일 집중폭 */
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
+    /* Enhanced glass effect */
+    .glass{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      position:relative;
+      overflow:hidden;
+      transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,.05), transparent 50%);
+      opacity:0;
+      transition: opacity .4s ease;
+    }
+    
+    .glass:hover::before{ opacity:1; }
+    
+    .glass:hover{
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    }
 
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 14px 0; /* 높이 살짝 축소 */
-            background: rgba(15, 20, 25, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-        }
+    /* Hero with scroll animations */
+    .hero{
+      padding: 60px 0 24px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items:stretch;
+    }
+    
+    .heroLeft{ padding: 32px 30px; }
+    
+    .kicker{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+      color: var(--muted);
+      font-weight:750;
+      letter-spacing:-.01em;
+      margin-bottom: 12px;
+      animation: fadeInUp .6s ease-out;
+    }
+    
+    @keyframes fadeInUp{
+      from{ opacity:0; transform: translateY(20px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+    
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      padding: 7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      transition: all .3s ease;
+    }
+    
+    .tag:hover{
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.20);
+      transform: translateY(-1px);
+    }
+    
+    h1{
+      font-size: clamp(32px, 4vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+      margin: 10px 0 16px;
+      animation: fadeInUp .6s ease-out .1s backwards;
+      font-weight: 900;
+    }
+    
+    .accent{ 
+      background: linear-gradient(135deg, var(--brand), #4d8fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position:relative;
+      display:inline-block;
+      font-weight: 900;
+    }
+    
+    
+    .lead{
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+      margin: 0 0 18px;
+      max-width: 64ch;
+      animation: fadeInUp .6s ease-out .2s backwards;
+      font-weight: 500;
+    }
+    
+    .anti{
+      margin-top: 12px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border:1px dashed rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1.55;
+      animation: fadeInUp .6s ease-out .3s backwards;
+      transition: all .3s ease;
+    }
+    
+    .anti:hover{
+      background: rgba(0,0,0,.24);
+      border-color: rgba(255,255,255,.22);
+    }
+    
+    .ctaRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 18px;
+      animation: fadeInUp .6s ease-out .4s backwards;
+    }
+    
+    .micro{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 12px;
+      animation: fadeInUp .6s ease-out .5s backwards;
+    }
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Hero Right Metrics */
+    .heroRight{
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      min-height: 100%;
+    }
+    
+    .metric{
+      padding: 16px 16px;
+      border-radius: var(--radius);
+      background: var(--card2);
+      border:1px solid rgba(255,255,255,.12);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+      transition: all .3s ease;
+      animation: fadeInRight .6s ease-out backwards;
+    }
+    
+    .metric:nth-child(1){ animation-delay: .2s; }
+    .metric:nth-child(2){ animation-delay: .3s; }
+    .metric:nth-child(3){ animation-delay: .4s; }
+    
+    @keyframes fadeInRight{
+      from{ opacity:0; transform: translateX(30px); }
+      to{ opacity:1; transform: translateX(0); }
+    }
+    
+    .metric:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.18);
+      transform: translateX(-4px) scale(1.02);
+      box-shadow: 0 12px 36px rgba(0,0,0,.3);
+    }
+    
+    .metric .label{ 
+      color: var(--muted2); 
+      font-size:11px; 
+      font-family: var(--mono); 
+      letter-spacing:.05em;
+      font-weight:600;
+    }
+    
+    .metric .value{ 
+      font-size: 18px; 
+      font-weight:900; 
+      letter-spacing:-.03em; 
+      margin-top: 4px;
+      color: rgba(255,255,255,.96);
+    }
+    
+    .metric .hint{ 
+      color: var(--muted); 
+      font-size:12px; 
+      margin-top: 7px; 
+      line-height: 1.50; 
+    }
+    
+    .bar{
+      width: 100%;
+      height: 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      margin-top: 10px;
+      border:1px solid rgba(255,255,255,.10);
+      position:relative;
+    }
+    
+    .bar > i{
+      display:block; height:100%;
+      width: 40%;
+      background: linear-gradient(90deg, rgba(40,107,255,.95), rgba(40,107,255,.45));
+      border-radius:999px;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .bar > i::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer{
+      0%{ transform: translateX(-100%); }
+      100%{ transform: translateX(100%); }
+    }
 
-        .logo {
-            font-size: 18px; /* 모바일 사이즈 조정 */
-            font-weight: 800;
-            color: var(--text-white);
-            letter-spacing: -0.5px;
-        }
+    /* Sections with scroll reveal */
+    section{ 
+      margin-top: 28px; 
+      opacity:0;
+      transform: translateY(30px);
+      transition: all .6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    section.reveal{
+      opacity:1;
+      transform: translateY(0);
+    }
+    
+    .section{ padding: 24px 20px; border-radius: var(--radius2); }
+    
+    .sectionHeader{
+      display:flex; gap:12px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom: 16px;
+    }
+    
+    .sectionHeader h2{
+      margin:0;
+      font-size: clamp(22px, 2.4vw, 30px);
+      letter-spacing:-.04em;
+      line-height:1.12;
+      font-weight: 900;
+    }
+    
+    .sub{
+      color: var(--muted2);
+      font-size: 13px;
+      line-height: 1.60;
+      max-width: 72ch;
+      margin: 6px 0 0;
+    }
 
-        .nav-cta {
-            padding: 8px 18px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 13px;
-            border: none;
-            cursor: pointer;
-            color: #0f1419;
-        }
+    /* Enhanced cards */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .card{
+      padding: 18px 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:3px;
+      background: linear-gradient(90deg, var(--brand), transparent);
+      opacity:0;
+      transition: opacity .3s ease;
+    }
+    
+    .card:hover::before{ opacity:1; }
+    
+    .card:hover{ 
+      transform: translateY(-6px) scale(1.02); 
+      border-color: rgba(255,255,255,.22); 
+      background: rgba(255,255,255,.095);
+      box-shadow: 0 16px 48px rgba(0,0,0,.30);
+    }
+    
+    .card h3{ 
+      margin: 0 0 10px; 
+      font-size: 15px; 
+      letter-spacing:-.02em; 
+      line-height:1.35;
+    }
+    
+    .card p{ 
+      margin:0; 
+      color: var(--muted); 
+      font-size: 13px; 
+      line-height: 1.60; 
+    }
+    
+    .card .mini{
+      margin-top: 12px;
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+      line-height: 1.55;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 12px;
+    }
 
-        /* Hero Section */
-        .hero {
-            min-height: 90vh; /* 모바일 브라우저 바 고려 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: left;
-            padding: 90px 0 50px; /* 상단 여백 최적화 */
-        }
+    /* Summary box */
+    .summaryBox{
+      margin-top: 16px;
+      padding: 16px 16px;
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      display:flex;
+      flex-wrap:wrap;
+      gap: 14px;
+      align-items:center;
+      justify-content:space-between;
+      transition: all .3s ease;
+    }
+    
+    .summaryBox:hover{
+      background: rgba(0,0,0,.24);
+      border-color: rgba(255,255,255,.16);
+    }
+    
+    .summaryBox b{ letter-spacing:-.01em; }
+    
+    .bullets{
+      margin:0; padding-left: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.70;
+      flex: 1 1 520px;
+    }
+    
+    .bullets li{ margin: 6px 0; }
 
-        .hero-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: var(--primary-dim);
-            border: 1px solid var(--border-dim);
-            border-radius: 6px;
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.3px;
-        }
+    /* Story panes */
+    .story{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .pane{
+      padding: 18px 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: all .3s ease;
+    }
+    
+    .pane:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.18);
+      transform: scale(1.02);
+    }
+    
+    .pane h3{ 
+      margin: 0 0 10px; 
+      font-size: 15px; 
+      letter-spacing:-.02em; 
+    }
+    
+    .pane ul{ 
+      margin:0; 
+      padding-left: 20px; 
+      color: var(--muted); 
+      font-size: 13px; 
+      line-height:1.70; 
+    }
+    
+    .pane li{ margin: 7px 0; }
 
-        .hero h1 {
-            font-size: 32px; /* 모바일 최적화 사이즈 */
-            font-weight: 800;
-            line-height: 1.35;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            word-break: keep-all; /* 단어 짤림 방지 */
-        }
+    /* FAQ */
+    .faq{ 
+      margin-top: 16px; 
+      display:grid; 
+      grid-template-columns: 1fr; 
+      gap: 12px; 
+    }
+    
+    details{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 16px 16px;
+      transition: all .3s ease;
+    }
+    
+    details:hover{
+      background: rgba(255,255,255,.075);
+      border-color: rgba(255,255,255,.16);
+    }
+    
+    details[open]{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.18);
+    }
+    
+    summary{
+      cursor:pointer;
+      font-weight:850;
+      font-size:14px;
+      letter-spacing:-.02em;
+      list-style:none;
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      gap: 12px;
+      transition: color .3s ease;
+    }
+    
+    summary:hover{ color: var(--brand); }
+    summary::-webkit-details-marker{ display:none; }
+    
+    .chev{
+      width: 10px; height:10px;
+      border-right:2px solid rgba(255,255,255,.75);
+      border-bottom:2px solid rgba(255,255,255,.75);
+      transform: rotate(-45deg);
+      transition: transform .24s cubic-bezier(0.4, 0, 0.2, 1);
+      flex: 0 0 auto;
+    }
+    
+    details[open] .chev{ transform: rotate(45deg); }
+    
+    details p{
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
 
-        .highlight {
-            color: var(--primary);
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* 형광펜 효과 추가 (선택사항) */
-        .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: var(--primary-dim);
-            z-index: -1;
-            opacity: 0.6;
-        }
+    /* CTA Block */
+    .ctaBlock{
+      margin-top: 16px;
+      padding: 24px 20px;
+      border-radius: var(--radius2);
+      background: linear-gradient(135deg, rgba(40,107,255,.26), rgba(255,255,255,.06));
+      border: 2px solid rgba(40,107,255,.40);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap:wrap;
+      transition: all .3s ease;
+      position:relative;
+      overflow:hidden;
+      animation: ctaGlow 4s ease-in-out infinite;
+    }
+    
+    @keyframes ctaGlow{
+      0%, 100%{ box-shadow: 0 12px 40px rgba(40,107,255,.18); }
+      50%{ box-shadow: 0 16px 50px rgba(40,107,255,.28); }
+    }
+    
+    .ctaBlock::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(40,107,255,.1), transparent);
+      opacity:0;
+      transition: opacity .3s ease;
+    }
+    
+    .ctaBlock:hover::before{ opacity:1; }
+    
+    .ctaBlock:hover{
+      border-color: rgba(40,107,255,.55);
+      box-shadow: 0 16px 50px rgba(40,107,255,.25);
+      transform: scale(1.01);
+      animation: none;
+    }
+    
+    .ctaBlock h3{ 
+      margin:0; 
+      font-size: 18px; 
+      letter-spacing:-.03em;
+      font-weight: 900;
+    }
+    
+    .ctaBlock p{ 
+      margin: 6px 0 0; 
+      color: var(--muted); 
+      font-size: 13px; 
+      line-height:1.55; 
+    }
 
-        .hero-subtitle {
-            font-size: 16px;
-            color: var(--text-gray);
-            margin-bottom: 36px;
-            line-height: 1.6;
-            word-break: keep-all;
-        }
+    /* Scarcity indicator */
+    .scarcity{
+      color: rgba(255,255,255,.90);
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-family: var(--mono);
+      white-space:nowrap;
+      transition: all .3s ease;
+    }
+    
+    .scarcity:hover{
+      background: rgba(0,0,0,.28);
+      border-color: rgba(255,255,255,.20);
+    }
+    
+    .pulse{
+      width: 9px; height:9px; border-radius:999px; background: var(--brand);
+      box-shadow: 0 0 0 0 rgba(40,107,255,.45);
+      animation: pulse 1.6s infinite;
+    }
+    
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 rgba(40,107,255,.45); }
+      70%{ box-shadow: 0 0 0 12px rgba(40,107,255,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(40,107,255,0); }
+    }
 
-        /* Buttons */
-        .btn-primary {
-            display: block;
-            width: 100%;
-            padding: 16px 0;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #0f1419;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 0 15px var(--primary-glow);
-            transition: transform 0.2s;
-        }
-        
-        .btn-primary:active {
-            transform: scale(0.96);
-        }
+    /* Loss box */
+    .lossBox{
+      margin-top: 16px;
+      padding: 18px 18px;
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.22);
+      border: 2px solid rgba(255,180,40,.35);
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
+      line-height: 1.65;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .lossBox::before{
+      content: '⚠️';
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      font-size: 24px;
+      opacity: .3;
+    }
+    
+    .lossBox:hover{
+      background: rgba(0,0,0,.28);
+      border-color: rgba(255,180,40,.45);
+      transform: scale(1.01);
+    }
+    
+    .lossBox b{ color: rgba(255,255,255,.94); }
 
-        .btn-secondary {
-            display: block;
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            padding: 14px 0;
-            border-radius: 12px;
-            margin-top: 24px;
-            cursor: pointer;
-        }
+    /* Footer */
+    footer{
+      margin-top: 32px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.65;
+      padding: 20px 0 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
 
-        /* Glass Cards */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 22px; /* 내부 여백 미세 조정 */
-            margin-bottom: 16px; /* 카드 간격 축소 */
-        }
+    /* Scroll to top button */
+    .scrollTop{
+      position:fixed;
+      bottom:30px;
+      right:30px;
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      background: rgba(40,107,255,.90);
+      border:2px solid rgba(40,107,255,.70);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      opacity:0;
+      visibility:hidden;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(40,107,255,.30);
+      z-index:100;
+    }
+    
+    .scrollTop.show{
+      opacity:1;
+      visibility:visible;
+    }
+    
+    .scrollTop:hover{
+      background: var(--brand);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 16px 40px rgba(40,107,255,.40);
+    }
+    
+    .scrollTop::before{
+      content:'↑';
+      font-size: 24px;
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+    }
 
-        /* Section Styles */
-        .section {
-            padding: 60px 0; /* 섹션 간격 축소 (스크롤 피로도 감소) */
-        }
-
-        .section-header {
-            margin-bottom: 32px;
-        }
-
-        .section-title {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            line-height: 1.3;
-            letter-spacing: -0.5px;
-        }
-
-        .section-subtitle {
-            font-size: 15px;
-            color: var(--text-gray);
-        }
-
-        /* Problem Section */
-        .problem-card {
-            border-left: 3px solid var(--primary);
-        }
-        .problem-card h3 {
-            font-size: 19px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        .problem-card p {
-            font-size: 15px;
-            color: #ccc;
-            margin-bottom: 12px;
-        }
-        .loss {
-            color: #ff6b6b;
-            font-weight: 700;
-            display: block;
-            margin: 8px 0;
-            font-size: 14px;
-        }
-        .solution-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 6px 10px;
-            background: var(--primary-dim);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 13px;
-            border-radius: 6px;
-            line-height: 1.4;
-        }
-
-        /* Pricing Section */
-        .pricing-card {
-            text-align: center;
-            border: 2px solid var(--border-dim);
-            box-shadow: 0 0 20px rgba(58, 203, 212, 0.05);
-            padding: 30px 20px;
-        }
-        .founder-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: var(--primary-dim);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-        }
-        .price-old {
-            text-decoration: line-through;
-            color: #666;
-            font-size: 14px;
-            display: block;
-        }
-        .price-new {
-            font-size: 30px; /* 모바일에서 너무 크지 않게 */
-            font-weight: 800;
-            color: var(--text-white);
-            margin: 6px 0 20px;
-        }
-        .info-row {
-            text-align: left;
-            padding: 10px 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: #d0d0d0;
-            display: flex;
-            align-items: center;
-        }
-        .info-label {
-            font-weight: 700;
-            color: var(--primary);
-            margin-right: 10px;
-            min-width: 40px; /* 라벨 정렬 */
-        }
-        .refund-notice {
-            font-size: 13px;
-            color: #a0a0a0;
-            margin-top: 20px;
-            line-height: 1.5;
-            text-align: left;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 16px;
-            word-break: keep-all;
-        }
-
-        /* FAQ */
-        .faq-question {
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 15px;
-            font-weight: 700;
-            padding: 18px 0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--text-gray);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .faq-answer p {
-            padding: 16px 0;
-            margin: 0;
-        }
-
-        /* Footer CTA */
-        .process-note {
-            font-size: 12px;
-            color: #666;
-            margin-top: 16px;
-            word-break: keep-all;
-        }
-
-        /* Animation */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(20px); /* 움직임 폭 축소 */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .cards{ grid-template-columns: 1fr; }
+      .story{ grid-template-columns: 1fr; }
+      .nav .inner{ padding: 12px 18px; }
+      .brand{ font-size:15px; }
+      h1{ font-size: clamp(24px, 5vw, 36px); }
+      .heroLeft, .heroRight{ padding: 20px 18px; }
+      .metric{ flex-direction:column; }
+      .scrollTop{ bottom:20px; right:20px; width:45px; height:45px; }
+    }
+    
+    @media (max-width: 640px){
+      .ctaRow{ flex-direction:column; align-items:stretch; }
+      .ctaRow .btn{ width:100%; justify-content:center; }
+      .navActions{ gap:8px; }
+      .navActions .btn{ font-size:13px; padding: 9px 12px; }
+      .summaryBox{ flex-direction:column; align-items:flex-start; }
+      .ctaBlock{ flex-direction:column; align-items:stretch; }
+    }
+    
+    /* Accessibility - Reduced Motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+      html{ scroll-behavior: auto; }
+      .particles{ display:none !important; }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="scroll-progress"></div>
-    <div class="grid-bg"></div>
+  <div class="grid"></div>
+  <div class="particles" id="particles"></div>
 
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">DAWN 430 OS</div>
-                <button class="nav-cta" onclick="scrollToApply()">신청하기</button>
-            </div>
+  <div class="nav" id="nav">
+    <div class="inner">
+      <div class="brand">
+        <span class="dot"></span>
+        <div>
+          <div>Dawn 430 Society</div>
+          <div class="handle">@dawn430.society</div>
         </div>
-    </nav>
+      </div>
+      <div class="navActions">
+        <a class="btn primary" id="navAuditBtn" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
+          💰 무료 진단 시작
+        </a>
+      </div>
+    </div>
+  </div>
 
-    <section class="hero">
-        <div class="container">
-            <span class="hero-badge">📅 1/26 낮 12:00 마감 · 정원 10명</span>
-            
-            <h1>
-                결정 하나 미루면,<br>
-                <span class="highlight">실행이 멈춥니다.</span>
-            </h1>
-            <p class="hero-subtitle">
-                매일 새벽 4:30, 오늘 결정할 기준이 도착합니다.<br>
-                의지가 아니라 시스템으로 병목을 뚫어드립니다.
-            </p>
-            <button class="btn-primary" onclick="scrollToApply()">
-                👉 14일 체험 신청하기
-            </button>
+  <main class="wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="glass heroLeft">
+        <div class="kicker">
+          <span class="tag"><b>창업자</b> 전용</span>
+          <span class="tag">무료</span>
+          <span class="tag">3분</span>
         </div>
+
+        <h1>
+          결정이 늦어질수록<br/>
+          <span class="accent">비용이 소각됩니다</span>
+        </h1>
+
+        <p class="lead">
+          월 고정비 <b>2,000만</b>이면<br/>
+          1주 지연 = <b id="weeklyLossInline">₩5,000,000</b>
+        </p>
+
+        <div class="anti">
+          <b style="font-size: 15px;">⚡ 3분이면 끝.</b><br/>
+          내가 새는 돈 숫자로 보여줌.
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="#audit">
+            💰 돈 새는 거 지금 확인
+            <span class="pill">3분</span>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="glass heroRight">
+        <div class="metric">
+          <div>
+            <div class="label">💸 새는 돈</div>
+            <div class="value">1주 = 500만원</div>
+            <div class="hint">결정 못 내리면 이만큼 샘</div>
+            <div class="bar"><i id="meterBar"></i></div>
+          </div>
+          <div style="text-align:right; min-width:150px;">
+            <div class="label">1주 지연</div>
+            <div class="value" id="weeklyLoss">₩5,000,000</div>
+            <div class="hint" id="lossHint">월 2천만 기준</div>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div>
+            <div class="label">⏱️ 소요시간</div>
+            <div class="value">3분 완료</div>
+            <div class="hint">복잡한 거 없음</div>
+          </div>
+          <div class="label" style="text-align:right;">
+            <span style="color:rgba(255,255,255,.92); font-weight:900; font-size: 20px;">지금</span>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div>
+            <div class="label">📊 결과</div>
+            <div class="value">숫자 리포트</div>
+            <div class="hint">얼마나 새는지 정확히</div>
+          </div>
+          <div class="label" style="text-align:right;">
+            <span style="color:rgba(255,255,255,.92); font-weight:900; font-size: 20px;">증거</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEMS -->
+    <section class="glass section" id="problems">
+      <div class="sectionHeader">
+        <div>
+          <h2>당신의 문제 3가지</h2>
+          <p class="sub">길게 설명 안 합니다. 보면 압니다.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>❌ 결정 못 내림</h3>
+          <p>채용할까? 가격 올릴까? 계속 미룸.</p>
+          <div class="mini"><b>→</b> 오늘 끝낼 것 딱 1개</div>
+        </div>
+
+        <div class="card">
+          <h3>💸 고민하면 돈 샘</h3>
+          <p>1주일 = 500만원 증발</p>
+          <div class="mini"><b>→</b> 숫자로 보여줘서 빨리 결정</div>
+        </div>
+
+        <div class="card">
+          <h3>🔄 또 반복됨</h3>
+          <p>의지로는 안 바뀜</p>
+          <div class="mini"><b>→</b> 시스템으로 패턴 차단</div>
+        </div>
+      </div>
+
+      <div class="summaryBox">
+        <div style="min-width: 220px;">
+          <b style="font-size: 16px;">✅ 얻는 것</b><br/>
+          <span style="color:var(--muted2); font-size:12px; font-family:var(--mono);">3가지 변화</span>
+        </div>
+        <ul class="bullets">
+          <li><b>오늘 뭐 할지 명확</b> - 더 이상 고민 안 함</li>
+          <li><b>고민 시간 확 줄어듬</b> - 바로 결정</li>
+          <li><b>돈 새는 게 보임</b> - 숫자로 명확하게</li>
+        </ul>
+      </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="fade-up">
-                <h2 class="section-title">혹시 이 3가지 늪에<br>빠져 계신가요?</h2>
-            </div>
-
-            <div class="glass-card problem-card fade-up">
-                <h3>🛑 정보 중독 ("좀 더 찾아보고...")</h3>
-                <p>증상: 찜찜한 기분으로 48시간 넘게 리서치만 반복합니다.</p>
-                <span class="loss">📉 손실: 타이밍 놓침 = 기회비용 발생</span>
-                <span class="solution-badge">✅ 해결: 새벽 4:30 "이 조건이면 NO" 기준 도착</span>
-            </div>
-
-            <div class="glass-card problem-card fade-up">
-                <h3>🛑 회의 병목 ("일단 보류합시다")</h3>
-                <p>증상: 대표가 결정을 못 내려서 팀원들이 눈치만 봅니다.</p>
-                <span class="loss">📉 손실: 직원 인건비 낭비 + 실행 속도 '0'</span>
-                <span class="solution-badge">✅ 해결: Delay Hours를 찍고, 오늘 10분만 실행</span>
-            </div>
-
-            <div class="glass-card problem-card fade-up">
-                <h3>🛑 퇴근 후 불안 ("아, 그거 해야 하는데")</h3>
-                <p>증상: 쉴 때도 뇌 용량을 낭비하며 번아웃이 옵니다.</p>
-                <span class="loss">📉 손실: 대표의 판단력 저하 (악순환)</span>
-                <span class="solution-badge">✅ 해결: 머릿속 고민을 '로그'로 추출 → '업무'로 전환</span>
-            </div>
-
-            <button class="btn-secondary fade-up" onclick="scrollToApply()">👉 지금 신청서 작성하기</button>
+    <!-- STORY -->
+    <section class="glass section" id="story">
+      <div class="sectionHeader">
+        <div>
+          <h2>쓰기 전 vs 쓴 후</h2>
+          <p class="sub">하루가 이렇게 바뀝니다.</p>
         </div>
+      </div>
+
+      <div class="story">
+        <div class="pane">
+          <h3>😫 쓰기 전</h3>
+          <ul>
+            <li><b>아침:</b> "오늘 뭐부터?" 멘붕</li>
+            <li><b>낮:</b> 중요한 거 계속 미룸</li>
+            <li><b>밤:</b> 후회만 쌓임</li>
+          </ul>
+        </div>
+
+        <div class="pane">
+          <h3>✅ 쓴 후</h3>
+          <ul>
+            <li><b>새벽 4:30:</b> 오늘 할 거 딱 1개 옴</li>
+            <li><b>낮:</b> 고민 시간 확 줄어듬</li>
+            <li><b>밤:</b> 팀 속도 빨라짐</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="fade-up">
-                <h2 class="section-title">"열심히"가 아니라<br>"시스템"으로 해결합니다</h2>
-            </div>
-
-            <div class="glass-card fade-up">
-                <h3>📱 04:30 AM 모닝 브리핑</h3>
-                <p>복잡한 고민을 한 줄로 정리해 주는 '가이드'가 매일 배달됩니다. 눈뜨자마자 오늘 끝낼 결정이 명확해집니다.</p>
-            </div>
-
-            <div class="glass-card fade-up">
-                <h3>📊 Decision Inbox (결정함)</h3>
-                <p>단순한 메모장이 아닙니다. 적으면 자동으로 <b>"미룬 시간(Delay Hours)"</b>이 계산됩니다. 숫자를 보면 즉시 결정하게 됩니다.</p>
-            </div>
-
-            <div class="glass-card fade-up">
-                <h3>📝 Audit 리포트 (7일차/14일차)</h3>
-                <p><b>'내 병목 패턴'</b>을 정밀 진단해 드립니다. 내가 어디서 막히는지 원인을 알면 해결은 10분 컷입니다.</p>
-            </div>
+    <!-- TRUST -->
+    <section class="glass section" id="trust">
+      <div class="sectionHeader">
+        <div>
+          <h2>후기 없어도 믿을 수 있는 이유</h2>
+          <p class="sub">말 안하고 보여줍니다.</p>
         </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>📄 말 아니라 결과물</h3>
+          <p>샘플 먼저 보여줌</p>
+          <div class="mini"><b>→</b> 상상 말고 직접 보고 판단</div>
+        </div>
+        <div class="card">
+          <h3>📊 기분 아니라 숫자</h3>
+          <p>미뤄진 개수, 새는 돈</p>
+          <div class="mini"><b>→</b> 느낌 아닌 데이터로만</div>
+        </div>
+        <div class="card">
+          <h3>🎯 선택지 1개</h3>
+          <p>오늘 이것만 결정</p>
+          <div class="mini"><b>→</b> 쉬워서 바로 행동</div>
+        </div>
+      </div>
     </section>
 
-    <section class="section" id="apply">
-        <div class="container">
-            <div class="fade-up">
-                <h2 class="section-title">"후기는 아직 없습니다."</h2>
-                <p class="section-subtitle">오늘 처음 공개되는 서비스입니다.<br>그래서 화려한 말 대신 <b class="highlight">'확실한 약속'</b>을 드립니다.</p>
-            </div>
-
-            <div class="glass-card pricing-card fade-up">
-                <span class="founder-badge">🎁 Founding Member 혜택</span>
-                <h3>⚠️ 14일 베타 스프린트</h3>
-                <p style="color:#aaa; font-size:13px; margin-bottom:24px;">정원 10명 되면 모집을 마감합니다.</p>
-
-                <div class="info-row">
-                    <span class="info-label">📅 일정</span> 시작: 1/27(월) 새벽 4:30 / 기간: 14일
-                </div>
-                <div class="info-row">
-                    <span class="info-label">📩 채널</span> 슬랙(Slack) DM / 이메일 중 택 1
-                </div>
-
-                <div class="price-new">체험비: 490,000원</div>
-                <span class="price-old" style="margin-bottom:20px;">정규 멤버십 가치: 연 4,800,000원</span>
-
-                <div style="background:rgba(58,203,212,0.1); padding:16px; border-radius:8px; text-align:left; margin-bottom:20px;">
-                    <p style="color:var(--primary); font-weight:700; margin-bottom:8px; font-size:14px;">💰 [손실 없는 구조]</p>
-                    <p style="font-size:13px; margin-bottom:0; color:#ddd; line-height:1.5;">
-                        베타 종료 후 연간 멤버십 전환 시, <br>
-                        <span style="color:#fff; font-weight:700; text-decoration:underline;">체험비 49만 원 전액 공제(크레딧)</span> 해 드립니다.
-                    </p>
-                </div>
-
-                <p class="refund-notice">
-                    ✅ 14일 동안 <b>결정 3건 이상 기록했는데도</b> Delay Hours가 줄지 않으면 전액 환불해 드립니다.<br>
-                    (단, 기록이 없으면 판정이 불가합니다.)
-                </p>
-
-                <button class="btn-primary" onclick="location.href='https://forms.gle/ssgjhHs26NoRx7Lu9'">
-                    👉 신청하고 자리 잡기
-                </button>
-            </div>
+    <!-- CTA / AUDIT -->
+    <section class="glass section" id="audit">
+      <div class="sectionHeader">
+        <div>
+          <h2>무료로 확인하기</h2>
+          <p class="sub">3분 · 5문항 · 카드 입력 없음</p>
         </div>
+      </div>
+
+      <div class="ctaBlock">
+        <div>
+          <h3>💰 내가 새는 돈 확인</h3>
+          <p>무료. 3분. 지금 바로.</p>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+          <div class="scarcity" id="scarcityPill">
+            <span class="pulse"></span>
+            이번 달 <b id="slotsLeft">5명</b> 남음
+          </div>
+          <a class="btn primary" id="auditBtn" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
+            지금 확인하기
+            <span class="pill">3분</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="lossBox">
+        <b style="font-size: 15px;">⏰ 지금 이 순간에도 500만원이 샙니다.</b><br/>
+        확인 안 하면 계속 샙니다. 무료니까 지금 확인하세요.
+      </div>
+
+      <div class="ctaBlock" style="margin-top:12px;">
+        <div>
+          <h3>🚨 마지막 확인</h3>
+          <p>3분. 무료. 지금 안 하면 계속 샙니다.</p>
+        </div>
+        <a class="btn primary" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
+          돈 새는 거 확인
+          <span class="pill">시작</span>
+        </a>
+      </div>
+
+      <div class="micro" style="margin-top:10px;">
+        * 인원 제한은 사실일 때만 표시하세요.
+      </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title fade-up">자주 묻는 질문</h2>
-            
-            <div class="fade-up">
-                <button class="faq-question">Q. 새벽 4:30에 못 일어나면요? <span>+</span></button>
-                <div class="faq-answer"><p>A. 괜찮습니다. 메시지는 '배달'될 뿐, 확인은 편한 시간에 하셔도 됩니다. 중요한 건 하루 시작 전에 기준을 갖는 것입니다.</p></div>
-                
-                <button class="faq-question">Q. 효과가 없으면 환불 되나요? <span>+</span></button>
-                <div class="faq-answer"><p>A. 네. 14일 동안 결정 3건 이상 기록했는데도 Delay Hours가 줄지 않으면 전액 환불입니다.</p></div>
-                
-                <button class="faq-question">Q. 1인 기업도 필요한가요? <span>+</span></button>
-                <div class="faq-answer"><p>A. 1인 기업일수록 '결정=매출'입니다. 혼자 결정하고 실행해야 하기 때문에, 지연 습관을 잡는 것이 생존의 핵심입니다.</p></div>
-            </div>
+    <!-- FAQ -->
+    <section class="glass section" id="faq">
+      <div class="sectionHeader">
+        <div>
+          <h2>FAQ</h2>
+          <p class="sub">구매 전 불안을 제거합니다. 답은 짧게, 명확하게.</p>
         </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>이거 뭐하는 거임? <span class="chev"></span></summary>
+          <p>내가 새는 돈 보여줌. 끝.</p>
+        </details>
+
+        <details>
+          <summary>뭘 받음? <span class="chev"></span></summary>
+          <p>얼마나 미뤘는지, 얼마나 새는지 리포트 줌.</p>
+        </details>
+
+        <details>
+          <summary>시간 오래 걸림? <span class="chev"></span></summary>
+          <p>3분. 객관식 5개.</p>
+        </details>
+
+        <details>
+          <summary>돈 내야 함? <span class="chev"></span></summary>
+          <p>무료. 카드 입력 없음.</p>
+        </details>
+
+        <details>
+          <summary>믿을 수 있음? <span class="chev"></span></summary>
+          <p>후기 아니라 샘플 먼저 보여줌. 보고 판단.</p>
+        </details>
+      </div>
     </section>
 
-    <section class="cta-section">
-        <div class="container fade-up">
-            <p style="font-size:16px; font-weight:700; margin-bottom:20px; line-height:1.5;">
-                지금 고민하는 이 시간에도,<br>
-                당신의 시간과 돈은 계속 낭비되고 있습니다.
-            </p>
-            <button class="btn-primary" onclick="location.href='https://forms.gle/ssgjhHs26NoRx7Lu9'">
-                🚀 지금 신청하기 (10명 마감)
-            </button>
-            <p class="process-note">
-                신청서 제출 → 입금 안내 확인 → 입금 확인 후 시작 메시지 발송
-            </p>
+    <footer>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <b>Dawn 430 Society</b> · @dawn430.society<br/>
+          <span style="font-family:var(--mono);">Brand color: #286bff</span>
         </div>
-    </section>
+        <div style="max-width: 72ch;">
+          <b>운영 원칙:</b> 버튼 1개. YOUR_FORM_URL_HERE를 실제 링크로 바꾸세요.
+        </div>
+      </div>
+    </footer>
+  </main>
 
-    <script>
-        // Smooth scroll
-        function scrollToApply() {
-            document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  <!-- Scroll to top button -->
+  <div class="scrollTop" id="scrollTop"></div>
+
+  <script>
+    // =========================
+    // CONFIG
+    // =========================
+    const FORM_URL = "https://forms.gle/WYrJTdwKU3GFa2DL8";
+    const SHOW_SCARCITY = true;
+    const SLOTS_LEFT = 5;
+    const MONTHLY_FIXED_COST = 20000000;
+
+    // =========================
+    // UTILITY FUNCTIONS
+    // =========================
+    const won = (n) => "₩" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    // =========================
+    // FORM URL REPLACEMENT
+    // =========================
+    const auditBtn = document.getElementById("auditBtn");
+    const navAuditBtn = document.getElementById("navAuditBtn");
+    const allFormLinks = document.querySelectorAll('a[href="YOUR_FORM_URL_HERE"]');
+    allFormLinks.forEach(a => {
+      if (FORM_URL && FORM_URL !== "YOUR_FORM_URL_HERE") a.href = FORM_URL;
+    });
+    if (FORM_URL && FORM_URL !== "YOUR_FORM_URL_HERE") {
+      auditBtn.href = FORM_URL;
+      if (navAuditBtn) navAuditBtn.href = FORM_URL;
+    }
+
+    // =========================
+    // COST METER WITH ANIMATION
+    // =========================
+    const weeklyLoss = Math.round(MONTHLY_FIXED_COST / 4);
+    const weeklyLossEl = document.getElementById("weeklyLoss");
+    const weeklyLossInlineEl = document.getElementById("weeklyLossInline");
+    const meterBar = document.getElementById("meterBar");
+    const ratio = Math.min(0.9, Math.max(0.25, weeklyLoss / 10000000));
+    
+    // Animate number count-up
+    const animateValue = (element, start, end, duration) => {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const current = Math.floor(progress * (end - start) + start);
+        element.textContent = won(current);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
         }
+      };
+      window.requestAnimationFrame(step);
+    };
+    
+    // Start animations after page load
+    setTimeout(() => {
+      animateValue(weeklyLossEl, 0, weeklyLoss, 1500);
+      if (weeklyLossInlineEl) {
+        animateValue(weeklyLossInlineEl, 0, weeklyLoss, 1500);
+      }
+      meterBar.style.width = Math.round(ratio * 100) + "%";
+    }, 500);
+    
+    document.getElementById("lossHint").textContent = "월 " + won(MONTHLY_FIXED_COST) + " 기준";
 
-        // Scroll Progress
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+    // =========================
+    // SCARCITY TOGGLE
+    // =========================
+    const pill = document.getElementById("scarcityPill");
+    const slots = document.getElementById("slotsLeft");
+    slots.textContent = SLOTS_LEFT + "명";
+    if (!SHOW_SCARCITY) pill.style.display = "none";
+
+    // =========================
+    // SMOOTH SCROLL
+    // =========================
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href");
+        if (!id || id.length < 2) return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({behavior:"smooth", block:"start"});
+        history.replaceState(null, "", id);
+      });
+    });
+
+    // =========================
+    // SCROLL REVEAL ANIMATION
+    // =========================
+    const revealElements = document.querySelectorAll('section');
+    
+    const reveal = () => {
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          el.classList.add('reveal');
+        }
+      });
+    };
+    
+    window.addEventListener('scroll', optimizedScroll);
+    reveal(); // Initial check
+
+    // =========================
+    // NAV SCROLL EFFECT
+    // =========================
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // =========================
+    // SCROLL TO TOP BUTTON
+    // =========================
+    const scrollTopBtn = document.getElementById('scrollTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 500) {
+        scrollTopBtn.classList.add('show');
+      } else {
+        scrollTopBtn.classList.remove('show');
+      }
+    });
+    
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // =========================
+    // FLOATING PARTICLES
+    // =========================
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 0; // 최소 수정 - 과한 효과 제거
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+      particle.style.animationDelay = Math.random() * 5 + 's';
+      particlesContainer.appendChild(particle);
+    }
+
+    // =========================
+    // PERFORMANCE OPTIMIZATION
+    // =========================
+    let ticking = false;
+    
+    const optimizedScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          reveal();
+          ticking = false;
         });
-
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const isOpen = answer.style.maxHeight;
-                
-                document.querySelectorAll('.faq-answer').forEach(ans => ans.style.maxHeight = null);
-                document.querySelectorAll('.faq-question span').forEach(sp => sp.innerText = '+');
-
-                if (!isOpen) {
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                    question.querySelector('span').innerText = '-';
-                }
-            });
-        });
-
-        // Simple Fade Up Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-    </script>
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', optimizedScroll);
+  </script>
 </body>
 </html>
