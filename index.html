@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dawn 430 Society | 결정 지연(Decision Delay) 무료 진단</title>
   <meta name="description" content="초기 창업가가 원하는 속도와 확실성. 그걸 빼앗는 결정 지연(Decision Delay)을 3분 무료 진단으로 확인하세요." />
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 
   <style>
     :root{
@@ -22,7 +25,7 @@
       --radius2: 22px;
       --max: 1080px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+      --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     }
     
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -438,8 +441,8 @@
     /* Sections with scroll reveal */
     section{ 
       margin-top: 28px; 
-      opacity:0;
-      transform: translateY(30px);
+      opacity:1;
+      transform: translateY(0);
       transition: all .6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
@@ -895,7 +898,7 @@
 
         <h1>
           결정이 늦어질수록<br/>
-          <span class="accent">비용이 소각됩니다</span>
+          <span class="accent">비용이 누적됩니다</span>
         </h1>
 
         <p class="lead">
@@ -905,7 +908,7 @@
 
         <div class="anti">
           <b style="font-size: 15px;">⚡ 3분이면 끝.</b><br/>
-          내가 새는 돈 숫자로 보여줌.
+          지금 새고 있는 돈을 숫자로 보여줍니다.
         </div>
 
         <div class="ctaRow">
@@ -974,7 +977,7 @@
 
         <div class="card">
           <h3>💸 고민하면 돈 샘</h3>
-          <p>1주일 = 500만원 증발</p>
+          <p>결정 지연 1주 = 약 500만원 손실</p>
           <div class="mini"><b>→</b> 숫자로 보여줘서 빨리 결정</div>
         </div>
 
@@ -1002,7 +1005,7 @@
     <section class="glass section" id="story">
       <div class="sectionHeader">
         <div>
-          <h2>쓰기 전 vs 쓴 후</h2>
+          <h2>Dawn 430 Society 전 / 후</h2>
           <p class="sub">하루가 이렇게 바뀝니다.</p>
         </div>
       </div>
@@ -1032,7 +1035,7 @@
     <section class="glass section" id="trust">
       <div class="sectionHeader">
         <div>
-          <h2>후기 없어도 믿을 수 있는 이유</h2>
+          <h2>후기 없이 판단할 수 있는 구조</h2>
           <p class="sub">말 안하고 보여줍니다.</p>
         </div>
       </div>
@@ -1091,7 +1094,7 @@
       <div class="ctaBlock" style="margin-top:12px;">
         <div>
           <h3>🚨 마지막 확인</h3>
-          <p>3분. 무료. 지금 안 하면 계속 샙니다.</p>
+          <p>3분. 무료. 지금 상태를 확인하세요.</p>
         </div>
         <a class="btn primary" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
           돈 새는 거 확인
@@ -1116,17 +1119,17 @@
       <div class="faq">
         <details>
           <summary>이거 뭐하는 거임? <span class="chev"></span></summary>
-          <p>내가 새는 돈 보여줌. 끝.</p>
+          <p>결정 지연 때문에 새는 돈 보여줌. 끝.</p>
         </details>
 
         <details>
           <summary>뭘 받음? <span class="chev"></span></summary>
-          <p>얼마나 미뤘는지, 얼마나 새는지 리포트 줌.</p>
+          <p>미뤄진 결정 개수 + 그로 인한 손실 금액 리포트.</p>
         </details>
 
         <details>
           <summary>시간 오래 걸림? <span class="chev"></span></summary>
-          <p>3분. 객관식 5개.</p>
+          <p>생각 안 해도 됨. 체크만 하면 끝.</p>
         </details>
 
         <details>
@@ -1136,7 +1139,12 @@
 
         <details>
           <summary>믿을 수 있음? <span class="chev"></span></summary>
-          <p>후기 아니라 샘플 먼저 보여줌. 보고 판단.</p>
+          <p>실제 사용되는 리포트 구조 그대로 보여줌. 보고 판단.</p>
+        </details>
+
+        <details>
+          <summary>진단 후에 뭐가 달라짐? <span class="chev"></span></summary>
+          <p>오늘 바로 결정해야 할 1가지가 정리됩니다.</p>
         </details>
       </div>
     </section>
@@ -1144,11 +1152,7 @@
     <footer>
       <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:flex-start;">
         <div>
-          <b>Dawn 430 Society</b> · @dawn430.society<br/>
-          <span style="font-family:var(--mono);">Brand color: #286bff</span>
-        </div>
-        <div style="max-width: 72ch;">
-          <b>운영 원칙:</b> 버튼 1개. YOUR_FORM_URL_HERE를 실제 링크로 바꾸세요.
+          <b>Dawn 430 Society</b> · @dawn430.society
         </div>
       </div>
     </footer>
