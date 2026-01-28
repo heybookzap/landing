@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dawn 430 Society | 결정 지연(Decision Delay) 무료 진단</title>
   <meta name="description" content="초기 창업가가 원하는 속도와 확실성. 그걸 빼앗는 결정 지연(Decision Delay)을 3분 무료 진단으로 확인하세요." />
-   
+  
+  <!-- Pretendard Font -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 
   <style>
@@ -879,13 +880,14 @@
       </div>
       <div class="navActions">
         <a class="btn primary" id="navAuditBtn" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
-          💰 무료 진단 시작
+          무료로 확인하기
         </a>
       </div>
     </div>
   </div>
 
   <main class="wrap">
+    <!-- HERO -->
     <div class="hero">
       <div class="glass heroLeft">
         <div class="kicker">
@@ -895,13 +897,13 @@
         </div>
 
         <h1>
-          결정이 늦어질수록<br/>
-          <span class="accent">비용이 누적됩니다</span>
+          대표가 결정 못 내리는 동안<br/>
+          <span class="accent">돈이 계속 없어집니다</span>
         </h1>
 
         <p class="lead">
-          월 고정비 <b>2,000만</b>이면<br/>
-          1주 지연 = <b id="weeklyLossInline">₩5,000,000</b>
+          <b>지금 이 순간에도</b> 돈이 새고 있습니다.<br/>
+          <span style="opacity: 0.8;">(예시)</span> 매달 나가는 돈 2,000만 기준 → 1주 미루면 = <b id="weeklyLossInline">₩5,000,000</b>
         </p>
 
         <div class="anti">
@@ -910,26 +912,30 @@
         </div>
 
         <div class="ctaRow">
-          <a class="btn primary" href="#audit">
-            💰 돈 새는 거 지금 확인
-            <span class="pill">3분</span>
+          <a class="btn primary" href="https://forms.gle/WYrJTdwKU3GFa2DL8" target="_blank" rel="noopener">
+            내가 새는 돈 확인하기
+            <span class="pill">무료 · 3분</span>
           </a>
         </div>
 
-      </div>
+        <div class="micro" style="margin-top:10px; color: rgba(255,255,255,.68); font-size: 12px;">
+          💡 사람이 직접 해서 이번 달 5명만 가능합니다
+        </div>
+
+      </div> <!-- heroLeft 닫기 -->
 
       <div class="glass heroRight">
         <div class="metric">
           <div>
             <div class="label">💸 새는 돈</div>
             <div class="value">1주 = 500만원</div>
-            <div class="hint">결정 못 내리면 이만큼 샘</div>
+            <div class="hint">결정 못 내리면 이만큼 샘 (월/4주 기준)</div>
             <div class="bar"><i id="meterBar"></i></div>
           </div>
           <div style="text-align:right; min-width:150px;">
             <div class="label">1주 지연</div>
             <div class="value" id="weeklyLoss">₩5,000,000</div>
-            <div class="hint" id="lossHint">월 2천만 기준</div>
+            <div class="hint" id="lossHint">매달 2천만 기준</div>
           </div>
         </div>
 
@@ -957,6 +963,7 @@
       </div>
     </div>
 
+    <!-- PROBLEMS -->
     <section class="glass section" id="problems">
       <div class="sectionHeader">
         <div>
@@ -974,14 +981,14 @@
 
         <div class="card">
           <h3>💸 고민하면 돈 샘</h3>
-          <p>결정 지연 1주 = 약 500만원 손실</p>
+          <p>1주 미루면 = 약 500만원 날아감</p>
           <div class="mini"><b>→</b> 숫자로 보여줘서 빨리 결정</div>
         </div>
 
         <div class="card">
           <h3>🔄 또 반복됨</h3>
           <p>의지로는 안 바뀜</p>
-          <div class="mini"><b>→</b> 시스템으로 패턴 차단</div>
+          <div class="mini"><b>→</b> 시스템으로 반복 막기</div>
         </div>
       </div>
 
@@ -998,6 +1005,7 @@
       </div>
     </section>
 
+    <!-- STORY -->
     <section class="glass section" id="story">
       <div class="sectionHeader">
         <div>
@@ -1027,6 +1035,7 @@
       </div>
     </section>
 
+    <!-- TRUST -->
     <section class="glass section" id="trust">
       <div class="sectionHeader">
         <div>
@@ -1054,6 +1063,7 @@
       </div>
     </section>
 
+    <!-- CTA / AUDIT -->
     <section class="glass section" id="audit">
       <div class="sectionHeader">
         <div>
@@ -1065,19 +1075,23 @@
       <div class="ctaBlock">
         <div>
           <h3>💰 내가 새는 돈 확인</h3>
-          <p>무료. 3분. 지금 바로.</p>
+          <p>무료. 3분. 24시간 내 리포트 전달.</p>
         </div>
 
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
           <div class="scarcity" id="scarcityPill">
             <span class="pulse"></span>
-            이번 달 <b id="slotsLeft">5명</b> 남음
+            이번 달 <b id="slotsLeft">5명</b>만 가능
           </div>
           <a class="btn primary" id="auditBtn" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
             지금 확인하기
             <span class="pill">3분</span>
           </a>
         </div>
+      </div>
+
+      <div class="micro" style="margin-top:10px; color: rgba(255,255,255,.62); font-size: 12px; text-align: right;">
+        * 사람이 직접 해서 한 달에 5명만 가능합니다
       </div>
 
       <div class="lossBox">
@@ -1091,16 +1105,13 @@
           <p>3분. 무료. 지금 상태를 확인하세요.</p>
         </div>
         <a class="btn primary" href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener">
-          돈 새는 거 확인
-          <span class="pill">시작</span>
+          확인하기
+          <span class="pill">무료</span>
         </a>
-      </div>
-
-      <div class="micro" style="margin-top:10px;">
-        * 인원 제한은 사실일 때만 표시하세요.
       </div>
     </section>
 
+    <!-- FAQ -->
     <section class="glass section" id="faq">
       <div class="sectionHeader">
         <div>
@@ -1112,32 +1123,32 @@
       <div class="faq">
         <details>
           <summary>이거 뭐하는 거임? <span class="chev"></span></summary>
-          <p>대표가 결정을 미루는 동안<br/>얼마의 고정비·인건비가 증발하는지 숫자로 보여줍니다.<br/><br/>감정·조언 없음. 계산만 합니다.</p>
+          <p>대표가 결정을 못 내리고 미루는 동안<br/>얼마의 돈이 날아가는지 <b>숫자로 계산</b>해줍니다.<br/><br/>+ 오늘 당장 해야 할 결정 1가지 추천</p>
         </details>
 
         <details>
           <summary>뭘 받음? <span class="chev"></span></summary>
-          <p>미뤄진 결정 개수,<br/>그로 인해 지금까지 소각된 비용,<br/>그리고 오늘 당장 끝내야 할 결정 1가지가 정리된 리포트.</p>
+          <p>미룬 결정 개수,<br/>그것 때문에 지금까지 날아간 돈,<br/>그리고 오늘 당장 해야 할 것 1가지가 나옵니다.<br/><br/><b>📩 폼 제출 즉시 접수 → 24시간 내 리포트 전달</b></p>
         </details>
 
         <details>
           <summary>시간 오래 걸림? <span class="chev"></span></summary>
-          <p>3분. 객관식 5문항.<br/>고민할 질문 없음. 체크만 하면 됩니다.</p>
+          <p>생각 안 해도 됨. 체크만 하면 끝.</p>
         </details>
 
         <details>
           <summary>돈 내야 함? <span class="chev"></span></summary>
-          <p>완전 무료. 카드·결제 정보 입력 없음.<br/>진단 보고 판단하세요.</p>
+          <p>무료. 카드 입력 없음.</p>
         </details>
 
         <details>
           <summary>믿을 수 있음? <span class="chev"></span></summary>
-          <p>후기 대신 실제 사용하는 리포트 구조 그대로 보여줍니다.<br/>말 믿지 말고, 결과 보고 판단하세요.</p>
+          <p>후기 대신 실제로 나오는 결과를 먼저 보여줍니다.<br/>말 믿지 말고, 결과 보고 판단하세요.</p>
         </details>
 
         <details>
           <summary>진단 후에 뭐가 달라짐? <span class="chev"></span></summary>
-          <p>오늘 미루지 말아야 할 결정 1가지가 명확해집니다.<br/>더 이상 “뭐부터 하지?”로 하루를 날리지 않습니다.</p>
+          <p>오늘 바로 결정해야 할 1가지가 정리됩니다.</p>
         </details>
       </div>
     </section>
@@ -1151,6 +1162,7 @@
     </footer>
   </main>
 
+  <!-- Scroll to top button -->
   <div class="scrollTop" id="scrollTop"></div>
 
   <script>
@@ -1255,8 +1267,26 @@
       });
     };
     
+    // =========================
+    // PERFORMANCE OPTIMIZATION
+    // =========================
+    let ticking = false;
+    
+    const optimizedScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          reveal();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    // Initial check
+    reveal();
+    
+    // 스크롤 이벤트 등록 (한 번만)
     window.addEventListener('scroll', optimizedScroll);
-    reveal(); // Initial check
 
     // =========================
     // NAV SCROLL EFFECT
@@ -1300,7 +1330,7 @@
     // FLOATING PARTICLES
     // =========================
     const particlesContainer = document.getElementById('particles');
-    const particleCount = 0; // 최소 수정 - 과한 효과 제거
+    const particleCount = 0;
     
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
@@ -1310,23 +1340,6 @@
       particle.style.animationDelay = Math.random() * 5 + 's';
       particlesContainer.appendChild(particle);
     }
-
-    // =========================
-    // PERFORMANCE OPTIMIZATION
-    // =========================
-    let ticking = false;
-    
-    const optimizedScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          reveal();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    
-    window.addEventListener('scroll', optimizedScroll);
   </script>
 </body>
 </html>
