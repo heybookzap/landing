@@ -854,6 +854,15 @@
       .navActions .btn{ font-size:13px; padding: 9px 12px; }
       .summaryBox{ flex-direction:column; align-items:flex-start; }
       .ctaBlock{ flex-direction:column; align-items:stretch; }
+      
+      /* 모바일 가독성 개선 */
+      h1{ font-size: clamp(26px, 6vw, 38px) !important; line-height: 1.2 !important; }
+      .lead{ font-size: 16px !important; line-height: 1.7 !important; }
+      .anti{ font-size: 14px !important; padding: 16px 14px !important; }
+      .card p, .pane ul, details p{ font-size: 14px !important; line-height: 1.7 !important; }
+      .btn.primary{ font-size: 17px !important; padding: 16px 24px !important; }
+      summary{ font-size: 15px !important; }
+      .sectionHeader h2{ font-size: 22px !important; }
     }
     
     /* Accessibility - Reduced Motion */
@@ -897,29 +906,30 @@
         </div>
 
         <h1>
-          대표가 결정 못 내리는 동안<br/>
-          <span class="accent">돈이 계속 없어집니다</span>
+          결정 못 내리면<br/>
+          <span class="accent">돈이 없어집니다</span>
         </h1>
 
         <p class="lead">
-          <b>지금 이 순간에도</b> 돈이 새고 있습니다.<br/>
-          <span style="opacity: 0.8;">(예시)</span> 매달 나가는 돈 2,000만 기준 → 1주 미루면 = <b id="weeklyLossInline">₩5,000,000</b>
+          <b>지금도 돈이 새고 있습니다</b><br/>
+          1주 미루면 = <b id="weeklyLossInline">₩5,000,000</b> 손실<br/>
+          <span style="opacity: 0.7; font-size: 14px;">(매달 2천만 기준 예시)</span>
         </p>
 
         <div class="anti">
-          <b style="font-size: 15px;">⚡ 3분이면 끝.</b><br/>
-          지금 새고 있는 돈을 숫자로 보여줍니다.
+          <b style="font-size: 15px;">⚡ 3분 · 무료</b><br/>
+          내가 새는 돈을 숫자로 보여줍니다
         </div>
 
         <div class="ctaRow">
           <a class="btn primary" href="https://forms.gle/WYrJTdwKU3GFa2DL8" target="_blank" rel="noopener">
-            내가 새는 돈 확인하기
-            <span class="pill">무료 · 3분</span>
+            무료로 확인하기
+            <span class="pill">3분</span>
           </a>
         </div>
 
         <div class="micro" style="margin-top:10px; color: rgba(255,255,255,.68); font-size: 12px;">
-          💡 사람이 직접 해서 이번 달 5명만 가능합니다
+          💡 이번 달 5명만 가능 (직접 분석)
         </div>
 
       </div> <!-- heroLeft 닫기 -->
@@ -928,8 +938,8 @@
         <div class="metric">
           <div>
             <div class="label">💸 새는 돈</div>
-            <div class="value">1주 = 500만원</div>
-            <div class="hint">결정 못 내리면 이만큼 샘 (월/4주 기준)</div>
+            <div class="value">1주 = 500만</div>
+            <div class="hint">1주 미루면 이만큼 (월/4주)</div>
             <div class="bar"><i id="meterBar"></i></div>
           </div>
           <div style="text-align:right; min-width:150px;">
@@ -967,8 +977,8 @@
     <section class="glass section" id="problems">
       <div class="sectionHeader">
         <div>
-          <h2>당신의 문제 3가지</h2>
-          <p class="sub">길게 설명 안 합니다. 보면 압니다.</p>
+          <h2>문제 3가지</h2>
+          <p class="sub">보면 압니다</p>
         </div>
       </div>
 
@@ -1009,8 +1019,8 @@
     <section class="glass section" id="story">
       <div class="sectionHeader">
         <div>
-          <h2>Dawn 430 Society 전 / 후</h2>
-          <p class="sub">하루가 이렇게 바뀝니다.</p>
+          <h2>전 / 후</h2>
+          <p class="sub">하루가 바뀝니다</p>
         </div>
       </div>
 
@@ -1039,8 +1049,8 @@
     <section class="glass section" id="trust">
       <div class="sectionHeader">
         <div>
-          <h2>후기 없이 판단할 수 있는 구조</h2>
-          <p class="sub">말 안하고 보여줍니다.</p>
+          <h2>믿을 수 있는 이유</h2>
+          <p class="sub">말 말고 증거</p>
         </div>
       </div>
 
@@ -1067,15 +1077,15 @@
     <section class="glass section" id="audit">
       <div class="sectionHeader">
         <div>
-          <h2>무료로 확인하기</h2>
-          <p class="sub">3분 · 5문항 · 카드 입력 없음</p>
+          <h2>무료 확인</h2>
+          <p class="sub">3분 · 5문항 · 무료</p>
         </div>
       </div>
 
       <div class="ctaBlock">
         <div>
-          <h3>💰 내가 새는 돈 확인</h3>
-          <p>무료. 3분. 24시간 내 리포트 전달.</p>
+          <h3>💰 돈 새는 거 확인</h3>
+          <p>무료 · 3분 · 24시간 내 전달</p>
         </div>
 
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
@@ -1091,7 +1101,7 @@
       </div>
 
       <div class="micro" style="margin-top:10px; color: rgba(255,255,255,.62); font-size: 12px; text-align: right;">
-        * 사람이 직접 해서 한 달에 5명만 가능합니다
+        * 한 달에 5명 (직접 분석)
       </div>
 
       <div class="lossBox">
@@ -1116,19 +1126,19 @@
       <div class="sectionHeader">
         <div>
           <h2>FAQ</h2>
-          <p class="sub">구매 전 불안을 제거합니다. 답은 짧게, 명확하게.</p>
+          <p class="sub">짧고 명확하게</p>
         </div>
       </div>
 
       <div class="faq">
         <details>
           <summary>이거 뭐하는 거임? <span class="chev"></span></summary>
-          <p>대표가 결정을 못 내리고 미루는 동안<br/>얼마의 돈이 날아가는지 <b>숫자로 계산</b>해줍니다.<br/><br/>+ 오늘 당장 해야 할 결정 1가지 추천</p>
+          <p>결정 못 내리고 미루는 동안<br/>얼마의 돈이 날아가는지 계산해줌<br/><br/>+ 오늘 할 일 1개 추천</p>
         </details>
 
         <details>
           <summary>뭘 받음? <span class="chev"></span></summary>
-          <p>미룬 결정 개수,<br/>그것 때문에 지금까지 날아간 돈,<br/>그리고 오늘 당장 해야 할 것 1가지가 나옵니다.<br/><br/><b>📩 폼 제출 즉시 접수 → 24시간 내 리포트 전달</b></p>
+          <p>· 미룬 결정 개수<br/>· 날아간 돈<br/>· 오늘 할 일 1개<br/><br/><b>📩 24시간 내 전달</b></p>
         </details>
 
         <details>
@@ -1143,7 +1153,7 @@
 
         <details>
           <summary>믿을 수 있음? <span class="chev"></span></summary>
-          <p>후기 대신 실제로 나오는 결과를 먼저 보여줍니다.<br/>말 믿지 말고, 결과 보고 판단하세요.</p>
+          <p>실제 결과 먼저 보여줌.<br/>보고 판단하세요.</p>
         </details>
 
         <details>
