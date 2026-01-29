@@ -537,34 +537,35 @@
     /* Summary box */
     .summaryBox{
       margin-top: 16px;
-      padding: 16px 16px;
+      padding: 20px 18px;
       border-radius: var(--radius);
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
       display:flex;
       flex-wrap:wrap;
       gap: 14px;
-      align-items:center;
-      justify-content:space-between;
+      align-items:flex-start;
+      justify-content:flex-start;
       transition: all .3s ease;
     }
     
     .summaryBox:hover{
-      background: rgba(0,0,0,.24);
-      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
     }
     
-    .summaryBox b{ letter-spacing:-.01em; }
+    .summaryBox b{ letter-spacing:-.01em; color: rgba(255,255,255,.96); }
     
     .bullets{
       margin:0; padding-left: 20px;
-      color: var(--muted);
-      font-size: 13px;
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
       line-height: 1.70;
-      flex: 1 1 520px;
+      flex: 1 1 100%;
     }
     
-    .bullets li{ margin: 6px 0; }
+    .bullets li{ margin: 8px 0; }
+    .bullets li b{ color: rgba(255,255,255,.96); }
 
     /* Story panes */
     .story{
@@ -852,7 +853,7 @@
       .ctaRow .btn{ width:100%; justify-content:center; }
       .navActions{ gap:8px; }
       .navActions .btn{ font-size:13px; padding: 9px 12px; }
-      .summaryBox{ flex-direction:column; align-items:flex-start; }
+      .summaryBox{ flex-direction:column; align-items:flex-start; padding: 22px 20px !important; }
       .ctaBlock{ flex-direction:column; align-items:stretch; }
       
       /* 모바일 가독성 개선 */
@@ -863,6 +864,11 @@
       .btn.primary{ font-size: 17px !important; padding: 16px 24px !important; }
       summary{ font-size: 15px !important; }
       .sectionHeader h2{ font-size: 22px !important; }
+      
+      /* 얻는 것 섹션 모바일 최적화 */
+      .bullets{ font-size: 16px !important; padding-left: 24px !important; }
+      .bullets li{ margin: 12px 0 !important; line-height: 1.7 !important; }
+      .summaryBox b{ font-size: 19px !important; }
     }
     
     /* Accessibility - Reduced Motion */
@@ -1003,14 +1009,13 @@
       </div>
 
       <div class="summaryBox">
-        <div style="min-width: 220px;">
-          <b style="font-size: 16px;">✅ 얻는 것</b><br/>
-          <span style="color:var(--muted2); font-size:12px; font-family:var(--mono);">3가지 변화</span>
+        <div style="width: 100%;">
+          <b style="font-size: 18px; display: block; margin-bottom: 14px;">✅ 얻는 것</b>
         </div>
-        <ul class="bullets">
-          <li><b>오늘 뭐 할지 명확</b> - 더 이상 고민 안 함</li>
-          <li><b>고민 시간 확 줄어듬</b> - 바로 결정</li>
-          <li><b>돈 새는 게 보임</b> - 숫자로 명확하게</li>
+        <ul class="bullets" style="width: 100%; margin: 0; padding-left: 24px;">
+          <li style="margin: 10px 0; font-size: 15px; line-height: 1.65;"><b>오늘 할 일 명확</b> - 고민 끝</li>
+          <li style="margin: 10px 0; font-size: 15px; line-height: 1.65;"><b>시간 확 줄어듬</b> - 바로 결정</li>
+          <li style="margin: 10px 0; font-size: 15px; line-height: 1.65;"><b>돈 새는 게 보임</b> - 숫자로 명확</li>
         </ul>
       </div>
     </section>
