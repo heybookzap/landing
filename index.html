@@ -3,20 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dawn 430 OS | 7-Day Proof Sprint (Beta) | 미결정 안건 0 만들기</title>
-
-    <meta name="description" content="미룬 결정 1개 때문에 팀 일이 멈춘다면. 미결정 안건을 GO/멈춤/삭제로 정리한 ‘결정리포트’를 7일간 무료로 받는 스프린트." />
-
+    <title>Dawn 430 OS | 7-Day Proof Sprint (Beta) - 미결정 안건 0 만들기</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #286bff;
@@ -36,27 +28,21 @@
             line-height: 1.6;
         }
 
-        /* Noise texture overlay */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             opacity: 0.03;
             z-index: 1;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Animated Background */
         .bg-animation {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
             overflow: hidden;
         }
@@ -69,32 +55,9 @@
             animation: float 20s ease-in-out infinite;
         }
 
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--primary);
-            top: -10%;
-            right: -10%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent);
-            bottom: -10%;
-            left: -10%;
-            animation-delay: 7s;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: var(--secondary);
-            top: 50%;
-            left: 50%;
-            animation-delay: 14s;
-        }
+        .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -10%; right: -10%; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: var(--accent); bottom: -10%; left: -10%; animation-delay: 7s; }
+        .orb-3 { width: 350px; height: 350px; background: var(--secondary); top: 50%; left: 50%; animation-delay: 14s; }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -102,7 +65,6 @@
             66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        /* Glass Card */
         .glass {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(30px) saturate(180%);
@@ -119,30 +81,14 @@
         .glass::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 70px 0; position: relative; }
 
-        /* Section */
-        section {
-            padding: 70px 0;
-            position: relative;
-        }
-
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -153,10 +99,7 @@
             padding: 120px 20px;
         }
 
-        .hero-content {
-            max-width: 900px;
-            animation: fadeInUp 1s ease-out;
-        }
+        .hero-content { max-width: 900px; animation: fadeInUp 1s ease-out; }
 
         .warning-badge {
             display: inline-flex;
@@ -173,8 +116,7 @@
         }
 
         .warning-dot {
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background: var(--accent);
             border-radius: 50%;
             animation: blink 1.5s ease-in-out infinite;
@@ -182,14 +124,8 @@
         }
 
         @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.3;
-                transform: scale(0.8);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
         }
 
         h1 {
@@ -225,7 +161,6 @@
             word-break: keep-all;
         }
 
-        /* CTA Button */
         .cta-button {
             display: inline-block;
             padding: 18px 40px;
@@ -247,20 +182,13 @@
             line-height: 1.4;
         }
 
-        @media (min-width: 769px) {
-            .cta-button {
-                padding: 22px 55px;
-                font-size: 1.25rem;
-            }
-        }
+        @media (min-width: 769px) { .cta-button { padding: 22px 55px; font-size: 1.25rem; } }
 
         .cta-button::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.6s;
         }
@@ -268,24 +196,16 @@
         .cta-button::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
 
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover::after {
-            width: 180px;
-            height: 180px;
-        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover::after { width: 180px; height: 180px; }
 
         .cta-button:hover {
             transform: translateY(-5px) scale(1.05);
@@ -295,9 +215,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
-        .cta-button:active {
-            transform: translateY(-3px) scale(1.02);
-        }
+        .cta-button:active { transform: translateY(-3px) scale(1.02); }
 
         .cta-info {
             display: block;
@@ -305,19 +223,6 @@
             font-size: 0.85rem;
             color: var(--secondary);
             font-weight: 500;
-        }
-
-        .cta-warning {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--accent);
-            font-weight: 600;
-            line-height: 1.5;
-        }
-
-        /* Problem Section */
-        .problem-section {
-            background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%);
         }
 
         .section-title {
@@ -347,6 +252,8 @@
             border-radius: 2px;
         }
 
+        .problem-section { background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%); }
+
         .problem-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -364,30 +271,19 @@
         .problem-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, rgba(255, 68, 68, 0.1), transparent);
             opacity: 0;
             transition: opacity 0.5s ease;
             border-radius: 24px;
         }
 
-        .problem-card:nth-child(1) { animation-delay: 0.1s; }
-        .problem-card:nth-child(2) { animation-delay: 0.2s; }
-        .problem-card:nth-child(3) { animation-delay: 0.3s; }
-
         .problem-card:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow:
-                0 20px 60px rgba(255, 68, 68, 0.3),
-                0 0 0 1px rgba(255, 68, 68, 0.2);
+            box-shadow: 0 20px 60px rgba(255, 68, 68, 0.3), 0 0 0 1px rgba(255, 68, 68, 0.2);
         }
 
-        .problem-card:hover::before {
-            opacity: 1;
-        }
+        .problem-card:hover::before { opacity: 1; }
 
         .problem-icon {
             font-size: 2.5rem;
@@ -397,23 +293,13 @@
             transition: all 0.3s ease;
         }
 
-        .problem-card:hover .problem-icon {
-            filter: grayscale(0);
-            transform: scale(1.2) rotate(5deg);
-        }
+        .problem-card:hover .problem-icon { filter: grayscale(0); transform: scale(1.2) rotate(5deg); }
 
         .problem-card h3 {
             font-size: 1.15rem;
             margin-bottom: 12px;
             color: var(--light);
             line-height: 1.4;
-            word-break: keep-all;
-        }
-
-        .problem-card p {
-            color: var(--secondary);
-            line-height: 1.6;
-            font-size: 0.95rem;
             word-break: keep-all;
         }
 
@@ -435,14 +321,11 @@
         .problem-conclusion::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
-        /* Beta Section */
         .beta-section {
             background: rgba(0, 0, 0, 0.6);
             position: relative;
@@ -452,9 +335,7 @@
         .beta-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--accent), var(--primary), var(--accent), transparent);
             animation: shimmer 3s linear infinite;
@@ -465,33 +346,7 @@
             100% { transform: translateX(100%); }
         }
 
-        .beta-section::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(40, 107, 255, 0.1), transparent 70%);
-            pointer-events: none;
-        }
-
-        .beta-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .beta-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .beta-list {
-            list-style: none;
-            margin: 30px 0;
-        }
-
+        .beta-list { list-style: none; margin: 30px 0; }
         .beta-list li {
             padding: 12px 0;
             padding-left: 25px;
@@ -501,7 +356,6 @@
             line-height: 1.6;
             word-break: keep-all;
         }
-
         .beta-list li::before {
             content: '→';
             position: absolute;
@@ -511,77 +365,19 @@
             font-size: 1.1rem;
         }
 
-        /* FAQ Section */
-        .faq-section {
-            background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%);
-        }
-
-        .faq-grid {
-            display: grid;
-            gap: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            padding: 35px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-        }
-
-        .faq-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 0;
-            background: var(--primary);
-            transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border-radius: 0 2px 2px 0;
-        }
-
+        .faq-section { background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%); }
+        .faq-grid { display: grid; gap: 20px; max-width: 900px; margin: 0 auto; }
+        .faq-item { padding: 35px; cursor: pointer; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; }
         .faq-item:hover {
             background: rgba(40, 107, 255, 0.1);
             transform: translateX(10px);
             box-shadow: 0 10px 40px rgba(40, 107, 255, 0.2);
         }
+        .faq-question { font-size: 1.35rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 12px; }
+        .faq-question::before { content: '→'; font-size: 1.5rem; transition: transform 0.3s ease; }
+        .faq-item:hover .faq-question::before { transform: translateX(5px); }
+        .faq-answer { font-size: 1.15rem; color: var(--secondary); line-height: 1.9; padding-left: 32px; }
 
-        .faq-item:hover::before {
-            height: 60%;
-        }
-
-        .faq-question {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question::before {
-            content: '→';
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item:hover .faq-question::before {
-            transform: translateX(5px);
-        }
-
-        .faq-answer {
-            font-size: 1.15rem;
-            color: var(--secondary);
-            line-height: 1.9;
-            padding-left: 32px;
-        }
-
-        /* Final CTA Section */
         .final-cta {
             background: linear-gradient(135deg, rgba(40, 107, 255, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%);
             text-align: center;
@@ -589,7 +385,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .final-cta-title {
             font-family: 'Syne', 'Noto Sans KR', sans-serif;
             font-size: clamp(1.6rem, 6vw, 4rem);
@@ -602,7 +397,6 @@
             word-break: keep-all;
             padding: 0 15px;
         }
-
         .final-cta-description {
             font-size: clamp(1.05rem, 2.5vw, 1.9rem);
             margin-bottom: 40px;
@@ -613,14 +407,12 @@
             word-break: keep-all;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 60px 20px;
             background: rgba(0, 0, 0, 0.5);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .footer-text {
             font-size: 1rem;
             color: var(--secondary);
@@ -632,66 +424,32 @@
             padding: 0 20px;
         }
 
-        /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Scroll animations */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
+        .scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             section { padding: 48px 0; }
-
-            .hero {
-                min-height: auto;
-                padding: 60px 20px;
-            }
-
+            .hero { min-height: auto; padding: 60px 20px; }
             .problem-grid { grid-template-columns: 1fr; gap: 20px; }
-
             .warning-badge { font-size: 0.75rem; padding: 8px 14px; }
-
-            .problem-card { padding: 25px 20px; }
-
-            .glass {
-                border-radius: 16px;
-                backdrop-filter: blur(15px) saturate(150%);
-                -webkit-backdrop-filter: blur(15px) saturate(150%);
-            }
-
+            .problem-card, .faq-item { padding: 25px 20px; }
+            .glass { border-radius: 16px; backdrop-filter: blur(15px) saturate(150%); -webkit-backdrop-filter: blur(15px) saturate(150%); }
+            .cta-button { min-height: 48px; touch-action: manipulation; }
+            body { font-size: 16px; -webkit-text-size-adjust: 100%; }
             .gradient-orb { filter: blur(60px); opacity: 0.25; }
             body::before { opacity: 0.02; }
             .glass::before { display: none; }
-
-            .faq-item { padding: 25px 20px; }
-            .final-cta { padding: 80px 20px; }
-
             .mobile-only { display: inline; }
         }
-
         .mobile-only { display: none; }
 
         @media (max-width: 480px) {
@@ -702,11 +460,9 @@
             .section-title { padding: 0 10px; }
         }
 
-        /* Scroll progress bar */
         .scroll-progress {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 0%;
             height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--accent));
@@ -716,92 +472,85 @@
         }
     </style>
 </head>
-
 <body>
-    <!-- Scroll Progress Bar -->
     <div class="scroll-progress"></div>
 
-    <!-- Animated Background -->
     <div class="bg-animation">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="hero-content">
             <div class="warning-badge">
                 <span class="warning-dot"></span>
-                <span>7일 무료 Sprint | 선착순 5명</span>
+                <span>7-Day Proof Sprint (Beta) | 참가비 0원 (보증금 5만, 완주 시 환불) | 선착순 5명</span>
             </div>
 
             <h1>미룬 결정 1개 때문에,<br>팀 일이 멈춥니다.</h1>
 
             <p class="hero-subtitle">
-                결정 1개 보내면 → GO/멈춤/삭제 + 팀에 뭐라고 말할지까지 바로 드립니다. (7일 무료)
+                미결정 1개만 보내면 → GO/멈춤/삭제 + 팀에 보낼 말까지 바로 드립니다. (7일 스프린트)
             </p>
 
+            <!-- Primary CTA: Form -->
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 40px;">
-                <!-- ✅ 메인 CTA는 폼으로 -->
                 <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button" target="_blank" rel="noopener">
-                    무료 7-Day Sprint 신청하기
+                    7-Day Sprint 신청하기 (참가비 0원)
                 </a>
 
-                <!-- DM 키워드(선택) -->
+                <span style="font-size: 0.85rem; color: var(--secondary); max-width: 640px; text-align: center; line-height: 1.6;">
+                    보증금 5만 원은 <strong style="color: var(--light);">노쇼 방지용</strong>이며, 7일 규칙을 지키면 100% 환불됩니다.
+                </span>
+
+                <!-- Optional DM shortcut -->
                 <div style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; border: 1px solid rgba(40, 107, 255, 0.3);">
                     <code style="font-family: 'Space Mono', monospace; font-size: 1.1rem; color: var(--primary); font-weight: 700;">SPRINT</code>
-                    <button onclick="copyText('SPRINT', this)" style="padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">복사</button>
+                    <button onclick="navigator.clipboard.writeText('SPRINT'); this.textContent='복사됨!'; setTimeout(() => this.textContent='복사', 1500)"
+                        style="padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
+                        복사
+                    </button>
                 </div>
-                <span style="font-size: 0.85rem; color: var(--secondary);">↑ 인스타 DM에 'SPRINT' 보내도 됩니다 (선택)</span>
-                <a href="https://instagram.com/dawn430.society" style="color: var(--primary); text-decoration: underline; font-size: 0.95rem; font-weight: 600;" target="_blank" rel="noopener">
-                    인스타 DM 열기
-                </a>
 
-                <span style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;">또는</span>
+                <span style="font-size: 0.85rem; color: var(--secondary); text-align:center;">
+                    ↑ 인스타 DM에 'SPRINT' 보내도 됩니다
+                    (<a href="https://instagram.com/dawn430.society" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline; font-weight: 700;">@dawn430.society</a>)
+                </span>
 
-                <!-- ✅ 폼 링크 -->
-                <a href="https://forms.gle/c82aL9ELm52j9LBk7" style="color: var(--primary); text-decoration: underline; font-size: 1rem; font-weight: 700;" target="_blank" rel="noopener">
-                    폼으로 신청
-                </a>
+                <span class="cta-info">결정리포트 받기 / 7일 실험 / 증거(숫자)로 요약</span>
             </div>
 
-            <span class="cta-info">결정리포트 바로 받기 / 완전 무료</span>
+            <!-- Optional: VSL placeholder (추가 예정이면 살려두고, 아니면 이 블록 삭제) -->
+            <div class="scroll-reveal" style="margin-top: 50px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <div class="glass" style="padding: 22px 20px;">
+                    <p style="color: var(--secondary); margin-bottom: 12px; font-size: 0.95rem;">
+                        ▶️ (선택) 6–14분 영상으로 전체 흐름을 먼저 보고 싶다면
+                    </p>
+                    <div style="aspect-ratio: 16/9; width: 100%; background: rgba(255,255,255,0.05); border-radius: 14px; border: 2px dashed rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center;">
+                        <p style="color: var(--secondary); font-size: 0.9rem; padding: 0 18px; text-align:center; line-height: 1.6;">
+                            [여기에 YouTube/Loom iframe embed 넣기]<br>
+                            아직 영상 없으면 이 블록은 그냥 두고, 영상 생기면 교체
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- Problem Section -->
+    <!-- Problem -->
     <section class="problem-section">
         <div class="container">
-            <h2 class="section-title scroll-reveal">
-                이런 문제 있나요?
-            </h2>
+            <h2 class="section-title scroll-reveal">이런 문제 있나요?</h2>
 
             <div class="problem-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 900px; margin: 0 auto;">
-                <div class="problem-card glass scroll-reveal">
-                    <div class="problem-icon">💬</div>
-                    <h3>회의는 많은데 결론이 없다</h3>
-                </div>
-
-                <div class="problem-card glass scroll-reveal">
-                    <div class="problem-icon">🔄</div>
-                    <h3>"다음 회의에서"가 반복된다</h3>
-                </div>
-
-                <div class="problem-card glass scroll-reveal">
-                    <div class="problem-icon">⏸️</div>
-                    <h3>팀이 대표 컨펌을 기다리느라 멈춘다</h3>
-                </div>
-
-                <div class="problem-card glass scroll-reveal">
-                    <div class="problem-icon">📢</div>
-                    <h3>같은 이슈를 또 설명한다</h3>
-                </div>
-
-                <div class="problem-card glass scroll-reveal">
-                    <div class="problem-icon">📅</div>
-                    <h3>하루가 컨펌/결정으로 갈린다</h3>
-                </div>
+                <div class="problem-card glass scroll-reveal"><div class="problem-icon">💬</div><h3>회의는 많은데 결론이 없다</h3></div>
+                <div class="problem-card glass scroll-reveal"><div class="problem-icon">🔄</div><h3>"다음 회의에서"가 반복된다</h3></div>
+                <div class="problem-card glass scroll-reveal"><div class="problem-icon">⏸️</div><h3>팀이 대표 컨펌을 기다리느라 멈춘다</h3></div>
+                <div class="problem-card glass scroll-reveal"><div class="problem-icon">📢</div><h3>같은 이슈를 또 설명한다</h3></div>
+                <div class="problem-card glass scroll-reveal"><div class="problem-icon">📅</div><h3>하루가 컨펌/결정으로 갈린다</h3></div>
             </div>
 
             <div class="problem-conclusion scroll-reveal">
@@ -811,22 +560,21 @@
         </div>
     </section>
 
-    <!-- What You Get Section -->
+    <!-- What You Get -->
     <section style="background: rgba(40, 107, 255, 0.05); padding: 70px 0;">
         <div class="container">
             <h2 class="section-title scroll-reveal">7일 동안 이걸 받습니다</h2>
 
             <div style="max-width: 900px; margin: 0 auto;">
-                <!-- 1 -->
                 <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px;">
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; min-width: 50px;">📄</div>
                         <div style="flex: 1;">
-                            <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800; line-height: 1.4;">결정리포트 (매일)</h3>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800; line-height: 1.4;">결정리포트 (제출한 날마다)</h3>
                             <div style="background: rgba(0, 0, 0, 0.3); padding: 18px; border-radius: 12px; border-left: 3px solid var(--primary); margin-top: 12px;">
                                 <p style="color: var(--light); line-height: 1.9; margin: 0; font-size: 1rem;">
-                                    ✓ GO (지금 하세요) / 멈춤 (나중에) / 삭제 (안 해도 됨)<br>
-                                    ✓ 왜 그런지 이유 1줄<br>
+                                    ✓ GO (지금) / 멈춤 (나중) / 삭제 (안 함)<br>
+                                    ✓ 이유 1줄<br>
                                     ✓ 오늘 바로 할 것 1개
                                 </p>
                             </div>
@@ -834,12 +582,11 @@
                     </div>
                 </div>
 
-                <!-- 2 -->
                 <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px;">
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; min-width: 50px;">💬</div>
                         <div style="flex: 1;">
-                            <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800; line-height: 1.4;">팀에 보낼 말</h3>
+                            <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800; line-height: 1.4;">팀에 보낼 말 (복붙)</h3>
                             <p style="color: var(--secondary); line-height: 1.8; font-size: 1rem; word-break: keep-all;">
                                 "팀한테 뭐라고 말하지?" 고민 끝.<br>
                                 <strong style="color: var(--light);">복사해서 그대로 보내면 됩니다.</strong>
@@ -848,26 +595,31 @@
                     </div>
                 </div>
 
-                <!-- 3 -->
                 <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px;">
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; min-width: 50px;">📊</div>
                         <div style="flex: 1;">
                             <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800; line-height: 1.4;">7일 결과표</h3>
                             <p style="color: var(--secondary); line-height: 1.8; font-size: 1rem; word-break: keep-all;">
-                                7일 끝나면 <strong style="color: var(--light);">숫자로 보여드립니다.</strong><br>
-                                "몇 개 처리했는지 / 회의 몇 번 줄었는지"
+                                7일 끝나면 <strong style="color: var(--light);">숫자로 요약</strong>해드립니다.<br>
+                                "몇 개 처리 / 얼마나 빨라졌는지"
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sample placeholder -->
                 <div class="scroll-reveal" style="margin-top: 40px; padding: 25px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; text-align: center;">
                     <p style="color: var(--secondary); margin-bottom: 15px; font-size: 0.9rem;">📸 실제 결정리포트 샘플</p>
                     <div style="min-height: 250px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255, 255, 255, 0.2);">
-                        <p style="color: var(--secondary); font-size: 0.85rem; padding: 0 20px; line-height: 1.6;">[결정리포트 샘플 이미지 추가 예정]</p>
+                        <p style="color: var(--secondary); font-size: 0.85rem; padding: 0 20px; line-height: 1.6;">
+                            [결정리포트 샘플 이미지 추가 예정]<br>
+                            (샘플 1개 캡처해서 여기 넣으면 전환률이 바로 달라짐)
+                        </p>
                     </div>
+                </div>
+
+                <div style="text-align:center; margin-top: 35px;">
+                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button scroll-reveal" target="_blank" rel="noopener">7-Day Sprint 신청하기</a>
                 </div>
             </div>
         </div>
@@ -883,8 +635,10 @@
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px; flex-shrink: 0;">1</div>
                         <div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">미룬 결정 1개 보내기</h3>
-                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">예: "신규 채용 vs 외주, 어떻게 할까요?"</p>
+                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">미룬 결정 1개 제출</h3>
+                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">
+                                예: "신규 채용 vs 외주, 이번 주 안에 결정"
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -893,8 +647,10 @@
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px; flex-shrink: 0;">2</div>
                         <div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">결정리포트 받기</h3>
-                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">GO/멈춤/삭제 + 이유 + 오늘 할 것</p>
+                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">결정리포트 수령</h3>
+                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">
+                                GO/멈춤/삭제 + 이유 + 오늘 할 것 1개
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -903,16 +659,22 @@
                     <div style="display: flex; align-items: start; gap: 15px;">
                         <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px; flex-shrink: 0;">3</div>
                         <div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">팀에 복붙해서 보내기</h3>
-                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">고민 없이 그대로 전달</p>
+                            <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: var(--light); font-weight: 700; line-height: 1.4;">팀에 복붙해서 전달</h3>
+                            <p style="color: var(--secondary); line-height: 1.7; font-size: 0.95rem; word-break: keep-all;">
+                                고민 없이 그대로 보내면 됩니다.
+                            </p>
                         </div>
                     </div>
+                </div>
+
+                <div style="text-align:center; margin-top: 35px;">
+                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button scroll-reveal" target="_blank" rel="noopener">지금 신청하기</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Loss Section -->
+    <!-- Loss -->
     <section style="background: linear-gradient(135deg, rgba(255, 68, 68, 0.1), rgba(40, 107, 255, 0.1)); padding: 60px 0;">
         <div class="container">
             <div class="glass scroll-reveal" style="max-width: 800px; margin: 0 auto; padding: 40px 30px; border-left: 5px solid var(--accent);">
@@ -928,63 +690,64 @@
                 </div>
 
                 <p style="color: var(--secondary); text-align: center; font-size: 0.9rem; margin-top: 20px; word-break: keep-all;">
-                    ※ 숫자 과장 없이, 보수적으로 계산합니다.
+                    ※ 숫자 과장 없이, 공식만 제시합니다.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Rules Section -->
+    <!-- Rules + Guarantees -->
     <section class="beta-section" id="beta" style="background: rgba(0, 0, 0, 0.5);">
         <div class="container">
-            <div class="beta-content">
-                <div class="beta-header scroll-reveal">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="scroll-reveal" style="text-align:center; margin-bottom: 30px;">
                     <h2 class="section-title">규칙</h2>
                     <p style="text-align: center; font-size: 1.05rem; color: var(--light); margin-top: 20px; line-height: 1.7; word-break: keep-all; padding: 0 20px;">
-                        이건 <strong style="color: var(--accent);">"무료 체험"</strong> 아닙니다.<br>
-                        <strong style="color: var(--primary);">"7일 실험"</strong>입니다.
+                        이건 <strong style="color: var(--accent);">"무료 체험"</strong>이 아니라<br>
+                        <strong style="color: var(--primary);">"7일 실험(증거 만들기)"</strong>입니다.
                     </p>
                 </div>
 
-                <div style="max-width: 800px; margin: 40px auto;">
+                <div style="max-width: 800px; margin: 10px auto 40px;">
                     <div class="glass scroll-reveal" style="padding: 30px 25px;">
                         <ul class="beta-list" style="font-size: 1rem;">
-                            <li>주 3회 이상 결정 보내기 (매일 권장)</li>
-                            <li>2일 연속 안 보내면 중단</li>
-                            <li>조언/코칭 아님 → <strong style="color: var(--light);">결정리포트 받는 게 목적</strong></li>
+                            <li>주 3회 이상 결정 제출 (매일 권장)</li>
+                            <li>2일 연속 미제출이면 중단</li>
+                            <li>조언/코칭 아님 → <strong style="color: var(--light);">결정리포트 납품</strong>이 목적</li>
                         </ul>
+                        <p style="color: var(--secondary); font-size: 0.9rem; margin-top: 10px; line-height: 1.6;">
+                            보증금 5만 원은 노쇼 방지용이며, 규칙을 지키면 100% 환불됩니다.
+                        </p>
                     </div>
                 </div>
 
-                <!-- 보장 -->
                 <div style="max-width: 800px; margin: 50px auto;">
                     <h3 style="text-align: center; font-size: 1.6rem; color: var(--primary); margin-bottom: 25px; font-weight: 800;">보장</h3>
 
                     <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 20px;">
-                        <h4 style="font-size: 1.2rem; color: var(--light); margin-bottom: 12px; font-weight: 700; line-height: 1.4;">📋 결정리포트 보장</h4>
+                        <h4 style="font-size: 1.2rem; color: var(--light); margin-bottom: 12px; font-weight: 700; line-height: 1.4;">📋 결정리포트 납품 보장</h4>
                         <p style="color: var(--secondary); line-height: 1.7; font-size: 1rem; word-break: keep-all;">
-                            보낸 결정은 <strong style="color: var(--light);">다음날 오전까지</strong> 리포트 드립니다
+                            제출한 안건은 <strong style="color: var(--light);">다음날 오전까지</strong> 결정리포트로 드립니다.
                         </p>
                     </div>
 
                     <div class="glass scroll-reveal" style="padding: 30px 25px;">
                         <h4 style="font-size: 1.2rem; color: var(--light); margin-bottom: 12px; font-weight: 700; line-height: 1.4;">📊 7일 결과표 보장</h4>
                         <p style="color: var(--secondary); line-height: 1.7; font-size: 1rem; word-break: keep-all;">
-                            7일 끝나면 숫자로 보여드립니다<br>
-                            (몇 개 처리 / 회의 몇 번 줄었는지)
+                            7일 종료 후 결과표를 제공합니다<br>
+                            (처리한 결정 수 / 멈춤 해제 정도 등)
                         </p>
                     </div>
                 </div>
 
-                <!-- 자격 필터 -->
                 <div style="max-width: 800px; margin: 50px auto;">
                     <h3 style="text-align: center; font-size: 1.6rem; color: var(--primary); margin-bottom: 25px; font-weight: 800;">이런 분만</h3>
 
                     <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px; border-left: 4px solid var(--primary);">
                         <ul class="beta-list" style="font-size: 1rem;">
-                            <li>팀 1-15명 (협업 중)</li>
-                            <li>"다음 회의에서" 계속 반복</li>
-                            <li>조언 말고 <strong style="color: var(--light);">결론 + 다음 행동</strong> 필요</li>
+                            <li>팀 1–15명 (협업 중)</li>
+                            <li>"다음 회의에서"가 계속 반복</li>
+                            <li>조언 말고 <strong style="color: var(--light);">결론 + 다음 행동</strong>이 필요</li>
                         </ul>
                     </div>
 
@@ -997,17 +760,10 @@
                     </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 50px;">
-                    <!-- ✅ CTA는 폼 -->
-                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button" target="_blank" rel="noopener">무료 7-Day Sprint 신청하기</a>
-
-                    <div style="display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; border: 1px solid rgba(40, 107, 255, 0.3); margin-top: 15px;">
-                        <code style="font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--primary); font-weight: 700;">SPRINT</code>
-                        <button onclick="copyText('SPRINT', this)" style="padding: 5px 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">복사</button>
-                    </div>
-
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button" target="_blank" rel="noopener">7-Day Sprint 신청하기</a>
                     <p style="margin-top: 15px; font-size: 0.9rem; color: var(--secondary);">
-                        또는 <a href="https://forms.gle/c82aL9ELm52j9LBk7" style="color: var(--primary); text-decoration: underline; font-weight: 700;" target="_blank" rel="noopener">폼으로 신청</a>
+                        또는 인스타 DM: <a href="https://instagram.com/dawn430.society" style="color: var(--primary); text-decoration: underline; font-weight: 700;" target="_blank" rel="noopener">@dawn430.society</a>
                     </p>
                 </div>
             </div>
@@ -1022,22 +778,22 @@
             <div class="faq-grid">
                 <div class="faq-item glass scroll-reveal">
                     <div class="faq-question" style="font-size: 1.1rem;">Q. 새벽 4:30에 일어나야 하나요?</div>
-                    <div class="faq-answer" style="font-size: 1rem;">A. 아닙니다. 4:30은 상징일 뿐. 방해 없는 시간 2-4시간 확보가 핵심입니다.</div>
+                    <div class="faq-answer" style="font-size: 1rem;">A. 아닙니다. 4:30은 상징일 뿐. 방해 없는 시간 2–4시간 확보가 핵심입니다.</div>
                 </div>
 
                 <div class="faq-item glass scroll-reveal">
                     <div class="faq-question" style="font-size: 1.1rem;">Q. 이거 코칭인가요, 툴인가요?</div>
-                    <div class="faq-answer" style="font-size: 1rem;">A. 결정리포트(납품물)가 본체고, 필요하면 간단히 도와드립니다.</div>
+                    <div class="faq-answer" style="font-size: 1rem;">A. 결정리포트(납품물)가 본체고, 필요한 만큼만 설치/점검을 돕습니다.</div>
                 </div>
 
                 <div class="faq-item glass scroll-reveal">
                     <div class="faq-question" style="font-size: 1.1rem;">Q. 뭘 보내야 하나요?</div>
-                    <div class="faq-answer" style="font-size: 1rem;">A. 미룬 결정 1개 (선택지 2-3개, 언제까지인지, 상황 3줄)</div>
+                    <div class="faq-answer" style="font-size: 1rem;">A. 미룬 결정 1개 (선택지 2–3개, 마감, 상황 3줄)</div>
                 </div>
 
                 <div class="faq-item glass scroll-reveal">
-                    <div class="faq-question" style="font-size: 1.1rem;">Q. 무료인데 왜 규칙이 있나요?</div>
-                    <div class="faq-answer" style="font-size: 1rem;">A. 실행 안 하면 데이터가 안 나와요. 이 실험은 증거(숫자)를 만드는 게 목적입니다.</div>
+                    <div class="faq-question" style="font-size: 1.1rem;">Q. 참가비 0원인데 왜 보증금이 있나요?</div>
+                    <div class="faq-answer" style="font-size: 1rem;">A. 실행이 없으면 증거(숫자)가 안 나옵니다. 규칙을 지키면 보증금은 100% 환불됩니다.</div>
                 </div>
             </div>
         </div>
@@ -1046,32 +802,21 @@
     <!-- Final CTA -->
     <section class="final-cta" id="apply">
         <div class="container">
-            <h2 class="final-cta-title scroll-reveal">
-                ⏰ 지금 안 하면<br>
-                내일도 "다음 회의에서"입니다.
-            </h2>
+            <h2 class="final-cta-title scroll-reveal">⏰ 지금 안 하면<br>내일도 "다음 회의에서"입니다.</h2>
 
-            <p class="final-cta-description scroll-reveal">완전 무료 / 결정리포트 / 7일</p>
+            <p class="final-cta-description scroll-reveal">7일 / 결정리포트 / 참가비 0원 (보증금 환불)</p>
 
-            <!-- ✅ CTA는 폼 -->
             <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button scroll-reveal" target="_blank" rel="noopener">
-                무료 7-Day Sprint 신청하기
+                7-Day Sprint 신청하기
             </a>
 
-            <div style="display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; border: 1px solid rgba(40, 107, 255, 0.3); margin-top: 20px; position: relative; z-index: 1;">
-                <code style="font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--primary); font-weight: 700;">SPRINT</code>
-                <button onclick="copyText('SPRINT', this)" style="padding: 5px 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">복사</button>
-            </div>
-
             <p style="margin-top: 15px; font-size: 0.9rem; color: var(--secondary); position: relative; z-index: 1; word-break: keep-all; padding: 0 20px;">
-                인스타 DM에 'SPRINT' 보내기<br class="mobile-only">
-                <span style="display: inline-block; margin: 5px 10px;">|</span>
-                또는 <a href="https://forms.gle/c82aL9ELm52j9LBk7" style="color: var(--primary); text-decoration: underline; font-weight: 700;" target="_blank" rel="noopener">폼으로 신청</a>
+                또는 인스타 DM에 'SPRINT' 보내기<br class="mobile-only">
+                <a href="https://instagram.com/dawn430.society" style="color: var(--primary); text-decoration: underline; font-weight: 700;" target="_blank" rel="noopener">@dawn430.society</a>
             </p>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <p class="footer-text">
             결정을 미루면 비용이 됩니다.<br>
@@ -1080,35 +825,6 @@
     </footer>
 
     <script>
-        // Clipboard copy with fallback
-        function copyText(text, btnEl) {
-            const done = () => {
-                const prev = btnEl.textContent;
-                btnEl.textContent = '복사됨!';
-                setTimeout(() => (btnEl.textContent = prev || '복사'), 1500);
-            };
-
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-            } else {
-                fallbackCopy(text, done);
-            }
-        }
-
-        function fallbackCopy(text, cb) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.setAttribute('readonly', '');
-            ta.style.position = 'fixed';
-            ta.style.top = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); } catch (e) {}
-            document.body.removeChild(ta);
-            cb();
-        }
-
-        // Scroll reveal: IntersectionObserver only (+stagger)
         const items = document.querySelectorAll('.scroll-reveal');
 
         const observer = new IntersectionObserver((entries) => {
