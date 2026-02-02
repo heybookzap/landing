@@ -433,7 +433,8 @@
             to { opacity: 1; }
         }
 
-        .scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        /* [수정됨] 애니메이션 속도를 0.8초에서 0.5초로 단축하여 더 민첩하게 변경 */
+        .scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.5s ease; }
         .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
@@ -605,7 +606,7 @@
                 <div class="scroll-reveal" style="margin-top: 40px; padding: 25px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; text-align: center;">
                     <p style="color: var(--secondary); margin-bottom: 15px; font-size: 0.9rem;">📸 실제 결정리포트 샘플</p>
                     <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1);">
-                        <img src="image_39b425.jpg" alt="결정 리포트 실제 샘플" style="width: 100%; height: auto; display: block;">
+                        <img src="결정 리포트.JPG" alt="결정 리포트 실제 샘플" style="width: 100%; height: auto; display: block;">
                     </div>
                 </div>
 
@@ -813,6 +814,8 @@
     <script>
         const items = document.querySelectorAll('.scroll-reveal');
 
+        // [수정됨] 카드 등장 타이밍을 더 빠르게 조정
+        // rootMargin: '-20px'로 설정하여 화면 하단에 닿자마자 거의 바로 뜨게 함 (기존 -100px)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -821,7 +824,7 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -100px 0px' });
+        }, { threshold: 0.12, rootMargin: '0px 0px -20px 0px' });
 
         items.forEach((el) => observer.observe(el));
 
