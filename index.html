@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* [속도 최적화] 모든 애니메이션을 즉각 반응하도록 설정 */
+        /* [성능 최적화] 모든 전환 효과를 더 빠르고 간결하게 변경 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -27,6 +27,7 @@
             line-height: 1.6;
         }
 
+        /* 배경 효과 최적화 */
         body::before {
             content: '';
             position: fixed;
@@ -77,6 +78,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         section { padding: 70px 0; position: relative; }
 
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -148,11 +150,11 @@
         .final-cta { background: linear-gradient(135deg, rgba(40, 107, 255, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%); text-align: center; padding: 140px 20px; }
         .final-cta-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 6vw, 4rem); font-weight: 900; margin-bottom: 30px; word-break: keep-all; }
 
-        /* [핵심 수정] 등장 애니메이션 속도: 0.3초 (매우 빠름) */
+        /* [핵심 수정] 애니메이션 속도 대폭 개선 */
         .scroll-reveal {
             opacity: 0;
-            transform: translateY(20px); 
-            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(30px); /* 이동 거리 축소 (50px -> 30px) */
+            transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 시간 단축 (0.8s -> 0.4s) 및 스내피한 모션 */
         }
         .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -295,17 +297,19 @@
     <script>
         const items = document.querySelectorAll('.scroll-reveal');
 
-        // [핵심 수정] 지연 시간(setTimeout, index * 50)을 완전히 삭제하여 즉시 실행되도록 변경
+        // [핵심 수정] 딜레이 로직 완전 제거하여 즉시 뜨게 변경
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('active'); // 발견 즉시 클래스 추가
+                    // 기존 코드: index * 50ms 대기 (페이지 아래쪽은 1~2초 대기하게 됨) -> 삭제
+                    // 수정 코드: 보이는 즉시 나타남
+                    entry.target.classList.add('active'); 
                     observer.unobserve(entry.target);
                 }
             });
         }, { 
-            threshold: 0.01, // 1%만 보여도 바로 실행
-            rootMargin: '0px 0px 0px 0px' // 하단 마진 제거하여 반응성 극대화
+            threshold: 0.1, // 10%만 보여도 즉시 실행
+            rootMargin: '0px 0px -20px 0px' // 화면 하단에 닿자마자 실행
         });
 
         items.forEach((el) => observer.observe(el));
