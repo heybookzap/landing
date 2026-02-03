@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* [성능 최적화] 모든 전환 효과를 더 빠르고 간결하게 변경 */
+        /* [속도 최적화] 모든 애니메이션 즉각 반응 설정 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -17,6 +17,7 @@
             --dark: #0a0e27;
             --light: #f8fafc;
             --accent: #ff4444;
+            --glass-bg: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -27,43 +28,18 @@
             line-height: 1.6;
         }
 
-        /* 배경 효과 최적화 */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0.03;
-            z-index: 1;
-            pointer-events: none;
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.03; z-index: 1; pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        .bg-animation {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .gradient-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: float 20s ease-in-out infinite;
-        }
-
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .gradient-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s ease-in-out infinite; }
         .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -10%; right: -10%; animation-delay: 0s; }
         .orb-2 { width: 400px; height: 400px; background: var(--accent); bottom: -10%; left: -10%; animation-delay: 7s; }
         .orb-3 { width: 350px; height: 350px; background: var(--secondary); top: 50%; left: 50%; animation-delay: 14s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } }
 
         .glass {
             background: rgba(255, 255, 255, 0.05);
@@ -74,102 +50,103 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             position: relative;
         }
+        .glass::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         section { padding: 70px 0; position: relative; }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            padding: 120px 20px;
-        }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; padding: 120px 20px; }
+        .hero-content { max-width: 900px; animation: fadeInUp 1s ease-out; }
 
         .warning-badge {
             display: inline-flex; align-items: center; gap: 10px;
             background: rgba(255, 68, 68, 0.15); border: 1px solid var(--accent);
-            padding: 10px 20px; border-radius: 50px;
-            font-size: 14px; font-weight: 600; margin-bottom: 30px;
+            padding: 10px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; margin-bottom: 30px;
         }
-        .warning-dot {
-            width: 10px; height: 10px; background: var(--accent);
-            border-radius: 50%; animation: blink 1.5s ease-in-out infinite;
-        }
+        .warning-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
 
         h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(1.8rem, 7vw, 5.5rem);
+            font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 7vw, 5.5rem);
             font-weight: 800; line-height: 1.15; margin-bottom: 20px;
             background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, var(--secondary) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            word-break: keep-all;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; word-break: keep-all;
         }
-
         .hero-subtitle { font-size: clamp(0.85rem, 2vw, 1.2rem); color: var(--accent); margin-bottom: 15px; font-weight: 700; }
         .hero-description { font-size: clamp(1rem, 2.5vw, 1.7rem); color: var(--light); margin-bottom: 40px; font-weight: 500; word-break: keep-all; }
 
         .cta-button {
-            display: inline-block; padding: 18px 40px;
-            font-size: 1.1rem; font-weight: 700; color: white;
+            display: inline-block; padding: 18px 40px; font-size: 1.1rem; font-weight: 700; color: white;
             background: linear-gradient(135deg, var(--primary) 0%, #1a4fd6 100%);
-            border-radius: 50px; text-decoration: none;
-            transition: transform 0.2s ease;
-            box-shadow: 0 10px 30px rgba(40, 107, 255, 0.4);
+            border-radius: 50px; text-decoration: none; transition: transform 0.2s ease;
+            box-shadow: 0 10px 30px rgba(40, 107, 255, 0.4); position: relative; overflow: hidden;
         }
         .cta-button:hover { transform: translateY(-5px) scale(1.05); }
         .cta-info { display: block; margin-top: 15px; font-size: 0.85rem; color: var(--secondary); }
 
         .section-title {
             font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 5vw, 3.5rem);
-            font-weight: 800; text-align: center; margin-bottom: 50px;
-            position: relative; word-break: keep-all;
+            font-weight: 800; text-align: center; margin-bottom: 50px; position: relative; word-break: keep-all;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 3px; background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
+        .problem-section { background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%); }
         .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .problem-card { padding: 35px; transition: transform 0.3s ease; }
+        .problem-card { padding: 35px; transition: transform 0.3s ease; position: relative; }
         .problem-card:hover { transform: translateY(-5px); }
-        .problem-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
-        .problem-card h3 { font-size: 1.15rem; color: var(--light); margin-bottom: 0; }
+        .problem-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; filter: grayscale(0.3); }
+        .problem-card:hover .problem-icon { filter: grayscale(0); transform: scale(1.2) rotate(5deg); }
+        .problem-card h3 { font-size: 1.15rem; color: var(--light); margin-bottom: 0; word-break: keep-all; }
 
         .problem-conclusion {
             text-align: center; font-size: clamp(1.1rem, 2.5vw, 2rem); font-weight: 700;
             margin-top: 50px; padding: 35px 25px;
             background: linear-gradient(135deg, rgba(40, 107, 255, 0.15), rgba(40, 107, 255, 0.05));
-            border-left: 5px solid var(--primary); border-radius: 16px;
+            border-left: 5px solid var(--primary); border-radius: 16px; word-break: keep-all;
         }
 
+        .beta-section { background: rgba(0, 0, 0, 0.6); position: relative; overflow: hidden; }
         .beta-list { list-style: none; margin: 30px 0; }
-        .beta-list li { padding: 12px 0 12px 25px; position: relative; font-size: 1rem; color: var(--light); }
+        .beta-list li { padding: 12px 0 12px 25px; position: relative; font-size: 1rem; color: var(--light); word-break: keep-all; }
         .beta-list li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+
+        .faq-section { background: linear-gradient(180deg, transparent 0%, rgba(40, 107, 255, 0.05) 100%); }
+        .faq-grid { display: grid; gap: 20px; max-width: 900px; margin: 0 auto; }
+        .faq-item { padding: 35px; transition: transform 0.3s ease; cursor: pointer; }
+        .faq-item:hover { background: rgba(40, 107, 255, 0.1); transform: translateX(10px); }
+        .faq-question { font-size: 1.35rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
+        .faq-answer { font-size: 1.15rem; color: var(--secondary); line-height: 1.9; }
 
         .final-cta { background: linear-gradient(135deg, rgba(40, 107, 255, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%); text-align: center; padding: 140px 20px; }
         .final-cta-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 6vw, 4rem); font-weight: 900; margin-bottom: 30px; word-break: keep-all; }
-
-        /* [핵심 수정] 애니메이션 속도 대폭 개선 */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px); /* 이동 거리 축소 (50px -> 30px) */
-            transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 시간 단축 (0.8s -> 0.4s) 및 스내피한 모션 */
-        }
-        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+        .final-cta-description { font-size: clamp(1.05rem, 2.5vw, 1.9rem); margin-bottom: 40px; color: var(--secondary); font-weight: 600; word-break: keep-all; }
 
         .footer { text-align: center; padding: 60px 20px; background: rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.1); }
         .footer-text { color: var(--secondary); font-size: 1rem; }
 
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* [속도 최적화 핵심] 등장 속도 0.3초, 대기 시간 없음 */
+        .scroll-reveal {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 768px) {
             .hero { padding: 60px 20px; }
             .section-title { font-size: 1.8rem; }
+            .mobile-only { display: inline; }
         }
-        
-        .scroll-progress {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 10000;
-        }
+        .mobile-only { display: none; }
+
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 10000; }
     </style>
 </head>
 <body>
@@ -197,6 +174,7 @@
                     <code style="font-family: 'Space Mono', monospace; font-size: 1.1rem; color: var(--primary); font-weight: 700;">SPRINT</code>
                     <button onclick="navigator.clipboard.writeText('SPRINT'); this.textContent='복사됨!'; setTimeout(() => this.textContent='복사', 1500)" style="padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">복사</button>
                 </div>
+                <span style="font-size: 0.85rem; color: var(--secondary); text-align:center;">↑ 인스타 DM에 'SPRINT' 보내도 됩니다<br>(<a href="https://instagram.com/dawn430.society" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline; font-weight: 700;">@dawn430.society</a>)</span>
                 <span class="cta-info">결정리포트 받기 / 7일 실험 / 증거(숫자)로 요약</span>
             </div>
         </div>
@@ -244,6 +222,16 @@
                     </div>
                 </div>
 
+                <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px;">
+                    <div style="display: flex; align-items: start; gap: 15px;">
+                        <div style="font-size: 2.2rem; min-width: 50px;">📊</div>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.3rem; margin-bottom: 12px; color: var(--primary); font-weight: 800;">7일 결과표</h3>
+                            <p style="color: var(--secondary);">7일 끝나면 <strong style="color: var(--light);">숫자로 요약</strong>해드립니다.<br>"몇 개 처리 / 얼마나 빨라졌는지"</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="scroll-reveal" style="margin-top: 40px; padding: 25px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; text-align: center;">
                     <p style="color: var(--secondary); margin-bottom: 15px; font-size: 0.9rem;">📸 실제 결정리포트 샘플</p>
                     <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -258,25 +246,110 @@
         </div>
     </section>
 
-    <section class="beta-section" style="background: rgba(0, 0, 0, 0.5);">
+    <section style="background: rgba(0, 0, 0, 0.3); padding: 60px 0;">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">어떻게 하나요? (딱 3단계)</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: start; gap: 15px;">
+                        <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px;">1</div>
+                        <div><h3 style="font-size: 1.25rem; color: var(--light); font-weight: 700;">미룬 결정 1개 제출</h3><p style="color: var(--secondary);">예: "신규 채용 vs 외주, 이번 주 안에 결정"</p></div>
+                    </div>
+                </div>
+                <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: start; gap: 15px;">
+                        <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px;">2</div>
+                        <div><h3 style="font-size: 1.25rem; color: var(--light); font-weight: 700;">결정리포트 수령</h3><p style="color: var(--secondary);">GO/WAIT/STOP + 이유 + 오늘 할 것 1개</p></div>
+                    </div>
+                </div>
+                <div class="glass scroll-reveal" style="padding: 30px 25px;">
+                    <div style="display: flex; align-items: start; gap: 15px;">
+                        <div style="font-size: 2.2rem; color: var(--primary); font-weight: 800; min-width: 50px;">3</div>
+                        <div><h3 style="font-size: 1.25rem; color: var(--light); font-weight: 700;">팀에 복붙해서 전달</h3><p style="color: var(--secondary);">고민 없이 그대로 보내면 됩니다.</p></div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top: 35px;">
+                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button scroll-reveal" target="_blank" rel="noopener">지금 신청하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: linear-gradient(135deg, rgba(255, 68, 68, 0.1), rgba(40, 107, 255, 0.1)); padding: 60px 0;">
+        <div class="container">
+            <div class="glass scroll-reveal" style="max-width: 800px; margin: 0 auto; padding: 40px 30px; border-left: 5px solid var(--accent);">
+                <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent); font-weight: 800; text-align: center;">결정이 늦어질수록,<br>팀은 '멈춰서 기다린 시간'만큼 돈을 태웁니다.</h3>
+                <div style="background: rgba(0, 0, 0, 0.4); padding: 25px 20px; border-radius: 16px; margin: 25px 0;">
+                    <p style="font-size: 1.1rem; color: var(--light); text-align: center;">멈춘 사람 수 × 멈춘 시간 × 시간당 인건비<br>= 손실 (원)</p>
+                </div>
+                <p style="color: var(--secondary); text-align: center; font-size: 0.9rem;">※ 숫자 과장 없이, 공식만 제시합니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="beta-section" id="beta" style="background: rgba(0, 0, 0, 0.5);">
         <div class="container">
             <div style="max-width: 900px; margin: 0 auto;">
                 <div class="scroll-reveal" style="text-align:center; margin-bottom: 30px;">
                     <h2 class="section-title">규칙 & 보장</h2>
+                    <p style="text-align: center; font-size: 1.05rem; color: var(--light); margin-top: 20px;">이건 <strong style="color: var(--accent);">"무료 체험"</strong>이 아니라 <strong style="color: var(--primary);">"7일 실험(증거 만들기)"</strong>입니다.</p>
                 </div>
+
                 <div style="max-width: 800px; margin: 10px auto 40px;">
-                    <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 20px;">
-                        <h4 style="color: var(--light); margin-bottom: 10px;">📌 7일 규칙</h4>
+                    <div class="glass scroll-reveal" style="padding: 30px 25px;">
                         <ul class="beta-list">
                             <li>주 3회 이상 결정 제출 (매일 권장)</li>
                             <li>2일 연속 미제출이면 중단</li>
                             <li>조언/코칭 아님 → <strong style="color: var(--light);">결정리포트 납품</strong>이 목적</li>
                         </ul>
+                        <p style="color: var(--secondary); font-size: 0.9rem; margin-top: 10px;">보증금 5만 원은 노쇼 방지용이며, 규칙을 지키면 100% 환불됩니다.</p>
                     </div>
-                    <div class="glass scroll-reveal" style="padding: 30px 25px;">
-                        <h4 style="color: var(--light); margin-bottom: 10px;">🛡️ 환불 보장</h4>
-                        <p style="color: var(--secondary);">규칙을 완주하시면 보증금 5만 원은 <strong>100% 즉시 환불</strong>됩니다.</p>
+                </div>
+
+                <div style="max-width: 800px; margin: 50px auto;">
+                    <h3 style="text-align: center; font-size: 1.6rem; color: var(--primary); margin-bottom: 25px; font-weight: 800;">이런 분만</h3>
+                    <div class="glass scroll-reveal" style="padding: 30px 25px; margin-bottom: 25px; border-left: 4px solid var(--primary);">
+                        <ul class="beta-list">
+                            <li>팀 1–15명 (협업 중)</li>
+                            <li>"다음 회의에서"가 계속 반복</li>
+                            <li>조언 말고 <strong style="color: var(--light);">결론 + 다음 행동</strong>이 필요</li>
+                        </ul>
                     </div>
+                    <div class="glass scroll-reveal" style="padding: 30px 25px; border-left: 4px solid var(--accent); background: rgba(255, 68, 68, 0.05);">
+                        <h4 style="font-size: 1.1rem; color: var(--accent); margin-bottom: 12px; font-weight: 700;">❌ 비추천</h4>
+                        <ul class="beta-list">
+                            <li>전략을 처음부터 짜야 하는 단계</li>
+                            <li>결정 맡기기 싫어서 다시 검수하는 타입</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button" target="_blank" rel="noopener">7-Day Sprint 신청하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">궁금한 것</h2>
+            <div class="faq-grid">
+                <div class="faq-item glass scroll-reveal">
+                    <div class="faq-question">Q. 새벽 4:30에 일어나야 하나요?</div>
+                    <div class="faq-answer">A. 아닙니다. 4:30은 상징일 뿐. 방해 없는 시간 2–4시간 확보가 핵심입니다.</div>
+                </div>
+                <div class="faq-item glass scroll-reveal">
+                    <div class="faq-question">Q. 이거 코칭인가요, 툴인가요?</div>
+                    <div class="faq-answer">A. 결정리포트(납품물)가 본체고, 필요한 만큼만 설치/점검을 돕습니다.</div>
+                </div>
+                <div class="faq-item glass scroll-reveal">
+                    <div class="faq-question">Q. 뭘 보내야 하나요?</div>
+                    <div class="faq-answer">A. 미룬 결정 1개 (선택지 2–3개, 마감, 상황 3줄)</div>
+                </div>
+                <div class="faq-item glass scroll-reveal">
+                    <div class="faq-question">Q. 참가비 0원인데 왜 보증금이 있나요?</div>
+                    <div class="faq-answer">A. 실행이 없으면 증거(숫자)가 안 나옵니다. 규칙을 지키면 보증금은 100% 환불됩니다.</div>
                 </div>
             </div>
         </div>
@@ -287,6 +360,7 @@
             <h2 class="final-cta-title scroll-reveal">⏰ 지금 안 하면<br>내일도 "다음 회의에서"입니다.</h2>
             <p class="final-cta-description scroll-reveal">7일 / 결정리포트 / 참가비 0원 (보증금 환불)</p>
             <a href="https://forms.gle/c82aL9ELm52j9LBk7" class="cta-button scroll-reveal" target="_blank" rel="noopener">7-Day Sprint 신청하기</a>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--secondary);">또는 인스타 DM에 'SPRINT' 보내기<br class="mobile-only"><a href="https://instagram.com/dawn430.society" style="color: var(--primary); text-decoration: underline; font-weight: 700;" target="_blank" rel="noopener">@dawn430.society</a></p>
         </div>
     </section>
 
@@ -297,19 +371,17 @@
     <script>
         const items = document.querySelectorAll('.scroll-reveal');
 
-        // [핵심 수정] 딜레이 로직 완전 제거하여 즉시 뜨게 변경
+        // [최종 속도 패치] 대기 시간(Delay) 완전 제거 + 민감도 극대화
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    // 기존 코드: index * 50ms 대기 (페이지 아래쪽은 1~2초 대기하게 됨) -> 삭제
-                    // 수정 코드: 보이는 즉시 나타남
-                    entry.target.classList.add('active'); 
+                    entry.target.classList.add('active'); // 발견 즉시 실행
                     observer.unobserve(entry.target);
                 }
             });
         }, { 
-            threshold: 0.1, // 10%만 보여도 즉시 실행
-            rootMargin: '0px 0px -20px 0px' // 화면 하단에 닿자마자 실행
+            threshold: 0.01, // 1%만 보여도 실행 (반응 속도 최상)
+            rootMargin: '0px 0px 0px 0px' 
         });
 
         items.forEach((el) => observer.observe(el));
