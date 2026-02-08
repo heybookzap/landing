@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CEO 의사결정 비용 정밀 진단 - Dawn 430</title>
+  <title>4주 설치형 OS - Activation Sprint</title>
 
   <!-- Pretendard Font -->
-  <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,19 +16,20 @@
       --secondary: #c8d9ee;
       --dark: #0a1628;
       --light: #ffffff;
-      --muted: #64748b;
+      --muted: #94a3b8;
+      --muted-2: #64748b;
       --gradient-1: linear-gradient(135deg, #286bff 0%, #4a90ff 100%);
-      --gradient-2: linear-gradient(135deg, #c8d9ee 0%, #e5eef8 100%);
+      --card: rgba(255, 255, 255, 0.06);
+      --card-strong: rgba(255, 255, 255, 0.10);
+      --border: rgba(255, 255, 255, 0.12);
     }
 
     body {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-        "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
       background: linear-gradient(180deg, #0a1628 0%, #1a2847 50%, #0a1628 100%);
       color: var(--light);
       overflow-x: hidden;
-      line-height: 1.6;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -41,66 +41,63 @@
     }
     .floating-shape {
       position: absolute; border-radius: 50%;
-      filter: blur(60px); opacity: 0.15;
+      filter: blur(60px); opacity: 0.14;
       animation: float 20s infinite ease-in-out;
     }
-    .shape-1 { width: 400px; height: 400px; background: var(--primary); top: 10%; left: 10%; animation-delay: 0s; }
-    .shape-2 { width: 300px; height: 300px; background: var(--secondary); bottom: 20%; right: 10%; animation-delay: 3s; }
-    .shape-3 { width: 350px; height: 350px; background: var(--primary); top: 50%; left: 50%; animation-delay: 6s; }
-
+    .shape-1 { width: 380px; height: 380px; background: var(--primary); top: 10%; left: 8%; animation-delay: 0s; }
+    .shape-2 { width: 300px; height: 300px; background: var(--secondary); bottom: 18%; right: 10%; animation-delay: 3s; }
+    .shape-3 { width: 340px; height: 340px; background: var(--primary); top: 50%; left: 55%; animation-delay: 6s; }
     @keyframes float {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(50px, -50px) scale(1.1); }
-      66% { transform: translate(-30px, 30px) scale(0.9); }
+      33% { transform: translate(45px, -45px) scale(1.08); }
+      66% { transform: translate(-28px, 28px) scale(0.94); }
     }
 
-    /* Glass Card Effect */
+    /* Glass */
     .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
     }
     .glass-strong {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--card-strong);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      box-shadow: 0 10px 36px rgba(0,0,0,0.26);
     }
 
     /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 18px;
       position: relative;
       z-index: 1;
     }
 
-    /* Navigation */
+    /* Nav */
     .nav {
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
+      padding: 16px 0;
+      position: sticky; top: 0;
       z-index: 100;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     .nav.scrolled {
-      background: rgba(10, 22, 40, 0.8);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      background: rgba(10, 22, 40, 0.78);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.22);
     }
     .nav-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px;
     }
     .logo {
-      font-size: 22px;
-      font-weight: 900;
+      font-size: 20px; font-weight: 900;
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -109,383 +106,369 @@
       white-space: nowrap;
     }
     .nav-btn {
-      padding: 12px 18px;
+      padding: 10px 18px;
       background: var(--gradient-1);
       border: none;
       border-radius: 12px;
       color: var(--light);
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 14px;
-      white-space: nowrap;
+      transition: all 0.25s ease;
+      font-size: 13px;
+      min-height: 44px;
+      letter-spacing: -0.01em;
     }
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(40, 107, 255, 0.4);
-    }
+    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(40,107,255,0.35); }
 
     /* Hero */
     .hero {
-      padding: 100px 0 80px;
+      padding: 56px 0 36px;
       text-align: center;
     }
     .tag {
       display: inline-block;
-      padding: 8px 20px;
-      background: rgba(200, 217, 238, 0.15);
-      border: 1px solid rgba(200, 217, 238, 0.3);
-      border-radius: 50px;
-      font-size: 14px;
+      padding: 7px 14px;
+      background: rgba(200, 217, 238, 0.14);
+      border: 1px solid rgba(200, 217, 238, 0.28);
+      border-radius: 999px;
+      font-size: 12px;
       color: var(--secondary);
-      margin-bottom: 24px;
-      animation: fadeInUp 0.8s ease;
+      margin-bottom: 14px;
+      animation: fadeInUp 0.7s ease;
       word-break: keep-all;
     }
     h1 {
-      font-size: clamp(24px, 5vw, 56px);
-      line-height: 1.25;
-      margin-bottom: 16px;
+      font-size: clamp(26px, 5vw, 52px);
+      line-height: 1.22;
+      margin-bottom: 12px;
       font-weight: 900;
-      animation: fadeInUp 0.8s ease 0.2s both;
       letter-spacing: -0.03em;
       word-break: keep-all;
+      animation: fadeInUp 0.7s ease 0.12s both;
     }
     .highlight {
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      font-weight: 900;
+      font-weight: 950;
     }
     .hero-subtitle {
-      font-size: 16px;
-      color: var(--secondary);
-      max-width: 820px;
-      margin: 0 auto 28px;
-      animation: fadeInUp 0.8s ease 0.4s both;
-      line-height: 1.8;
+      font-size: 17px;
+      color: rgba(255,255,255,0.92);
+      max-width: 780px;
+      margin: 0 auto 16px;
+      line-height: 1.65;
       word-break: keep-all;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease 0.6s both;
-    }
-    .btn-primary {
-      padding: 18px 40px;
-      background: var(--gradient-1);
-      border: none;
-      border-radius: 16px;
-      color: var(--light);
-      font-weight: 800;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      min-height: 56px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: -0.01em;
-    }
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(40, 107, 255, 0.5);
-    }
-    .btn-secondary {
-      padding: 18px 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      color: var(--light);
-      font-weight: 800;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      min-height: 56px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: -0.01em;
-    }
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-3px);
+      animation: fadeInUp 0.7s ease 0.24s both;
     }
 
+    /* Major CTA (Designnas #4 의도: 제목 바로 아래) */
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      animation: fadeInUp 0.7s ease 0.34s both;
+    }
+    .btn-primary, .btn-secondary {
+      border-radius: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 16px 22px;
+      letter-spacing: -0.01em;
+      width: min(420px, 100%);
+    }
+    .btn-primary {
+      background: var(--gradient-1);
+      border: none;
+      color: var(--light);
+      font-size: 16px;
+      box-shadow: 0 12px 38px rgba(40,107,255,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 42px rgba(40,107,255,0.35); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--light);
+      font-size: 15px;
+    }
+    .btn-secondary:hover { transform: translateY(-2px); background: rgba(255,255,255,0.12); }
+
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Sections */
-    .section { padding: 80px 0; }
+    /* Quick chips (초6도: 1초에 이해) */
+    .quick-chips {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin: 18px auto 0;
+      max-width: 760px;
+    }
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+      word-break: keep-all;
+    }
+    .chip b { color: var(--secondary); font-weight: 900; }
+
+    /* Note box (5살 잠투정 비유 유지) */
+    .note-box {
+      padding: 16px 16px;
+      background: rgba(40, 107, 255, 0.10);
+      border-left: 4px solid var(--primary);
+      border-radius: 14px;
+      margin: 18px auto 0;
+      max-width: 820px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+    .note-box strong { color: var(--light); font-weight: 900; }
+
+    .micro-disclaimer {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    /* Section */
+    .section { padding: 56px 0; }
     .section-title {
-      font-size: clamp(24px, 4vw, 42px);
+      font-size: clamp(22px, 4vw, 38px);
       text-align: center;
-      margin-bottom: 18px;
-      font-weight: 900;
+      margin-bottom: 10px;
+      font-weight: 950;
       letter-spacing: -0.03em;
       word-break: keep-all;
-      line-height: 1.3;
+      line-height: 1.25;
     }
     .section-subtitle {
       text-align: center;
       color: var(--muted);
       max-width: 720px;
-      margin: 0 auto 60px;
-      font-size: 16px;
-      line-height: 1.8;
+      margin: 0 auto 28px;
+      font-size: 15px;
+      line-height: 1.75;
       word-break: keep-all;
     }
 
-    /* Grid */
+    /* Grid cards */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
     }
-    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
-
     .card {
-      padding: 32px;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      padding: 22px 18px;
+      transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
     }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 4px;
-      background: var(--gradient-1);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-    .card:hover::before { transform: scaleX(1); }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(40, 107, 255, 0.2); }
-
+    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(40,107,255,0.14); }
     .card-title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      color: var(--light);
-      line-height: 1.45;
+      font-size: 18px;
+      font-weight: 950;
+      margin-bottom: 8px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
       word-break: keep-all;
-      letter-spacing: -0.01em;
     }
     .card-text {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.8;
+      line-height: 1.75;
       word-break: keep-all;
     }
+    .mini-solution {
+      margin-top: 12px;
+      padding: 12px 12px;
+      background: rgba(40, 107, 255, 0.10);
+      border-radius: 12px;
+      border: 1px solid rgba(40, 107, 255, 0.20);
+      font-size: 13px;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+    .mini-solution b { color: var(--secondary); font-weight: 950; }
 
     /* Stats */
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      margin: 50px 0 0;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
     }
-    .stat-item { text-align: center; padding: 28px 18px; }
+    .stat-item { text-align: center; padding: 18px 14px; }
     .stat-number {
-      font-size: 44px;
-      font-weight: 900;
+      font-size: 38px;
+      font-weight: 950;
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 6px;
       display: block;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
-    .stat-label { color: var(--muted); font-size: 14px; line-height: 1.5; word-break: keep-all; }
+    .stat-label { color: rgba(255,255,255,0.92); font-size: 14px; font-weight: 850; }
+    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
     /* Timeline */
-    .timeline { position: relative; max-width: 900px; margin: 60px auto 0; }
-    .timeline-item { display: flex; gap: 22px; margin-bottom: 40px; }
+    .timeline { position: relative; max-width: 860px; margin: 28px auto 0; }
+    .timeline-item { display: flex; gap: 14px; margin-bottom: 14px; align-items: stretch; }
     .timeline-dot {
-      width: 60px; height: 60px;
+      width: 48px; height: 48px;
       background: var(--gradient-1);
-      border-radius: 50%;
+      border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 20px;
+      font-weight: 950;
+      font-size: 16px;
       flex-shrink: 0;
-      box-shadow: 0 8px 24px rgba(40, 107, 255, 0.4);
+      box-shadow: 0 10px 26px rgba(40,107,255,0.28);
     }
-    .timeline-content { flex: 1; padding: 18px 22px; }
-    .timeline-title { font-size: 20px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .timeline-content { flex: 1; padding: 16px 16px; }
+    .timeline-title { font-size: 18px; font-weight: 950; margin-bottom: 6px; letter-spacing: -0.02em; }
     .timeline-text { color: var(--muted); font-size: 14px; line-height: 1.8; word-break: keep-all; }
 
-    /* Accordion */
+    /* Accordion (FAQ / tools) */
     .accordion { max-width: 900px; margin: 0 auto; }
-    .accordion-item {
-      margin-bottom: 16px;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
+    .accordion-item { margin-bottom: 12px; border-radius: 16px; overflow: hidden; }
     .accordion-header {
-      padding: 22px 24px;
+      padding: 16px 16px;
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      line-height: 1.5;
+      display: flex; justify-content: space-between; align-items: center;
+      font-weight: 950;
+      font-size: 15px;
+      line-height: 1.45;
       word-break: keep-all;
-      gap: 16px;
+      gap: 12px;
     }
-    .accordion-header:hover { background: rgba(255, 255, 255, 0.08); }
-    .accordion-icon {
-      transition: transform 0.3s ease;
-      font-size: 24px;
-      color: var(--primary);
-      flex-shrink: 0;
-    }
+    .accordion-header:hover { background: rgba(255,255,255,0.06); }
+    .accordion-icon { transition: transform 0.25s ease; font-size: 22px; color: var(--primary); flex-shrink: 0; }
     .accordion-item.active .accordion-icon { transform: rotate(45deg); }
     .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-      padding: 0 24px;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+      padding: 0 16px;
     }
-    .accordion-item.active .accordion-content { max-height: 600px; padding: 0 24px 20px; }
+    .accordion-item.active .accordion-content { max-height: 520px; padding: 0 16px 16px; }
     .accordion-content p, .accordion-content ul {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.85;
+      line-height: 1.8;
       word-break: keep-all;
     }
-    .accordion-content ul { list-style: none; margin-top: 10px; }
-    .accordion-content li { padding-left: 22px; position: relative; margin-bottom: 8px; }
-    .accordion-content li::before { content: '•'; position: absolute; left: 8px; color: var(--primary); font-weight: 900; }
+    .accordion-content ul { list-style: none; margin-top: 8px; }
+    .accordion-content li { padding-left: 18px; position: relative; margin-bottom: 6px; }
+    .accordion-content li::before { content: '•'; position: absolute; left: 6px; color: var(--primary); font-weight: 950; }
 
-    /* CTA */
-    .cta-section { text-align: center; padding: 100px 20px; position: relative; }
-    .cta-box {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 58px 40px;
-      position: relative;
-    }
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 24px;
-      padding: 2px;
-      background: var(--gradient-1);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0.55;
-    }
+    /* CTA section */
+    .cta-section { text-align: center; padding: 62px 0; }
+    .cta-box { max-width: 760px; margin: 0 auto; padding: 28px 18px; position: relative; }
+    .price-row { margin-top: 10px; }
+    .strike { font-size: 14px; color: var(--muted); text-decoration: line-through; }
     .price-amount {
-      font-size: 56px;
-      font-weight: 900;
+      font-size: 48px;
+      font-weight: 950;
       background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 10px;
-      letter-spacing: -0.02em;
+      margin: 8px 0 6px;
+      letter-spacing: -0.03em;
     }
+    .price-note { font-size: 14px; color: rgba(255,255,255,0.92); line-height: 1.7; }
+    .danger-note {
+      margin-top: 14px;
+      padding: 14px 14px;
+      background: rgba(255, 68, 68, 0.10);
+      border: 1px solid rgba(255, 68, 68, 0.30);
+      border-radius: 14px;
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+    .danger-note b { color: #ff6b6b; font-weight: 950; }
 
     /* Sticky CTA */
     .sticky-cta {
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
       z-index: 1000;
-      padding: 16px 18px;
+      padding: 12px 12px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      max-width: 92%;
-      width: fit-content;
+      justify-content: space-between;
+      gap: 12px;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      transform: translateY(10px);
+      border-radius: 18px;
+      box-shadow: 0 10px 34px rgba(0,0,0,0.38);
     }
-    .sticky-cta.show { opacity: 1; }
-    .sticky-cta-text { font-weight: 900; font-size: 15px; letter-spacing: -0.01em; }
-    .sticky-cta-subtext { font-size: 12px; color: var(--muted); }
+    .sticky-cta.show { opacity: 1; transform: translateY(0); }
+    .sticky-cta-text { font-weight: 950; font-size: 13px; line-height: 1.2; }
+    .sticky-cta-subtext { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .sticky-cta .btn-primary { width: auto; padding: 12px 14px; min-height: 44px; border-radius: 14px; font-size: 14px; white-space: nowrap; }
 
     /* Footer */
     .footer {
-      padding: 40px 20px;
+      padding: 34px 0;
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    /* Reveal */
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(18px); transition: all 0.7s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
-
-    /* Note Box */
-    .note-box {
-      padding: 18px 22px;
-      background: rgba(40, 107, 255, 0.1);
-      border-left: 4px solid var(--primary);
-      border-radius: 12px;
-      margin: 22px auto 30px;
-      font-size: 14px;
-      color: var(--secondary);
-      line-height: 1.8;
-      word-break: keep-all;
-      max-width: 760px;
-      text-align: left;
-    }
-    .note-box strong { color: var(--light); font-weight: 800; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero { padding: 50px 0 40px; }
-      h1 { font-size: 26px; line-height: 1.4; }
-      .hero-subtitle { font-size: 16px; }
-      .section { padding: 50px 0; }
-      .grid { grid-template-columns: 1fr; gap: 16px; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-      .stat-number { font-size: 38px; }
-      .timeline-item { flex-direction: column; margin-bottom: 30px; }
-      .timeline-dot { width: 50px; height: 50px; font-size: 18px; }
-      .cta-box { padding: 36px 20px; }
-      .hero-cta { flex-direction: column; gap: 12px; }
-      .btn-primary, .btn-secondary { width: 100%; padding: 16px 28px; min-height: 52px; border-radius: 14px; }
-      .sticky-cta {
-        left: 12px; right: 12px; transform: none; max-width: none; bottom: 10px;
-        justify-content: space-between; width: auto;
-      }
-      .sticky-cta .btn-primary { padding: 12px 18px; font-size: 14px; min-height: 44px; }
-      .container { padding: 0 16px; }
-    }
-    @media (max-width: 480px) {
-      .stats { grid-template-columns: 1fr; }
-      .price-amount { font-size: 44px; }
-    }
 
     /* Accessibility */
     @media (prefers-reduced-motion: reduce) {
       * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
+
+    /* Mobile: 가독성 우선 */
+    @media (max-width: 768px) {
+      .container { padding: 0 14px; }
+      .hero { padding: 44px 0 28px; }
+      .hero-subtitle { font-size: 16px; }
+      .btn-primary, .btn-secondary { width: 100%; }
+      .section { padding: 48px 0; }
+      .section-subtitle { font-size: 14px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat-number { font-size: 36px; }
+      .timeline-item { flex-direction: column; }
+      .timeline-dot { width: 44px; height: 44px; border-radius: 14px; }
+    }
+
   </style>
 </head>
 
 <body>
   <!-- Background Animation -->
-  <div class="bg-animation">
+  <div class="bg-animation" aria-hidden="true">
     <div class="floating-shape shape-1"></div>
     <div class="floating-shape shape-2"></div>
     <div class="floating-shape shape-3"></div>
@@ -495,468 +478,357 @@
   <nav class="nav" id="nav">
     <div class="container">
       <div class="nav-content">
-        <div class="logo">Dawn 430</div>
-        <button class="nav-btn" onclick="scrollToApply()">유료 진단 신청</button>
+        <div class="logo">Activation Sprint</div>
+        <button class="nav-btn" onclick="scrollToApply()">지금 3분 체크</button>
       </div>
     </div>
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="top">
     <div class="container">
-      <span class="tag">Step 1 · CEO 의사결정 비용 정밀 진단(유료)</span>
+      <span class="tag">여성 1인 창업가 · 대표를 위한 4주 설치</span>
 
+      <!-- (1) 강렬 헤드라인: 욕구 + 문제 해결 -->
       <h1>
-        “결정 지연”이<br />
-        당신의 사업에서 <span class="highlight">얼마를 새고 있는지</span><br />
-        숫자로 보여드립니다
+        미루는 습관 끊고<br />
+        <span class="highlight">결정→실행</span>을 자동으로 만들기
       </h1>
 
-      <p class="hero-subtitle" style="font-size: 18px; font-weight: 700; color: var(--light); margin-top: 10px;">
-        ‘게으름’이 아니라 <span class="highlight">결정 비용(Delay Tax)</span> + <span class="highlight">시스템 부재</span>가 문제입니다.<br />
-        리포트로 고통을 수치화하고, 다음 7일 실행까지 정리합니다.
+      <p class="hero-subtitle">
+        길게 설명하면 안 봐요.<br />
+        그래서 <b>짧게</b>, <b>바로</b> 움직이게 “설치”합니다.
       </p>
 
-      <div class="note-box">
-        <strong>진단의 역할은 수익이 아니라 필터링입니다.</strong><br />
-        돈을 내는 사람은 주의를 기울입니다. 그래서 무료 상담 대신 유료 진단으로 “문제를 비용으로 환산”합니다.<br />
-        (진단 후 <strong>적합한 분</strong>만 Step 2 · 4주 Execution Sprint(초대제)로 안내합니다)
-      </div>
-
+      <!-- Designnas #4: 제목 바로 아래, 가장 먼저 보이는 주요 CTA -->
       <div class="hero-cta">
-        <a href="#apply" class="btn-primary" style="font-size: 18px;">의사결정 비용 진단 신청하기 →</a>
-        <a href="#how" class="btn-secondary">진단이 어떻게 나오는지 보기</a>
+        <a href="#apply" class="btn-primary">3분 체크하고 시작하기 →</a>
+        <a href="#how" class="btn-secondary">어떻게 하는지 보기</a>
       </div>
 
-      <p style="font-size: 13px; color: var(--muted); margin-top: 18px; line-height: 1.7;">
-        ✓ 얼굴/목소리 노출 없이 진행 가능(비동기) · ✓ 3분 신청 · ✓ 리포트 납품 보증(미납품 시 100% 환불)
+      <div class="quick-chips" aria-label="빠른 요약">
+        <div class="chip"><b>10분</b> 안에 결정</div>
+        <div class="chip">매일 <b>3개</b>만 하기</div>
+        <div class="chip">복붙 <b>말 10개</b></div>
+        <div class="chip"><b>4주</b> 끝</div>
+      </div>
+
+      <!-- 5살 잠투정 비유 유지 -->
+      <div class="note-box">
+        <strong>우리 뇌는 잠투정 부리는 5살 아이 같아요.</strong><br />
+        설명서? 안 읽어요. 길면 바로 도망가요.<br />
+        그래서 이 프로그램은 <b>“설명” 말고 “버튼(행동)”</b>만 남겼어요.
+      </div>
+
+      <p class="micro-disclaimer">
+        ※ 결과는 사람마다 달라요. 대신 <b>시작 전 vs 4주 후</b>를 비교해서 “변화”를 확인합니다.
       </p>
     </div>
   </section>
 
-  <!-- Stats (Diagnosis Outcomes) -->
-  <section class="section" style="padding: 60px 0;">
+  <!-- Stats (혜택 먼저: Designnas #7 의도) -->
+  <section class="section" style="padding-top: 24px;">
     <div class="container">
-      <h2 class="section-title" style="font-size: 28px; margin-bottom: 18px;">진단에서 “반드시” 남는 4가지</h2>
-      <p class="section-subtitle" style="margin-bottom: 34px;">
-        “느낌”이 아니라 숫자/우선순위/다음 행동으로 정리합니다
-      </p>
+      <h2 class="section-title reveal">4주 후, 이렇게 달라져요</h2>
+      <p class="section-subtitle reveal">복잡한 설명 없이, <b>숫자/체크</b>로 확인합니다.</p>
 
       <div class="stats">
         <div class="stat-item glass reveal">
-          <span class="stat-number">3개</span>
-          <div class="stat-label">핵심 병목 결정(가격·채널·채용 등)</div>
+          <span class="stat-number">10시간</span>
+          <div class="stat-label">일주일에 되찾는 시간</div>
+          <div class="stat-sub">회의·고민·망설임 줄이기</div>
         </div>
         <div class="stat-item glass reveal">
-          <span class="stat-number">7일</span>
-          <div class="stat-label">즉시 실행 플랜(1페이지)</div>
+          <span class="stat-number">2배</span>
+          <div class="stat-label">빨라지는 결정 속도</div>
+          <div class="stat-sub">“고민 1시간 → 10분”</div>
         </div>
         <div class="stat-item glass reveal">
-          <span class="stat-number">1회</span>
-          <div class="stat-label">의사결정 비용(Delay Tax) 계산</div>
+          <span class="stat-number">6개</span>
+          <div class="stat-label">평생 쓰는 도구</div>
+          <div class="stat-sub">파일로 남아서 계속 사용</div>
         </div>
         <div class="stat-item glass reveal">
-          <span class="stat-number">48시간</span>
-          <div class="stat-label">익스프레스 납품 옵션</div>
+          <span class="stat-number">4번</span>
+          <div class="stat-label">변화 확인</div>
+          <div class="stat-sub">매주 전후 비교</div>
         </div>
-      </div>
-
-      <div style="max-width: 760px; margin: 28px auto 0; padding: 16px 18px; background: rgba(255, 255, 255, 0.05); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);">
-        <p style="font-size: 14px; color: var(--muted); line-height: 1.8; text-align: center;">
-          ※ 진단의 목적은 “정답”을 주는 게 아니라, <strong style="color: var(--light);">결정 지연 비용을 수치화하고</strong><br />
-          <strong style="color: var(--light);">다음 행동을 고정</strong>해 실행을 시작하게 만드는 것입니다.
-        </p>
       </div>
     </div>
   </section>
 
-  <!-- Problems -->
-  <section class="section">
+  <!-- Problems (2) 고객 니즈 기반 문제 3가지 + 해결 -->
+  <section class="section" id="problems">
     <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">대표님이 “미루는 이유”는 의지가 아닙니다</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">
-        고객이 원하는 건 동기부여가 아니라 <strong style="color: var(--light);">결정 기준</strong>과 <strong style="color: var(--light);">실행 시스템</strong>입니다
-      </p>
+      <h2 class="section-title reveal">이 3가지 때문에 막혀요</h2>
+      <p class="section-subtitle reveal">그리고 우리는 “이렇게” 해결합니다.</p>
 
       <div class="grid">
         <div class="card glass reveal">
-          <div style="font-size: 32px; margin-bottom: 12px;">⏳</div>
-          <div class="card-title" style="font-size: 22px; margin-bottom: 14px;">결정이 늦어서<br />기회비용이 쌓임</div>
-          <p class="card-text" style="font-size: 15px; margin-bottom: 14px;">
-            가격/채널/채용/제안 같은 핵심 결정이 늦어지면,<br />그 자체가 비용(Delay Tax)입니다.
-          </p>
-          <div style="padding: 12px 14px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; margin-top: 12px;">
-            <strong style="color: var(--primary); font-size: 14px;">→ 진단에서 “지연 비용”을 숫자로 환산합니다</strong>
-          </div>
+          <div style="font-size: 28px; margin-bottom: 8px;">⏰</div>
+          <div class="card-title">결정을 못 내려서<br />계속 미루게 됨</div>
+          <p class="card-text">가격/채널/채용… 머리만 복잡해지고 시간만 흘러가요.</p>
+          <div class="mini-solution"><b>해결:</b> “10분 결정 시트”로 오늘 결정 1개를 바로 끝냅니다.</div>
         </div>
 
         <div class="card glass reveal">
-          <div style="font-size: 32px; margin-bottom: 12px;">🧩</div>
-          <div class="card-title" style="font-size: 22px; margin-bottom: 14px;">실행은 하는데<br />성과로 연결이 끊김</div>
-          <p class="card-text" style="font-size: 15px; margin-bottom: 14px;">
-            할 일은 많은데 “매출로 연결되는 행동”이<br />매일 흔들립니다.
-          </p>
-          <div style="padding: 12px 14px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; margin-top: 12px;">
-            <strong style="color: var(--primary); font-size: 14px;">→ 진단에서 7일 실행 플랜으로 고정합니다</strong>
-          </div>
+          <div style="font-size: 28px; margin-bottom: 8px;">📊</div>
+          <div class="card-title">열심히 하는데<br />성과가 안 남음</div>
+          <p class="card-text">할 일은 많은데, 중요한 행동이 매일 흔들려요.</p>
+          <div class="mini-solution"><b>해결:</b> “매일 3개”만 고정해서 증거(체크)가 쌓이게 만듭니다.</div>
         </div>
 
         <div class="card glass reveal">
-          <div style="font-size: 32px; margin-bottom: 12px;">💬</div>
-          <div class="card-title" style="font-size: 22px; margin-bottom: 14px;">설득/세일즈에서<br />손해가 남음</div>
-          <p class="card-text" style="font-size: 15px; margin-bottom: 14px;">
-            제안/가격/협상에서 문장 하나가 흔들리면<br />거절/할인/지연이 생깁니다.
-          </p>
-          <div style="padding: 12px 14px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; margin-top: 12px;">
-            <strong style="color: var(--primary); font-size: 14px;">→ 진단에서 “가장 자주 막히는 문장”을 지정합니다</strong>
-          </div>
+          <div style="font-size: 28px; margin-bottom: 8px;">💬</div>
+          <div class="card-title">말을 잘 못해서<br />계약/협상에서 손해</div>
+          <p class="card-text">“뭐라고 말하지?”에서 멈추면, 기회가 지나가요.</p>
+          <div class="mini-solution"><b>해결:</b> “복붙 말 10개”로 바로 보내고 반응만 체크합니다.</div>
         </div>
+      </div>
 
-        <div class="card glass reveal">
-          <div style="font-size: 32px; margin-bottom: 12px;">🔁</div>
-          <div class="card-title" style="font-size: 22px; margin-bottom: 14px;">의지력 기반이면<br />반복해서 무너짐</div>
-          <p class="card-text" style="font-size: 15px; margin-bottom: 14px;">
-            시스템이 없으면 다시 ‘감정/상황’에 끌려갑니다.
-          </p>
-          <div style="padding: 12px 14px; background: rgba(40, 107, 255, 0.1); border-radius: 10px; margin-top: 12px;">
-            <strong style="color: var(--primary); font-size: 14px;">→ 다음 단계(스프린트)는 ‘설치’로 바꿉니다</strong>
+      <!-- Mid CTA (짧게, 바로) -->
+      <div class="reveal" style="text-align:center; margin-top: 22px;">
+        <a href="#apply" class="btn-primary" style="max-width: 520px;">나도 가능한지 3분 체크 →</a>
+        <div class="micro-disclaimer" style="margin-top: 10px;">✓ 딱 5명만 · ✓ 하루 30분 · ✓ 전후 비교</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits & Core functions (Designnas #7: 혜택 먼저, 그 다음 기능) -->
+  <section class="section" style="background: rgba(40, 107, 255, 0.04);" id="benefits">
+    <div class="container">
+      <h2 class="section-title reveal">한 줄로 요약하면</h2>
+      <p class="section-subtitle reveal">
+        <b>“미루는 나”를</b> → <b>“바로 하는 나”로</b> 바꾸는 4주 설치입니다.
+      </p>
+
+      <div class="grid">
+        <div class="card glass-strong reveal">
+          <div class="card-title">① 오늘 결정 1개 = 10분 컷</div>
+          <p class="card-text">결정이 늦어져서 생기는 손해(기회비용)를 줄입니다.</p>
+        </div>
+        <div class="card glass-strong reveal">
+          <div class="card-title">② 오늘 행동 3개 = 무조건 체크</div>
+          <p class="card-text">“많이” 말고 “딱 3개”만. 그래서 계속 됩니다.</p>
+        </div>
+        <div class="card glass-strong reveal">
+          <div class="card-title">③ 말 10개 = 복사해서 바로 보내기</div>
+          <p class="card-text">제안/가격/협상에서 멈추지 않게 문장을 설치합니다.</p>
+        </div>
+      </div>
+
+      <!-- 기능은 아래에서 “받는 것”으로 간단히 -->
+      <div class="reveal" style="max-width: 900px; margin: 18px auto 0;">
+        <div class="glass" style="padding: 18px 16px; border-radius: 18px;">
+          <div style="font-weight: 950; letter-spacing: -0.02em; margin-bottom: 8px;">받는 것 (파일로 남아요)</div>
+          <div style="color: var(--muted); font-size: 14px; line-height: 1.8;">
+            10분 결정 시트 · 나만의 결정 기준 · 오늘 할 일 점수판 · 머릿속 브레이크 푸는 질문 · 환경 체크리스트 · 복붙 말 10개
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How (Step 1 Process) -->
-  <section class="section" id="how" style="background: rgba(40, 107, 255, 0.03);">
+  <!-- How it works (초6도: 4단계, 짧게) -->
+  <section class="section" id="how">
     <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">진단 진행 방식(노출 없이, 비동기)</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">
-        콜/줌 없이도 진행 가능합니다. (원하면 텍스트 기반 Q&A로만)
-      </p>
+      <h2 class="section-title reveal">4주 동안 이렇게 합니다</h2>
+      <p class="section-subtitle reveal">코칭이 아니라 “설치”예요. (짧고, 바로)</p>
 
       <div class="timeline">
         <div class="timeline-item reveal">
           <div class="timeline-dot">1</div>
           <div class="timeline-content glass">
-            <div class="timeline-title">3분 신청 + 설문</div>
-            <p class="timeline-text">
-              현재 매출/업무 흐름/미결정 이슈를 간단히 받습니다.<br />
-              (민감 정보는 최소만 요청합니다)
-            </p>
+            <div class="timeline-title">브레이크 풀기</div>
+            <div class="timeline-text">“난 원래 이래” 같은 멈춤 버튼을 먼저 끕니다.</div>
           </div>
         </div>
 
         <div class="timeline-item reveal">
           <div class="timeline-dot">2</div>
           <div class="timeline-content glass">
-            <div class="timeline-title">Delay Tax(지연 비용) 계산</div>
-            <p class="timeline-text">
-              “미룬 결정”이 만든 손실을 돈/시간/리스크로 환산합니다.<br />
-              이 과정이 ‘고통을 숫자’로 바꿉니다.
-            </p>
+            <div class="timeline-title">10분 결정 설치</div>
+            <div class="timeline-text">오늘 결정 1개를 10분 안에 끝내는 구조를 만듭니다.</div>
           </div>
         </div>
 
         <div class="timeline-item reveal">
           <div class="timeline-dot">3</div>
           <div class="timeline-content glass">
-            <div class="timeline-title">병목 3개 + 7일 실행 플랜</div>
-            <p class="timeline-text">
-              지금 당장 바꿔야 하는 ‘핵심 결정 3개’와<br />
-              다음 7일 실행을 1페이지로 정리합니다.
-            </p>
+            <div class="timeline-title">자동으로 되는 환경</div>
+            <div class="timeline-text">폰/알림/일정/책상… 방해를 줄여서 의지 없이 되게 합니다.</div>
           </div>
         </div>
 
         <div class="timeline-item reveal">
           <div class="timeline-dot">4</div>
           <div class="timeline-content glass">
-            <div class="timeline-title">결과 리포트 납품 + 적합도 안내</div>
-            <p class="timeline-text">
-              리포트(요약 1p + 상세 3~5p)를 전달합니다.<br />
-              적합한 분에게만 Step 2 · 4주 Execution Sprint(초대제) 안내를 드립니다.
-            </p>
+            <div class="timeline-title">복붙 말 10개 완성</div>
+            <div class="timeline-text">제안/가격/협상에서 멈추지 않게 “그대로 쓰는 문장”을 만듭니다.</div>
           </div>
         </div>
       </div>
 
-      <div style="max-width: 900px; margin: 44px auto 0;">
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 0;">
-          <div style="text-align: center; padding: 22px 18px; background: rgba(255, 255, 255, 0.05); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);">
-            <div style="font-size: 30px; margin-bottom: 10px;">🙈</div>
-            <div style="font-size: 16px; font-weight: 900; margin-bottom: 6px; color: var(--light);">무노출 가능</div>
-            <div style="font-size: 13px; color: var(--muted);">얼굴/목소리 없이 진행</div>
+      <div class="reveal" style="max-width: 900px; margin: 18px auto 0;">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+          <div class="glass" style="padding: 16px; text-align:center;">
+            <div style="font-size: 26px;">📞</div>
+            <div style="font-weight: 950; margin-top: 6px;">주 1회 1시간</div>
+            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">줌으로 체크</div>
           </div>
-          <div style="text-align: center; padding: 22px 18px; background: rgba(255, 255, 255, 0.05); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);">
-            <div style="font-size: 30px; margin-bottom: 10px;">⚙️</div>
-            <div style="font-size: 16px; font-weight: 900; margin-bottom: 6px; color: var(--light);">AI 기반 분석</div>
-            <div style="font-size: 13px; color: var(--muted);">문제→비용→우선순위</div>
+          <div class="glass" style="padding: 16px; text-align:center;">
+            <div style="font-size: 26px;">✅</div>
+            <div style="font-weight: 950; margin-top: 6px;">매일 10분</div>
+            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">체크만</div>
           </div>
-          <div style="text-align: center; padding: 22px 18px; background: rgba(255, 255, 255, 0.05); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);">
-            <div style="font-size: 30px; margin-bottom: 10px;">📄</div>
-            <div style="font-size: 16px; font-weight: 900; margin-bottom: 6px; color: var(--light);">리포트 납품</div>
-            <div style="font-size: 13px; color: var(--muted);">파일로 남습니다</div>
+          <div class="glass" style="padding: 16px; text-align:center;">
+            <div style="font-size: 26px;">📊</div>
+            <div style="font-weight: 950; margin-top: 6px;">주 1회 리포트</div>
+            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">전후 비교</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Step 2 Preview: Execution Sprint -->
-  <section class="section">
+  <!-- Storytelling (3) 이상적인 하루 -->
+  <section class="section" style="background: rgba(200, 217, 238, 0.03);" id="story">
     <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">Step 2 · 4주 Execution Sprint(초대제)</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">
-        진단에서 “적합”으로 판단된 분에게만 안내합니다.<br />
-        여기서는 코칭이 아니라 <strong style="color: var(--light);">실행 OS를 ‘설치’</strong>합니다.
-      </p>
+      <h2 class="section-title reveal">설치가 끝난 후, 당신의 하루</h2>
+      <p class="section-subtitle reveal">“생각”이 아니라 “행동”이 먼저 나옵니다.</p>
 
-      <div class="grid">
-        <div class="card glass-strong reveal" style="padding: 34px;">
-          <div class="card-title">무엇을 달라지게 만드나</div>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+        <div class="card glass reveal">
+          <div class="card-title">🌅 아침</div>
           <p class="card-text">
-            결정→실행→성과로 이어지는 구조를 만들기 위해<br />
-            “기준(룰)”과 “행동(점수판)”과 “설득(스크립트)”을 설치합니다.
+            눈 뜨자마자 “뭐 하지?” 고민이 아니라<br />
+            <b style="color: var(--secondary);">점수판 3개</b>부터 체크합니다.<br />
+            오늘 결정 1개는 <b style="color: var(--secondary);">10분</b> 안에 끝냅니다.
           </p>
         </div>
 
-        <div class="card glass-strong reveal" style="padding: 34px;">
-          <div class="card-title">진행 방식(노출 없이 가능)</div>
+        <div class="card glass reveal">
+          <div class="card-title">☀️ 오후</div>
           <p class="card-text">
-            비동기 설치 리뷰(문서 코멘트/승인) + 매일 10분 체크인 + 주간 Proof Report.<br />
-            (필요 시 ‘무음 스크린레코딩(화면만)’으로 안내 가능)
+            “가격을 어떻게 말하지?”에서 멈추지 않습니다.<br />
+            <b style="color: var(--secondary);">복붙 문장</b>을 그대로 보내고<br />
+            상대 반응만 기록합니다.
           </p>
         </div>
 
-        <div class="card glass-strong reveal" style="padding: 34px;">
-          <div class="card-title">가격(참고)</div>
+        <div class="card glass reveal">
+          <div class="card-title">🌙 저녁</div>
           <p class="card-text">
-            4주 스프린트는 현재 <strong style="color: var(--light);">150~200만 원</strong> 범위로 운영합니다.<br />
-            정확한 금액/조건은 진단 후 안내합니다.
+            오늘 <b style="color: var(--secondary);">3개 체크 완료</b>.<br />
+            미룬 결정이 줄어든 게 보입니다.<br />
+            다음 주는 “감”이 아니라 <b style="color: var(--secondary);">데이터</b>로 갑니다.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- The System (Sprint tools) -->
-  <section class="section" style="background: rgba(200, 217, 238, 0.03);">
+  <!-- Trust (5) 후기 없어도 신뢰 -->
+  <section class="section" id="trust">
     <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">(Step 2) 설치되는 6개 도구</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">
-        엑셀/문서 파일로 제공(재사용 가능). 단, 초대제 스프린트에서 설치합니다.
-      </p>
+      <h2 class="section-title reveal">후기 없어도 믿을 수 있게</h2>
+      <p class="section-subtitle reveal">후기 대신 “증거”를 남기는 구조로 갑니다.</p>
 
-      <div class="accordion reveal">
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">1.</strong> Decision Matrix(10분 결정 시트)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p style="margin-bottom: 10px; color: var(--light);">결정을 “10분”으로 끝내는 구조</p>
-            <ul>
-              <li>1-way / 2-way 결정 구분</li>
-              <li>Delay Tax(지연 비용) 계산</li>
-              <li>결정 후 다음 행동 자동 생성</li>
-            </ul>
-          </div>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="card glass-strong reveal" style="text-align:center;">
+          <div style="font-size: 30px;">📊</div>
+          <div class="card-title" style="margin-top: 8px;">전후 비교</div>
+          <p class="card-text">시작 전 vs 4주 후를<br />숫자로 확인합니다.</p>
         </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">2.</strong> Decision Rulebook(개인화 룰 10~20개)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p style="margin-bottom: 10px; color: var(--light);">반복 망설임을 “룰”로 고정</p>
-            <ul>
-              <li>예: “가격은 3가지 옵션으로 제시”</li>
-              <li>“48시간 미결정이면 기준 낮춰 재결정”</li>
-            </ul>
-          </div>
+        <div class="card glass-strong reveal" style="text-align:center;">
+          <div style="font-size: 30px;">📁</div>
+          <div class="card-title" style="margin-top: 8px;">파일로 남음</div>
+          <p class="card-text">6개 도구가 완성본으로 남아<br />계속 씁니다.</p>
         </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">3.</strong> Execution Scoreboard(실행 점수판)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p style="margin-bottom: 10px; color: var(--light);">매일 ‘증거 행동’ 3개만 고정</p>
-            <ul>
-              <li>절대 늘리지 않음(핵심만)</li>
-              <li>주간 KPI 5개(성과 연결만)</li>
-              <li>Proof(증거)가 숫자로 쌓임</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">4.</strong> Identity Shifter(정체성 브레이크 해제)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <ul>
-              <li>저항 분해 질문지</li>
-              <li>감정 분리 저널</li>
-              <li>If-Then 실행 트리거</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">5.</strong> Environment Architect(환경 설치 가이드)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <ul>
-              <li>폰/알림/앱 배치 최적화</li>
-              <li>책상/작업 흐름 설계</li>
-              <li>방해 금지 커뮤니케이션 템플릿</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span><strong style="color: var(--primary);">6.</strong> Influence Script(설득 스크립트 10종)</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <ul>
-              <li>제안/가격 제시</li>
-              <li>협상(거절/대안/마감)</li>
-              <li>팀 공지/기준 강제</li>
-            </ul>
-          </div>
+        <div class="card glass-strong reveal" style="text-align:center;">
+          <div style="font-size: 30px;">✅</div>
+          <div class="card-title" style="margin-top: 8px;">작동 보증</div>
+          <p class="card-text">4주 후 핵심 3개가 “실사용”이 아니면<br /><b style="color: var(--secondary);">2주 무료 연장</b></p>
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 44px; padding: 20px 18px; background: rgba(40, 107, 255, 0.1); border-radius: 16px; border: 1px solid rgba(40, 107, 255, 0.2);">
-        <p style="font-size: 14px; color: var(--light); line-height: 1.8;">
-          ※ Step 2는 “동기부여”가 아니라 <strong>실행 시스템을 설치</strong>하는 단계입니다.<br />
-          Step 1(진단)에서 “적합”으로 판단된 분에게만 초대합니다.
-        </p>
+      <div class="reveal" style="max-width: 860px; margin: 18px auto 0;">
+        <div class="glass" style="padding: 16px; border-radius: 18px;">
+          <div style="font-weight: 950; margin-bottom: 6px;">주의(범위 명확히)</div>
+          <div style="color: var(--muted); font-size: 13px; line-height: 1.75;">
+            이 서비스는 치료/상담이 아닙니다. “결정–실행–설득”을 쉽게 만드는 실행 시스템입니다.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Trust (for Step 1) -->
-  <section class="section">
+  <!-- FAQ (4) 자주 묻는 질문 5개로 정리: Designnas #9) -->
+  <section class="section" id="faq">
     <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">후기 없이도 ‘진단’을 신뢰할 수 있는 이유</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">
-        약속이 아니라 <strong style="color: var(--light);">납품물</strong>과 <strong style="color: var(--light);">보증</strong>으로 리스크를 줄입니다
-      </p>
+      <h2 class="section-title reveal">자주 묻는 질문 (딱 5개)</h2>
+      <p class="section-subtitle reveal">고객도 우리도 시간 아끼려고, 짧게 답합니다.</p>
 
-      <div class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
-        <div class="card glass-strong reveal" style="padding: 30px;">
-          <div style="font-size: 34px; margin-bottom: 14px; text-align: center;">📄</div>
-          <div style="font-size: 18px; font-weight: 900; margin-bottom: 10px; text-align: center; color: var(--light);">
-            리포트로 남습니다
-          </div>
-          <p style="font-size: 14px; line-height: 1.8; color: var(--muted); text-align: center;">
-            “대화”가 아니라 파일로 납품합니다.<br />
-            다음 결정/실행의 기준으로 재사용 가능합니다.
-          </p>
-        </div>
-
-        <div class="card glass-strong reveal" style="padding: 30px;">
-          <div style="font-size: 34px; margin-bottom: 14px; text-align: center;">🛡️</div>
-          <div style="font-size: 18px; font-weight: 900; margin-bottom: 10px; text-align: center; color: var(--light);">
-            납품 보증(객관식)
-          </div>
-          <p style="font-size: 14px; line-height: 1.8; color: var(--muted); text-align: center;">
-            정해진 기한 내 리포트 미납품 시<br />
-            <strong style="color: var(--light);">100% 환불</strong>
-          </p>
-        </div>
-
-        <div class="card glass-strong reveal" style="padding: 30px;">
-          <div style="font-size: 34px; margin-bottom: 14px; text-align: center;">🙈</div>
-          <div style="font-size: 18px; font-weight: 900; margin-bottom: 10px; text-align: center; color: var(--light);">
-            노출 없이 진행 가능
-          </div>
-          <p style="font-size: 14px; line-height: 1.8; color: var(--muted); text-align: center;">
-            얼굴/목소리 노출 없이도 가능하도록<br />
-            비동기 프로세스로 설계했습니다.
-          </p>
-        </div>
-
-        <div class="card glass-strong reveal" style="padding: 30px;">
-          <div style="font-size: 34px; margin-bottom: 14px; text-align: center;">🧠</div>
-          <div style="font-size: 18px; font-weight: 900; margin-bottom: 10px; text-align: center; color: var(--light);">
-            치료/상담 아님
-          </div>
-          <p style="font-size: 14px; line-height: 1.8; color: var(--muted); text-align: center;">
-            임상 수준의 치료/상담은 다루지 않습니다.<br />
-            <strong style="color: var(--light);">결정–실행 시스템</strong>에만 집중합니다.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title reveal" style="font-size: 32px;">자주 묻는 질문</h2>
-      <p class="section-subtitle reveal" style="font-size: 16px; margin-bottom: 48px;">구매 전 핵심만 확인하세요</p>
-
-      <div class="accordion reveal" style="max-width: 820px; margin: 0 auto;">
+      <div class="accordion reveal" style="max-width: 860px;">
         <div class="accordion-item glass">
           <div class="accordion-header">
-            <span>진단은 상담/코칭인가요?</span>
+            <span>1) 코칭/상담인가요?</span>
             <span class="accordion-icon">+</span>
           </div>
           <div class="accordion-content">
-            <p>아니요. 진단은 “문제를 비용으로 환산 + 우선순위 + 7일 실행”을 파일로 납품하는 서비스입니다. 치료/상담은 다루지 않습니다.</p>
+            <p>아니요. “일 잘하게 만드는 도구 설치”입니다. 치료/상담이 필요하면 전문가를 권합니다.</p>
           </div>
         </div>
 
         <div class="accordion-item glass">
           <div class="accordion-header">
-            <span>얼굴/목소리 노출이 꼭 필요한가요?</span>
+            <span>2) 시간이 얼마나 필요해요?</span>
             <span class="accordion-icon">+</span>
           </div>
           <div class="accordion-content">
-            <p>필요 없습니다. 기본은 비동기(텍스트/문서 기반)로 진행하며, 원하면 모든 커뮤니케이션을 텍스트로만 처리할 수 있습니다.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>진단 후 바로 4주 스프린트를 살 수 있나요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>스프린트는 “초대제”입니다. 진단 결과 기준으로 적합한 분에게만 안내합니다. (목적: 실행이 되는 사람에게만 투자 낭비를 막기)</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>진단 결과가 ‘정답’인가요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>정답을 보장하지 않습니다. 대신 “지연 비용을 수치화”하고, “다음 7일 행동”을 고정해 실행을 시작하게 만드는 데 초점을 둡니다.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>누가 하면 특히 효과가 큰가요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
+            <p>4주 동안 주 3~5시간이 필요합니다. (못 내면 비추천)</p>
             <ul>
-              <li>이미 매출/고객이 있는데 결정이 늦어 성장 병목이 있는 대표</li>
-              <li>가격/채널/채용/제안 같은 반복 결정에서 자주 막히는 대표</li>
-              <li>실행이 ‘의지’로 흔들려 시스템이 필요한 대표</li>
+              <li>주 1회 1시간 줌</li>
+              <li>매일 10분 체크</li>
+              <li>주 2~3시간 과제</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="accordion-item glass">
+          <div class="accordion-header">
+            <span>3) 진짜 10시간/2배 같은 효과가 나와요?</span>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p>사람마다 달라요. 대신 시작 전 기준을 잡고, 4주 후 전후 비교로 “변화”를 확인합니다.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item glass">
+          <div class="accordion-header">
+            <span>4) 얼굴/목소리 노출 없이도 되나요?</span>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p>네. 텍스트/파일/체크 중심으로 진행합니다. (필요한 경우에만 줌으로 핵심만 확인)</p>
+          </div>
+        </div>
+
+        <div class="accordion-item glass">
+          <div class="accordion-header">
+            <span>5) 4주 뒤 정확히 뭐가 남나요?</span>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <p>6개 도구가 “재사용 가능한 완성본”으로 남습니다.</p>
+            <ul>
+              <li>10분 결정 시트</li>
+              <li>나만의 결정 기준</li>
+              <li>오늘 할 일 점수판</li>
+              <li>브레이크 푸는 질문</li>
+              <li>환경 체크리스트</li>
+              <li>복붙 말 10개</li>
             </ul>
           </div>
         </div>
@@ -964,81 +836,59 @@
     </div>
   </section>
 
-  <!-- CTA (Step 1 Purchase) -->
+  <!-- Final CTA -->
   <section class="cta-section" id="apply">
     <div class="container">
-      <div class="cta-box glass-strong reveal" style="border: 2px solid rgba(40, 107, 255, 0.3);">
-        <div style="display: inline-block; padding: 8px 18px; background: rgba(40, 107, 255, 0.2); border-radius: 50px; margin-bottom: 22px;">
-          <span style="font-size: 14px; color: var(--primary); font-weight: 900;">Step 1 · 유료 진단</span>
+      <div class="cta-box glass-strong reveal" style="border: 1px solid rgba(40,107,255,0.28);">
+        <div style="display:inline-block; padding: 7px 14px; background: rgba(40,107,255,0.18); border-radius: 999px; margin-bottom: 12px;">
+          <span style="font-size: 13px; color: var(--secondary); font-weight: 950;">⚡ 베타 1기 · 딱 5명</span>
         </div>
 
-        <h2 style="margin-bottom: 18px; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.02em;">
-          CEO 의사결정 비용 정밀 진단
+        <h2 style="font-size: clamp(22px, 4vw, 36px); font-weight: 950; letter-spacing: -0.03em; line-height: 1.25;">
+          4주만 “미루는 나” 끝내고<br />
+          <span class="highlight">바로 하는 나</span>로 바꾸기
         </h2>
 
-        <p style="max-width: 640px; margin: 0 auto 26px; font-size: 15px; color: var(--muted); line-height: 1.8;">
-          결정 지연 비용(Delay Tax)을 숫자로 환산하고,<br />
-          병목 3개 + 다음 7일 실행 플랜을 파일로 제공합니다.
-        </p>
-
-        <div style="margin-bottom: 34px;">
-          <div style="display: grid; gap: 14px; max-width: 520px; margin: 0 auto;">
-            <div class="glass" style="padding: 16px 16px; border-radius: 16px;">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-                <div style="text-align:left;">
-                  <div style="font-weight: 900; letter-spacing:-0.01em;">표준 진단</div>
-                  <div style="font-size: 13px; color: var(--muted);">리포트 납품(영업일 기준 72시간 내)</div>
-                </div>
-                <div style="font-weight: 900; font-size: 18px;">39만 원</div>
-              </div>
-            </div>
-            <div class="glass" style="padding: 16px 16px; border-radius: 16px; border: 1px solid rgba(40, 107, 255, 0.35);">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-                <div style="text-align:left;">
-                  <div style="font-weight: 900; letter-spacing:-0.01em;">익스프레스</div>
-                  <div style="font-size: 13px; color: var(--muted);">리포트 납품(48시간 내)</div>
-                </div>
-                <div style="font-weight: 900; font-size: 18px;">49만 원</div>
-              </div>
-            </div>
+        <div class="price-row">
+          <div class="strike">원래 200만 원</div>
+          <div class="price-amount">150만 원</div>
+          <div class="price-note">
+            지금 <b style="color: var(--secondary); font-weight: 950;">50만 원 할인</b><br />
+            또는 <b style="color: var(--light); font-weight: 950;">월 50만 원 × 3회</b>
           </div>
         </div>
 
-        <a href="https://YOUR-FORM-LINK" class="btn-primary"
-          style="font-size: 18px; padding: 22px 52px; width: 100%; max-width: 420px; display: block; margin: 0 auto; text-align: center; box-shadow: 0 12px 40px rgba(40, 107, 255, 0.3);">
-          유료 진단 신청하기 →
-        </a>
+        <div style="margin-top: 16px;">
+          <a href="https://YOUR-FORM-LINK" class="btn-primary" style="max-width: 520px;">
+            3분 체크하고 지금 시작하기 →
+          </a>
+          <div class="micro-disclaimer" style="margin-top: 10px;">
+            <b style="color: rgba(255,255,255,0.92);">작동 보증:</b> 4주 후 핵심 3개가 “실사용”이 아니면 2주 무료 연장<br />
+            <span style="font-size: 11px;">(조건: 줌 참여 + 매일 체크 + 과제 제출 최소 기준 충족)</span>
+          </div>
+        </div>
 
-        <p style="margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.7; text-align: center;">
-          <strong style="color: var(--light);">납품 보증:</strong> 기한 내 리포트 미납품 시 100% 환불<br />
-          <span style="font-size: 12px;">(환불 기준은 ‘납품 여부’로만 판단합니다)</span>
-        </p>
-
-        <div style="padding: 18px; background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); border-radius: 12px; margin-top: 28px;">
-          <p style="font-size: 14px; color: var(--light); line-height: 1.8; margin: 0; text-align: center;">
-            <strong style="color: #ff4444;">⚠️ 미루는 동안 비용은 누적됩니다</strong><br />
-            먼저 “얼마를 잃고 있는지”부터 숫자로 확인하세요.
-          </p>
+        <div class="danger-note">
+          <b>⚠️ 미루는 비용은 쌓여요.</b><br />
+          늦을수록 “설치 난이도(마찰)”가 올라갑니다.
         </div>
       </div>
     </div>
   </section>
 
   <!-- Sticky CTA -->
-  <div class="sticky-cta glass-strong" id="stickyCta" style="box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+  <div class="sticky-cta glass-strong" id="stickyCta" role="region" aria-label="빠른 신청">
     <div>
-      <div class="sticky-cta-text">유료 진단 · 의사결정 비용</div>
-      <div class="sticky-cta-subtext">39만~49만 · 무노출 비동기</div>
+      <div class="sticky-cta-text">딱 5명 · 4주 설치형 OS</div>
+      <div class="sticky-cta-subtext">150만 원 (또는 월 50만×3)</div>
     </div>
-    <a href="#apply" class="btn-primary" style="font-size: 14px; padding: 12px 18px; white-space: nowrap; min-height: 44px;">
-      신청하기 →
-    </a>
+    <a href="#apply" class="btn-primary">3분 체크 →</a>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 Dawn 430. All rights reserved.</p>
+      <p>© 2024 Activation Sprint. All rights reserved.</p>
     </div>
   </footer>
 
@@ -1057,7 +907,7 @@
     const revealOnScroll = () => {
       revealElements.forEach(el => {
         const top = el.getBoundingClientRect().top;
-        if (top < window.innerHeight - 140) el.classList.add('active');
+        if (top < window.innerHeight - 120) el.classList.add('active');
       });
     };
     window.addEventListener('scroll', revealOnScroll);
@@ -1066,13 +916,18 @@
     // Sticky nav + sticky CTA
     const nav = document.getElementById('nav');
     const stickyCta = document.getElementById('stickyCta');
+
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) nav.classList.add('scrolled');
+      if (window.scrollY > 80) nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
 
-      if (window.scrollY > 700) stickyCta.classList.add('show');
+      if (window.scrollY > 520) stickyCta.classList.add('show');
       else stickyCta.classList.remove('show');
     });
+
+    function scrollToApply() {
+      document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+    }
 
     // Accordion
     document.querySelectorAll('.accordion-item').forEach(item => {
@@ -1084,11 +939,41 @@
       });
     });
 
-    // Scroll to apply
-    function scrollToApply() {
-      const target = document.getElementById('apply');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Counter animation for stats
+    const animateCounter = (element, target, duration = 1200) => {
+      let current = 0;
+      const increment = target / (duration / 16);
+      const isTime = element.textContent.includes('시간');
+      const isMultiplier = element.textContent.includes('배');
+      const isTools = element.textContent.includes('개');
+      const isCount = element.textContent.includes('번');
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) { current = target; clearInterval(timer); }
+        if (isTime) element.textContent = Math.floor(current) + '시간';
+        else if (isMultiplier) element.textContent = Math.floor(current) + '배';
+        else if (isTools) element.textContent = Math.floor(current) + '개';
+        else if (isCount) element.textContent = Math.floor(current) + '번';
+      }, 16);
+    };
+
+    const statNumbers = document.querySelectorAll('.stat-number');
+    let countersAnimated = false;
+
+    const animateStats = () => {
+      if (countersAnimated || !statNumbers[0]) return;
+      const top = statNumbers[0].getBoundingClientRect().top;
+      if (top < window.innerHeight - 120) {
+        countersAnimated = true;
+        if (statNumbers[0]) animateCounter(statNumbers[0], 10);
+        if (statNumbers[1]) animateCounter(statNumbers[1], 2);
+        if (statNumbers[2]) animateCounter(statNumbers[2], 6);
+        if (statNumbers[3]) animateCounter(statNumbers[3], 4);
+      }
+    };
+    window.addEventListener('scroll', animateStats);
+    animateStats();
   </script>
 </body>
 </html>
