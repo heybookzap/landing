@@ -111,12 +111,17 @@
       border: none;
       border-radius: 12px;
       color: var(--light);
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
       transition: all 0.25s ease;
       font-size: 13px;
       min-height: 44px;
       letter-spacing: -0.01em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
     }
     .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(40,107,255,0.35); }
 
@@ -163,7 +168,7 @@
       animation: fadeInUp 0.7s ease 0.24s both;
     }
 
-    /* Major CTA (Designnas #4 의도: 제목 바로 아래) */
+    /* Major CTA (Designnas #4: 제목 바로 아래) */
     .hero-cta {
       display: flex;
       gap: 12px;
@@ -207,7 +212,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Quick chips (초6도: 1초에 이해) */
+    /* Quick chips */
     .quick-chips {
       display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
       margin: 18px auto 0;
@@ -224,7 +229,7 @@
     }
     .chip b { color: var(--secondary); font-weight: 900; }
 
-    /* Note box (5살 잠투정 비유 유지) */
+    /* Note box (비유 제거, UX 원칙만 유지) */
     .note-box {
       padding: 16px 16px;
       background: rgba(40, 107, 255, 0.10);
@@ -307,6 +312,60 @@
       word-break: keep-all;
     }
     .mini-solution b { color: var(--secondary); font-weight: 950; }
+
+    /* Fit filter (추천/비추천) */
+    .fit-wrap {
+      max-width: 900px;
+      margin: 22px auto 0;
+    }
+    .fit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .fit-card {
+      padding: 16px 16px;
+      border-radius: 18px;
+    }
+    .fit-head {
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fit-head span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 14px;
+    }
+    .fit-list {
+      list-style: none;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .fit-list li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 6px;
+      word-break: keep-all;
+    }
+    .fit-list li::before {
+      content: '•';
+      position: absolute;
+      left: 6px;
+      color: var(--primary);
+      font-weight: 950;
+    }
 
     /* Stats */
     .stats {
@@ -479,7 +538,8 @@
     <div class="container">
       <div class="nav-content">
         <div class="logo">Activation Sprint</div>
-        <button class="nav-btn" onclick="scrollToApply()">지금 3분 체크</button>
+        <!-- ✅ 3분 체크 = 실제 체크(폼 링크) -->
+        <a class="nav-btn" href="https://YOUR-FORM-LINK">3분 체크</a>
       </div>
     </div>
   </nav>
@@ -496,13 +556,14 @@
       </h1>
 
       <p class="hero-subtitle">
-        길게 설명하면 안 봐요.<br />
-        그래서 <b>짧게</b>, <b>바로</b> 움직이게 “설치”합니다.
+        복잡하면 멈춰요.<br />
+        그래서 4주 동안 <b>결정</b>과 <b>실행</b>만 남깁니다.
       </p>
 
       <!-- Designnas #4: 제목 바로 아래, 가장 먼저 보이는 주요 CTA -->
       <div class="hero-cta">
-        <a href="#apply" class="btn-primary">3분 체크하고 시작하기 →</a>
+        <!-- ✅ 3분 체크 = 실제 체크(폼 링크) -->
+        <a href="https://YOUR-FORM-LINK" class="btn-primary">3분 체크하고 시작하기 →</a>
         <a href="#how" class="btn-secondary">어떻게 하는지 보기</a>
       </div>
 
@@ -513,11 +574,10 @@
         <div class="chip"><b>4주</b> 끝</div>
       </div>
 
-      <!-- 5살 잠투정 비유 유지 -->
+      <!-- ✅ 비유 제거, UX 원칙만 -->
       <div class="note-box">
-        <strong>우리 뇌는 잠투정 부리는 5살 아이 같아요.</strong><br />
-        설명서? 안 읽어요. 길면 바로 도망가요.<br />
-        그래서 이 프로그램은 <b>“설명” 말고 “버튼(행동)”</b>만 남겼어요.
+        <strong>설명은 최소.</strong> 버튼은 크게.<br />
+        오늘 바로 움직이게 “설치”합니다.
       </div>
 
       <p class="micro-disclaimer">
@@ -586,9 +646,10 @@
         </div>
       </div>
 
-      <!-- Mid CTA (짧게, 바로) -->
+      <!-- Mid CTA -->
       <div class="reveal" style="text-align:center; margin-top: 22px;">
-        <a href="#apply" class="btn-primary" style="max-width: 520px;">나도 가능한지 3분 체크 →</a>
+        <!-- ✅ 3분 체크 = 실제 체크(폼 링크) -->
+        <a href="https://YOUR-FORM-LINK" class="btn-primary" style="max-width: 520px;">나도 가능한지 3분 체크 →</a>
         <div class="micro-disclaimer" style="margin-top: 10px;">✓ 딱 5명만 · ✓ 하루 30분 · ✓ 전후 비교</div>
       </div>
     </div>
@@ -629,7 +690,7 @@
     </div>
   </section>
 
-  <!-- How it works (초6도: 4단계, 짧게) -->
+  <!-- How it works -->
   <section class="section" id="how">
     <div class="container">
       <h2 class="section-title reveal">4주 동안 이렇게 합니다</h2>
@@ -691,7 +752,7 @@
     </div>
   </section>
 
-  <!-- Storytelling (3) 이상적인 하루 -->
+  <!-- Storytelling -->
   <section class="section" style="background: rgba(200, 217, 238, 0.03);" id="story">
     <div class="container">
       <h2 class="section-title reveal">설치가 끝난 후, 당신의 하루</h2>
@@ -728,7 +789,7 @@
     </div>
   </section>
 
-  <!-- Trust (5) 후기 없어도 신뢰 -->
+  <!-- Trust -->
   <section class="section" id="trust">
     <div class="container">
       <h2 class="section-title reveal">후기 없어도 믿을 수 있게</h2>
@@ -760,14 +821,39 @@
           </div>
         </div>
       </div>
+
+      <!-- ✅ 필터(추천/비추천) 최소 추가 -->
+      <div class="fit-wrap reveal" id="fit">
+        <div class="fit-grid">
+          <div class="fit-card glass">
+            <div class="fit-head"><span>✓</span> 이런 분 추천</div>
+            <ul class="fit-list">
+              <li>이미 매출/고객이 있는데, 결정이 느려서 손해 보는 분</li>
+              <li>“오늘 뭘 해야 하는지” 매일 흔들리는 분</li>
+              <li>4주 동안 주 3~5시간 낼 수 있는 분</li>
+            </ul>
+          </div>
+          <div class="fit-card glass">
+            <div class="fit-head"><span>✕</span> 이런 분 비추천</div>
+            <ul class="fit-list">
+              <li>주 3~5시간이 정말 안 되는 분</li>
+              <li>상담/치료가 필요한 상태인 분</li>
+              <li>파일/체크 방식이 아예 싫은 분</li>
+            </ul>
+          </div>
+        </div>
+        <div class="micro-disclaimer" style="text-align:center; margin-top: 10px;">
+          맞는 사람만 받아야 결과가 좋아집니다.
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ (4) 자주 묻는 질문 5개로 정리: Designnas #9) -->
+  <!-- FAQ -->
   <section class="section" id="faq">
     <div class="container">
       <h2 class="section-title reveal">자주 묻는 질문 (딱 5개)</h2>
-      <p class="section-subtitle reveal">고객도 우리도 시간 아끼려고, 짧게 답합니다.</p>
+      <p class="section-subtitle reveal">짧게 답합니다.</p>
 
       <div class="accordion reveal" style="max-width: 860px;">
         <div class="accordion-item glass">
@@ -776,7 +862,7 @@
             <span class="accordion-icon">+</span>
           </div>
           <div class="accordion-content">
-            <p>아니요. “일 잘하게 만드는 도구 설치”입니다. 치료/상담이 필요하면 전문가를 권합니다.</p>
+            <p>아니요. “일 잘하게 만드는 도구 설치”입니다. 상담/치료가 필요하면 전문가를 권합니다.</p>
           </div>
         </div>
 
@@ -859,6 +945,7 @@
         </div>
 
         <div style="margin-top: 16px;">
+          <!-- ✅ 3분 체크 = 실제 체크(폼 링크) -->
           <a href="https://YOUR-FORM-LINK" class="btn-primary" style="max-width: 520px;">
             3분 체크하고 지금 시작하기 →
           </a>
@@ -882,7 +969,8 @@
       <div class="sticky-cta-text">딱 5명 · 4주 설치형 OS</div>
       <div class="sticky-cta-subtext">150만 원 (또는 월 50만×3)</div>
     </div>
-    <a href="#apply" class="btn-primary">3분 체크 →</a>
+    <!-- ✅ 3분 체크 = 실제 체크(폼 링크) -->
+    <a href="https://YOUR-FORM-LINK" class="btn-primary">3분 체크 →</a>
   </div>
 
   <!-- Footer -->
@@ -893,7 +981,7 @@
   </footer>
 
   <script>
-    // Smooth scroll
+    // Smooth scroll (internal anchors only)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -924,10 +1012,6 @@
       if (window.scrollY > 520) stickyCta.classList.add('show');
       else stickyCta.classList.remove('show');
     });
-
-    function scrollToApply() {
-      document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
-    }
 
     // Accordion
     document.querySelectorAll('.accordion-item').forEach(item => {
