@@ -1,1106 +1,228 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0a1628" />
-  <title>4주 설치형 OS - 미루는 습관 끝내기</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>가짜 자기계발 해독제 — ZERO WASTE</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+:root {
+  --blue: #286bff;
+  --blue-glow: rgba(40,107,255,0.4);
+  --blue-sub: #c8d9ee;
+  --red: #ff3247;
+  --bg: #060a12;
+  --bg2: #0b1120;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.10);
+  --text: #f0f4ff;
+  --muted: #8a96a8;
+  --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:var(--sans); line-height:1.4;
+  overflow-x:hidden; word-break:keep-all;
+  -webkit-font-smoothing:antialiased;
+}
 
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+/* ── 배경 ── */
+.bg-glow {
+  position:fixed; top:0; left:50%; transform:translateX(-50%);
+  width:100vw; height:100vh; z-index:-1;
+  background:radial-gradient(circle at 50% 20%, #1a2a4d 0%, #060a12 70%);
+}
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 70px;
-    }
-    @media (max-width: 768px) {
-      html { scroll-padding-top: 60px; }
-    }
+.container { width:100%; max-width:500px; margin:0 auto; padding:0 20px; }
 
-    :root {
-      --primary: #286bff;
-      --secondary: #c8d9ee;
-      --dark: #0a1628;
-      --light: #ffffff;
-      --muted: #94a3b8;
-      --muted-2: #64748b;
-      --gradient-1: linear-gradient(135deg, #286bff 0%, #4a90ff 100%);
-      --card: rgba(255, 255, 255, 0.06);
-      --card-strong: rgba(255, 255, 255, 0.10);
-      --border: rgba(255, 255, 255, 0.12);
-    }
-    @media (max-width: 768px) {
-      :root {
-        --muted: #a0aec0;
-        --card: rgba(255, 255, 255, 0.08);
-        --card-strong: rgba(255, 255, 255, 0.12);
-      }
-    }
+/* ── 상단 배너 ── */
+.top-banner {
+  background:var(--red); color:#fff; text-align:center;
+  font-size:13px; font-weight:800; padding:10px 0; letter-spacing:-.5px;
+}
 
-    body {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-      background: linear-gradient(180deg, #0a1628 0%, #1a2847 50%, #0a1628 100%);
-      color: var(--light);
-      overflow-x: hidden;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      font-feature-settings: "kern" 1;
-    }
+/* ── HERO ── */
+.hero { padding:60px 0 40px; text-align:center; }
+.hero-label { color:var(--blue-sub); font-size:14px; font-weight:700; margin-bottom:12px; }
+.hero-h1 { font-size:clamp(32px,9vw,48px); font-weight:900; line-height:1.2; letter-spacing:-1.5px; margin-bottom:20px; }
+.hero-h1 span { color:var(--blue); }
+.hero-desc { font-size:16px; color:var(--muted); margin-bottom:32px; line-height:1.65; }
 
-    /* Animated Background */
-    .bg-animation {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1; overflow: hidden;
-    }
-    .floating-shape {
-      position: absolute; border-radius: 50%;
-      filter: blur(60px); opacity: 0.14;
-      animation: float 20s infinite ease-in-out;
-    }
-    .shape-1 { width: 380px; height: 380px; background: var(--primary); top: 10%; left: 8%; animation-delay: 0s; }
-    .shape-2 { width: 300px; height: 300px; background: var(--secondary); bottom: 18%; right: 10%; animation-delay: 3s; }
-    .shape-3 { width: 340px; height: 340px; background: var(--primary); top: 50%; left: 55%; animation-delay: 6s; }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(45px, -45px) scale(1.08); }
-      66% { transform: translate(-28px, 28px) scale(0.94); }
-    }
+/* ── BTN ── */
+.btn-prime {
+  display:block; width:100%; padding:22px; border-radius:18px;
+  background:var(--blue); color:#fff; text-align:center;
+  font-size:19px; font-weight:800; border:none; cursor:pointer;
+  box-shadow:0 10px 30px var(--blue-glow); position:relative; overflow:hidden;
+  transition:transform .2s, box-shadow .2s; text-decoration:none;
+}
+.btn-prime:active { transform:scale(.96); }
 
-    /* Glass */
-    .glass {
-      background: var(--card);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
-    }
-    .glass-strong {
-      background: var(--card-strong);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 22px;
-      box-shadow: 0 10px 36px rgba(0,0,0,0.26);
-    }
+/* ── STATS ── */
+.stats { display:flex; gap:10px; margin:40px 0; }
+.stat-box {
+  flex:1; background:var(--glass); border:1px solid var(--glass-border);
+  padding:16px 10px; border-radius:16px; text-align:center;
+}
+.stat-val { display:block; font-size:22px; font-weight:900; color:var(--red); margin-bottom:5px; }
+.stat-lbl { font-size:11px; color:var(--muted); font-weight:600; }
 
-    /* Container */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 18px;
-      position: relative;
-      z-index: 1;
-    }
+/* ── FIT ── */
+.fit-section { background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; padding:25px; margin-bottom:40px; }
+.fit-title { font-size:17px; font-weight:800; margin-bottom:14px; }
+.fit-item { display:flex; gap:8px; font-size:14px; margin-bottom:10px; color:var(--text); line-height:1.55; }
+.fit-no { font-size:15px; font-weight:800; color:var(--muted); margin-bottom:8px; margin-top:20px; border-top:1px dashed var(--glass-border); padding-top:20px;}
 
-    /* Nav */
-    .nav {
-      padding: 16px 0;
-      position: sticky; top: 0;
-      z-index: 100;
-      transition: all 0.25s ease;
-    }
-    .nav.scrolled {
-      background: rgba(10, 22, 40, 0.78);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.22);
-    }
-    .nav-content {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 12px;
-    }
-    .logo {
-      font-size: 20px; font-weight: 900;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-    }
-    .nav-btn {
-      padding: 10px 18px;
-      background: var(--gradient-1);
-      border: none;
-      border-radius: 12px;
-      color: var(--light);
-      font-weight: 900;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-size: 13px;
-      min-height: 44px;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-    }
-    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(40,107,255,0.35); }
+/* ── STORY ── */
+.story-card { background:rgba(40,107,255,.1); border:1px solid rgba(40,107,255,.2); border-radius:20px; padding:28px; margin-bottom:40px; }
+.story-line { display:flex; gap:14px; margin-bottom:16px; }
+.story-time { font-weight:900; color:var(--blue); font-size:15px; flex-shrink:0; width:46px; }
+.story-txt { font-size:14px; color:var(--text); line-height:1.65; }
 
-    /* Hero */
-    .hero {
-      padding: 56px 0 36px;
-      text-align: center;
-    }
-    .tag {
-      display: inline-block;
-      padding: 7px 14px;
-      background: rgba(200, 217, 238, 0.14);
-      border: 1px solid rgba(200, 217, 238, 0.28);
-      border-radius: 999px;
-      font-size: 12px;
-      color: var(--secondary);
-      margin-bottom: 14px;
-      animation: fadeInUp 0.7s ease;
-      word-break: keep-all;
-    }
-    h1 {
-      font-size: clamp(26px, 5vw, 52px);
-      line-height: 1.22;
-      margin-bottom: 12px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      word-break: keep-all;
-      animation: fadeInUp 0.7s ease 0.12s both;
-    }
-    .highlight {
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 950;
-    }
-    .hero-subtitle {
-      font-size: 17px;
-      color: rgba(255,255,255,0.92);
-      max-width: 780px;
-      margin: 0 auto 16px;
-      line-height: 1.65;
-      word-break: keep-all;
-      animation: fadeInUp 0.7s ease 0.24s both;
-    }
+/* ── MANIFESTO ── */
+.manifesto-box { background:rgba(0,0,0,.4); border:1px dashed rgba(255,255,255,.15); border-radius:24px; padding:32px 24px; margin-bottom:40px; text-align:center; }
+.manifesto-box p { font-size:14px; line-height:1.8; color:var(--sub); margin-bottom:16px; }
+.manifesto-box strong { color:var(--text); }
 
-    /* Major CTA */
-    .hero-cta {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      animation: fadeInUp 0.7s ease 0.34s both;
-    }
-    .btn-primary, .btn-secondary {
-      border-radius: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 16px 22px;
-      letter-spacing: -0.01em;
-      width: min(420px, 100%);
-    }
-    .btn-primary {
-      background: var(--gradient-1);
-      border: none;
-      color: var(--light);
-      font-size: 16px;
-      box-shadow: 0 12px 38px rgba(40,107,255,0.25);
-      -webkit-tap-highlight-color: transparent;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 42px rgba(40,107,255,0.35); }
-    .btn-primary:active { transform: translateY(0); box-shadow: 0 8px 24px rgba(40,107,255,0.3); }
+/* ── FAQ ── */
+.faq-item { background:var(--glass); border:1px solid var(--glass-border); border-radius:16px; margin-bottom:10px; cursor:pointer; }
+.faq-q { padding:20px; font-size:15px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+.faq-a { max-height:0; overflow:hidden; transition:all 0.4s ease; padding:0 20px; font-size:14px; color:var(--muted); line-height:1.7; }
+.faq-item.open .faq-a { max-height:150px; padding-bottom:20px; }
 
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: var(--light);
-      font-size: 15px;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .btn-secondary:hover { transform: translateY(-2px); background: rgba(255,255,255,0.12); }
-    .btn-secondary:active { transform: translateY(0); background: rgba(255,255,255,0.15); }
+/* ── CTA ── */
+.cta-form { background:linear-gradient(180deg, var(--bg2), #0b1120); border:1px solid var(--blue); border-radius:28px; padding:40px 24px; text-align:center; margin-bottom:60px; }
+.progress-txt { font-size:12px; font-weight:700; color:var(--red); display:flex; justify-content:space-between; margin-bottom:8px; }
+.progress-bar { height:8px; background:rgba(255,255,255,.08); border-radius:4px; margin-bottom:26px; overflow:hidden; }
+.progress-fill { height:100%; width:78%; background:var(--red); box-shadow:0 0 10px var(--red); animation:progressPulse 2s infinite; }
+@keyframes progressPulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+.input-mail { width:100%; padding:20px; border-radius:14px; border:1px solid var(--glass-border); background:rgba(0,0,0,.55); color:white; font-size:16px; margin-bottom:14px; outline:none; text-align:center; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Quick chips */
-    .quick-chips {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      margin: 18px auto 0;
-      max-width: 760px;
-    }
-    .chip {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 13px;
-      color: rgba(255,255,255,0.9);
-      word-break: keep-all;
-    }
-    .chip b { color: var(--secondary); font-weight: 900; }
-
-    /* Note box */
-    .note-box {
-      padding: 16px 16px;
-      background: rgba(40, 107, 255, 0.10);
-      border-left: 4px solid var(--primary);
-      border-radius: 14px;
-      margin: 18px auto 0;
-      max-width: 820px;
-      font-size: 14px;
-      color: rgba(255,255,255,0.92);
-      line-height: 1.75;
-      word-break: keep-all;
-    }
-    .note-box strong { color: var(--light); font-weight: 900; }
-
-    .micro-disclaimer {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 12px;
-      line-height: 1.6;
-    }
-
-    /* Section */
-    .section { padding: 56px 0; }
-    .section-title {
-      font-size: clamp(22px, 4vw, 38px);
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight: 950;
-      letter-spacing: -0.03em;
-      word-break: keep-all;
-      line-height: 1.25;
-    }
-    .section-subtitle {
-      text-align: center;
-      color: var(--muted);
-      max-width: 720px;
-      margin: 0 auto 28px;
-      font-size: 15px;
-      line-height: 1.75;
-      word-break: keep-all;
-    }
-
-    /* Grid cards */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 18px;
-    }
-    .card {
-      padding: 22px 18px;
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(40,107,255,0.14); }
-    .card-title {
-      font-size: 18px;
-      font-weight: 950;
-      margin-bottom: 8px;
-      line-height: 1.35;
-      letter-spacing: -0.02em;
-      word-break: keep-all;
-    }
-    .card-text {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.75;
-      word-break: keep-all;
-    }
-    .mini-solution {
-      margin-top: 12px;
-      padding: 12px 12px;
-      background: rgba(40, 107, 255, 0.10);
-      border-radius: 12px;
-      border: 1px solid rgba(40, 107, 255, 0.20);
-      font-size: 13px;
-      color: rgba(255,255,255,0.92);
-      line-height: 1.6;
-      word-break: keep-all;
-    }
-    .mini-solution b { color: var(--secondary); font-weight: 950; }
-
-    /* Fit filter */
-    .fit-wrap { max-width: 900px; margin: 22px auto 0; }
-    .fit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-    }
-    .fit-card { padding: 16px 16px; border-radius: 18px; }
-    .fit-head {
-      font-weight: 950;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .fit-head span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 14px;
-    }
-    .fit-list {
-      list-style: none;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-    .fit-list li {
-      padding-left: 16px;
-      position: relative;
-      margin-bottom: 6px;
-      word-break: keep-all;
-    }
-    .fit-list li::before {
-      content: '•';
-      position: absolute;
-      left: 6px;
-      color: var(--primary);
-      font-weight: 950;
-    }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-    .stat-item { text-align: center; padding: 18px 14px; }
-    .stat-number {
-      font-size: 38px;
-      font-weight: 950;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
-      display: block;
-      letter-spacing: -0.03em;
-    }
-    .stat-label { color: rgba(255,255,255,0.92); font-size: 14px; font-weight: 850; }
-    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
-
-    /* Timeline */
-    .timeline { position: relative; max-width: 860px; margin: 28px auto 0; }
-    .timeline-item { display: flex; gap: 14px; margin-bottom: 14px; align-items: stretch; }
-    .timeline-dot {
-      width: 48px; height: 48px;
-      background: var(--gradient-1);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 950;
-      font-size: 16px;
-      flex-shrink: 0;
-      box-shadow: 0 10px 26px rgba(40,107,255,0.28);
-    }
-    .timeline-content { flex: 1; padding: 16px 16px; }
-    .timeline-title { font-size: 18px; font-weight: 950; margin-bottom: 6px; letter-spacing: -0.02em; }
-    .timeline-text { color: var(--muted); font-size: 14px; line-height: 1.8; word-break: keep-all; }
-
-    /* Accordion */
-    .accordion { max-width: 900px; margin: 0 auto; }
-    .accordion-item { margin-bottom: 12px; border-radius: 16px; overflow: hidden; }
-    .accordion-header {
-      padding: 16px 16px;
-      cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-      font-weight: 950;
-      font-size: 15px;
-      line-height: 1.45;
-      word-break: keep-all;
-      gap: 12px;
-    }
-    .accordion-header:hover { background: rgba(255,255,255,0.06); }
-    .accordion-icon { transition: transform 0.25s ease; font-size: 22px; color: var(--primary); flex-shrink: 0; }
-    .accordion-item.active .accordion-icon { transform: rotate(45deg); }
-    .accordion-content {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.25s ease, padding 0.25s ease;
-      padding: 0 16px;
-    }
-    .accordion-item.active .accordion-content { max-height: 520px; padding: 0 16px 16px; }
-    .accordion-content p, .accordion-content ul {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-      word-break: keep-all;
-    }
-    .accordion-content ul { list-style: none; margin-top: 8px; }
-    .accordion-content li { padding-left: 18px; position: relative; margin-bottom: 6px; }
-    .accordion-content li::before { content: '•'; position: absolute; left: 6px; color: var(--primary); font-weight: 950; }
-
-    /* CTA section */
-    .cta-section { text-align: center; padding: 62px 0; }
-    .cta-box { max-width: 760px; margin: 0 auto; padding: 28px 18px; position: relative; }
-    .price-row { margin-top: 10px; }
-    .strike { font-size: 14px; color: var(--muted); text-decoration: line-through; }
-    .price-amount {
-      font-size: 48px;
-      font-weight: 950;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 8px 0 6px;
-      letter-spacing: -0.03em;
-    }
-    .price-note { font-size: 14px; color: rgba(255,255,255,0.92); line-height: 1.7; }
-    .danger-note {
-      margin-top: 14px;
-      padding: 14px 14px;
-      background: rgba(255, 68, 68, 0.10);
-      border: 1px solid rgba(255, 68, 68, 0.30);
-      border-radius: 14px;
-      color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      line-height: 1.65;
-      word-break: keep-all;
-    }
-    .danger-note b { color: #ff6b6b; font-weight: 950; }
-
-    /* Sticky CTA */
-    .sticky-cta {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      z-index: 1000;
-      padding: 12px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      opacity: 0;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      transform: translateY(10px);
-      border-radius: 18px;
-      box-shadow: 0 10px 34px rgba(0,0,0,0.38);
-    }
-    .sticky-cta.show { opacity: 1; transform: translateY(0); }
-    .sticky-cta-text { font-weight: 950; font-size: 13px; line-height: 1.2; }
-    .sticky-cta-subtext { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .sticky-cta .btn-primary { width: auto; padding: 12px 14px; min-height: 44px; border-radius: 14px; font-size: 14px; white-space: nowrap; }
-
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .sticky-cta {
-        bottom: max(12px, env(safe-area-inset-bottom));
-        left: max(12px, env(safe-area-inset-left));
-        right: max(12px, env(safe-area-inset-right));
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));
-      }
-    }
-
-    /* Footer */
-    .footer {
-      padding: 34px 0;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.10);
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(18px); transition: all 0.7s ease; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
-
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    }
-
-    /* Touch optimization */
-    @media (hover: none) and (pointer: coarse) {
-      .btn-primary, .btn-secondary, .nav-btn { min-height: 56px; }
-      .accordion-header { min-height: 52px; }
-      .card:hover { transform: none; }
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .container { padding: 0 16px; }
-      .hero { padding: 40px 0 32px; }
-      h1 { font-size: 32px; line-height: 1.3; margin-bottom: 16px; letter-spacing: -0.02em; }
-      .hero-subtitle { font-size: 17px; line-height: 1.7; margin-bottom: 20px; }
-
-      .btn-primary, .btn-secondary { width: 100%; min-height: 56px; font-size: 16px; padding: 18px 24px; }
-      .nav-btn { min-height: 48px; padding: 12px 20px; font-size: 14px; }
-
-      .quick-chips { gap: 8px; margin-top: 20px; }
-      .chip { font-size: 13px; padding: 8px 12px; flex: 1 1 auto; min-width: fit-content; }
-
-      .note-box { padding: 16px 14px; font-size: 14px; line-height: 1.8; margin-top: 20px; }
-
-      .section { padding: 52px 0; }
-      .section-title { font-size: 28px; margin-bottom: 12px; line-height: 1.3; }
-      .section-subtitle { font-size: 15px; margin-bottom: 32px; line-height: 1.7; }
-
-      .stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .stat-item { padding: 20px 14px; }
-      .stat-number { font-size: 36px; margin-bottom: 8px; }
-      .stat-label { font-size: 13px; line-height: 1.4; }
-      .stat-sub { font-size: 12px; margin-top: 4px; line-height: 1.5; }
-
-      .grid { grid-template-columns: 1fr; gap: 14px; }
-      .card { padding: 20px 16px; }
-      .card-title { font-size: 18px; line-height: 1.4; margin-bottom: 10px; }
-      .card-text { font-size: 14px; line-height: 1.75; }
-      .mini-solution { font-size: 13px; padding: 12px 12px; line-height: 1.7; }
-
-      .timeline { margin-top: 32px; }
-      .timeline-item { flex-direction: column; margin-bottom: 20px; gap: 12px; }
-      .timeline-dot { width: 48px; height: 48px; border-radius: 14px; font-size: 18px; align-self: flex-start; }
-      .timeline-content { padding: 16px 14px; }
-      .timeline-title { font-size: 17px; margin-bottom: 8px; }
-      .timeline-text { font-size: 14px; line-height: 1.8; }
-
-      .accordion-header { padding: 18px 14px; font-size: 15px; line-height: 1.5; }
-      .accordion-content { padding: 0 14px; font-size: 14px; }
-      .accordion-item.active .accordion-content { padding: 0 14px 18px; }
-
-      .fit-grid { grid-template-columns: 1fr; gap: 12px; }
-      .fit-card { padding: 16px 14px; }
-      .fit-list { font-size: 13px; line-height: 1.75; }
-
-      .cta-section { padding: 56px 0; }
-      .cta-box { padding: 32px 16px; }
-      .price-amount { font-size: 44px; margin: 10px 0 8px; }
-      .price-note { font-size: 14px; line-height: 1.8; }
-      .strike { font-size: 14px; }
-      .danger-note { padding: 16px 14px; font-size: 13px; line-height: 1.75; margin-top: 16px; }
-
-      .sticky-cta {
-        bottom: 8px; left: 8px; right: 8px;
-        padding: 10px 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-      }
-      .sticky-cta-text { font-size: 13px; text-align: center; width: 100%; }
-      .sticky-cta-subtext { font-size: 11px; text-align: center; }
-      .sticky-cta .btn-primary { width: 100%; padding: 14px 16px; min-height: 48px; font-size: 15px; }
-
-      .footer { padding: 32px 16px; font-size: 12px; }
-      .micro-disclaimer { font-size: 12px; line-height: 1.65; margin-top: 14px; }
-      .logo { font-size: 18px; }
-      .tag { font-size: 12px; padding: 6px 12px; margin-bottom: 16px; }
-    }
-
-    @media (max-width: 375px) {
-      h1 { font-size: 28px; }
-      .hero-subtitle { font-size: 16px; }
-      .section-title { font-size: 26px; }
-      .stats { grid-template-columns: 1fr; gap: 10px; }
-      .stat-number { font-size: 32px; }
-      .chip { font-size: 12px; padding: 7px 10px; }
-      .price-amount { font-size: 40px; }
-    }
-  </style>
+.footer { text-align:center; padding:40px 0; font-size:12px; color:var(--muted); opacity:.6; }
+.reveal { opacity:0; transform:translateY(20px); transition:.6s ease-out; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+</style>
 </head>
-
 <body>
-  <div class="bg-animation" aria-hidden="true">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
+
+<div class="bg-glow"></div>
+<div class="top-banner">⚠️ 선착순 100명 한정 무료 혜택 [78명 신청완료]</div>
+
+<div class="container">
+  <section class="hero reveal">
+    <p class="hero-label">10년의 시행착오를 1분 만에 끝내는 법</p>
+    <h1 class="hero-h1">가짜 자기계발<br>지금 멈추고<br><span>진짜를 경험하라</span></h1>
+    <p class="hero-desc">버려진 3,000시간의 가치는 얼마입니까?<br><strong>의지 없이 실행을 강제하는 '해독제'</strong>를 드립니다.</p>
+    <button class="btn-prime" onclick="scrollToForm()">무료 해독제 경험하기 (1분 소요) →</button>
+  </section>
+
+  <div class="stats reveal">
+    <div class="stat-box">
+      <span class="stat-val">350만</span>
+      <span class="stat-lbl">낭비한 결제액</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-val">3,000h</span>
+      <span class="stat-lbl">버려진 청춘</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-val" style="color:var(--blue)">0원</span>
+      <span class="stat-lbl">지금 당신의 비용</span>
+    </div>
   </div>
 
-  <nav class="nav" id="nav">
-    <div class="container">
-      <div class="nav-content">
-        <div class="logo">4주 설치</div>
-        <a class="nav-btn" href="https://forms.gle/bLoskbjmhDiofaHHA">3분 체크</a>
+  <section class="fit-section reveal">
+    <div class="fit-title">✅ 이런 분은 꼭 받으세요</div>
+    <div class="fit-item"><span>🧨</span> 인강 결제만 하고 1강도 안 보는 분</div>
+    <div class="fit-item"><span>📱</span> 유튜브 동기부여만 보며 대리만족 중인 분</div>
+    <div class="fit-item"><span>⏳</span> 의지력 한계로 매번 포기하는 분</div>
+    <div class="fit-no">❌ 이런 분은 받지 마세요</div>
+    <p style="font-size:13px; color:var(--muted); line-height:1.6;">이미 배운 것을 즉시 수익화하고 있거나,<br>매일 8시간 이상 몰입 실행 중인 분</p>
+  </section>
+
+  <section class="reveal">
+    <h2 style="font-size:22px; font-weight:900; text-align:center; margin-bottom:20px;">내일 아침, 당신이 맞이할<br><span style="color:var(--blue)">통제된 하루</span></h2>
+    <div class="story-card">
+      <div class="story-line">
+        <div class="story-time">07:00</div>
+        <div class="story-txt">습관적인 유튜브 대신, 차단된 환경에서 <strong>'오늘의 핵심'</strong>을 계획합니다.</div>
       </div>
-    </div>
-  </nav>
-
-  <section class="hero" id="top">
-    <div class="container">
-      <span class="tag">여성 1인 창업가 · 대표용</span>
-
-      <h1>
-        계속 미루다가<br />
-        <span class="highlight">돈·시간 새는 거</span> 끝내기
-      </h1>
-
-      <p class="hero-subtitle">
-        4주 동안 <b>결정</b>과 <b>실행</b>만 남깁니다.<br />
-        복잡한 건 다 빼고, 바로 되게 만듭니다.
-      </p>
-
-      <div class="hero-cta">
-        <a href="https://forms.gle/bLoskbjmhDiofaHHA" class="btn-primary">3분 체크하고 시작하기 →</a>
-        <a href="#how" class="btn-secondary">어떻게 설치되는지 보기</a>
+      <div class="story-line">
+        <div class="story-time">09:00</div>
+        <div class="story-text">결제만 해둔 인강 대신, 당신만의 <strong>'진짜 아웃풋'</strong>을 30분 만에 완성합니다.</div>
       </div>
-
-      <div class="quick-chips" aria-label="빠른 요약">
-        <div class="chip"><b>10분</b> 결정</div>
-        <div class="chip">하루 <b>3개</b> 체크</div>
-        <div class="chip"><b>말 10개</b> 복붙</div>
-        <div class="chip"><b>4주</b> 끝</div>
-      </div>
-
-      <div class="note-box">
-        <strong>설명 말고, 행동.</strong><br />
-        “해야 하는 것”이 아니라 “되게 만드는 구조”를 설치합니다.
-      </div>
-
-      <p class="micro-disclaimer">
-        ※ 결과는 사람마다 달라요. 대신 <b>시작 전 vs 4주 후</b>를 비교해서 변화가 보이게 합니다.
-      </p>
+      <p style="text-align:center; font-size:13px; color:var(--blue-sub); margin-top:15px; font-weight:700;">"당신의 미래가 선명해질수록 결정은 빨라집니다."</p>
     </div>
   </section>
 
-  <section class="section" style="padding-top: 24px;">
-    <div class="container">
-      <h2 class="section-title reveal">4주 동안</h2>
-      <p class="section-subtitle reveal">이 4가지는 확실히 생깁니다</p>
+  <section class="manifesto-box reveal">
+    <p>이 페이지에는 가짜 성공 후기가 없습니다.<br>오늘 처음으로 세상에 공개되는 시스템이기 때문입니다.</p>
+    <p>하지만 <strong>저의 밑바닥을 증명하는 10년 치 실패 영수증</strong>이 당신을 지켜줄 가장 강력한 증거입니다.</p>
+    <div style="font-size:12px; color:var(--blue); font-weight:700; margin-top:15px;">— 10년 차 자기계발 생존자의 선언 —</div>
+  </section>
 
-      <div class="stats">
-        <div class="stat-item glass reveal">
-          <span class="stat-number">10분</span>
-          <div class="stat-label">결정 1개 끝</div>
-          <div class="stat-sub">오늘 결정 1개를 처리</div>
-        </div>
-        <div class="stat-item glass reveal">
-          <span class="stat-number">3개</span>
-          <div class="stat-label">매일 체크</div>
-          <div class="stat-sub">중요 행동만 고정</div>
-        </div>
-        <div class="stat-item glass reveal">
-          <span class="stat-number">6개</span>
-          <div class="stat-label">도구 완성본</div>
-          <div class="stat-sub">파일로 계속 사용</div>
-        </div>
-        <div class="stat-item glass reveal">
-          <span class="stat-number">4회</span>
-          <div class="stat-label">전후 비교</div>
-          <div class="stat-sub">매주 변화 확인</div>
-        </div>
-      </div>
+  <section class="reveal">
+    <h2 style="font-size:20px; font-weight:900; text-align:center; margin-bottom:20px;">의심을 지워드립니다</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">진짜 무료인가요? <span>+</span></div>
+      <div class="faq-a">네, 100% 무료입니다. 제 10년 치 실패 경험이 담긴 오답 노트를 0원에 공유합니다.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">의지력이 없어도 가능한가요? <span>+</span></div>
+      <div class="faq-a">의지력이 아니라 '환경 통제'가 핵심입니다. 의지가 부족할수록 더 강력한 효과를 봅니다.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">아는 게 많아도 도움이 될까요? <span>+</span></div>
+      <div class="faq-a">네. 이 노트는 무언가를 '더하는 것'이 아니라, 당신을 마비시키는 행동을 '빼는 것'을 돕습니다.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">언제 받아볼 수 있나요? <span>+</span></div>
+      <div class="faq-a">이메일 입력 즉시 자동 발송됩니다. (최대 5분 이내, 스팸함도 확인해 주세요.)</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">선착순이 지나면요? <span>+</span></div>
+      <div class="faq-a">마감 후에는 유료로 전환되거나 페이지가 비공개될 예정입니다.</div>
     </div>
   </section>
 
-  <section class="section" id="problems">
-    <div class="container">
-      <h2 class="section-title reveal">이 3가지 때문에 막혀요</h2>
-      <p class="section-subtitle reveal">그리고 우리는 이렇게 해결합니다</p>
-
-      <div class="grid">
-        <div class="card glass reveal">
-          <div style="font-size: 28px; margin-bottom: 8px;">⏰</div>
-          <div class="card-title">결정 못 내려서<br />계속 미룸</div>
-          <p class="card-text">가격/채용/제안… 고민만 하다가 하루가 끝나요.</p>
-          <div class="mini-solution"><b>해결:</b> 오늘 결정 1개를 “10분 시트”로 끝냅니다.</div>
-        </div>
-
-        <div class="card glass reveal">
-          <div style="font-size: 28px; margin-bottom: 8px;">📊</div>
-          <div class="card-title">열심히 하는데<br />성과가 안 남음</div>
-          <p class="card-text">할 일은 많은데 중요한 행동이 매일 바뀝니다.</p>
-          <div class="mini-solution"><b>해결:</b> “매일 3개”만 고정해서 체크가 쌓이게 합니다.</div>
-        </div>
-
-        <div class="card glass reveal">
-          <div style="font-size: 28px; margin-bottom: 8px;">💬</div>
-          <div class="card-title">말에서 멈춰서<br />기회를 놓침</div>
-          <p class="card-text">“뭐라고 말하지?”에서 시간이 계속 새요.</p>
-          <div class="mini-solution"><b>해결:</b> “복붙 말 10개”를 만들어 바로 보냅니다.</div>
-        </div>
-      </div>
-
-      <div class="reveal" style="text-align:center; margin-top: 22px;">
-        <a href="https://forms.gle/bLoskbjmhDiofaHHA" class="btn-primary" style="max-width: 520px;">나도 되는지 3분 체크 →</a>
-        <div class="micro-disclaimer" style="margin-top: 10px;">✓ 딱 5명 · ✓ 하루 30분 · ✓ 전후 비교</div>
-      </div>
+  <section class="cta-form reveal" id="cta-form">
+    <h2 class="cta-title">지금 당장<br><span>도피를 멈추세요</span></h2>
+    <div class="progress-wrap">
+      <div class="progress-txt"><span>신청 현황</span><span>78 / 100명 (마감 임박)</span></div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
+    <input type="email" class="input-mail" id="emailInput" placeholder="이메일 주소를 입력하세요">
+    <button class="btn-prime" onclick="submitForm()">지금 바로 무료 해독제 경험하기 →</button>
+    <p style="margin-top:20px; font-size:13px; color:var(--red); font-weight:700;">무지함의 세금을 오늘 끝내십시오.</p>
   </section>
-
-  <section class="section" style="background: rgba(40, 107, 255, 0.04);" id="benefits">
-    <div class="container">
-      <h2 class="section-title reveal">한 줄 요약</h2>
-      <p class="section-subtitle reveal">
-        <b>"미루는 나"</b> → <b>"바로 하는 나"</b>로 바꿉니다
-      </p>
-
-      <div class="grid">
-        <div class="card glass-strong reveal">
-          <div class="card-title">① 오늘 결정 1개 = 10분</div>
-          <p class="card-text">결정이 늦어서 생기는 손해를 줄입니다.</p>
-        </div>
-        <div class="card glass-strong reveal">
-          <div class="card-title">② 오늘 행동 3개 = 체크</div>
-          <p class="card-text">“많이” 말고 “딱 3개”만. 그래서 계속 됩니다.</p>
-        </div>
-        <div class="card glass-strong reveal">
-          <div class="card-title">③ 말 10개 = 복사·전송</div>
-          <p class="card-text">제안/가격/협상에서 멈추지 않게 만듭니다.</p>
-        </div>
-      </div>
-
-      <div class="reveal" style="max-width: 900px; margin: 18px auto 0;">
-        <div class="glass" style="padding: 18px 16px; border-radius: 18px;">
-          <div style="font-weight: 950; letter-spacing: -0.02em; margin-bottom: 8px;">받는 것 (파일로 남음)</div>
-          <div style="color: var(--muted); font-size: 14px; line-height: 1.8;">
-            10분 결정 시트 · 나만의 기준 · 오늘 할 일 점수판 · 브레이크 푸는 질문 · 환경 체크리스트 · 복붙 말 10개
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="how">
-    <div class="container">
-      <h2 class="section-title reveal">4주 동안 이렇게</h2>
-      <p class="section-subtitle reveal">코칭이 아니라 “설치”입니다</p>
-
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot">1</div>
-          <div class="timeline-content glass">
-            <div class="timeline-title">브레이크 풀기</div>
-            <div class="timeline-text">“난 원래 이래” 같은 멈춤을 먼저 끕니다.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal">
-          <div class="timeline-dot">2</div>
-          <div class="timeline-content glass">
-            <div class="timeline-title">10분 결정</div>
-            <div class="timeline-text">오늘 결정 1개를 10분 안에 끝내는 구조를 만듭니다.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal">
-          <div class="timeline-dot">3</div>
-          <div class="timeline-content glass">
-            <div class="timeline-title">자동 환경</div>
-            <div class="timeline-text">폰/알림/일정… 방해를 줄여서 의지 없이 되게 합니다.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal">
-          <div class="timeline-dot">4</div>
-          <div class="timeline-content glass">
-            <div class="timeline-title">복붙 말 10개</div>
-            <div class="timeline-text">제안/가격/협상에서 멈추지 않게 문장을 설치합니다.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal" style="max-width: 900px; margin: 18px auto 0;">
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
-          <div class="glass" style="padding: 16px; text-align:center;">
-            <div style="font-size: 26px;">💬</div>
-            <div style="font-weight: 950; margin-top: 6px;">주 1회 15분</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">톡으로 체크</div>
-          </div>
-          <div class="glass" style="padding: 16px; text-align:center;">
-            <div style="font-size: 26px;">✅</div>
-            <div style="font-weight: 950; margin-top: 6px;">매일 10분</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">체크만</div>
-          </div>
-          <div class="glass" style="padding: 16px; text-align:center;">
-            <div style="font-size: 26px;">📞</div>
-            <div style="font-weight: 950; margin-top: 6px;">필요하면 10분</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">줌(선택)</div>
-          </div>
-        </div>
-        <div class="micro-disclaimer" style="text-align:center; margin-top: 10px;">
-          기본은 톡. 막히는 지점만 짧게 줌(선택).
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: rgba(200, 217, 238, 0.03);" id="story">
-    <div class="container">
-      <h2 class="section-title reveal">4주 후, 당신의 하루</h2>
-      <p class="section-subtitle reveal">“생각”이 아니라 “행동”부터</p>
-
-      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
-        <div class="card glass reveal">
-          <div class="card-title">🌅 아침</div>
-          <p class="card-text">
-            “뭐 하지?”로 시작하지 않습니다.<br />
-            <b style="color: var(--secondary);">체크 3개</b>부터 확인하고<br />
-            오늘 결정은 <b style="color: var(--secondary);">10분</b>에 끝냅니다.
-          </p>
-        </div>
-
-        <div class="card glass reveal">
-          <div class="card-title">☀️ 오후</div>
-          <p class="card-text">
-            “가격 어떻게 말하지?”에서 멈추지 않습니다.<br />
-            <b style="color: var(--secondary);">복붙 문장</b>을 보내고<br />
-            반응만 기록합니다.
-          </p>
-        </div>
-
-        <div class="card glass reveal">
-          <div class="card-title">🌙 저녁</div>
-          <p class="card-text">
-            <b style="color: var(--secondary);">3개 체크 완료</b>.<br />
-            미룬 일이 줄어든 게 보이고<br />
-            다음 주는 <b style="color: var(--secondary);">데이터</b>로 갑니다.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="trust">
-    <div class="container">
-      <h2 class="section-title reveal">후기 없어도 믿게</h2>
-      <p class="section-subtitle reveal">후기 대신 “전후 비교”로 보여드립니다</p>
-
-      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-        <div class="card glass-strong reveal" style="text-align:center;">
-          <div style="font-size: 30px;">📊</div>
-          <div class="card-title" style="margin-top: 8px;">전후 비교</div>
-          <p class="card-text">시작 전 vs 4주 후<br />같은 기준으로 확인</p>
-        </div>
-        <div class="card glass-strong reveal" style="text-align:center;">
-          <div style="font-size: 30px;">📁</div>
-          <div class="card-title" style="margin-top: 8px;">파일로 남음</div>
-          <p class="card-text">6개 도구 완성본<br />계속 사용</p>
-        </div>
-        <div class="card glass-strong reveal" style="text-align:center;">
-          <div style="font-size: 30px;">✅</div>
-          <div class="card-title" style="margin-top: 8px;">작동 보증</div>
-          <p class="card-text">
-            핵심 3개가 “실사용”이 아니면<br />
-            <b style="color: var(--secondary);">2주 무료 연장</b>
-          </p>
-        </div>
-      </div>
-
-      <div class="reveal" style="max-width: 860px; margin: 18px auto 0;">
-        <div class="glass" style="padding: 16px; border-radius: 18px;">
-          <div style="font-weight: 950; margin-bottom: 6px;">주의</div>
-          <div style="color: var(--muted); font-size: 13px; line-height: 1.75;">
-            치료/상담이 아닙니다. “결정–실행–설득”을 쉽게 만드는 실행 시스템입니다.
-          </div>
-        </div>
-      </div>
-
-      <div class="fit-wrap reveal" id="fit">
-        <div class="fit-grid">
-          <div class="fit-card glass">
-            <div class="fit-head"><span>✓</span> 이런 분</div>
-            <ul class="fit-list">
-              <li>매출/업무는 있는데 “결정”이 느려 손해</li>
-              <li>중요 행동이 매일 흔들려서 답답</li>
-              <li>4주 동안 주 2~4시간은 가능</li>
-            </ul>
-          </div>
-          <div class="fit-card glass">
-            <div class="fit-head"><span>✕</span> 안 맞는 분</div>
-            <ul class="fit-list">
-              <li>주 2시간도 절대 불가</li>
-              <li>상담/치료가 필요한 상태</li>
-              <li>체크·파일 방식이 싫음</li>
-            </ul>
-          </div>
-        </div>
-        <div class="micro-disclaimer" style="text-align:center; margin-top: 10px;">
-          맞는 분만 받습니다. 그래야 결과가 나옵니다.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="faq">
-    <div class="container">
-      <h2 class="section-title reveal">자주 묻는 질문 (5개)</h2>
-      <p class="section-subtitle reveal">짧게 답합니다</p>
-
-      <div class="accordion reveal" style="max-width: 860px;">
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>코칭/상담인가요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>아니요. “일 잘하게 만드는 도구 설치”입니다. 상담/치료가 필요하면 전문가를 권합니다.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>시간은 얼마나 필요해요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>4주 동안 주 2~4시간(분산). 이게 안 되면 비추천입니다.</p>
-            <ul>
-              <li>주 1회 15분 톡 체크</li>
-              <li>매일 10분 체크</li>
-              <li>주 2~3시간 적용(일에 나눠서)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>효과는 보장되나요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>사람마다 다릅니다. 대신 시작 전 기준을 잡고, 4주 후 전후 비교로 “변화”를 확인합니다.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>줌(화상) 필수인가요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>기본은 톡/파일입니다. 막히는 지점이 있을 때만 10분 줌(선택)으로 빠르게 정리합니다.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item glass">
-          <div class="accordion-header">
-            <span>4주 뒤 정확히 뭐가 남나요?</span>
-            <span class="accordion-icon">+</span>
-          </div>
-          <div class="accordion-content">
-            <p>6개 도구가 “재사용 가능한 완성본”으로 남습니다.</p>
-            <ul>
-              <li>10분 결정 시트</li>
-              <li>나만의 결정 기준</li>
-              <li>오늘 할 일 점수판</li>
-              <li>브레이크 푸는 질문</li>
-              <li>환경 체크리스트</li>
-              <li>복붙 말 10개</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-section" id="apply">
-    <div class="container">
-      <div class="cta-box glass-strong reveal" style="border: 1px solid rgba(40,107,255,0.28);">
-        <div style="display:inline-block; padding: 7px 14px; background: rgba(40,107,255,0.18); border-radius: 999px; margin-bottom: 12px;">
-          <span style="font-size: 13px; color: var(--secondary); font-weight: 950;">⚡ 딱 5명만</span>
-        </div>
-
-        <h2 style="font-size: clamp(22px, 4vw, 36px); font-weight: 950; letter-spacing: -0.03em; line-height: 1.25;">
-          4주만<br />
-          <span class="highlight">"미루는 나" 끝내기</span>
-        </h2>
-
-        <div class="price-row">
-          <div class="strike">원래 200만 원</div>
-          <div class="price-amount">150만 원</div>
-          <div class="price-note">
-            지금 <b style="color: var(--secondary); font-weight: 950;">50만 원 할인</b><br />
-            또는 <b style="color: var(--light); font-weight: 950;">월 50만 원 × 3회</b>
-          </div>
-        </div>
-
-        <div style="margin-top: 16px;">
-          <a href="https://forms.gle/bLoskbjmhDiofaHHA" class="btn-primary" style="max-width: 520px;">
-            3분 체크하고 시작하기 →
-          </a>
-          <div class="micro-disclaimer" style="margin-top: 10px;">
-            <b style="color: rgba(255,255,255,0.92);">작동 보증:</b> 4주 후 핵심 3개가 “실사용” 아니면 2주 무료 연장<br />
-            <span style="font-size: 11px;">(조건: 톡 체크 응답 + 매일 체크 + 과제 최소 기준 충족)</span>
-          </div>
-        </div>
-
-        <div class="danger-note">
-          <b>⚠️ 미루는 비용은 쌓입니다</b><br />
-          늦을수록 “설치”가 더 어려워집니다.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="sticky-cta glass-strong" id="stickyCta" role="region" aria-label="빠른 신청">
-    <div>
-      <div class="sticky-cta-text">딱 5명 · 4주 설치</div>
-      <div class="sticky-cta-subtext">150만 원 (월 50만×3)</div>
-    </div>
-    <a href="https://forms.gle/bLoskbjmhDiofaHHA" class="btn-primary">3분 체크 →</a>
-  </div>
 
   <footer class="footer">
-    <div class="container">
-      <p>© 2024 4주 설치. All rights reserved.</p>
-    </div>
+    <p>© 2026 ZERO WASTE. 모든 권리 보유.</p>
   </footer>
+</div>
 
-  <script>
-    // Smooth scroll (폼 링크가 아닌 내부 id 링크만 처리하도록 조건 추가)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
+<div id="toast">📬 해독제가 발송되었습니다!</div>
 
-    // Scroll reveal
-    const revealElements = document.querySelectorAll('.reveal');
-    const revealOnScroll = () => {
-      revealElements.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if (top < window.innerHeight - 120) el.classList.add('active');
-      });
-    };
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
+<script>
+function scrollToForm() { document.getElementById('cta-form').scrollIntoView({ behavior: 'smooth' }); }
 
-    // Sticky nav + CTA
-    const nav = document.getElementById('nav');
-    const stickyCta = document.getElementById('stickyCta');
+async function submitForm() {
+  const inp = document.getElementById('emailInput');
+  const btn = document.querySelector('#cta-form .btn-prime');
+  if(!inp.value.includes('@')) return alert('이메일을 정확히 입력해주세요.');
+  
+  btn.innerText = "경험을 전송 중..."; btn.disabled = true;
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); inp.value = ''; btn.innerText = "경험 완료!"; }, 3000);
+}
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 80) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-
-      if (window.scrollY > 520) stickyCta.classList.add('show');
-      else stickyCta.classList.remove('show');
-    });
-
-    // Accordion
-    document.querySelectorAll('.accordion-item').forEach(item => {
-      const header = item.querySelector('.accordion-header');
-      header.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        document.querySelectorAll('.accordion-item').forEach(acc => acc.classList.remove('active'));
-        if (!isActive) item.classList.add('active');
-      });
-    });
-  </script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
