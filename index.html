@@ -3,212 +3,812 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>의사결정 로직 업데이트 — ZERO WASTE</title>
+<title>ZERO WASTE — 가짜 자기계발 해독제</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 <style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 :root {
-  --blue: #286bff;
-  --blue-glow: rgba(40,107,255,0.4);
-  --blue-sub: #c8d9ee;
-  --red: #ff3247;
-  --bg: #060a12;
-  --bg2: #0b1120;
-  --glass: rgba(255,255,255,0.05);
-  --glass-border: rgba(255,255,255,0.10);
-  --text: #f0f4ff;
-  --muted: #8a96a8;
-  --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --blue:   #2563ff;
+  --blue-g: rgba(37,99,255,.38);
+  --red:    #ff2d44;
+  --bg:     #07090f;
+  --card:   rgba(255,255,255,.045);
+  --border: rgba(255,255,255,.09);
+  --text:   #f0f3ff;
+  --sub:    #bdc8e0;
+  --muted:  #616e84;
+  --sans:   'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 html { scroll-behavior:smooth; }
 body {
   background:var(--bg); color:var(--text);
-  font-family:var(--sans); line-height:1.4;
-  overflow-x:hidden; word-break:keep-all;
-  -webkit-font-smoothing:antialiased;
+  font-family:var(--sans); -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; word-break:keep-all; line-height:1;
+}
+.page { max-width:480px; margin:0 auto; padding:0 22px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BG ATMOSPHERE
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:-1;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%,   rgba(37,99,255,.14) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 30% at 80% 100%,  rgba(255,45,68,.07) 0%, transparent 70%),
+    var(--bg);
 }
 
-.bg-glow {
-  position:fixed; top:0; left:50%; transform:translateX(-50%);
-  width:100vw; height:100vh; z-index:-1;
-  background:radial-gradient(circle at 50% 20%, #1a2a4d 0%, #060a12 70%);
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOP BANNER
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.banner {
+  background:var(--red); color:#fff;
+  text-align:center; padding:11px 16px;
+  font-size:13px; font-weight:800; letter-spacing:-.3px;
+  line-height:1.4;
 }
 
-.container { width:100%; max-width:500px; margin:0 auto; padding:0 20px; }
-
-/* ── 상단 배너 ── */
-.top-banner {
-  background:var(--red); color:#fff; text-align:center;
-  font-size:13px; font-weight:800; padding:10px 0; letter-spacing:-.5px;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  padding:54px 0 48px;
+  text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:0;
 }
 
-/* ── HERO ── */
-.hero { padding:60px 0 40px; text-align:center; }
-.hero-label { color:var(--blue-sub); font-size:14px; font-weight:700; margin-bottom:12px; }
-.hero-h1 { font-size:clamp(32px,9vw,48px); font-weight:900; line-height:1.2; letter-spacing:-1.5px; margin-bottom:20px; }
-.hero-h1 span { color:var(--blue); }
-.hero-desc { font-size:16px; color:var(--muted); margin-bottom:32px; line-height:1.65; }
-
-/* ── BTN ── */
-.btn-prime {
-  display:block; width:100%; padding:22px; border-radius:18px;
-  background:var(--blue); color:#fff; text-align:center;
-  font-size:19px; font-weight:800; border:none; cursor:pointer;
-  box-shadow:0 10px 30px var(--blue-glow); position:relative; overflow:hidden;
-  transition:transform .2s, box-shadow .2s; text-decoration:none;
+/* 배지 */
+.badge {
+  display:inline-flex; align-items:center; gap:7px;
+  border:1px solid rgba(255,45,68,.4); background:rgba(255,45,68,.08);
+  border-radius:100px; padding:6px 14px;
+  font-size:12px; font-weight:700; color:var(--red);
+  margin-bottom:28px;
+  opacity:0; animation:up .6s .1s cubic-bezier(.22,1,.36,1) forwards;
 }
-.btn-prime:active { transform:scale(.96); }
+.badge-dot { width:6px; height:6px; border-radius:50%; background:var(--red); animation:blink 1.6s step-end infinite; }
+@keyframes blink { 50%{opacity:0} }
 
-/* ── STATS ── */
-.stats { display:flex; gap:10px; margin:40px 0; }
-.stat-box {
-  flex:1; background:var(--glass); border:1px solid var(--glass-border);
-  padding:16px 10px; border-radius:16px; text-align:center;
+/* 메인 타이틀 */
+.hero-title {
+  font-size:clamp(38px,11vw,56px); font-weight:900; line-height:1.12;
+  letter-spacing:-2px; margin-bottom:20px;
+  opacity:0; animation:up .7s .22s cubic-bezier(.22,1,.36,1) forwards;
 }
-.stat-val { display:block; font-size:20px; font-weight:900; color:var(--red); margin-bottom:5px; }
-.stat-lbl { font-size:11px; color:var(--muted); font-weight:600; }
+.t-blue { color:var(--blue); }
+.t-red  { color:var(--red); }
+.t-dim  { color:rgba(240,243,255,.28); }
 
-/* ── FIT ── */
-.fit-section { background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; padding:25px; margin-bottom:40px; }
-.fit-title { font-size:17px; font-weight:800; margin-bottom:14px; }
-.fit-item { display:flex; gap:8px; font-size:14px; margin-bottom:10px; color:var(--text); line-height:1.55; }
-.fit-no { font-size:15px; font-weight:800; color:var(--muted); margin-bottom:8px; margin-top:20px; border-top:1px dashed var(--glass-border); padding-top:20px;}
+/* 서브 */
+.hero-sub {
+  font-size:17px; font-weight:600; color:var(--sub);
+  line-height:1.6; margin-bottom:36px; max-width:340px;
+  opacity:0; animation:up .6s .38s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-sub strong { color:var(--text); }
 
-/* ── STORY ── */
-.story-card { background:rgba(40,107,255,.1); border:1px solid rgba(40,107,255,.2); border-radius:20px; padding:28px; margin-bottom:40px; }
-.story-line { display:flex; gap:14px; margin-bottom:16px; }
-.story-time { font-weight:900; color:var(--blue); font-size:15px; flex-shrink:0; width:52px; }
-.story-txt { font-size:14px; color:var(--text); line-height:1.65; }
+@keyframes up {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
-/* ── FAQ ── */
-.faq-item { background:var(--glass); border:1px solid var(--glass-border); border-radius:16px; margin-bottom:10px; cursor:pointer; }
-.faq-q { padding:20px; font-size:15px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
-.faq-a { max-height:0; overflow:hidden; transition:all 0.4s ease; padding:0 20px; font-size:14px; color:var(--muted); line-height:1.7; }
-.faq-item.open .faq-a { max-height:150px; padding-bottom:20px; }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CTA BUTTON
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:21px 24px; border-radius:16px;
+  background:var(--blue); color:#fff; border:none; cursor:pointer;
+  font-family:var(--sans); font-size:18px; font-weight:800;
+  box-shadow:0 8px 28px var(--blue-g), 0 0 0 1px rgba(255,255,255,.1) inset;
+  position:relative; overflow:hidden;
+  transition:transform .18s, box-shadow .18s;
+  text-decoration:none;
+}
+.btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);
+  transform:translateX(-100%); transition:transform .55s;
+}
+.btn:hover::before { transform:translateX(100%); }
+.btn:hover { box-shadow:0 14px 40px var(--blue-g); }
+.btn:active { transform:scale(.96); }
+.btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
+.btn-arrow { font-size:20px; transition:transform .2s; }
+.btn:hover .btn-arrow { transform:translateX(4px); }
 
-/* ── CTA ── */
-.cta-form { background:linear-gradient(180deg, var(--bg2), #0b1120); border:1px solid var(--blue); border-radius:28px; padding:40px 24px; text-align:center; margin-bottom:60px; }
-.progress-txt { font-size:12px; font-weight:700; color:var(--red); display:flex; justify-content:space-between; margin-bottom:8px; }
-.progress-bar { height:8px; background:rgba(255,255,255,.08); border-radius:4px; margin-bottom:26px; overflow:hidden; }
-.progress-fill { height:100%; width:78%; background:var(--red); box-shadow:0 0 10px var(--red); animation:progressPulse 2s infinite; }
-@keyframes progressPulse { 0%,100%{opacity:1} 50%{opacity:.7} }
-.input-mail { width:100%; padding:20px; border-radius:14px; border:1px solid var(--glass-border); background:rgba(0,0,0,.55); color:white; font-size:16px; margin-bottom:14px; outline:none; text-align:center; }
+.hero-note {
+  margin-top:14px; font-size:12px; color:var(--muted); font-weight:500;
+  opacity:0; animation:up .5s .7s ease forwards;
+}
 
-.footer { text-align:center; padding:40px 0; font-size:12px; color:var(--muted); opacity:.6; }
-.reveal { opacity:0; transform:translateY(20px); transition:.6s ease-out; }
-.reveal.visible { opacity:1; transform:translateY(0); }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STATS
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:8px; margin:0 0 52px;
+}
+.stat {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:20px 8px; text-align:center;
+  transition:border-color .3s, transform .3s;
+}
+.stat:hover { border-color:rgba(255,45,68,.25); transform:translateY(-3px); }
+.stat-n {
+  display:block; font-size:22px; font-weight:900;
+  color:var(--red); margin-bottom:6px; line-height:1;
+}
+.stat-n.blue { color:var(--blue); }
+.stat-l { font-size:11px; color:var(--muted); font-weight:600; line-height:1.4; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec-label {
+  font-size:11px; font-weight:800; letter-spacing:3px;
+  color:var(--blue); text-transform:uppercase; margin-bottom:10px;
+  display:flex; align-items:center; gap:8px;
+}
+.sec-label::before { content:''; width:18px; height:2px; background:var(--blue); }
+.sec-title {
+  font-size:clamp(26px,7vw,34px); font-weight:900;
+  line-height:1.25; letter-spacing:-1px; margin-bottom:8px;
+}
+.sec-desc { font-size:15px; color:var(--muted); line-height:1.65; margin-bottom:28px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FIT — 한 눈에 체크
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.fit-wrap { margin-bottom:52px; }
+.fit-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:20px; padding:24px; margin-bottom:10px;
+}
+.fit-card.no { border-color:rgba(255,255,255,.05); opacity:.65; }
+.fit-head { font-size:15px; font-weight:800; margin-bottom:14px; }
+.fit-row {
+  display:flex; align-items:center; gap:10px;
+  font-size:14px; font-weight:600; color:var(--sub);
+  padding:10px 0; border-bottom:1px solid rgba(255,255,255,.05);
+  line-height:1.4;
+}
+.fit-row:last-child { border-bottom:none; padding-bottom:0; }
+.fit-icon { font-size:17px; flex-shrink:0; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MISTAKE — 문제 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mistakes { margin-bottom:52px; display:flex; flex-direction:column; gap:10px; }
+.mistake-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:22px;
+  position:relative; overflow:hidden;
+  transition:border-color .3s, transform .3s;
+}
+.mistake-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--red); transform:scaleY(0); transform-origin:bottom;
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.mistake-card:hover { border-color:rgba(255,45,68,.2); transform:translateX(4px); }
+.mistake-card:hover::before { transform:scaleY(1); }
+.mk-num { font-size:11px; font-weight:800; letter-spacing:2px; color:var(--red); margin-bottom:8px; }
+.mk-title { font-size:16px; font-weight:800; margin-bottom:6px; line-height:1.35; }
+.mk-desc { font-size:14px; color:var(--muted); line-height:1.65; }
+.mk-result {
+  margin-top:12px; padding:8px 12px;
+  background:rgba(255,45,68,.07); border-left:2px solid var(--red);
+  font-size:12px; font-weight:700; color:rgba(255,143,160,.9);
+  border-radius:0 6px 6px 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RECEIPT — 영수증
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.receipt { margin-bottom:52px; }
+.receipt-card {
+  background:rgba(10,13,22,.95); border:1px solid var(--border);
+  border-radius:22px; overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.55);
+}
+.receipt-head {
+  background:linear-gradient(135deg,#0d1322,#172035);
+  padding:24px 24px 20px;
+  border-bottom:1px dashed rgba(255,255,255,.07);
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+}
+.r-brand { font-size:20px; font-weight:900; letter-spacing:2px; color:var(--sub); }
+.r-meta { font-size:11px; color:var(--muted); line-height:1.8; text-align:right; font-weight:600; }
+.r-meta strong { color:var(--red); }
+.receipt-body { padding:0 20px; }
+.r-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 6px; border-bottom:1px solid rgba(255,255,255,.04); gap:10px;
+  transition:background .2s;
+}
+.r-row:last-of-type { border-bottom:none; }
+.r-row:hover { background:rgba(255,255,255,.025); border-radius:8px; }
+.r-left { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.r-tag {
+  font-size:10px; font-weight:800; color:var(--red);
+  background:rgba(255,45,68,.1); padding:3px 7px; border-radius:5px; white-space:nowrap;
+}
+.r-name { font-size:13px; color:var(--muted); }
+.r-amt { font-size:15px; font-weight:900; color:var(--red); white-space:nowrap; }
+.r-amt.special { font-size:12px; color:#ff8fa0; font-weight:800; }
+.receipt-total {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:20px 24px; background:rgba(255,45,68,.06);
+  border-top:1px solid rgba(255,45,68,.15); flex-wrap:wrap; gap:8px;
+}
+.r-tlabel { font-size:14px; font-weight:700; color:var(--muted); }
+.r-tamt {
+  font-size:clamp(22px,5.5vw,30px); font-weight:900; color:var(--red);
+  text-shadow:0 0 24px rgba(255,45,68,.4);
+}
+.receipt-quote {
+  padding:20px 24px; border-top:1px solid rgba(255,255,255,.04);
+  font-size:14px; color:var(--sub); line-height:1.75;
+  border-left:3px solid var(--blue); margin:0 20px 20px;
+  border-radius:0 8px 8px 0; background:rgba(37,99,255,.04);
+}
+.receipt-quote strong { color:var(--text); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BENEFITS — 핵심 혜택
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.benefits { margin-bottom:52px; }
+.benefit-hero {
+  background:linear-gradient(135deg,rgba(37,99,255,.12),rgba(11,17,32,.9));
+  border:1px solid rgba(37,99,255,.28); border-radius:20px;
+  padding:28px; text-align:center; margin-bottom:10px;
+}
+.bh-eyebrow { font-size:11px; font-weight:800; letter-spacing:3px; color:var(--blue); margin-bottom:14px; }
+.bh-title { font-size:20px; font-weight:900; line-height:1.4; margin-bottom:12px; }
+.bh-desc { font-size:14px; color:var(--muted); line-height:1.72; }
+.bh-desc strong { color:var(--text); }
+.benefit-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.benefit-item {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:18px; padding:20px;
+  transition:border-color .3s, transform .3s;
+}
+.benefit-item:hover { border-color:rgba(37,99,255,.3); transform:translateY(-3px); }
+.bi-icon { font-size:26px; margin-bottom:10px; display:block; transition:transform .3s; }
+.benefit-item:hover .bi-icon { transform:scale(1.12) rotate(-4deg); }
+.bi-title { font-size:15px; font-weight:800; margin-bottom:5px; }
+.bi-desc { font-size:13px; color:var(--muted); line-height:1.6; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STORY — 이상적인 하루
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.story { margin-bottom:52px; }
+.story-card {
+  background:rgba(37,99,255,.09); border:1px solid rgba(37,99,255,.2);
+  border-radius:20px; padding:24px;
+}
+.s-row { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.s-row:last-of-type { border-bottom:none; padding-bottom:0; }
+.s-time { font-size:14px; font-weight:900; color:var(--blue); flex-shrink:0; width:48px; }
+.s-txt { font-size:14px; color:var(--text); line-height:1.6; font-weight:500; }
+.s-txt strong { color:#93b4ff; }
+.story-footer {
+  margin-top:18px; padding-top:16px; border-top:1px dashed rgba(37,99,255,.2);
+  text-align:center; font-size:13px; font-weight:700; color:var(--sub);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MANIFESTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.manifesto { margin-bottom:52px; }
+.manifesto-box {
+  background:rgba(0,0,0,.45); border:1px dashed rgba(255,255,255,.12);
+  border-radius:20px; padding:28px; text-align:center;
+}
+.manifesto-box p { font-size:15px; color:var(--sub); line-height:1.8; margin-bottom:16px; }
+.manifesto-box p:last-of-type { margin-bottom:0; }
+.manifesto-box strong { color:var(--text); font-weight:800; }
+.manifesto-sign {
+  display:block; margin-top:22px;
+  font-size:12px; font-weight:800; letter-spacing:2px; color:var(--blue);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FAQ
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.faq { margin-bottom:52px; }
+.faq-list { display:flex; flex-direction:column; gap:8px; }
+.faq-item {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; overflow:hidden; cursor:pointer;
+  transition:border-color .25s;
+}
+.faq-item.open { border-color:rgba(37,99,255,.3); }
+.faq-q {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 20px; gap:10px; user-select:none;
+  font-size:15px; font-weight:700; line-height:1.4;
+}
+.faq-icon {
+  width:24px; height:24px; border-radius:50%; flex-shrink:0;
+  border:1px solid var(--border); background:rgba(0,0,0,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--blue); font-weight:900;
+  transition:transform .3s, background .25s;
+}
+.faq-item.open .faq-icon { transform:rotate(45deg); background:rgba(37,99,255,.15); }
+.faq-a {
+  max-height:0; overflow:hidden; padding:0 20px;
+  font-size:14px; color:var(--muted); line-height:1.7;
+  transition:max-height .38s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+.faq-item.open .faq-a { max-height:140px; padding-bottom:18px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FINAL CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section { margin-bottom:70px; }
+.cta-box {
+  background:linear-gradient(160deg,#0d1830,#07090f);
+  border:1px solid rgba(37,99,255,.3); border-radius:24px;
+  padding:36px 24px; text-align:center; position:relative; overflow:hidden;
+}
+.cta-box::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:60%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),transparent);
+}
+.cta-box::after {
+  content:''; position:absolute; bottom:-40px; right:-40px;
+  width:220px; height:220px;
+  background:radial-gradient(circle,rgba(37,99,255,.08),transparent 70%);
+  pointer-events:none;
+}
+.cta-title {
+  font-size:clamp(26px,7vw,34px); font-weight:900;
+  line-height:1.2; margin-bottom:10px; letter-spacing:-1px;
+}
+.cta-title span { color:var(--blue); }
+.cta-sub { font-size:14px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
+.prog-wrap { margin-bottom:22px; position:relative; z-index:1; }
+.prog-labels {
+  display:flex; justify-content:space-between;
+  font-size:11px; font-weight:800; color:var(--red); margin-bottom:7px;
+}
+.prog-bar { height:7px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; }
+.prog-fill {
+  height:100%; width:78%; background:var(--red);
+  box-shadow:0 0 8px var(--red);
+  animation:prog 2.2s ease-in-out infinite;
+}
+@keyframes prog { 0%,100%{opacity:1} 50%{opacity:.65} }
+.cta-input {
+  width:100%; padding:19px; border-radius:13px;
+  border:1px solid var(--border); background:rgba(0,0,0,.6);
+  color:var(--text); font-family:var(--sans); font-size:16px;
+  margin-bottom:12px; outline:none; text-align:center;
+  transition:border-color .25s, box-shadow .25s;
+  position:relative; z-index:1;
+}
+.cta-input::placeholder { color:#3a4455; }
+.cta-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,255,.15); }
+.cta-fine {
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  margin-top:14px; font-size:12px; font-weight:800; color:var(--red);
+}
+.pulse-dot { width:6px; height:6px; border-radius:50%; background:var(--red); animation:blink 1.5s step-end infinite; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SUCCESS SCREEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.success {
+  min-height:80vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:60px 0; gap:22px;
+}
+.success-emoji { font-size:52px; }
+.success-title { font-size:26px; font-weight:900; line-height:1.35; }
+.success-title span { color:var(--blue); }
+.success-desc { font-size:15px; color:var(--muted); line-height:1.7; }
+.success-desc strong { color:var(--text); }
+.success-next {
+  width:100%; background:rgba(37,99,255,.09);
+  border:1px solid rgba(37,99,255,.25); border-radius:18px; padding:22px;
+}
+.success-next-label { font-size:13px; font-weight:700; color:var(--sub); margin-bottom:14px; }
+.success-next a {
+  display:block; background:var(--blue); color:#fff;
+  padding:18px; border-radius:13px; font-weight:800; font-size:16px;
+  text-decoration:none; font-family:var(--sans);
+  transition:box-shadow .2s;
+}
+.success-next a:hover { box-shadow:0 10px 30px var(--blue-g); }
+.success-spam { font-size:12px; color:var(--muted); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.footer {
+  text-align:center; padding:32px 0 48px;
+  font-size:12px; color:var(--muted); line-height:1.9; opacity:.55;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOAST
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#toast {
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%) translateY(90px);
+  background:#fff; color:#050810;
+  padding:14px 26px; border-radius:100px;
+  font-family:var(--sans); font-size:14px; font-weight:800;
+  box-shadow:0 8px 36px rgba(0,0,0,.5);
+  z-index:999; white-space:nowrap;
+  display:flex; align-items:center; gap:9px;
+  transition:transform .42s cubic-bezier(.22,1,.36,1);
+}
+#toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   REVEAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.r { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.r.v { opacity:1; transform:translateY(0); }
+.r1 { transition-delay:.08s; }
+.r2 { transition-delay:.16s; }
+.r3 { transition-delay:.24s; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE EDGE CASES
+━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media(max-width:360px) {
+  .hero-title { font-size:34px; }
+  .btn { font-size:16px; padding:18px; }
+  .benefit-grid { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 
-<div class="bg-glow"></div>
-<div class="top-banner">🚨 이번 달 시스템 업데이트 잔여 인원 : 7 / 10명 (마감 임박)</div>
+<!-- TOP BANNER -->
+<div class="banner">🚨 이번 달 잔여 인원 7 / 10명 — 마감 임박</div>
 
-<div class="container">
-  <div id="main-content">
-    <section class="hero reveal">
-      <p class="hero-label">고민의 늪에서 당신을 구해줄 상위 1%의 프레임워크</p>
-      <h1 class="hero-h1">가짜 자기계발<br>지금 멈추고<br><span>로직을 업데이트하라</span></h1>
-      <p class="hero-desc">버려진 1,247만 원의 실패 영수증이 증명합니다. <br><strong>생각 공식(Decision OS)과 지식 자산(Second Brain)</strong>을 드립니다.</p>
-      <button class="btn-prime" onclick="scrollToForm()">무료 해독제 리포트 받기 →</button>
-    </section>
+<div id="main">
+<div class="page">
 
-    <div class="stats reveal">
-      <div class="stat-box">
-        <span class="stat-val">1,247만</span>
-        <span class="stat-lbl">날려버린 쌩돈</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-val">10년</span>
-        <span class="stat-lbl">삽질한 세월</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-val" style="color:var(--blue)">0원</span>
-        <span class="stat-lbl">지금 당신의 비용</span>
-      </div>
+  <!-- ━━ HERO ━━ -->
+  <section class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      10년 치 실패의 산증인
     </div>
 
-    <section class="fit-section reveal">
-      <div class="fit-title">✅ 이런 분은 꼭 받으세요</div>
-      <div class="fit-item"><span>🧨</span> 인강 쇼핑만 하고 정작 내 통장은 0원인 분</div>
-      <div class="fit-item"><span>🧠</span> 중요한 결정 앞에서 며칠씩 고민만 하는 분</div>
-      <div class="fit-item"><span>📚</span> 책을 읽어도 3일 뒤면 다 휘발되는 분</div>
-      <div class="fit-no">❌ 이런 분은 받지 마세요</div>
-      <p style="font-size:13px; color:var(--muted); line-height:1.6;">이미 자신만의 로직으로 매일 아웃풋을 내고 있거나,<br>모든 지식이 체계적으로 관리되고 있는 분</p>
-    </section>
+    <h1 class="hero-title">
+      가짜<br>
+      자기계발<br>
+      <span class="t-red">지금 당장</span><br>
+      <span class="t-blue">멈춰라</span>
+    </h1>
 
-    <section class="reveal">
-      <h2 style="font-size:22px; font-weight:900; text-align:center; margin-bottom:20px;">업데이트 후,<br><span style="color:var(--blue)">당신이 맞이할 변화</span></h2>
-      <div class="story-card">
-        <div class="story-line">
-          <div class="story-time">10min</div>
-          <div class="story-txt"><strong>Decision OS:</strong> 복잡한 문제를 10분 만에 해결하는 상위 1%의 사고 공식을 사용합니다.</div>
-        </div>
-        <div class="story-line">
-          <div class="story-time">0%</div>
-          <div class="story-txt"><strong>Second Brain:</strong> 지식이 머릿속에서 새어나가지 않도록 디지털 저장소에 완벽히 연결합니다.</div>
-        </div>
-        <p style="text-align:center; font-size:13px; color:var(--blue-sub); margin-top:15px; font-weight:700;">"의지가 아니라, 시스템이 당신을 자동으로 몰입하게 합니다." [cite: 46]</p>
+    <p class="hero-sub">
+      1,247만 원과 10년을 날리고 깨달은<br>
+      <strong>단 하나의 진짜 시스템.</strong><br>
+      지금 0원에 드립니다.
+    </p>
+
+    <div style="width:100%;opacity:0;animation:up .6s .52s cubic-bezier(.22,1,.36,1) forwards">
+      <button class="btn" onclick="scrollToForm()">
+        무료 해독제 지금 받기
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+
+    <p class="hero-note">신용카드 불필요 · 1분이면 됩니다</p>
+  </section>
+
+  <!-- ━━ STATS ━━ -->
+  <div class="stats r">
+    <div class="stat">
+      <span class="stat-n">1,247만</span>
+      <span class="stat-l">날려버린 돈</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">10년</span>
+      <span class="stat-l">버려진 시간</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n blue">0원</span>
+      <span class="stat-l">당신의 비용</span>
+    </div>
+  </div>
+
+  <!-- ━━ FIT ━━ -->
+  <div class="fit-wrap r">
+    <div class="fit-card">
+      <div class="fit-head">✅ 이런 분만 받으세요</div>
+      <div class="fit-row"><span class="fit-icon">🧨</span> 인강 결제만 하고 1강도 안 본 분</div>
+      <div class="fit-row"><span class="fit-icon">📱</span> 유튜브 동기부여로 대리만족 중인 분</div>
+      <div class="fit-row"><span class="fit-icon">🧠</span> 결정을 앞에 두고 며칠씩 고민만 하는 분</div>
+      <div class="fit-row"><span class="fit-icon">📚</span> 책 읽어도 3일 뒤면 다 사라지는 분</div>
+    </div>
+    <div class="fit-card no">
+      <div class="fit-head" style="font-size:14px">❌ 이미 매일 아웃풋을 내고 있는 분은 필요 없습니다</div>
+    </div>
+  </div>
+
+  <!-- ━━ MISTAKES ━━ -->
+  <div style="margin-bottom:52px">
+    <p class="sec-label r">당신이 빠진 함정</p>
+    <h2 class="sec-title r">돈 먹는<br><span style="color:var(--red)">3가지 패턴</span></h2>
+
+    <div class="mistakes">
+      <div class="mistake-card r">
+        <div class="mk-num">TRAP 01</div>
+        <div class="mk-title">남 눈치 보여 산 장비들</div>
+        <div class="mk-desc">실행 0%, 불안감을 장비로 덮으려 한 수백만 원짜리 멍청 비용.</div>
+        <div class="mk-result">→ 결과: 개봉도 못 한 박스만 쌓임</div>
       </div>
-    </section>
-
-    <section class="manifesto-box reveal">
-      <p>이 페이지에는 가짜 성공 후기가 없습니다.<br>오직 <strong>저의 뼈아픈 10년 치 실패 영수증</strong>만이 있을 뿐입니다. [cite: 67]</p>
-      <p>하지만 이 오답 노트를 읽는 순간,<br>당신은 오늘 수백만 원의 '무지함의 세금'을 아끼게 될 것입니다. [cite: 66]</p>
-      <div style="font-size:12px; color:var(--blue); font-weight:700; margin-top:15px;">— 가짜 공부를 멈춘 생존자의 선언 — [cite: 62]</div>
-    </section>
-
-    <section class="cta-form reveal" id="cta-form">
-      <h2 class="cta-title">지금 당장<br><span>도피를 멈추세요</span></h2>
-      <div class="progress-wrap">
-        <div class="progress-txt"><span>배포 현황</span><span>78 / 100명 (마감 임박)</span></div>
-        <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="mistake-card r r1">
+        <div class="mk-num">TRAP 02</div>
+        <div class="mk-title">'준비 중'이라는 영원한 도피</div>
+        <div class="mk-desc">완벽한 조건 기다리다 10년. 준비는 또 다른 이름의 회피입니다.</div>
+        <div class="mk-result">→ 결과: 10년 후에도 "아직 준비 중"</div>
       </div>
-      <input type="email" class="input-mail" id="emailInput" placeholder="이메일 주소를 입력하세요">
-      <button class="btn-prime" onclick="submitForm()">무료 해독제 리포트 받기 →</button>
-      <p style="margin-top:20px; font-size:13px; color:var(--red); font-weight:700;">내일 또 똑같은 세금을 내시겠습니까? [cite: 112]</p>
-    </section>
+      <div class="mistake-card r r2">
+        <div class="mk-num">TRAP 03</div>
+        <div class="mk-title">유튜브 2년 = 아웃풋 0개</div>
+        <div class="mk-desc">동기부여 영상은 가짜 도파민입니다. 보는 순간 실행 의욕은 사라집니다.</div>
+        <div class="mk-result">→ 결과: 알고리즘이 꿈을 삼켜버림</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ RECEIPT ━━ -->
+  <div class="receipt r">
+    <p class="sec-label">실제 영수증</p>
+    <h2 class="sec-title">내가 날린<br><span style="color:var(--red)">1,247만 원</span></h2>
+    <div class="receipt-card">
+      <div class="receipt-head">
+        <div>
+          <div class="r-brand">FAILURE RECEIPT</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:3px;font-weight:600">2014 — 2024 · 10년</div>
+        </div>
+        <div class="r-meta">회수율: <strong>0%</strong><br>후회도: <strong>200%</strong></div>
+      </div>
+      <div class="receipt-body">
+        <div class="r-row">
+          <div class="r-left"><span class="r-tag">장비병</span><span class="r-name">노트북·장비 (개봉도 못 한)</span></div>
+          <span class="r-amt">-420만</span>
+        </div>
+        <div class="r-row">
+          <div class="r-left"><span class="r-tag">인강</span><span class="r-name">완강률 0% 강의들</span></div>
+          <span class="r-amt">-557만</span>
+        </div>
+        <div class="r-row">
+          <div class="r-left"><span class="r-tag">도피처</span><span class="r-name">수험서·자격증 (포기)</span></div>
+          <span class="r-amt">-270만</span>
+        </div>
+        <div class="r-row">
+          <div class="r-left"><span class="r-tag">시간</span><span class="r-name">유튜브 2년치 기회비용</span></div>
+          <span class="r-amt special">측정 불가</span>
+        </div>
+      </div>
+      <div class="receipt-total">
+        <span class="r-tlabel">10년 총 손실</span>
+        <span class="r-tamt">최소 1억+</span>
+      </div>
+      <div class="receipt-quote">
+        가장 비싼 세금은 무지함의 세금입니다.<br>
+        <strong>제 10년의 대가를, 당신은 오늘 0원에 건너뛰십시오.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ BENEFITS ━━ -->
+  <div class="benefits r">
+    <p class="sec-label">해독제가 주는 것</p>
+    <h2 class="sec-title">상위 1%는<br><span style="color:var(--blue)">시스템</span>으로 한다</h2>
+    <div class="benefit-hero">
+      <div class="bh-eyebrow">CORE INSIGHT</div>
+      <div class="bh-title">"의지력이 아니라<br>환경이 당신을 움직인다"</div>
+      <p class="bh-desc">
+        동기부여는 3일이면 증발합니다.<br>
+        <strong>환경을 설계하면 의지 없이도 실행됩니다.</strong>
+      </p>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit-item r r1">
+        <span class="bi-icon">🔪</span>
+        <div class="bi-title">가짜 결제 즉시 차단</div>
+        <div class="bi-desc">도피인지 투자인지 1분에 판별하는 체크리스트</div>
+      </div>
+      <div class="benefit-item r r2">
+        <span class="bi-icon">⚡</span>
+        <div class="bi-title">Decision OS</div>
+        <div class="bi-desc">복잡한 결정을 10분 만에 끝내는 사고 공식</div>
+      </div>
+      <div class="benefit-item r r1">
+        <span class="bi-icon">🧠</span>
+        <div class="bi-title">Second Brain</div>
+        <div class="bi-desc">배운 것이 3일 만에 휘발되지 않는 지식 저장소</div>
+      </div>
+      <div class="benefit-item r r2">
+        <span class="bi-icon">🚀</span>
+        <div class="bi-title">내일부터 시작</div>
+        <div class="bi-desc">오늘 밤 읽고 내일 아침 첫 아웃풋을 냅니다</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ STORY ━━ -->
+  <div class="story r">
+    <p class="sec-label">내일 아침</p>
+    <h2 class="sec-title">이 노트를 읽은 후<br><span style="color:var(--blue)">당신의 하루</span></h2>
+    <div class="story-card">
+      <div class="s-row">
+        <div class="s-time">07:00</div>
+        <div class="s-txt">유튜브 대신 차단된 환경에서 <strong>오늘의 핵심 1가지</strong>를 결정합니다.</div>
+      </div>
+      <div class="s-row">
+        <div class="s-time">09:00</div>
+        <div class="s-txt">쌓아둔 인강 대신 <strong>진짜 아웃풋 1개</strong>를 30분 만에 완성합니다.</div>
+      </div>
+      <div class="s-row">
+        <div class="s-time">저녁</div>
+        <div class="s-txt">처음으로 느끼는 <strong>실행의 쾌감.</strong> 이게 진짜 도파민입니다.</div>
+      </div>
+      <p class="story-footer">"시스템이 당신을 자동으로 실행하게 만듭니다."</p>
+    </div>
+  </div>
+
+  <!-- ━━ MANIFESTO ━━ -->
+  <div class="manifesto r">
+    <p class="sec-label">왜 후기가 없을까?</p>
+    <h2 class="sec-title">가짜 후기로<br>속이지 않겠습니다</h2>
+    <div class="manifesto-box">
+      <p>저는 10년간 가짜 구루들에게 속아<br><strong>수천만 원을 날린 피해자</strong>였습니다.</p>
+      <p>그래서 가짜 리뷰 대신,<br><strong>제 밑바닥 영수증</strong>을 걸었습니다.</p>
+      <p>당신과 똑같이 진흙탕을 굴렀지만,<br><strong>단 한 발짝 먼저 나온 생존자</strong>일 뿐입니다.</p>
+      <span class="manifesto-sign">— SYSTEM ARCHITECT. ZERO WASTE —</span>
+    </div>
+  </div>
+
+  <!-- ━━ FAQ ━━ -->
+  <div class="faq r">
+    <p class="sec-label">자주 묻는 질문</p>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">진짜 무료예요? <span class="faq-icon">+</span></div>
+        <div class="faq-a">네, 완전히 0원입니다. 이후 유료 콘텐츠가 있다면 메일 마지막에 안내되지만 구매 강요는 없습니다.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">의지력이 없어도 돼요? <span class="faq-icon">+</span></div>
+        <div class="faq-a">의지력이 없을수록 더 효과적입니다. 이 시스템은 환경을 바꿔서 의지 없이도 실행되게 만듭니다.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">언제 받나요? <span class="faq-icon">+</span></div>
+        <div class="faq-a">이메일 입력 즉시 자동 발송됩니다. 5분 이내 도착, 스팸함도 꼭 확인해주세요.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">선착순 끝나면요? <span class="faq-icon">+</span></div>
+        <div class="faq-a">마감 후 유료 전환 또는 페이지 종료. 지금이 0원으로 받을 마지막 기회입니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ FINAL CTA ━━ -->
+  <div class="cta-section r" id="cta-form">
+    <div class="cta-box">
+      <h2 class="cta-title">지금 당장<br><span>0원에 시작하세요</span></h2>
+      <p class="cta-sub">내일 또 쓸모없는 강의에 결제하기 전에,<br>이 영수증을 먼저 읽으십시오.</p>
+      <div class="prog-wrap">
+        <div class="prog-labels"><span>배포 현황</span><span>78 / 100명 · 마감 임박</span></div>
+        <div class="prog-bar"><div class="prog-fill"></div></div>
+      </div>
+      <input type="email" class="cta-input" id="emailInput" placeholder="이메일 주소 입력">
+      <button class="btn" onclick="submitForm()">
+        무료 해독제 지금 받기
+        <span class="btn-arrow">→</span>
+      </button>
+      <div class="cta-fine">
+        <span class="pulse-dot"></span>
+        무지함의 세금, 오늘 끝내십시오
+      </div>
+    </div>
   </div>
 
   <footer class="footer">
-    <p>© 2026 ZERO WASTE. 모든 권리 보유.</p>
+    <p>© 2026 ZERO WASTE · 10년의 실패 데이터를 기반으로 제작</p>
   </footer>
-</div>
+
+</div><!-- /page -->
+</div><!-- /main -->
+
+<div id="toast">📬 해독제가 발송되었습니다!</div>
 
 <script>
-function scrollToForm() { document.getElementById('cta-form').scrollIntoView({ behavior: 'smooth' }); }
+/* ── Reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
 
-async function submitForm() {
-  const inp = document.getElementById('emailInput');
-  const btn = document.querySelector('#cta-form .btn-prime');
-  if(!inp.value.includes('@')) return alert('이메일을 정확히 입력해주세요.');
-  
-  btn.innerText = "전송 중..."; btn.disabled = true;
-
-  // 1.5초 뒤 성공 화면으로 전환
-  setTimeout(() => {
-    document.getElementById('main-content').innerHTML = `
-      <section style="text-align: center; padding: 100px 20px; font-family: 'Pretendard', sans-serif; background: #060a12; color: white; min-height: 80vh;">
-        <h1 style="font-size: 28px; font-weight: 900; color: #286bff;">메일함으로 해독제를 보냈습니다!</h1>
-        <p style="margin: 20px 0; font-size: 16px; color: #8a96a8; line-height: 1.6;">
-          10년의 시행착오를 단 5분 만에 읽게 될 것입니다.<br>
-          메일이 도착하는 동안, 당신이 <b>진짜 변화할 준비</b>가 되었는지 확인해보세요.
-        </p>
-        <div style="background: rgba(40,107,255,0.1); border: 1px solid #286bff; padding: 25px; border-radius: 20px; margin: 40px auto; max-width: 400px;">
-          <p style="font-size: 14px; font-weight: 700; color: #c8d9ee; margin-bottom: 15px;">⚠️ 주의: 실행할 준비가 안 된 분은 누르지 마세요.</p>
-          <a href="당신의_구글폼_링크" style="display: block; background: #286bff; color: white; padding: 20px; border-radius: 15px; font-weight: 800; text-decoration: none;">내 사고 로직 적합도 검사하기 →</a>
-        </div>
-        <p style="font-size: 13px; color: #444;">메일이 안 왔다면? 스팸함을 1초만 확인해주세요.</p>
-      </section>
-    `;
-    window.scrollTo(0, 0); 
-  }, 1500);
+/* ── FAQ ── */
+function toggleFaq(el) {
+  const open = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!open) el.classList.add('open');
 }
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+/* ── Scroll ── */
+function scrollToForm() {
+  document.getElementById('cta-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Submit — Make.com 웹훅 ── */
+async function submitForm() {
+  const inp = document.getElementById('emailInput');
+  const btn = document.querySelector('#cta-form .btn');
+  const email = inp.value.trim();
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    inp.style.borderColor = 'var(--red)';
+    inp.style.boxShadow   = '0 0 0 3px rgba(255,45,68,.2)';
+    inp.focus();
+    setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 2000);
+    return;
+  }
+
+  const orig = btn.innerHTML;
+  btn.innerHTML = '전송 중... ⏳';
+  btn.disabled  = true;
+
+  try {
+    // [중요] Make.com 웹훅 URL을 입력하세요
+    await fetch('https://hook.us1.make.com/xxxxxxxxxxxxxxxxxxxxxxxxxxxxx', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'landing_page', timestamp: new Date().toISOString() })
+    });
+  } catch (_) {}
+  finally {
+    inp.value = ''; btn.innerHTML = orig; btn.disabled = false;
+    showSuccess();
+  }
+}
+document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitForm(); });
+
+/* ── Success Screen ── */
+function showSuccess() {
+  document.getElementById('main').innerHTML = `
+    <div class="page">
+      <div class="success">
+        <div class="success-emoji">📬</div>
+        <h1 class="success-title">메일함에<br><span>해독제 도착!</span></h1>
+        <p class="success-desc">10년의 시행착오를 단 5분 만에 읽게 됩니다.<br><strong>스팸함도 꼭 확인하세요.</strong></p>
+        <div class="success-next">
+          <p class="success-next-label">⚠️ 실행 준비가 된 분만 눌러주세요</p>
+          <a href="YOUR_GOOGLE_FORM_URL">내 사고 로직 적합도 검사 →</a>
+        </div>
+        <p class="success-spam">메일이 안 왔나요? 스팸함 1초 확인</p>
+      </div>
+    </div>
+  `;
+  document.querySelectorAll('.success > *').forEach((el, i) => {
+    el.style.cssText = `opacity:0;transform:translateY(18px);transition:opacity .5s ${i*.1}s ease,transform .5s ${i*.1}s ease`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }));
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
