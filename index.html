@@ -181,20 +181,16 @@ section{position:relative;z-index:2;padding:80px 24px}
 @media(min-width:768px){.social-sec{padding:100px 48px}}
 .tc-grid{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:640px){.tc-grid{grid-template-columns:repeat(3,1fr)}}
-.tc-card{border-radius:var(--rl);padding:22px;background:rgba(255,255,255,.03);border:1px solid var(--border);backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:14px;transition:all .3s}
-.tc-card:hover{border-color:rgba(40,107,255,.3);box-shadow:0 8px 32px rgba(40,107,255,.1)}
-.tc-ph{border-style:dashed;border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.01)}
-.tc-platform{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);background:rgba(40,107,255,.1);border:1px solid rgba(40,107,255,.2);padding:3px 9px;border-radius:4px;align-self:flex-start}
-.tc-body{font-size:.86rem;color:var(--text);line-height:1.75;font-style:italic;flex:1}
-.tc-body::before{content:'"';color:var(--blue);font-size:1.4rem;font-style:normal;line-height:0;vertical-align:-5px;margin-right:2px}
-.tc-footer{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap}
-.tc-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--blue-d),var(--blue-l));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.74rem}
-.tc-av.ph{background:rgba(255,255,255,.08)}
-.tc-name{font-weight:700;font-size:.78rem}
-.tc-when{font-size:.67rem;color:var(--muted);margin-top:1px}
-.tc-badge{margin-left:auto;font-size:.62rem;font-weight:700;color:var(--success);background:rgba(0,223,160,.1);border:1px solid rgba(0,223,160,.22);padding:2px 8px;border-radius:4px}
-.tc-cta{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--blue-l);text-decoration:none;border:1px solid rgba(40,107,255,.28);padding:4px 10px;border-radius:6px;transition:background .2s}
-.tc-cta:hover{background:rgba(40,107,255,.1)}
+.tc-card{border-radius:var(--rl);padding:28px 24px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:14px;transition:all .3s;text-align:center;justify-content:center}
+.tc-card:hover{border-color:rgba(40,107,255,.4);box-shadow:0 8px 32px rgba(40,107,255,.1);background:rgba(40,107,255,.03)}
+.tc-platform{font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.tc-body{font-size:.86rem;color:rgba(255,255,255,.3);line-height:1.75;flex:1}
+.tc-footer{display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05);margin-top:10px}
+.tc-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--dim);font-size:.8rem}
+.tc-name{font-weight:700;font-size:.78rem;color:var(--muted)}
+.tc-when{font-size:.67rem;color:var(--dim);margin-top:2px}
+.tc-cta{font-size:.75rem;font-weight:800;color:var(--blue-l);text-decoration:none;border:1px solid rgba(40,107,255,.3);padding:8px 16px;border-radius:8px;transition:all .2s;display:inline-block;margin-top:8px}
+.tc-cta:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
 
 /* STATS */
 .stats-sec{background:rgba(40,107,255,.04)}
@@ -285,7 +281,7 @@ section{position:relative;z-index:2;padding:80px 24px}
 @media(min-width:640px){.pricing-grid{grid-template-columns:1fr 1fr}}
 .price-card{border-radius:var(--rl);padding:32px 26px;position:relative;overflow:hidden;backdrop-filter:blur(24px);transition:transform .3s,box-shadow .3s}
 .price-card:hover{transform:translateY(-4px)}
-.price-card.std{background:rgba(255,255,255,.04);border:1px solid var(--border)}
+.price-card.std{background:rgba(255,255,255,.04);border:1px solid var(--border);opacity:0.6; pointer-events: none;} /* 흐리게 처리 */
 .price-card.feat{background:rgba(40,107,255,.1);border:1px solid rgba(40,107,255,.38);box-shadow:0 0 60px rgba(40,107,255,.14)}
 .price-card.feat:hover{box-shadow:0 16px 80px rgba(40,107,255,.28)}
 .price-badge{display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:6px;margin-bottom:20px}
@@ -293,14 +289,16 @@ section{position:relative;z-index:2;padding:80px 24px}
 .feat .price-badge{background:var(--blue);color:#fff}
 .price-amount{font-weight:900;font-size:2.8rem;letter-spacing:-.05em;line-height:1;margin-bottom:4px}
 .price-period{font-size:.79rem;color:var(--muted);margin-bottom:22px}
+.price-amount.free { color: var(--success); }
+.price-strike { font-size: 1.2rem; color: var(--muted); text-decoration: line-through; margin-right: 8px; font-weight: 700; }
+
 .price-features{list-style:none;margin-bottom:22px}
 .price-features li{display:flex;align-items:flex-start;gap:10px;font-size:.83rem;padding:9px 0;border-bottom:1px solid var(--border);color:var(--text);line-height:1.5}
 .price-features li:last-child{border-bottom:none}
 .price-features li .ico{color:var(--blue-l);flex-shrink:0;font-weight:700}
-.guar-box{border-radius:10px;padding:15px;background:rgba(255,77,106,.07);border:1px solid rgba(255,77,106,.22);margin-bottom:20px}
-.guar-title{font-weight:800;font-size:.92rem;margin-bottom:5px}
-.guar-desc{font-size:.77rem;color:var(--muted);line-height:1.7}
-.guar-desc b{color:#ff8888;font-weight:700}
+.guar-box{border-radius:10px;padding:15px;background:rgba(0, 223, 160, 0.1);border:1px solid rgba(0, 223, 160, 0.3);margin-bottom:20px}
+.guar-title{font-weight:800;font-size:.92rem;margin-bottom:5px; color: var(--success);}
+.guar-desc{font-size:.77rem;color:var(--text);line-height:1.7}
 .btn{display:block;width:100%;text-align:center;text-decoration:none;padding:16px;border-radius:10px;cursor:pointer;border:none;font-family:'Pretendard',sans-serif;font-weight:800;font-size:.94rem;letter-spacing:-.01em;transition:all .25s}
 .btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 24px rgba(40,107,255,.32)}
 .btn-primary:hover{background:var(--blue-l);box-shadow:0 8px 40px rgba(40,107,255,.5);transform:translateY(-1px)}
@@ -548,36 +546,40 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
 
 <section class="social-sec">
   <div class="sec-label rv tc ma">베타 사용자 반응</div>
-  <h2 class="sec-h2 rv tc ma">날것의 증거가<br><span class="hi">가장 강합니다</span></h2>
-  <p class="sec-lead rv tc ma" style="margin:0 auto 44px;">거창한 후기보다, 실제 베타 유저가 보낸 카톡 한 줄이 더 강력합니다.</p>
+  <h2 class="sec-h2 rv tc ma">투명하게 <span class="hi">시작합니다</span></h2>
+  <p class="sec-lead rv tc ma" style="margin:0 auto 44px;">아직 조작된 후기는 없습니다. 지금 합류하는 분들이 <strong>첫 번째 진짜 증거</strong>가 될 것입니다.</p>
   <div class="tc-grid rv">
-    <div class="tc-card">
-      <div class="tc-platform">카카오톡 메시지</div>
-      <div class="tc-body">ExecuAI 쓰고 이번 주에 태스크 8개 완수했어요. 저 원래 2개도 못 끝내는 사람이었는데...</div>
-      <div class="tc-footer">
-        <div class="tc-av">K</div>
-        <div><div class="tc-name">K님 · 1인 기업가</div><div class="tc-when">베타 2주차</div></div>
-        <div class="tc-badge">✓ 실제 메시지</div>
-      </div>
-    </div>
-    <div class="tc-card">
-      <div class="tc-platform">슬랙 DM</div>
-      <div class="tc-body">솔직히 반신반의했는데, 일주일 만에 미뤄두던 랜딩페이지 론칭했습니다. 시스템이 진짜 작동하네요.</div>
-      <div class="tc-footer">
-        <div class="tc-av">J</div>
-        <div><div class="tc-name">J님 · 프리랜서 디자이너</div><div class="tc-when">베타 3주차</div></div>
-        <div class="tc-badge">✓ 실제 메시지</div>
-      </div>
-    </div>
+    
     <div class="tc-card tc-ph">
       <div class="tc-platform">곧 채워집니다</div>
       <div class="tc-body" style="color:rgba(255,255,255,.18);">베타 테스트가 진행되면서 실제 후기가 이 자리를 채웁니다.<br><br>첫 번째 성공 사례가 될 수 있습니다.</div>
       <div class="tc-footer">
         <div class="tc-av ph">?</div>
-        <div><div class="tc-name" style="color:var(--muted)">다음 성공 사례</div><div class="tc-when">베타 참여 대기</div></div>
+        <div><div class="tc-name" style="color:var(--muted)">첫 번째 성공 사례</div><div class="tc-when">베타 참여 대기</div></div>
         <a href="#final-cta" class="tc-cta">자리 잡기 →</a>
       </div>
     </div>
+    
+    <div class="tc-card tc-ph">
+      <div class="tc-platform">곧 채워집니다</div>
+      <div class="tc-body" style="color:rgba(255,255,255,.18);">베타 테스트가 진행되면서 실제 후기가 이 자리를 채웁니다.<br><br>두 번째 성공 사례가 될 수 있습니다.</div>
+      <div class="tc-footer">
+        <div class="tc-av ph">?</div>
+        <div><div class="tc-name" style="color:var(--muted)">두 번째 성공 사례</div><div class="tc-when">베타 참여 대기</div></div>
+        <a href="#final-cta" class="tc-cta">자리 잡기 →</a>
+      </div>
+    </div>
+    
+    <div class="tc-card tc-ph">
+      <div class="tc-platform">곧 채워집니다</div>
+      <div class="tc-body" style="color:rgba(255,255,255,.18);">베타 테스트가 진행되면서 실제 후기가 이 자리를 채웁니다.<br><br>세 번째 성공 사례가 될 수 있습니다.</div>
+      <div class="tc-footer">
+        <div class="tc-av ph">?</div>
+        <div><div class="tc-name" style="color:var(--muted)">세 번째 성공 사례</div><div class="tc-when">베타 참여 대기</div></div>
+        <a href="#final-cta" class="tc-cta">자리 잡기 →</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -640,7 +642,7 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
           <li>감정이 아닌 시스템에 의존하고 싶은 분</li>
           <li>지식이 충분하다는 걸 이미 아는 분</li>
           <li>자괴감 루프를 끊고 싶어 절박한 분</li>
-          <li>99만원이 '비용'이 아닌 '투자'로 느껴지는 분</li>
+          <li>무료 베타 기회를 '투자'로 받아들일 분</li>
         </ul>
       </div>
     </div>
@@ -655,24 +657,24 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
   <div class="sec-label rv tc ma">왜 믿을 수 있나요?</div>
   <h2 class="sec-h2 rv tc ma">후기보다 강한 건 <span class="hi">보장</span></h2>
   <div class="trust-grid">
-    <div class="trust-card rv d1"><div class="trust-num">100%</div><div class="trust-lbl">성과 보장</div><div class="trust-desc">4주 가동 후 변화 없으면 전액 환불합니다.</div></div>
+    <div class="trust-card rv d1"><div class="trust-num">100%</div><div class="trust-lbl">무료 체험</div><div class="trust-desc">베타 테스터 50명은 모든 기능을 돈 없이 씁니다.</div></div>
     <div class="trust-card rv d2"><div class="trust-num">1:1</div><div class="trust-lbl">직접 온보딩</div><div class="trust-desc">템플릿만 주지 않습니다. 직접 세팅해드립니다.</div></div>
-    <div class="trust-card rv d3"><div class="trust-num">0원</div><div class="trust-lbl">선결제 없음</div><div class="trust-desc">먼저 경험하고 나서 결정하세요.</div></div>
+    <div class="trust-card rv d3"><div class="trust-num">0원</div><div class="trust-lbl">선결제 없음</div><div class="trust-desc">카드 등록조차 필요 없습니다.</div></div>
   </div>
   <div class="builder-note rv">
     <span class="builder-ico">📋</span>
     <div class="builder-txt">
       <strong>직접 겪은 실행 마비에서 만들어졌습니다.</strong><br>
       새벽 2시, 14일 연속 실행 로그를 처음 확인했을 때 손이 떨렸습니다.<br>
-      그 경험을 50명과 함께 만들겠습니다. <strong>실제 결과가 먼저, 확장은 그 다음입니다.</strong>
+      그 경험을 50명과 함께 만들겠습니다. <strong>실제 결과가 먼저, 수익은 그 다음입니다.</strong>
     </div>
   </div>
 </section>
 
 <section id="pricing">
-  <div class="sec-label rv tc ma">가격</div>
-  <h2 class="sec-h2 rv tc ma">결과에 <span class="hi">지불하세요</span></h2>
-  <p class="sec-lead rv tc ma">구독료가 아닙니다. 실행 OS 설치 비용입니다.</p>
+  <div class="sec-label rv tc ma">가격 및 혜택</div>
+  <h2 class="sec-h2 rv tc ma">정식 론칭 전 <span class="hi">마지막 무료 기회</span></h2>
+  <p class="sec-lead rv tc ma">지금 합류하는 50명은 정식 가격 99만 원짜리 OS를 <strong>비용 없이</strong> 설치받습니다.</p>
 
   <div class="anchor-box rv">
     <div class="anchor-compare">
@@ -690,45 +692,48 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
       <div class="anchor-vs">VS</div>
       <div class="anchor-item feat-a">
         <div class="anchor-price">₩99만</div>
-        <div class="anchor-name">ExecuAI 온보딩</div>
-        <div class="anchor-note">1회 세팅 · 평생 작동</div>
+        <div class="anchor-name">ExecuAI 정가</div>
+        <div class="anchor-note">하지만 오늘은 0원</div>
       </div>
     </div>
     <div class="anchor-copy">
       지난 1년간 완벽한 계획을 세우느라 날린 기회비용은 얼마입니까?<br>
-      <strong>최소 수천만원입니다.</strong> 99만원은 구독료가 아닙니다.<br>
-      매달 증발하는 수백만원의 <strong>'무지의 세금'을 영구적으로 방어하는 가장 저렴한 지혈책</strong>입니다.
+      <strong>최소 수천만 원입니다.</strong> 곧 99만 원에 판매될 강력한 지혈책을,<br>
+      <strong>오직 베타 테스터 50명에게만 조건 없이 무료로 제공합니다.</strong>
     </div>
   </div>
 
   <div class="pricing-grid">
     <div class="price-card std rv d1">
-      <div class="price-badge">온보딩 패키지</div>
-      <div class="price-amount">₩99만</div>
-      <div class="price-period">1회 세팅비 + 이후 월 9.9만원</div>
+      <div class="price-badge">정식 론칭 시 가격</div>
+      <div class="price-amount"><span class="price-strike">₩99만</span></div>
+      <div class="price-period">1회 세팅비 + 이후 월 구독료 발생</div>
       <ul class="price-features">
         <li><span class="ico">→</span> 1:1 시스템 세팅 직접 진행</li>
         <li><span class="ico">→</span> 첫 주간 실행 플랜 구성</li>
         <li><span class="ico">→</span> 매주 팩트 기반 손실 리포트</li>
         <li><span class="ico">→</span> AI 태스크 자동 분해</li>
       </ul>
-      <a href="#final-cta" class="btn btn-ghost">지금 시작하기 →</a>
+      <button class="btn btn-ghost" disabled>현재 선택 불가</button>
     </div>
+    
     <div class="price-card feat rv d2">
-      <div class="price-badge">🔒 성과 보장</div>
+      <div class="price-badge">🎁 베타 테스터 전용</div>
+      <div class="price-amount free">₩0원</div>
+      <div class="price-period">카드 등록 없이 전액 무료 체험</div>
       <div class="guar-box">
-        <div class="guar-title">성과 없으면 전액 환불</div>
-        <div class="guar-desc">100% 가동 후 4주 내 변화 없으면 <b>전액 환불 + 1개월 무상.</b> 환불받으려 쓰다 보면 — 역설적으로 실행이 됩니다.</div>
+        <div class="guar-title">베타 50명 100% 무료 혜택</div>
+        <div class="guar-desc">결제창은 없습니다. <b>99만 원 상당의 정식 시스템과 동일한 기능</b>을 가장 먼저 세팅받고 결과를 만들어보세요.</div>
       </div>
       <ul class="price-features">
-        <li><span class="ico">→</span> 환불 조건: 매일 사용 기록 존재</li>
-        <li><span class="ico">→</span> 연간 결제 시 2개월 추가 이득</li>
-        <li><span class="ico">→</span> 카드 없이 베타 먼저 체험</li>
+        <li><span class="ico">→</span> 조건: 주 1회 가벼운 피드백 제공</li>
+        <li><span class="ico">→</span> 정식 론칭 시 평생 할인권 증정</li>
+        <li><span class="ico">→</span> 오직 선착순 50명만 진행</li>
       </ul>
-      <a href="#final-cta" class="btn btn-primary">성과 보장으로 경험하기 →</a>
+      <a href="#final-cta" class="btn btn-primary">돈 들이지 않고 합류하기 →</a>
     </div>
   </div>
-  <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:16px;">베타 50명 한정 · 온보딩까지 무료 · 성과 보장</p>
+  <p style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:16px;">현재 43명 대기 중 · 카드 불필요 · 즉시 마감 가능</p>
 </section>
 
 <section style="background:rgba(40,107,255,.03)" id="faq">
@@ -736,16 +741,16 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
   <h2 class="sec-h2 rv tc ma">자주 묻는 <span class="hi">질문</span></h2>
   <div class="faq-list rv">
     <div class="faq-item">
+      <div class="faq-q" onclick="fq(this)"><span>진짜 돈을 전혀 안 내도 되나요?</span><div class="faq-ico">+</div></div>
+      <div class="faq-a"><div class="faq-ai">네, 베타 테스터 50명에게는 카드 번호조차 요구하지 않습니다. 시스템을 테스트하고 증명하는 것이 목적이기 때문입니다.</div></div>
+    </div>
+    <div class="faq-item">
       <div class="faq-q" onclick="fq(this)"><span>실행을 못 한 게 오래됐어요. 정말 달라질 수 있나요?</span><div class="faq-ico">+</div></div>
       <div class="faq-a"><div class="faq-ai">의지력이 아닌 구조의 문제입니다. 오늘 할 3가지가 이미 있으면 시작은 자동으로 됩니다. 완벽주의를 건드리지 않고 시스템이 강제로 실행시키는 구조입니다.</div></div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="fq(this)"><span>코딩이나 기술 지식 없어도 되나요?</span><div class="faq-ico">+</div></div>
       <div class="faq-a"><div class="faq-ai">완전히 가능합니다. 카카오톡 쓸 줄 알면 충분합니다. 세팅은 저희가 직접 해드립니다. 당신이 할 일은 지식 노트를 붙여넣는 것뿐입니다.</div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="fq(this)"><span>성과 보장이 진짜인가요? 환불 조건이 까다롭지 않나요?</span><div class="faq-ico">+</div></div>
-      <div class="faq-a"><div class="faq-ai">조건은 하나입니다 — 매일 사용 기록(태스크 입력 로그). 그것만 있으면 4주 내 변화 없을 시 전액 환불합니다. 실제로 매일 사용하면 행동이 바뀌기 때문에 환불 요구가 나오기 어렵습니다.</div></div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="fq(this)"><span>그냥 노션 템플릿이랑 뭐가 달라요?</span><div class="faq-ico">+</div></div>
@@ -769,7 +774,6 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
     </div>
     <div class="final-note">
       <span>✓ 베타 50명 한정</span><span>·</span>
-      <span>✓ 성과 보장</span><span>·</span>
       <span>✓ 카드 불필요</span>
     </div>
   </div>
@@ -819,7 +823,7 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 /* Counter */
 let n=43,cel=document.getElementById('cnt');
 
-/* ── 구글 시트 연동 핵심 로직 (URL 탑재 완료) ── */
+/* ── 구글 시트 연동 핵심 로직 ── */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMN2h8GSDOhDSmy4eYEx6MN8tlBXIGa4R0eFzsJGn4wwNDdrtXbocbO46mCL94Ew_I/exec";
 
 function go(id){
