@@ -420,7 +420,7 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
       <div class="avatars">
         <div class="av">K</div><div class="av">J</div><div class="av">P</div><div class="av">S</div>
       </div>
-      <div class="cnt-text"><b id="cnt">23</b>명이 이미 대기 중</div>
+      <div class="cnt-text"><b id="cnt">43</b>명이 이미 대기 중</div>
     </div>
   </div>
   <div class="scroll-hint"><div class="scroll-arr"></div>scroll</div>
@@ -827,8 +827,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 /* Counter */
 let n=43,cel=document.getElementById('cnt');
 
-/* ── 구글 시트 연동 핵심 로직 (새로운 URL 반영 완료) ── */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygZpTj0J9XDqDUASDAxctMrQwcNJ1GhTCbxmyLODON0e7xYt9NZ9Hh8AMMocgDbfP_/exec";
+/* ── 폼스프리(Formspree) 연동 핵심 로직 ── */
+const FORMSPREE_URL = "https://formspree.io/f/mnjgpnpy";
 
 function go(id){
   const inp = document.getElementById(id);
@@ -848,28 +848,36 @@ function go(id){
   btn.style.opacity = "0.7";
   btn.style.cursor = "wait";
 
-  fetch(SCRIPT_URL, {
+  fetch(FORMSPREE_URL, {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: v })
+    body: JSON.stringify({ "email": v })
   })
-  .then(() => {
-    inp.value = '';
-    btn.innerText = originalText;
-    btn.disabled = false;
-    btn.style.opacity = "1";
-    btn.style.cursor = "pointer";
-    
-    n++;
-    cel.textContent = n;
-    document.getElementById('modal').classList.add('on');
+  .then(response => {
+    if(response.ok) {
+      inp.value = '';
+      btn.innerText = originalText;
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+      
+      n++;
+      cel.textContent = n;
+      document.getElementById('modal').classList.add('on');
+    } else {
+      alert("전송 중 문제가 발생했습니다. 다시 시도해주세요.");
+      btn.innerText = originalText;
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    }
   })
   .catch(error => {
     console.error('Error!', error);
-    alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    alert("네트워크 오류가 발생했습니다.");
     btn.innerText = originalText;
     btn.disabled = false;
     btn.style.opacity = "1";
