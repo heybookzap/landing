@@ -420,7 +420,7 @@ footer{position:relative;z-index:2;padding:22px 24px;border-top:1px solid var(--
       <div class="avatars">
         <div class="av">K</div><div class="av">J</div><div class="av">P</div><div class="av">S</div>
       </div>
-      <div class="cnt-text"><b id="cnt">23</b>명이 이미 대기 중</div>
+      <div class="cnt-text"><b id="cnt">43</b>명이 이미 대기 중</div>
     </div>
   </div>
   <div class="scroll-hint"><div class="scroll-arr"></div>scroll</div>
@@ -827,8 +827,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 /* Counter */
 let n=43,cel=document.getElementById('cnt');
 
-/* ── 구글 시트 연동 핵심 로직 ── */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMN2h8GSDOhDSmy4eYEx6MN8tlBXIGa4R0eFzsJGn4wwNDdrtXbocbO46mCL94Ew_I/exec";
+/* ── 구글 시트 연동 핵심 로직 (새로운 URL 반영) ── */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEWBX7f7VgQaTU31Dy4BTSdV0abrjlGhQl9_RP1I1kJg_KkXWGeV-PZSUolI8Eu1uj/exec";
 
 function go(id){
   const inp = document.getElementById(id);
@@ -868,7 +868,7 @@ function go(id){
     document.getElementById('modal').classList.add('on');
   })
   .catch(error => {
-    console.error('Error!', error.message);
+    console.error('Error!', error);
     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     btn.innerText = originalText;
     btn.disabled = false;
