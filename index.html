@@ -5,273 +5,680 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EMERGENCY RESET</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+
 <style>
-  :root {
-    --red: #c0392b;
-    --red-bright: #e74c3c;
-  }
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --bg:          #080809;
+  --bg-mid:      #0f0d0d;
+  --red:         #c0392b;
+  --red-hi:      #e74c3c;
+  --red-lo:      #7d1f16;
+  --gold:        #c9a96e;
+  --text-hi:     #e8e8ec;
+  --text-md:     #a0a0a8;
+  --text-lo:     #525260;
+  --border:      rgba(255,255,255,0.06);
+  --font:        'Pretendard', -apple-system, sans-serif;
+}
 
-  body {
-    background: #0b0b0e;
-    font-family: 'Noto Serif KR', serif;
-  }
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* 배경 미세 방사형 그라디언트 */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse 55% 45% at 50% 50%, #1c0808 0%, transparent 68%);
-    pointer-events: none;
-  }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
-  /* ── 심박 링 ── */
-  .pulse-ring {
-    position: absolute;
-    border-radius: 9999px;
-    border: 1px solid rgba(192, 57, 43, 0.18);
-    animation: ringPulse 3.2s ease-out infinite;
-  }
-  .ring-1 { width: 230px; height: 230px; animation-delay: 0s; }
-  .ring-2 { width: 310px; height: 310px; animation-delay: 0.9s; }
-  .ring-3 { width: 390px; height: 390px; animation-delay: 1.8s; }
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  min-height: 100dvh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+}
 
-  @keyframes ringPulse {
-    0%   { opacity: 0;   transform: scale(0.88); }
-    25%  { opacity: 0.9; }
-    100% { opacity: 0;   transform: scale(1.08); }
-  }
+/* ── 다층 배경 ── */
+.bg-layer {
+  position: fixed; inset: 0; pointer-events: none;
+}
+.bg-radial {
+  background: radial-gradient(ellipse 60% 55% at 50% 50%,
+    rgba(80, 8, 4, 0.55) 0%,
+    rgba(30, 4, 2, 0.3) 40%,
+    transparent 75%);
+}
+.bg-vignette {
+  background: radial-gradient(ellipse 100% 100% at 50% 50%,
+    transparent 50%, rgba(0,0,0,0.7) 100%);
+}
+.bg-grain {
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+.bg-scanline {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+  );
+}
 
-  /* ── 메인 버튼 ── */
-  #resetBtn {
-    position: relative;
-    z-index: 10;
-    width: 170px;
-    height: 170px;
-    border-radius: 9999px;
-    border: none;
-    background: radial-gradient(circle at 36% 34%, #e74c3c, #8b1a10);
-    box-shadow:
-      0 0 45px rgba(192, 57, 43, 0.5),
-      0 0 90px rgba(192, 57, 43, 0.22),
-      inset 0 2px 5px rgba(255,255,255,0.12),
-      inset 0 -3px 6px rgba(0,0,0,0.45);
-    cursor: pointer;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    color: rgba(255,255,255,0.88);
-    text-transform: uppercase;
-    line-height: 1.6;
-    text-align: center;
-    animation: breathe 4.2s ease-in-out infinite;
-    transition: opacity 0.9s ease, transform 0.9s ease, box-shadow 0.3s ease;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-  }
+/* ── 부유 파티클 ── */
+.particles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+}
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(192, 57, 43, 0.35);
+  animation: floatDot linear infinite;
+}
 
-  #resetBtn:hover {
-    box-shadow:
-      0 0 65px rgba(231, 76, 60, 0.7),
-      0 0 130px rgba(192, 57, 43, 0.32),
-      inset 0 2px 5px rgba(255,255,255,0.15),
-      inset 0 -3px 6px rgba(0,0,0,0.45);
-  }
+@keyframes floatDot {
+  0%   { transform: translateY(0px) translateX(0px) scale(1);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-120px) translateX(var(--drift)) scale(0.4); opacity: 0; }
+}
 
-  #resetBtn:active { transform: scale(0.96) !important; }
+/* ═══════════════════════════════════════
+   BUTTON SCENE
+═══════════════════════════════════════ */
+#btnScene {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  transition: opacity 1s cubic-bezier(0.4,0,0.2,1),
+              transform 1s cubic-bezier(0.4,0,0.2,1);
+  animation: sceneEntrance 1.2s cubic-bezier(0.2,0,0,1) forwards;
+}
+@keyframes sceneEntrance {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+#btnScene.fade-out {
+  opacity: 0;
+  transform: scale(0.88);
+  pointer-events: none;
+}
 
-  #resetBtn.hidden-out {
-    opacity: 0;
-    transform: scale(0.88);
-    pointer-events: none;
-  }
+/* 링 컨테이너 */
+.rings {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  width: 0; height: 0;
+}
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  animation: ringExpand 3.6s ease-out infinite;
+}
+/* 반응형 링 크기 - clamp 사용 */
+.ring-1 { width: clamp(200px,40vmin,280px); height: clamp(200px,40vmin,280px); animation-delay: 0s; }
+.ring-2 { width: clamp(270px,54vmin,370px); height: clamp(270px,54vmin,370px); animation-delay: 1s; }
+.ring-3 { width: clamp(340px,68vmin,460px); height: clamp(340px,68vmin,460px); animation-delay: 2s; }
 
-  @keyframes breathe {
-    0%, 100% {
-      transform: scale(1);
-      box-shadow: 0 0 45px rgba(192,57,43,.5), 0 0 90px rgba(192,57,43,.22),
-                  inset 0 2px 5px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.45);
-    }
-    50% {
-      transform: scale(1.065);
-      box-shadow: 0 0 62px rgba(231,76,60,.68), 0 0 120px rgba(192,57,43,.32),
-                  inset 0 2px 5px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.45);
-    }
-  }
+@keyframes ringExpand {
+  0%   { opacity: 0;    transform: scale(0.86); }
+  20%  { opacity: 0.85; }
+  100% { opacity: 0;    transform: scale(1.1); }
+}
 
-  /* ── 가이드 패널 ── */
-  #guidePanel {
-    position: absolute;
-    z-index: 10;
-    width: min(580px, 92vw);
-    opacity: 0;
-    transform: translateY(18px);
-    pointer-events: none;
-    transition: opacity 1.1s ease, transform 1.1s ease;
-  }
-  #guidePanel.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
+/* 버튼 */
+#resetBtn {
+  position: relative;
+  z-index: 5;
+  width: clamp(150px, 36vmin, 210px);
+  height: clamp(150px, 36vmin, 210px);
+  border-radius: 50%;
+  border: 1.5px solid rgba(192,57,43,0.35);
+  background:
+    radial-gradient(circle at 35% 30%, #ef5244 0%, #c0392b 35%, #8b1a10 70%, #5a0e09 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,80,60,0.08),
+    0 0 50px rgba(192,57,43,0.55),
+    0 0 100px rgba(192,57,43,0.25),
+    0 0 200px rgba(120,20,10,0.15),
+    inset 0 1px 0 rgba(255,200,180,0.15),
+    inset 0 -2px 0 rgba(0,0,0,0.5);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: clamp(0.52rem, 1.4vmin, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.9);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.7;
+  padding-bottom: 2px;
+  animation: breathe 4.5s ease-in-out infinite;
+  transition: box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  user-select: none;
+}
+#resetBtn::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, rgba(255,180,160,0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+#resetBtn:hover {
+  box-shadow:
+    0 0 0 1px rgba(255,80,60,0.15),
+    0 0 70px rgba(231,76,60,0.75),
+    0 0 140px rgba(192,57,43,0.38),
+    0 0 240px rgba(140,20,10,0.2),
+    inset 0 1px 0 rgba(255,200,180,0.2),
+    inset 0 -2px 0 rgba(0,0,0,0.5);
+}
+#resetBtn:active { transform: scale(0.96) !important; }
+#resetBtn.locked { animation: none; pointer-events: none; }
 
-  /* 호흡 텍스트 */
-  #breathText {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 3.2vw, 1.45rem);
-    font-weight: 300;
-    color: rgba(200, 200, 205, 0.4);
-    text-align: center;
-    letter-spacing: 0.06em;
-    margin-bottom: 2.8rem;
-    min-height: 2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 2.2s ease, opacity 1.4s ease;
+@keyframes breathe {
+  0%,100% {
+    transform: scale(1);
+    filter: brightness(1);
   }
-  #breathText.lit { color: rgba(210, 210, 215, 0.88); }
-  #breathText.dim { opacity: 0.3; }
+  50% {
+    transform: scale(1.07);
+    filter: brightness(1.12);
+  }
+}
 
-  /* 구분선 */
-  .accent-line {
-    width: 36px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(192,57,43,0.65), transparent);
-    margin: 0 auto 2.8rem;
-  }
+/* 버튼 하단 레이블 */
+.btn-sub {
+  margin-top: clamp(1.8rem, 5vmin, 2.8rem);
+  font-size: clamp(0.58rem, 1.5vmin, 0.66rem);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  color: var(--text-lo);
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInSub 0.8s ease 1.4s forwards;
+}
+@keyframes fadeInSub {
+  to { opacity: 1; }
+}
 
-  /* 가이드 항목 */
-  .g-item {
-    display: flex;
-    gap: 1.1rem;
-    margin-bottom: 1.8rem;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .g-item.show { opacity: 1; transform: translateX(0); }
+/* ═══════════════════════════════════════
+   GUIDE PANEL
+═══════════════════════════════════════ */
+#guidePanel {
+  position: absolute;
+  z-index: 10;
+  width: min(620px, 92vw);
+  max-height: 90dvh;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3.5rem);
+  scrollbar-width: none;
+}
+#guidePanel::-webkit-scrollbar { display: none; }
+#guidePanel.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 1.2s cubic-bezier(0.2,0,0,1) 0.4s,
+              transform 1.2s cubic-bezier(0.2,0,0,1) 0.4s;
+}
 
-  .g-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: var(--red-bright);
-    letter-spacing: 0.08em;
-    padding-top: 0.22rem;
-    flex-shrink: 0;
-    width: 1.1rem;
-    text-align: right;
-  }
+/* 호흡 섹션 */
+.breath-section {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vmin, 3rem);
+}
 
-  .g-text {
-    font-family: 'Noto Serif KR', serif;
-    font-size: clamp(0.8rem, 2.3vw, 0.92rem);
-    font-weight: 300;
-    color: #b8b8c0;
-    line-height: 1.95;
-    letter-spacing: 0.025em;
-  }
-  .g-text strong { color: #dcdce4; font-weight: 400; }
+/* 호흡 SVG 인디케이터 */
+#breathSvg {
+  display: block;
+  margin: 0 auto clamp(1rem, 2.5vmin, 1.4rem);
+  width: clamp(60px, 14vmin, 80px);
+  height: clamp(60px, 14vmin, 80px);
+}
+#breathCircle {
+  transition: r 2s cubic-bezier(0.45, 0, 0.55, 1),
+              opacity 2s ease;
+}
+#breathRing {
+  transition: r 2s cubic-bezier(0.45, 0, 0.55, 1),
+              stroke-opacity 2s ease;
+}
 
-  /* 각주 */
-  #footnote {
-    margin-top: 2.8rem;
-    padding-top: 1.3rem;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.62rem, 1.7vw, 0.7rem);
-    color: rgba(107, 107, 118, 0.85);
-    letter-spacing: 0.06em;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-  }
-  #footnote.show { opacity: 1; }
+#breathText {
+  font-size: clamp(0.9rem, 2.5vmin, 1.1rem);
+  font-weight: 300;
+  color: rgba(200,200,208,0.45);
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+  transition: color 2.4s ease, opacity 1.6s ease;
+  min-height: 1.7em;
+}
+#breathText.lit  { color: rgba(215,215,222,0.88); }
+#breathText.dim  { opacity: 0.25; }
 
-  @media (max-width: 480px) {
-    #resetBtn { width: 148px; height: 148px; font-size: 0.65rem; }
-    .ring-1 { width: 196px; height: 196px; }
-    .ring-2 { width: 265px; height: 265px; }
-    .ring-3 { width: 334px; height: 334px; }
-  }
+/* 구분선 */
+.sep {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: clamp(1.6rem, 4vmin, 2.4rem) 0;
+}
+.sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(192,57,43,0.4), transparent);
+}
+.sep-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(192,57,43,0.6);
+  flex-shrink: 0;
+}
+
+/* 타임라인 영역 */
+.timeline {
+  position: relative;
+  padding-left: clamp(1rem, 3vw, 1.4rem);
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg,
+    rgba(192,57,43,0.5) 0%,
+    rgba(192,57,43,0.2) 100%);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.2s cubic-bezier(0.2,0,0,1) 0.4s;
+}
+.timeline.drawn::before { transform: scaleY(1); }
+
+/* 가이드 아이템 */
+.g-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(0.9rem, 2.5vw, 1.3rem);
+  align-items: start;
+  margin-bottom: clamp(1.4rem, 3.5vmin, 2rem);
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity 0.7s cubic-bezier(0.2,0,0,1),
+              transform 0.7s cubic-bezier(0.2,0,0,1);
+}
+.g-item:last-child { margin-bottom: 0; }
+.g-item.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.g-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+}
+.g-num-wrap {
+  width: clamp(24px, 5vmin, 30px);
+  height: clamp(24px, 5vmin, 30px);
+  border-radius: 50%;
+  border: 1px solid rgba(192,57,43,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(192,57,43,0.08);
+}
+.g-num {
+  font-size: clamp(0.6rem, 1.5vmin, 0.7rem);
+  font-weight: 600;
+  color: var(--red-hi);
+  letter-spacing: 0.05em;
+}
+
+.g-body {}
+.g-label {
+  display: inline-block;
+  font-size: clamp(0.56rem, 1.3vmin, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: clamp(0.3rem, 0.8vmin, 0.45rem);
+}
+.g-text {
+  font-size: clamp(0.82rem, 2.1vw, 0.94rem);
+  font-weight: 300;
+  color: var(--text-md);
+  line-height: 1.95;
+  letter-spacing: 0.02em;
+}
+.g-text strong {
+  color: var(--text-hi);
+  font-weight: 500;
+}
+.g-text em {
+  font-style: normal;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* 각주 */
+.footnote-wrap {
+  margin-top: clamp(2rem, 5vmin, 3rem);
+  padding-top: clamp(1rem, 2.5vmin, 1.5rem);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.footnote-wrap.show { opacity: 1; }
+.footnote-icon {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--text-lo);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.footnote-icon svg { width: 7px; height: 7px; }
+#footnote {
+  font-size: clamp(0.6rem, 1.5vw, 0.68rem);
+  font-weight: 300;
+  color: var(--text-lo);
+  letter-spacing: 0.07em;
+  text-align: center;
+}
+
+/* 스크롤 힌트 */
+.scroll-hint {
+  position: absolute;
+  bottom: clamp(1.2rem, 3vmin, 2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 20;
+}
+.scroll-hint.show { opacity: 0.35; }
+.scroll-hint span {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--text-lo);
+  text-transform: uppercase;
+}
+.scroll-arrow {
+  width: 1px; height: 28px;
+  background: linear-gradient(180deg, var(--text-lo), transparent);
+  animation: scrollBounce 1.8s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateY(0); opacity: 0.6; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+
+/* ── 반응형 ── */
+@media (max-width: 380px) {
+  #guidePanel { padding: 1.5rem 1.2rem; }
+}
+@media (min-width: 768px) {
+  .g-text { line-height: 2.05; }
+}
+@media (min-height: 800px) {
+  .breath-section { margin-bottom: 2.8rem; }
+}
 </style>
 </head>
-<body class="min-h-screen flex items-center justify-center overflow-hidden relative">
+<body>
 
-<!-- ── 버튼 씬 ── -->
-<div id="btnScene" class="relative flex items-center justify-center">
-  <div class="pulse-ring ring-1 absolute"></div>
-  <div class="pulse-ring ring-2 absolute"></div>
-  <div class="pulse-ring ring-3 absolute"></div>
-  <button id="resetBtn" onclick="activate()">
+<!-- ── 배경 레이어 ── -->
+<div class="bg-layer bg-radial"></div>
+<div class="bg-layer bg-vignette"></div>
+<div class="bg-layer bg-grain"></div>
+<div class="bg-layer bg-scanline"></div>
+
+<!-- ── 파티클 ── -->
+<div class="particles" id="particles"></div>
+
+<!-- ══════════════ 버튼 씬 ══════════════ -->
+<div id="btnScene">
+  <div class="rings">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+  </div>
+
+  <button id="resetBtn" onclick="activate()" aria-label="긴급 멘탈 리셋 시작">
     EMERGENCY<br>RESET
   </button>
+
+  <p class="btn-sub">탭하여 즉시 리셋 시작</p>
 </div>
 
-<!-- ── 가이드 씬 ── -->
-<div id="guidePanel">
-  <div id="breathText">숨을 깊게 들이마시고...</div>
-  <div class="accent-line"></div>
+<!-- ══════════════ 가이드 패널 ══════════════ -->
+<div id="guidePanel" role="main" aria-live="polite">
 
-  <div class="g-item" id="g1">
-    <span class="g-num">1</span>
-    <p class="g-text">지금 느끼는 자책감은 팩트가 아니라,<br>뇌가 피로하다는 <strong>'신호'</strong>일 뿐입니다.</p>
-  </div>
-  <div class="g-item" id="g2">
-    <span class="g-num">2</span>
-    <p class="g-text">어제 정해둔 <strong>'단 하나의 목표(One Thing)'</strong>가<br>무엇인지 떠올리십시오.</p>
-  </div>
-  <div class="g-item" id="g3">
-    <span class="g-num">3</span>
-    <p class="g-text">지금 당장 카카오톡을 켜고, <strong>CDO(나)</strong>에게<br>오늘의 <strong>MVT(최소 실행 테스트)</strong> 지침을 요청하십시오.<br>10분 안에 답을 드립니다.</p>
+  <!-- 호흡 섹션 -->
+  <div class="breath-section">
+    <svg id="breathSvg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle id="breathRing" cx="40" cy="40" r="20"
+        stroke="rgba(192,57,43,0.3)" stroke-width="1" fill="none"/>
+      <circle id="breathCircle" cx="40" cy="40" r="10"
+        fill="rgba(192,57,43,0.25)"/>
+    </svg>
+    <p id="breathText">숨을 깊게 들이마시고...</p>
   </div>
 
-  <div id="footnote">※ 창을 새로고침하면 다시 리셋 버튼으로 돌아갑니다.</div>
+  <div class="sep">
+    <div class="sep-line"></div>
+    <div class="sep-dot"></div>
+    <div class="sep-line"></div>
+  </div>
+
+  <!-- 타임라인 -->
+  <div class="timeline" id="timeline">
+
+    <div class="g-item" id="g1">
+      <div class="g-marker">
+        <div class="g-num-wrap"><span class="g-num">1</span></div>
+      </div>
+      <div class="g-body">
+        <span class="g-label">인식의 재조정</span>
+        <p class="g-text">
+          지금 느끼는 자책감은 팩트가 아닙니다.<br>
+          그것은 단지 뇌가 피로하다는 <strong>'신호'</strong>일 뿐입니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="g-item" id="g2">
+      <div class="g-marker">
+        <div class="g-num-wrap"><span class="g-num">2</span></div>
+      </div>
+      <div class="g-body">
+        <span class="g-label">포커스 복원</span>
+        <p class="g-text">
+          어제 정해둔 <strong>'단 하나의 목표<em>(One Thing)</em>'</strong>가<br>
+          무엇인지 지금 이 순간 떠올리십시오.
+        </p>
+      </div>
+    </div>
+
+    <div class="g-item" id="g3">
+      <div class="g-marker">
+        <div class="g-num-wrap"><span class="g-num">3</span></div>
+      </div>
+      <div class="g-body">
+        <span class="g-label">즉각 실행</span>
+        <p class="g-text">
+          지금 당장 카카오톡을 켜고, <strong>CDO(나)</strong>에게<br>
+          오늘의 <strong>MVT<em>(최소 실행 테스트)</em></strong> 지침을 요청하십시오.<br>
+          <strong>10분 안에</strong> 답을 드립니다.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- 각주 -->
+  <div class="footnote-wrap" id="footnoteWrap">
+    <div class="footnote-icon">
+      <svg viewBox="0 0 7 7" fill="none">
+        <circle cx="3.5" cy="3.5" r="2.5" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+        <line x1="3.5" y1="2.5" x2="3.5" y2="5" stroke="currentColor" stroke-width="0.8"/>
+        <circle cx="3.5" cy="1.8" r="0.4" fill="currentColor"/>
+      </svg>
+    </div>
+    <p id="footnote">새로고침하면 리셋 버튼으로 돌아갑니다</p>
+  </div>
+
+</div><!-- /guidePanel -->
+
+<!-- 스크롤 힌트 (모바일) -->
+<div class="scroll-hint" id="scrollHint">
+  <span>scroll</span>
+  <div class="scroll-arrow"></div>
 </div>
 
 <script>
-  function activate() {
-    const btn     = document.getElementById('resetBtn');
-    const scene   = document.getElementById('btnScene');
-    const panel   = document.getElementById('guidePanel');
-    const breath  = document.getElementById('breathText');
+/* ── 파티클 생성 ── */
+(function spawnParticles() {
+  const container = document.getElementById('particles');
+  const count = window.innerWidth < 480 ? 10 : 18;
 
-    // 1) 버튼 페이드아웃
-    btn.style.animation = 'none';
-    btn.classList.add('hidden-out');
-    scene.style.pointerEvents = 'none';
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.classList.add('dot');
+    const size = Math.random() * 3 + 1.5;
+    const x = Math.random() * 100;
+    const bottom = Math.random() * 30;
+    const dur = Math.random() * 14 + 10;
+    const delay = Math.random() * 12;
+    const drift = (Math.random() - 0.5) * 80;
 
-    // 2) 가이드 패널 등장
-    setTimeout(() => {
-      panel.classList.add('visible');
-
-      // 호흡 — 들이마시기
-      breath.classList.add('lit');
-
-      // 호흡 — 내쉬기
-      setTimeout(() => {
-        breath.textContent = '천천히... 내쉬세요...';
-        breath.classList.remove('lit');
-      }, 2600);
-
-      // 호흡 텍스트 흐림
-      setTimeout(() => {
-        breath.classList.add('dim');
-      }, 5000);
-
-      // 항목 순차 등장
-      [['g1', 1200], ['g2', 2000], ['g3', 2800]].forEach(([id, delay]) => {
-        setTimeout(() => document.getElementById(id).classList.add('show'), delay);
-      });
-
-      // 각주
-      setTimeout(() => document.getElementById('footnote').classList.add('show'), 3600);
-
-    }, 500);
+    d.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${x}%; bottom:${bottom}%;
+      --drift:${drift}px;
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+      filter: blur(${Math.random() * 0.8}px);
+    `;
+    container.appendChild(d);
   }
+})();
+
+/* ── 메인 활성화 ── */
+function activate() {
+  const btn      = document.getElementById('resetBtn');
+  const scene    = document.getElementById('btnScene');
+  const panel    = document.getElementById('guidePanel');
+  const breath   = document.getElementById('breathText');
+  const circle   = document.getElementById('breathCircle');
+  const ring     = document.getElementById('breathRing');
+  const timeline = document.getElementById('timeline');
+  const scroll   = document.getElementById('scrollHint');
+
+  /* 버튼 잠금 + 페이드아웃 */
+  btn.classList.add('locked');
+  scene.classList.add('fade-out');
+
+  /* 패널 등장 */
+  setTimeout(() => {
+    panel.classList.add('visible');
+
+    /* ── 호흡 시퀀스 ── */
+    // 들이마시기
+    breath.classList.add('lit');
+    circle.setAttribute('r', '20');
+    circle.setAttribute('fill', 'rgba(192,57,43,0.4)');
+    ring.setAttribute('r', '30');
+    ring.setAttribute('stroke-opacity', '0.5');
+
+    // 내쉬기
+    setTimeout(() => {
+      breath.textContent = '천천히... 내쉬세요...';
+      breath.classList.remove('lit');
+      circle.setAttribute('r', '8');
+      circle.setAttribute('fill', 'rgba(192,57,43,0.15)');
+      ring.setAttribute('r', '18');
+      ring.setAttribute('stroke-opacity', '0.2');
+    }, 2800);
+
+    // 호흡 섹션 흐리게
+    setTimeout(() => {
+      breath.classList.add('dim');
+      circle.setAttribute('fill', 'rgba(192,57,43,0.08)');
+    }, 5200);
+
+    /* ── 타임라인 선 ── */
+    setTimeout(() => {
+      timeline.classList.add('drawn');
+    }, 1000);
+
+    /* ── 항목 순차 등장 ── */
+    const items = [
+      { id: 'g1', delay: 1200 },
+      { id: 'g2', delay: 2100 },
+      { id: 'g3', delay: 3000 },
+    ];
+    items.forEach(({ id, delay }) => {
+      setTimeout(() => document.getElementById(id).classList.add('show'), delay);
+    });
+
+    /* ── 각주 ── */
+    setTimeout(() => {
+      document.getElementById('footnoteWrap').classList.add('show');
+    }, 4000);
+
+    /* ── 스크롤 힌트 (모바일 + 콘텐츠 긴 경우) ── */
+    setTimeout(() => {
+      const isMobile = window.innerWidth < 640;
+      const hasOverflow = panel.scrollHeight > window.innerHeight * 0.85;
+      if (isMobile && hasOverflow) scroll.classList.add('show');
+    }, 4500);
+
+    panel.addEventListener('scroll', () => scroll.classList.remove('show'), { once: true });
+
+  }, 500);
+}
+
+/* ── 키보드 접근성 ── */
+document.getElementById('resetBtn').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+});
 </script>
 </body>
 </html>
