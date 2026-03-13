@@ -3,731 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>멘탈 OS — CEO 뇌 에너지 복구 시스템</title>
+<title>EMERGENCY RESET</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:      #080809;
-  --surface: #0e0d0e;
-  --s2:      #141314;
-  --red:     #c0392b;
-  --red-hi:  #e74c3c;
-  --gold:    #c9a96e;
-  --text-hi: #ececf0;
-  --text-md: #9898a4;
-  --text-lo: #484858;
-  --border:  rgba(255,255,255,0.07);
-  --font:    'Pretendard', -apple-system, sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);font-family:var(--font);color:var(--text-hi);overflow-x:hidden}
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:300px 300px;opacity:0.035;
-}
+  :root {
+    --red: #c0392b;
+    --red-bright: #e74c3c;
+  }
 
-/* ── reveal ── */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.75s cubic-bezier(0.2,0,0,1),transform 0.75s cubic-bezier(0.2,0,0,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}
+  body {
+    background: #0b0b0e;
+    font-family: 'Noto Serif KR', serif;
+  }
 
-/* ── layout ── */
-.wrap{width:100%;max-width:740px;margin:0 auto;padding:0 clamp(1.2rem,5vw,2.5rem);position:relative;z-index:1}
-section{padding:clamp(4.5rem,11vmin,7.5rem) 0}
-.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent)}
+  /* 배경 미세 방사형 그라디언트 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 45% at 50% 50%, #1c0808 0%, transparent 68%);
+    pointer-events: none;
+  }
 
-/* ── typography ── */
-.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:clamp(.58rem,1.4vmin,.63rem);font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--red-hi);margin-bottom:1.1rem}
-.eyebrow::before{content:'';width:18px;height:1px;background:var(--red-hi)}
-.headline{font-size:clamp(1.65rem,5.2vw,2.85rem);font-weight:700;line-height:1.24;letter-spacing:-.02em}
-.headline em{font-style:normal;color:var(--red-hi)}
-.sub{font-size:clamp(.86rem,2.1vw,1.02rem);font-weight:300;color:var(--text-md);line-height:1.85;margin-top:1.1rem}
+  /* ── 심박 링 ── */
+  .pulse-ring {
+    position: absolute;
+    border-radius: 9999px;
+    border: 1px solid rgba(192, 57, 43, 0.18);
+    animation: ringPulse 3.2s ease-out infinite;
+  }
+  .ring-1 { width: 230px; height: 230px; animation-delay: 0s; }
+  .ring-2 { width: 310px; height: 310px; animation-delay: 0.9s; }
+  .ring-3 { width: 390px; height: 390px; animation-delay: 1.8s; }
 
-/* ── buttons ── */
-.btn-p{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;width:100%;padding:clamp(.88rem,2.3vmin,1.05rem) 1.5rem;background:var(--red);color:#fff;font-family:var(--font);font-size:clamp(.82rem,1.9vmin,.93rem);font-weight:600;letter-spacing:.03em;border:none;border-radius:3px;cursor:pointer;box-shadow:0 0 28px rgba(192,57,43,.32),0 4px 18px rgba(0,0,0,.4);transition:background .22s,box-shadow .22s,transform .14s;position:relative;overflow:hidden}
-.btn-p::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent);pointer-events:none}
-.btn-p:hover{background:var(--red-hi);box-shadow:0 0 42px rgba(231,76,60,.48),0 4px 18px rgba(0,0,0,.4);transform:translateY(-1px)}
-.btn-p:active{transform:translateY(0)}
-.btn-o{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;width:100%;padding:clamp(.78rem,2vmin,.95rem) 1.5rem;background:transparent;color:var(--text-md);font-family:var(--font);font-size:clamp(.78rem,1.8vmin,.86rem);font-weight:500;letter-spacing:.05em;border:1px solid rgba(255,255,255,.1);border-radius:3px;cursor:pointer;transition:border-color .22s,color .22s,background .22s}
-.btn-o:hover{border-color:rgba(255,255,255,.28);color:var(--text-hi);background:rgba(255,255,255,.04)}
+  @keyframes ringPulse {
+    0%   { opacity: 0;   transform: scale(0.88); }
+    25%  { opacity: 0.9; }
+    100% { opacity: 0;   transform: scale(1.08); }
+  }
 
-/* ── card ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.4rem,3.8vw,2.4rem)}
+  /* ── 메인 버튼 ── */
+  #resetBtn {
+    position: relative;
+    z-index: 10;
+    width: 170px;
+    height: 170px;
+    border-radius: 9999px;
+    border: none;
+    background: radial-gradient(circle at 36% 34%, #e74c3c, #8b1a10);
+    box-shadow:
+      0 0 45px rgba(192, 57, 43, 0.5),
+      0 0 90px rgba(192, 57, 43, 0.22),
+      inset 0 2px 5px rgba(255,255,255,0.12),
+      inset 0 -3px 6px rgba(0,0,0,0.45);
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    color: rgba(255,255,255,0.88);
+    text-transform: uppercase;
+    line-height: 1.6;
+    text-align: center;
+    animation: breathe 4.2s ease-in-out infinite;
+    transition: opacity 0.9s ease, transform 0.9s ease, box-shadow 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
 
-/* ════════════════════
-   HERO
-════════════════════ */
-#hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(3.5rem,9vmin,6rem) 0;text-align:center;position:relative}
-#hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(80,8,4,.48) 0%,transparent 70%)}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .95rem;border:1px solid rgba(192,57,43,.32);border-radius:999px;font-size:clamp(.58rem,1.4vmin,.66rem);font-weight:500;letter-spacing:.12em;color:var(--red-hi);background:rgba(192,57,43,.08);margin-bottom:1.8rem}
-.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--red-hi);animation:blink 1.8s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  #resetBtn:hover {
+    box-shadow:
+      0 0 65px rgba(231, 76, 60, 0.7),
+      0 0 130px rgba(192, 57, 43, 0.32),
+      inset 0 2px 5px rgba(255,255,255,0.15),
+      inset 0 -3px 6px rgba(0,0,0,0.45);
+  }
 
-/* ════════════════════
-   QUIZ
-════════════════════ */
-#quizBox{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.7rem,4.8vw,2.8rem);width:100%;max-width:540px;margin:0 auto;position:relative;overflow:hidden}
-#quizBox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.quiz-q{display:none;animation:qSlide .38s ease both}
-.quiz-q.active{display:block}
-@keyframes qSlide{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
-.q-text{font-size:clamp(.92rem,2.4vw,1.06rem);font-weight:400;color:var(--text-hi);line-height:1.72;margin-bottom:1.7rem}
-.q-btns{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-.q-btn{padding:.82rem;border-radius:3px;border:1px solid var(--border);background:transparent;font-family:var(--font);font-size:.88rem;font-weight:600;color:var(--text-md);cursor:pointer;transition:all .18s ease;letter-spacing:.05em}
-.q-btn.yes:hover,.q-btn.yes.sel{border-color:var(--red-hi);color:var(--red-hi);background:rgba(192,57,43,.08)}
-.q-btn.no:hover,.q-btn.no.sel{border-color:rgba(255,255,255,.22);color:var(--text-hi);background:rgba(255,255,255,.05)}
-.q-prog{display:flex;gap:5px;margin-bottom:1.5rem}
-.q-dot{height:3px;flex:1;border-radius:999px;background:var(--text-lo);transition:background .28s}
-.q-dot.done{background:var(--red)}.q-dot.cur{background:var(--red-hi)}
-#qLoading{display:none;flex-direction:column;align-items:center;gap:1.1rem;padding:.8rem 0}
-.lbar{width:100%;height:3px;background:var(--text-lo);border-radius:999px;overflow:hidden}
-.lfill{height:100%;width:0%;background:linear-gradient(90deg,var(--red),var(--red-hi));border-radius:999px;transition:width .05s linear}
-.ltxt{font-size:.72rem;color:var(--text-lo);letter-spacing:.12em;text-transform:uppercase}
-#qResult{display:none;animation:qSlide .5s ease both}
-.rbadge{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem .85rem;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.28);border-radius:999px;font-size:.63rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--red-hi);margin-bottom:1.1rem}
-.rtitle{font-size:clamp(.98rem,2.8vw,1.16rem);font-weight:600;color:var(--text-hi);margin-bottom:.55rem;line-height:1.4}
-.rdesc{font-size:clamp(.78rem,1.9vw,.86rem);color:var(--text-md);line-height:1.85;margin-bottom:1.7rem}
-.rstats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.9rem}
-.sbox{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:3px;padding:.9rem;text-align:center}
-.snum{font-size:clamp(1.25rem,3.8vw,1.7rem);font-weight:700;color:var(--red-hi);display:block}
-.slbl{font-size:.62rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-top:.22rem;display:block}
-.gift-row{display:flex;align-items:flex-start;gap:.55rem;font-size:.76rem;color:var(--text-md);line-height:1.65;margin-bottom:.85rem}
-.gift-row strong{color:var(--text-hi)}
-.email-row{display:flex;gap:.5rem;flex-wrap:wrap}
-.email-in{flex:1;min-width:0;padding:.75rem .95rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:3px;font-family:var(--font);font-size:.86rem;color:var(--text-hi);outline:none;transition:border-color .2s}
-.email-in:focus{border-color:rgba(192,57,43,.45)}
-.email-in::placeholder{color:var(--text-lo)}
-.email-sub{padding:.75rem 1.3rem;background:var(--red);color:#fff;font-family:var(--font);font-size:.78rem;font-weight:600;letter-spacing:.04em;border:none;border-radius:3px;cursor:pointer;white-space:nowrap;transition:background .2s;flex-shrink:0}
-.email-sub:hover{background:var(--red-hi)}
+  #resetBtn:active { transform: scale(0.96) !important; }
 
-/* ════════════════════
-   PHASE 2
-════════════════════ */
-.story-q{position:relative;padding:clamp(1.4rem,3.8vw,2.4rem) clamp(1.4rem,3.8vw,2.4rem) clamp(1.4rem,3.8vw,2.4rem) clamp(1.8rem,4.5vw,2.8rem);background:var(--surface);border:1px solid var(--border);border-radius:4px;border-left:3px solid var(--red)}
-.story-q blockquote{font-size:clamp(.9rem,2.3vw,1.05rem);font-weight:300;color:var(--text-md);line-height:2;letter-spacing:.02em}
-.story-q blockquote strong{color:var(--text-hi);font-weight:500}
-.story-q cite{display:flex;align-items:center;gap:.55rem;margin-top:1.1rem;font-size:.7rem;font-style:normal;color:var(--text-lo);letter-spacing:.08em}
-.story-q cite::before{content:'';width:18px;height:1px;background:var(--text-lo)}
-.step-row{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:start;padding:1.15rem 0;border-bottom:1px solid var(--border)}
-.step-row:last-child{border-bottom:none;padding-bottom:0}
-.snum2{width:clamp(30px,4.8vmin,38px);height:clamp(30px,4.8vmin,38px);border-radius:50%;border:1px solid rgba(192,57,43,.32);background:rgba(192,57,43,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.66rem;font-weight:700;color:var(--red-hi);letter-spacing:.04em}
-.stitle{font-size:clamp(.86rem,2.1vw,.97rem);font-weight:500;color:var(--text-hi);margin-bottom:.28rem}
-.sdesc{font-size:clamp(.76rem,1.8vw,.86rem);font-weight:300;color:var(--text-md);line-height:1.82}
-.kk-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.kk-head{background:rgba(254,229,0,.07);border-bottom:1px solid rgba(254,229,0,.09);padding:.85rem 1.35rem;display:flex;align-items:center;gap:.55rem}
-.kk-ico{width:27px;height:27px;border-radius:6px;background:rgba(254,229,0,.14);display:flex;align-items:center;justify-content:center;font-size:.88rem}
-.kk-name{font-size:.75rem;font-weight:600;color:rgba(254,229,0,.65);letter-spacing:.05em}
-.kk-body{padding:1.3rem}
-.bubble{display:inline-block;max-width:86%;padding:.7rem .95rem;border-radius:0 11px 11px 11px;background:rgba(255,255,255,.06);font-size:clamp(.8rem,1.9vw,.88rem);color:var(--text-md);line-height:1.72;margin-bottom:.55rem}
-.bubble.r{margin-left:auto;display:flex;border-radius:11px 0 11px 11px;background:rgba(192,57,43,.14);color:var(--text-hi)}
-.btime{font-size:.58rem;color:var(--text-lo);margin-bottom:.85rem;display:block}
-.btime.r{text-align:right}
+  #resetBtn.hidden-out {
+    opacity: 0;
+    transform: scale(0.88);
+    pointer-events: none;
+  }
 
-/* ════════════════════
-   ROI CALC
-════════════════════ */
-#roiCard{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.7rem,4.8vw,2.8rem);position:relative;overflow:hidden}
-#roiCard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.sl-lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.85rem}
-.sl-lbl span:first-child{font-size:.78rem;color:var(--text-md)}
-#hDisp{font-size:clamp(1.15rem,3.3vw,1.52rem);font-weight:700;color:var(--text-hi)}
-#hDisp em{font-style:normal;font-size:.68rem;font-weight:400;color:var(--text-md);margin-left:.28rem}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:linear-gradient(90deg,var(--red) var(--v,37%),var(--text-lo) var(--v,37%));border-radius:999px;outline:none;cursor:pointer;margin-bottom:1.9rem}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--text-hi);box-shadow:0 0 0 3px rgba(192,57,43,.28),0 2px 8px rgba(0,0,0,.5);cursor:pointer;transition:box-shadow .18s}
-input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 5px rgba(192,57,43,.38),0 2px 8px rgba(0,0,0,.5)}
-.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.3rem}
-.roi-box{padding:clamp(.95rem,2.8vw,1.45rem);border-radius:3px;text-align:center;background:rgba(255,255,255,.02);border:1px solid var(--border);transition:all .35s ease}
-.roi-box.hl{border-color:rgba(201,169,110,.28);background:linear-gradient(135deg,rgba(201,169,110,.06),rgba(201,169,110,.02))}
-.rval{font-size:clamp(1.15rem,3.8vw,1.8rem);font-weight:700;color:var(--text-hi);display:block;line-height:1.08;transition:all .28s ease}
-.rval.gold{color:var(--gold)}
-.runit{font-size:.6rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-top:.32rem;display:block}
-.roi-note{font-size:.7rem;color:var(--text-lo);text-align:center;line-height:1.65;padding:.85rem;background:rgba(255,255,255,.02);border-radius:3px;border:1px solid var(--border)}
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 45px rgba(192,57,43,.5), 0 0 90px rgba(192,57,43,.22),
+                  inset 0 2px 5px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.45);
+    }
+    50% {
+      transform: scale(1.065);
+      box-shadow: 0 0 62px rgba(231,76,60,.68), 0 0 120px rgba(192,57,43,.32),
+                  inset 0 2px 5px rgba(255,255,255,.12), inset 0 -3px 6px rgba(0,0,0,.45);
+    }
+  }
 
-/* ════════════════════
-   DEMO PLACEHOLDER
-════════════════════ */
-.demo-ph{width:100%;aspect-ratio:16/9;max-height:290px;background:var(--s2);border:1px solid var(--border);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;position:relative;overflow:hidden}
-.demo-ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(192,57,43,.05),transparent 70%)}
-.demo-ico{width:54px;height:54px;border-radius:50%;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.22);display:flex;align-items:center;justify-content:center;font-size:1.35rem;position:relative;animation:demoPulse 2.5s ease-in-out infinite}
-@keyframes demoPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.3)}50%{box-shadow:0 0 0 13px rgba(192,57,43,0)}}
-.demo-lbl{font-size:.7rem;color:var(--text-lo);letter-spacing:.12em;text-transform:uppercase;z-index:1}
-.demo-key{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-size:.68rem;font-weight:700;color:var(--text-md);box-shadow:0 3px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);z-index:1}
+  /* ── 가이드 패널 ── */
+  #guidePanel {
+    position: absolute;
+    z-index: 10;
+    width: min(580px, 92vw);
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+    transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+  #guidePanel.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
-/* ════════════════════
-   FINAL CTA
-════════════════════ */
-#finalCTA{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.9rem,5.5vw,3.2rem);text-align:center;position:relative;overflow:hidden}
-#finalCTA::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(80,8,4,.38),transparent 65%)}
-.price-row{display:flex;align-items:baseline;justify-content:center;gap:.95rem;margin:1.4rem 0}
-.p-orig{font-size:.92rem;color:var(--text-lo);text-decoration:line-through}
-.p-main{font-size:clamp(1.95rem,5.8vw,2.7rem);font-weight:700;color:var(--text-hi)}
-.p-badge{display:inline-flex;align-items:center;padding:.28rem .68rem;background:rgba(192,57,43,.13);border:1px solid rgba(192,57,43,.32);border-radius:999px;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
-.inc-list{display:flex;flex-direction:column;gap:.45rem;margin:1.4rem 0;text-align:left}
-.inc-item{display:flex;align-items:center;gap:.65rem;font-size:clamp(.78rem,1.9vw,.86rem);color:var(--text-md)}
-.inc-item::before{content:'✓';color:var(--red-hi);font-weight:700;flex-shrink:0}
-.seats-wrap{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.7rem}
-.seats-track{width:100%;height:5px;background:var(--text-lo);border-radius:999px;overflow:hidden}
-.seats-fill{height:100%;width:76%;background:linear-gradient(90deg,var(--red),var(--red-hi));border-radius:999px}
-.seats-lbl{display:flex;justify-content:space-between;font-size:.63rem;color:var(--text-lo);letter-spacing:.07em}
-.guar{margin-top:.95rem;font-size:clamp(.66rem,1.6vw,.73rem);color:var(--text-lo);line-height:1.7}
-.guar strong{color:var(--text-md)}
+  /* 호흡 텍스트 */
+  #breathText {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3.2vw, 1.45rem);
+    font-weight: 300;
+    color: rgba(200, 200, 205, 0.4);
+    text-align: center;
+    letter-spacing: 0.06em;
+    margin-bottom: 2.8rem;
+    min-height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 2.2s ease, opacity 1.4s ease;
+  }
+  #breathText.lit { color: rgba(210, 210, 215, 0.88); }
+  #breathText.dim { opacity: 0.3; }
 
-/* ════════════════════════════════
-   EMERGENCY RESET SECTION
-════════════════════════════════ */
-#resetSection{
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  padding: clamp(4rem,10vmin,7rem) 0;
-}
-#resetSection::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(80,8,4,.52) 0%,transparent 72%);
-}
+  /* 구분선 */
+  .accent-line {
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(192,57,43,0.65), transparent);
+    margin: 0 auto 2.8rem;
+  }
 
-/* 섹션 헤더 */
-.reset-header{
-  text-align:center;
-  position:relative;z-index:5;
-  margin-bottom:clamp(2.5rem,6vmin,4rem);
-}
+  /* 가이드 항목 */
+  .g-item {
+    display: flex;
+    gap: 1.1rem;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .g-item.show { opacity: 1; transform: translateX(0); }
 
-/* ── 버튼 씬 ── */
-#btnScene{
-  position:relative;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:5;
-  transition:opacity 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.4,0,0.2,1);
-}
-#btnScene.out{opacity:0;transform:scale(0.86);pointer-events:none}
+  .g-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--red-bright);
+    letter-spacing: 0.08em;
+    padding-top: 0.22rem;
+    flex-shrink: 0;
+    width: 1.1rem;
+    text-align: right;
+  }
 
-/* pulse rings */
-.rings-wrap{position:absolute;display:flex;align-items:center;justify-content:center;width:0;height:0}
-.p-ring{position:absolute;border-radius:50%;border:1px solid rgba(192,57,43,.18);animation:rPulse 3.4s ease-out infinite}
-.p-ring.r1{width:clamp(200px,42vmin,270px);height:clamp(200px,42vmin,270px);animation-delay:0s}
-.p-ring.r2{width:clamp(270px,56vmin,360px);height:clamp(270px,56vmin,360px);animation-delay:1s}
-.p-ring.r3{width:clamp(340px,70vmin,450px);height:clamp(340px,70vmin,450px);animation-delay:2s}
-@keyframes rPulse{0%{opacity:0;transform:scale(.87)}20%{opacity:.9}100%{opacity:0;transform:scale(1.1)}}
+  .g-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(0.8rem, 2.3vw, 0.92rem);
+    font-weight: 300;
+    color: #b8b8c0;
+    line-height: 1.95;
+    letter-spacing: 0.025em;
+  }
+  .g-text strong { color: #dcdce4; font-weight: 400; }
 
-/* main button */
-#resetBtn{
-  position:relative;z-index:5;
-  width:clamp(145px,32vmin,200px);height:clamp(145px,32vmin,200px);
-  border-radius:50%;
-  border:1.5px solid rgba(192,57,43,.32);
-  background:radial-gradient(circle at 36% 30%,#ef5244 0%,#c0392b 34%,#8b1a10 68%,#5a0e09 100%);
-  box-shadow:0 0 48px rgba(192,57,43,.52),0 0 96px rgba(192,57,43,.22),inset 0 1px 0 rgba(255,200,180,.14),inset 0 -2px 0 rgba(0,0,0,.48);
-  cursor:pointer;
-  font-family:var(--font);
-  font-size:clamp(.48rem,1.3vmin,.64rem);font-weight:700;letter-spacing:.3em;
-  color:rgba(255,255,255,.9);text-transform:uppercase;text-align:center;line-height:1.7;
-  animation:breathe 4.4s ease-in-out infinite;
-  transition:box-shadow .28s ease;
-  outline:none;-webkit-tap-highlight-color:transparent;user-select:none;
-}
-#resetBtn::before{content:'';position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle at 40% 30%,rgba(255,180,160,.16) 0%,transparent 58%);pointer-events:none}
-#resetBtn:hover{box-shadow:0 0 68px rgba(231,76,60,.72),0 0 136px rgba(192,57,43,.35),inset 0 1px 0 rgba(255,200,180,.18),inset 0 -2px 0 rgba(0,0,0,.48)}
-#resetBtn:active{transform:scale(.96)!important}
-#resetBtn.locked{animation:none!important;pointer-events:none}
-@keyframes breathe{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.07);filter:brightness(1.11)}}
+  /* 각주 */
+  #footnote {
+    margin-top: 2.8rem;
+    padding-top: 1.3rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.62rem, 1.7vw, 0.7rem);
+    color: rgba(107, 107, 118, 0.85);
+    letter-spacing: 0.06em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  #footnote.show { opacity: 1; }
 
-.btn-sub-lbl{
-  margin-top:clamp(1.5rem,4vmin,2.4rem);
-  font-size:clamp(.54rem,1.3vmin,.62rem);font-weight:400;letter-spacing:.22em;
-  color:var(--text-lo);text-transform:uppercase;text-align:center;
-  opacity:0;animation:subFade .8s ease 1.2s forwards;
-}
-@keyframes subFade{to{opacity:1}}
-
-/* ── 가이드 패널 (버튼 클릭 후) ── */
-#guidePanel{
-  position:absolute;z-index:10;
-  width:min(580px,90vw);
-  max-height:88dvh;max-height:88vh;
-  overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
-  padding:clamp(1.6rem,4.2vw,3rem) clamp(1.3rem,4.2vw,3rem);
-  opacity:0;transform:translateY(20px);
-  pointer-events:none;display:none;
-}
-#guidePanel::-webkit-scrollbar{display:none}
-#guidePanel.visible{display:block;pointer-events:auto}
-#guidePanel.fadein{animation:gpIn 1.1s cubic-bezier(0.2,0,0,1) forwards}
-@keyframes gpIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-.breath-sec{text-align:center;margin-bottom:clamp(1.6rem,4vmin,2.6rem)}
-#breathSvg{display:block;margin:0 auto clamp(.85rem,2vmin,1.25rem);width:clamp(52px,11vmin,72px);height:clamp(52px,11vmin,72px)}
-#breathCircle{transition:r 2.2s cubic-bezier(.45,0,.55,1),fill 2.2s ease}
-#breathRing{transition:r 2.2s cubic-bezier(.45,0,.55,1),stroke-opacity 2.2s ease}
-#breathTxt{font-size:clamp(.86rem,2.3vmin,1.05rem);font-weight:300;color:rgba(200,200,208,.4);letter-spacing:.06em;line-height:1.7;transition:color 2.4s ease,opacity 1.6s ease;min-height:1.7em}
-#breathTxt.lit{color:rgba(215,215,222,.88)}
-#breathTxt.dim{opacity:.22}
-
-.sep{display:flex;align-items:center;gap:.85rem;margin:clamp(1.3rem,3.3vmin,2.1rem) 0}
-.sep-l{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(192,57,43,.38),transparent)}
-.sep-d{width:4px;height:4px;border-radius:50%;background:rgba(192,57,43,.55)}
-
-.gtl{position:relative;padding-left:clamp(.75rem,2.3vw,1.1rem)}
-.gtl::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,rgba(192,57,43,.48),rgba(192,57,43,.14));transform:scaleY(0);transform-origin:top;transition:transform 1.3s cubic-bezier(.2,0,0,1) .25s}
-.gtl.drawn::before{transform:scaleY(1)}
-
-.g-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(.75rem,2vw,1.15rem);align-items:start;margin-bottom:clamp(1.2rem,3vmin,1.8rem);opacity:0;transform:translateX(-12px);transition:opacity .65s cubic-bezier(.2,0,0,1),transform .65s cubic-bezier(.2,0,0,1)}
-.g-item:last-child{margin-bottom:0}
-.g-item.show{opacity:1;transform:translateX(0)}
-.g-num-w{width:clamp(25px,5vmin,31px);height:clamp(25px,5vmin,31px);border-radius:50%;border:1px solid rgba(192,57,43,.38);background:rgba(192,57,43,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.g-num{font-size:clamp(.58rem,1.3vmin,.66rem);font-weight:600;color:var(--red-hi)}
-.g-lbl{display:inline-block;font-size:clamp(.52rem,1.15vmin,.58rem);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-lo);margin-bottom:clamp(.25rem,.6vmin,.38rem)}
-.g-txt{font-size:clamp(.8rem,1.95vw,.91rem);font-weight:300;color:var(--text-md);line-height:1.95;letter-spacing:.02em}
-.g-txt strong{color:var(--text-hi);font-weight:500}
-.g-txt em{font-style:normal;color:var(--gold);font-weight:400}
-
-.fn-wrap{margin-top:clamp(1.7rem,4.2vmin,2.6rem);padding-top:clamp(.95rem,2.3vmin,1.35rem);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .85s ease}
-.fn-wrap.show{opacity:1}
-#fnote{font-size:clamp(.57rem,1.35vw,.65rem);font-weight:300;color:var(--text-lo);letter-spacing:.07em;text-align:center}
-
-/* ── reset CTA 재시작 링크 ── */
-.reset-again{
-  position:absolute;bottom:clamp(1.2rem,3vmin,2rem);left:50%;transform:translateX(-50%);
-  font-size:.6rem;color:var(--text-lo);letter-spacing:.1em;text-decoration:none;
-  display:none;transition:color .2s;white-space:nowrap;z-index:20;
-}
-.reset-again:hover{color:var(--text-md)}
-.reset-again.show{display:block}
-
-/* ── 반응형 ── */
-@media(max-width:480px){
-  .roi-grid{grid-template-columns:1fr}
-  .email-row{flex-direction:column}
-  .email-sub{width:100%}
-  .rstats{grid-template-columns:1fr}
-}
-@media(max-width:360px){#guidePanel{padding:1.3rem 1rem}}
+  @media (max-width: 480px) {
+    #resetBtn { width: 148px; height: 148px; font-size: 0.65rem; }
+    .ring-1 { width: 196px; height: 196px; }
+    .ring-2 { width: 265px; height: 265px; }
+    .ring-3 { width: 334px; height: 334px; }
+  }
 </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center overflow-hidden relative">
 
-<!-- ════════════════════════════════
-     HERO + PHASE 1 QUIZ
-════════════════════════════════ -->
-<section id="hero">
-  <div class="wrap" style="text-align:center;position:relative;z-index:1">
-    <div class="reveal">
-      <div class="hero-badge"><span></span>CEO 뇌 에너지 복구 시스템</div>
-    </div>
-    <h1 class="headline reveal d1" style="max-width:640px;margin:0 auto">
-      밤 10시 유튜브 새로고침,<br>사소한 결정 마비.<br><em>당신의 의지 문제가 아닙니다.</em>
-    </h1>
-    <p class="sub reveal d2" style="max-width:480px;margin:1.1rem auto 2.8rem">
-      혼자 모든 걸 결정하다 보면 밤엔 뇌가 방전됩니다.<br>먼저 지금 상태를 확인해보세요.
-    </p>
+<!-- ── 버튼 씬 ── -->
+<div id="btnScene" class="relative flex items-center justify-center">
+  <div class="pulse-ring ring-1 absolute"></div>
+  <div class="pulse-ring ring-2 absolute"></div>
+  <div class="pulse-ring ring-3 absolute"></div>
+  <button id="resetBtn" onclick="activate()">
+    EMERGENCY<br>RESET
+  </button>
+</div>
 
-    <!-- QUIZ BOX -->
-    <div id="quizBox" class="reveal d3">
-      <p class="eyebrow" style="justify-content:center">CEO 뇌 에너지 누수 자가 진단</p>
-      <div class="q-prog" id="qProg">
-        <div class="q-dot cur" id="d0"></div>
-        <div class="q-dot" id="d1"></div>
-        <div class="q-dot" id="d2"></div>
-      </div>
-      <div class="quiz-q active" id="q0">
-        <p class="q-text">오늘 "나중에 결정하자"고 미룬 일이<br><strong>3개 이상</strong> 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(0,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(0,'n')">✕ 아니다</button></div>
-      </div>
-      <div class="quiz-q" id="q1">
-        <p class="q-text">퇴근 후 <strong>멍하게 쇼츠나 릴스</strong>를<br>30분 이상 보다가 정신을 차린 적이 이번 주 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(1,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(1,'n')">✕ 아니다</button></div>
-      </div>
-      <div class="quiz-q" id="q2">
-        <p class="q-text">오늘 하루 끝에<br><strong>"나는 왜 이럴까"</strong> 하고 자책한 적이 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(2,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(2,'n')">✕ 아니다</button></div>
-      </div>
-      <div id="qLoading">
-        <p class="ltxt" id="ltxt">뇌 에너지 상태 분석 중...</p>
-        <div class="lbar"><div class="lfill" id="lfill"></div></div>
-      </div>
-      <div id="qResult">
-        <div class="rbadge" id="rbadge">⚡ 진단 완료</div>
-        <p class="rtitle" id="rtitle">결정 피로로 인한 뇌 에너지 방전 상태</p>
-        <p class="rdesc" id="rdesc">매주 <strong style="color:var(--red-hi)">14시간</strong>이 자책과 멍한 시간으로 증발하고 있어요.<br>의지 문제가 아닙니다. 환경의 문제입니다.</p>
-        <div class="rstats">
-          <div class="sbox"><span class="snum" id="sH">14h</span><span class="slbl">주간 손실 시간</span></div>
-          <div class="sbox"><span class="snum" id="sM">4,500만</span><span class="slbl">월 기회비용</span></div>
-        </div>
-        <div class="gift-row">🎁 <span><strong>30초 멘탈 리셋 가이드 PDF</strong>와 <strong>뇌 전원 차단 노션 보드</strong>를 무료로 받아보세요.</span></div>
-        <div class="email-row">
-          <input class="email-in" type="email" placeholder="your@email.com" id="eIn">
-          <button class="email-sub" onclick="doEmail()">무료로 받기</button>
-        </div>
-        <p id="eMsg" style="font-size:.7rem;color:var(--red-hi);margin-top:.55rem;display:none"></p>
-      </div>
-    </div>
-    <p class="reveal" style="font-size:.65rem;color:var(--text-lo);margin-top:1.3rem;letter-spacing:.06em">스팸 없음 · 언제든 수신 거부 가능</p>
+<!-- ── 가이드 씬 ── -->
+<div id="guidePanel">
+  <div id="breathText">숨을 깊게 들이마시고...</div>
+  <div class="accent-line"></div>
+
+  <div class="g-item" id="g1">
+    <span class="g-num">1</span>
+    <p class="g-text">지금 느끼는 자책감은 팩트가 아니라,<br>뇌가 피로하다는 <strong>'신호'</strong>일 뿐입니다.</p>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════
-     PHASE 2
-════════════════════════════════ -->
-<section>
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Phase 2 — 작동 원리</p>
-      <h2 class="headline" style="font-size:clamp(1.35rem,4.3vw,2.1rem);margin-bottom:.75rem">멘탈 OS는 어떻게<br>당신의 뇌를 리셋하는가?</h2>
-      <p class="sub" style="margin-bottom:2.8rem">의지에 기대는 것을 포기했을 때, 비로소 달라졌어요.</p>
-    </div>
-
-    <div class="story-q reveal d1" style="margin-bottom:1.8rem">
-      <blockquote>
-        사업 준비하면서 매일 밤 이랬어요.<br><br>
-        결과물이 없다. <strong>한심하고, 짜증나고, 괴롭고.</strong><br>
-        그러면서도 "좀 쉬어야지" 하면서 유튜브 켜고, 밤 11시.<br><br>
-        의지 문제인 줄 알았는데 — 그냥 <strong>뇌가 하루 종일 방전된 거</strong>더라고요.<br>
-        그래서 의지력 대신, 무너지는 순간 자동으로 잡아주는 환경을 만들었어요.
-      </blockquote>
-      <cite>멘탈 OS 창업자</cite>
-    </div>
-
-    <div class="card reveal d2" style="margin-bottom:2.8rem">
-      <div class="step-row"><div class="snum2">01</div><div><p class="stitle">F4 긴급 리셋 — 30초 뇌 재부팅</p><p class="sdesc">자책 스파이럴이 올라오는 순간, 브라우저 탭에 고정된 빨간 버튼 하나만 누르세요. 30초 안에 뇌가 실행 모드로 전환됩니다.</p></div></div>
-      <div class="step-row"><div class="snum2">02</div><div><p class="stitle">카카오톡 1:1 핫라인 — 10분 내 지침</p><p class="sdesc">혼자 결정이 안 될 때, 카카오톡으로 상황을 던지면 됩니다. 10분 안에 "지금 이것 하나만 하세요"라는 팩트 기반 지침이 옵니다.</p></div></div>
-      <div class="step-row"><div class="snum2">03</div><div><p class="stitle">매일 아침 원씽 — 단 하나의 집중</p><p class="sdesc">아침마다 그날의 가장 중요한 목표 하나가 푸시로 날아옵니다. 할 일 10개가 아니라, 딱 하나.</p></div></div>
-    </div>
-
-    <div class="reveal d3" style="margin-bottom:1.4rem">
-      <p style="font-size:.7rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem">실제 대화 예시</p>
-      <div class="kk-card">
-        <div class="kk-head"><div class="kk-ico">💬</div><span class="kk-name">멘탈 OS 핫라인</span></div>
-        <div class="kk-body">
-          <div class="bubble">오늘 클라이언트 미팅 망쳤어요. 뭐부터 해야 할지 모르겠어요 😔</div>
-          <span class="btime">오후 8:47</span>
-          <div class="bubble r">A안: 지금 바로 "다음 미팅 일정 잡겠습니다" 메일 1줄 보내기<br>B안: 오늘은 덮고 내일 아침 연락하기<br><br><strong>→ A안이 3배 유리해요. 5분 안에 보내세요.</strong></div>
-          <span class="btime r">오후 8:54</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card reveal" style="text-align:center;border-color:rgba(201,169,110,.13)">
-      <p class="eyebrow" style="justify-content:center">무료 체험</p>
-      <h3 style="font-size:clamp(.98rem,2.8vw,1.18rem);font-weight:600;margin-bottom:.65rem">3일 프리리빙 챌린지</h3>
-      <p style="font-size:clamp(.78rem,1.9vw,.86rem);color:var(--text-md);line-height:1.85;margin-bottom:1.4rem">3일간 <strong style="color:var(--text-hi)">아침 원씽 푸시</strong>와 <strong style="color:var(--text-hi)">수면 전 오디오 가이드</strong>를 무료로 경험해보세요.</p>
-      <button class="btn-o" onclick="alert('오픈 준비 중이에요. 위에서 이메일을 남겨주시면 가장 먼저 안내드릴게요!')">3일 프리리빙 챌린지 신청하기 →</button>
-    </div>
+  <div class="g-item" id="g2">
+    <span class="g-num">2</span>
+    <p class="g-text">어제 정해둔 <strong>'단 하나의 목표(One Thing)'</strong>가<br>무엇인지 떠올리십시오.</p>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════
-     PHASE 3
-════════════════════════════════ -->
-<section>
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Phase 3 — 투자 확신</p>
-      <h2 class="headline" style="font-size:clamp(1.35rem,4.3vw,2.1rem);margin-bottom:.75rem">지금 낭비하는 시간이<br>얼마짜리인지 계산해봤나요?</h2>
-      <p class="sub" style="margin-bottom:2.5rem">슬라이더를 움직여 직접 확인해보세요.</p>
-    </div>
-
-    <!-- ROI 계산기 -->
-    <div id="roiCard" class="reveal d1" style="margin-bottom:1.8rem">
-      <p class="eyebrow">기회비용 ROI 계산기</p>
-      <div class="sl-lbl"><span>주간 자책·무기력으로 낭비하는 시간</span><span id="hDisp">14<em>시간/주</em></span></div>
-      <input type="range" id="hSlider" min="3" max="40" value="14" oninput="calcROI(this.value)">
-      <div class="roi-grid">
-        <div class="roi-box" id="rbox1"><span class="rval" id="rLoss">4,500만</span><span class="runit">월 손실 기회비용</span></div>
-        <div class="roi-box hl" id="rbox2"><span class="rval gold" id="rROI">92배</span><span class="runit">멘탈 OS 투자 ROI</span></div>
-      </div>
-      <div class="roi-note" id="rNote">시간당 가치 <span id="rHourly">75만 원</span> 기준 · 월 4주 계산<br>49만 원 투자로 <span id="rMonthly">4,500만 원</span> 손실 방어 → ROI <span id="rX">92배</span></div>
-    </div>
-
-    <!-- F4 데모 -->
-    <div class="reveal d2" style="margin-bottom:1.8rem">
-      <p style="font-size:.7rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.85rem">10초 F4 긴급 버튼 데모</p>
-      <div class="demo-ph">
-        <div class="demo-ico">🔴</div>
-        <span class="demo-lbl">GIF 미리보기 · 준비 중</span>
-        <div style="display:flex;align-items:center;gap:.45rem;z-index:1;margin-top:.25rem">
-          <span style="font-size:.65rem;color:var(--text-lo)">키보드</span>
-          <div class="demo-key">F4</div>
-          <span style="font-size:.65rem;color:var(--text-lo)">누르면 30초 리셋</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 최종 CTA 카드 -->
-    <div id="finalCTA" class="reveal d3">
-      <div style="position:relative;z-index:1">
-        <p class="eyebrow" style="justify-content:center">지금 시작하기</p>
-        <h2 style="font-size:clamp(1.25rem,3.8vw,1.72rem);font-weight:700;margin-bottom:.45rem">뇌 에너지를 복구할 준비가 됐다면</h2>
-        <p style="font-size:clamp(.78rem,1.9vw,.86rem);color:var(--text-md);margin-bottom:1.4rem">파운딩 멤버 50명 한정 · 마감 시 99만 원으로 영구 인상</p>
-        <div class="seats-wrap" style="max-width:380px;margin:0 auto 1.7rem">
-          <div class="seats-track"><div class="seats-fill"></div></div>
-          <div class="seats-lbl"><span>파운딩 멤버 현황</span><span style="color:var(--red-hi);font-weight:600">잔여 12자리</span></div>
-        </div>
-        <div class="inc-list" style="max-width:360px;margin:0 auto 1.7rem">
-          <div class="inc-item">F4 긴급 리셋 웹앱 (브라우저 영구 고정)</div>
-          <div class="inc-item">카카오톡 1:1 핫라인 (10분 내 지침)</div>
-          <div class="inc-item">매일 아침 원씽 푸시 알림</div>
-          <div class="inc-item">15분 온보딩 세팅콜 (1:1 직접 진행)</div>
-          <div class="inc-item">30초 멘탈 리셋 가이드 PDF</div>
-        </div>
-        <div class="price-row"><span class="p-orig">99만 원</span><span class="p-main">49만 원</span><span class="p-badge">파운딩</span></div>
-        <div style="max-width:400px;margin:0 auto">
-          <button class="btn-p" style="font-size:clamp(.86rem,2.1vw,.98rem);padding:1.05rem" onclick="alert('결제 페이지로 이동합니다.')">지금 바로 뇌 에너지 복구하기 →</button>
-          <p class="guar" style="margin-top:.9rem">🛡️ <strong>30일 완전 보장</strong> — 매일 F4 누르고도 효과 없으면 단 1원도 묻지 않고 100% 전액 환불</p>
-          <p style="font-size:.62rem;color:var(--text-lo);margin-top:.75rem">15분 온보딩 세팅콜 포함 · 결제 즉시 카카오톡 채널 입장</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════
-     EMERGENCY RESET SECTION
-════════════════════════════════ -->
-<section id="resetSection">
-
-  <!-- 섹션 헤더 -->
-  <div class="reset-header reveal">
-    <p class="eyebrow" style="justify-content:center">지금 당장 무너지고 있다면</p>
-    <h2 class="headline" style="font-size:clamp(1.2rem,3.8vw,1.9rem);text-align:center">결제는 나중에.<br><em>지금 이 버튼 하나만 누르세요.</em></h2>
+  <div class="g-item" id="g3">
+    <span class="g-num">3</span>
+    <p class="g-text">지금 당장 카카오톡을 켜고, <strong>CDO(나)</strong>에게<br>오늘의 <strong>MVT(최소 실행 테스트)</strong> 지침을 요청하십시오.<br>10분 안에 답을 드립니다.</p>
   </div>
 
-  <!-- 버튼 씬 -->
-  <div id="btnScene">
-    <div class="rings-wrap">
-      <div class="p-ring r1"></div>
-      <div class="p-ring r2"></div>
-      <div class="p-ring r3"></div>
-    </div>
-    <button id="resetBtn" onclick="activateReset()" aria-label="긴급 멘탈 리셋 시작">
-      EMERGENCY<br>RESET
-    </button>
-    <p class="btn-sub-lbl">탭하여 즉시 리셋 시작</p>
-  </div>
-
-  <!-- 가이드 패널 -->
-  <div id="guidePanel" aria-live="polite">
-    <div class="breath-sec">
-      <svg id="breathSvg" viewBox="0 0 80 80" fill="none">
-        <circle id="breathRing" cx="40" cy="40" r="22" stroke="rgba(192,57,43,0.26)" stroke-width="1" fill="none"/>
-        <circle id="breathCircle" cx="40" cy="40" r="11" fill="rgba(192,57,43,0.2)"/>
-      </svg>
-      <p id="breathTxt">숨을 깊게 들이마시고...</p>
-    </div>
-
-    <div class="sep"><div class="sep-l"></div><div class="sep-d"></div><div class="sep-l"></div></div>
-
-    <div class="gtl" id="gtl">
-      <div class="g-item" id="g1">
-        <div class="g-num-w"><span class="g-num">1</span></div>
-        <div><span class="g-lbl">인식의 재조정</span><p class="g-txt">지금 느끼는 자책감은 팩트가 아닙니다.<br>그것은 단지 뇌가 피로하다는 <strong>'신호'</strong>일 뿐입니다.</p></div>
-      </div>
-      <div class="g-item" id="g2">
-        <div class="g-num-w"><span class="g-num">2</span></div>
-        <div><span class="g-lbl">포커스 복원</span><p class="g-txt">어제 정해둔 <strong>'단 하나의 목표<em>(One Thing)</em>'</strong>가<br>무엇인지 지금 이 순간 떠올리십시오.</p></div>
-      </div>
-      <div class="g-item" id="g3">
-        <div class="g-num-w"><span class="g-num">3</span></div>
-        <div><span class="g-lbl">즉각 실행</span><p class="g-txt">지금 당장 카카오톡을 켜고, <strong>CDO(나)</strong>에게<br>오늘의 <strong>MVT<em>(최소 실행 테스트)</em></strong> 지침을 요청하십시오.<br><strong>10분 안에</strong> 답을 드립니다.</p></div>
-      </div>
-    </div>
-
-    <div class="fn-wrap" id="fnWrap">
-      <p id="fnote">새로고침하면 리셋 버튼으로 돌아갑니다</p>
-    </div>
-  </div>
-
-  <!-- 다시 시작 -->
-  <a href="#resetSection" class="reset-again" id="resetAgain" onclick="resetScene(event)">↺ 다시 시작</a>
-
-</section>
-
-<footer style="padding:2.8rem 0;text-align:center;border-top:1px solid var(--border)">
-  <div class="wrap">
-    <p style="font-size:.66rem;color:var(--text-lo);letter-spacing:.06em;line-height:2">멘탈 OS · CEO Mind VIP 파트너십</p>
-    <p style="font-size:.62rem;color:var(--text-lo);margin-top:.4rem">© 2025 Mental OS. 모든 권리 보유.</p>
-  </div>
-</footer>
+  <div id="footnote">※ 창을 새로고침하면 다시 리셋 버튼으로 돌아갑니다.</div>
+</div>
 
 <script>
-/* ─── SCROLL REVEAL ─── */
-const obs = new IntersectionObserver(es => {
-  es.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} });
-},{threshold:.1,rootMargin:'0px 0px -36px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  function activate() {
+    const btn     = document.getElementById('resetBtn');
+    const scene   = document.getElementById('btnScene');
+    const panel   = document.getElementById('guidePanel');
+    const breath  = document.getElementById('breathText');
 
-/* ─── QUIZ ─── */
-let qAns=[], qCur=0;
-function ans(i,v){
-  qAns[i]=v;
-  const q=document.getElementById('q'+i);
-  q.querySelectorAll('.q-btn').forEach(b=>b.classList.remove('sel'));
-  q.querySelector('.q-btn.'+(v==='y'?'yes':'no')).classList.add('sel');
-  const dot=document.getElementById('d'+i);
-  dot.classList.remove('cur');dot.classList.add('done');
-  setTimeout(()=>{
-    q.classList.remove('active');
-    qCur=i+1;
-    if(qCur<3){
-      document.getElementById('q'+qCur).classList.add('active');
-      document.getElementById('d'+qCur).classList.add('cur');
-    } else { startLoad(); }
-  },280);
-}
-function startLoad(){
-  document.getElementById('qProg').style.display='none';
-  const ld=document.getElementById('qLoading');
-  ld.style.display='flex';
-  const fill=document.getElementById('lfill');
-  const msgs=['뇌 에너지 상태 분석 중...','결정 피로 패턴 측정 중...','진단 결과 생성 중...'];
-  const ltxt=document.getElementById('ltxt');
-  let p=0,mi=0;
-  const iv=setInterval(()=>{
-    p+=1.35;fill.style.width=Math.min(p,100)+'%';
-    if(p>33&&mi===0){mi=1;ltxt.textContent=msgs[1]}
-    if(p>66&&mi===1){mi=2;ltxt.textContent=msgs[2]}
-    if(p>=100){clearInterval(iv);setTimeout(showResult,380)}
-  },28);
-}
-function showResult(){
-  document.getElementById('qLoading').style.display='none';
-  const yes=qAns.filter(a=>a==='y').length;
-  document.getElementById('qResult').style.display='block';
-  if(yes<=1){
-    document.getElementById('rbadge').textContent='🟡 초기 에너지 누수 징후';
-    document.getElementById('rtitle').textContent='초기 결정 피로 징후 감지';
-    document.getElementById('rdesc').innerHTML='지금 관리하지 않으면 악화될 수 있어요.<br>매주 <strong style="color:var(--gold)">약 6시간</strong>이 조금씩 새고 있어요.';
-    document.getElementById('sH').textContent='6h';
-    document.getElementById('sM').textContent='1,800만';
+    // 1) 버튼 페이드아웃
+    btn.style.animation = 'none';
+    btn.classList.add('hidden-out');
+    scene.style.pointerEvents = 'none';
+
+    // 2) 가이드 패널 등장
+    setTimeout(() => {
+      panel.classList.add('visible');
+
+      // 호흡 — 들이마시기
+      breath.classList.add('lit');
+
+      // 호흡 — 내쉬기
+      setTimeout(() => {
+        breath.textContent = '천천히... 내쉬세요...';
+        breath.classList.remove('lit');
+      }, 2600);
+
+      // 호흡 텍스트 흐림
+      setTimeout(() => {
+        breath.classList.add('dim');
+      }, 5000);
+
+      // 항목 순차 등장
+      [['g1', 1200], ['g2', 2000], ['g3', 2800]].forEach(([id, delay]) => {
+        setTimeout(() => document.getElementById(id).classList.add('show'), delay);
+      });
+
+      // 각주
+      setTimeout(() => document.getElementById('footnote').classList.add('show'), 3600);
+
+    }, 500);
   }
-}
-function doEmail(){
-  const v=document.getElementById('eIn').value;
-  const m=document.getElementById('eMsg');
-  if(!v||!v.includes('@')){m.textContent='올바른 이메일 주소를 입력해주세요.';m.style.display='block';return}
-  m.style.color='var(--gold)';m.textContent='✓ 접수됐어요! 5분 안에 메일을 확인해보세요.';m.style.display='block';
-  document.getElementById('eIn').value='';
-}
-
-/* ─── ROI 계산기 ─── */
-function calcROI(h){
-  h=parseInt(h);
-  const rates={3:30,5:40,7:50,10:60,14:75,20:90,30:110,40:130};
-  let hr=75;
-  Object.keys(rates).map(Number).sort((a,b)=>a-b).forEach(k=>{if(h>=k)hr=rates[k]});
-  const loss=Math.round(h*4*hr);
-  const roi=Math.round(loss*10000/490000);
-  const pct=Math.round(((h-3)/(40-3))*100);
-  document.getElementById('hSlider').style.setProperty('--v',pct+'%');
-  document.getElementById('hDisp').innerHTML=h+'<em>시간/주</em>';
-  document.getElementById('rLoss').textContent=loss>=10000?Math.round(loss/10000)+'억':loss.toLocaleString()+'만';
-  document.getElementById('rROI').textContent=roi+'배';
-  document.getElementById('rHourly').textContent=hr+'만 원';
-  const ls=loss>=10000?Math.round(loss/10000)+'억 원':loss.toLocaleString()+'만 원';
-  document.getElementById('rMonthly').textContent=ls;
-  document.getElementById('rX').textContent=roi+'배';
-}
-window.addEventListener('load',()=>{
-  calcROI(14);
-  const s=document.getElementById('hSlider');
-  s.addEventListener('input',function(){
-    const p=Math.round(((this.value-this.min)/(this.max-this.min))*100);
-    this.style.setProperty('--v',p+'%');
-  });
-  s.style.setProperty('--v',Math.round(((14-3)/(40-3))*100)+'%');
-});
-
-/* ─── EMERGENCY RESET ─── */
-function activateReset(){
-  const btn=document.getElementById('resetBtn');
-  const scene=document.getElementById('btnScene');
-  const panel=document.getElementById('guidePanel');
-  const bTxt=document.getElementById('breathTxt');
-  const circle=document.getElementById('breathCircle');
-  const ring=document.getElementById('breathRing');
-  const gtl=document.getElementById('gtl');
-  const again=document.getElementById('resetAgain');
-
-  btn.classList.add('locked');
-  scene.classList.add('out');
-
-  setTimeout(()=>{
-    scene.style.display='none';
-    panel.classList.add('visible');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>panel.classList.add('fadein')));
-
-    // 호흡 시퀀스
-    bTxt.classList.add('lit');
-    circle.setAttribute('r','22');circle.setAttribute('fill','rgba(192,57,43,.4)');
-    ring.setAttribute('r','32');ring.setAttribute('stroke-opacity','.48');
-
-    setTimeout(()=>{
-      bTxt.textContent='천천히... 내쉬세요...';
-      bTxt.classList.remove('lit');
-      circle.setAttribute('r','8');circle.setAttribute('fill','rgba(192,57,43,.12)');
-      ring.setAttribute('r','16');ring.setAttribute('stroke-opacity','.16');
-    },2800);
-
-    setTimeout(()=>bTxt.classList.add('dim'),5100);
-
-    // 타임라인 & 항목
-    setTimeout(()=>gtl.classList.add('drawn'),850);
-    [['g1',1050],['g2',1950],['g3',2850]].forEach(([id,d])=>{
-      setTimeout(()=>document.getElementById(id).classList.add('show'),d);
-    });
-
-    // 각주 & 다시시작
-    setTimeout(()=>{
-      document.getElementById('fnWrap').classList.add('show');
-      again.classList.add('show');
-    },3800);
-
-  },950);
-}
-
-function resetScene(e){
-  e.preventDefault();
-  const scene=document.getElementById('btnScene');
-  const panel=document.getElementById('guidePanel');
-  const btn=document.getElementById('resetBtn');
-  const bTxt=document.getElementById('breathTxt');
-  const gtl=document.getElementById('gtl');
-  const again=document.getElementById('resetAgain');
-
-  // 패널 숨기기
-  panel.classList.remove('visible','fadein');
-  panel.style.display='none';
-
-  // 항목 리셋
-  ['g1','g2','g3'].forEach(id=>document.getElementById(id).classList.remove('show'));
-  gtl.classList.remove('drawn');
-  document.getElementById('fnWrap').classList.remove('show');
-  bTxt.className='';bTxt.textContent='숨을 깊게 들이마시고...';
-  document.getElementById('breathCircle').setAttribute('r','11');
-  document.getElementById('breathRing').setAttribute('r','22');
-  again.classList.remove('show');
-
-  // 버튼 복원
-  btn.classList.remove('locked');
-  scene.style.display='';
-  scene.classList.remove('out');
-  setTimeout(()=>btn.style.animation='',50);
-
-  // 스크롤
-  document.getElementById('resetSection').scrollIntoView({behavior:'smooth',block:'center'});
-}
 </script>
 </body>
 </html>
