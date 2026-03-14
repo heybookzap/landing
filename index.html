@@ -2,675 +2,577 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>멘탈 OS — CEO 뇌 에너지 복구 시스템</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>멘탈 OS — 뇌 에너지 방어 무기 배포</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
 :root {
-  --bg:#080809;--surface:#0e0d0e;--s2:#141314;--red:#c0392b;--red-hi:#e74c3c;
-  --gold:#c9a96e;--text-hi:#ececf0;--text-md:#9898a4;--text-lo:#484858;
-  --border:rgba(255,255,255,0.07);--font:'Pretendard',-apple-system,sans-serif;
+  --bg:      #080809;
+  --bg2:     #0e0d0e;
+  --bg3:     #131214;
+  --red:     #c0392b;
+  --red-hi:  #e74c3c;
+  --gold:    #c9a96e;
+  --text-hi: #ececf0;
+  --text-md: #9898a4;
+  --text-lo: #484858;
+  --border:  rgba(255,255,255,0.07);
+  --font:    'Pretendard', -apple-system, sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);font-family:var(--font);color:var(--text-hi);overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  font-family:var(--font);
+  color:var(--text-hi);
+  min-height:100vh;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:300px 300px;opacity:0.035;}
+  background-size:300px;opacity:.03;
+}
 
 /* ══ TOAST ══ */
-#toastContainer{position:fixed;top:clamp(1rem,3vmin,1.5rem);right:clamp(1rem,4vw,2rem);z-index:9999;display:flex;flex-direction:column;gap:.55rem;pointer-events:none}
+#tc{position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:.45rem;pointer-events:none;width:calc(100% - 2rem);max-width:400px}
 .toast{
-  display:inline-flex;align-items:center;gap:.65rem;
-  padding:.7rem 1.1rem;
-  background:rgba(20,19,20,0.96);
+  width:100%;display:flex;align-items:center;gap:.6rem;
+  padding:.65rem 1rem;
+  background:rgba(16,15,17,0.97);
   border:1px solid rgba(255,255,255,.1);
-  border-radius:4px;
-  font-size:clamp(.72rem,1.7vmin,.8rem);font-weight:500;letter-spacing:.03em;
-  color:var(--text-hi);
-  box-shadow:0 8px 32px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.4);
-  backdrop-filter:blur(12px);
-  pointer-events:none;
-  opacity:0;transform:translateX(18px) scale(.97);
-  transition:opacity .28s cubic-bezier(.2,0,0,1),transform .28s cubic-bezier(.2,0,0,1);
-  max-width:clamp(220px,80vw,320px);
+  border-radius:10px;
+  font-size:.78rem;font-weight:500;letter-spacing:.02em;color:var(--text-hi);
+  box-shadow:0 8px 30px rgba(0,0,0,.6);
+  backdrop-filter:blur(14px);
+  opacity:0;transform:translateY(-10px) scale(.97);
+  transition:opacity .26s ease,transform .26s ease;
 }
-.toast.show{opacity:1;transform:translateX(0) scale(1)}
-.toast.hide{opacity:0;transform:translateX(18px) scale(.96)}
-.toast-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.72rem}
-.toast-icon.ok{background:rgba(39,174,96,.2);color:#27ae60}
-.toast-icon.info{background:rgba(201,169,110,.18);color:var(--gold)}
-.toast-icon.err{background:rgba(192,57,43,.2);color:var(--red-hi)}
+.toast.show{opacity:1;transform:translateY(0) scale(1)}
+.toast.hide{opacity:0;transform:translateY(-8px) scale(.96)}
+.t-ico{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem}
+.t-ico.ok{background:rgba(39,174,96,.18);color:#27ae60}
+.t-ico.info{background:rgba(201,169,110,.16);color:var(--gold)}
+.t-ico.err{background:rgba(192,57,43,.18);color:var(--red-hi)}
 
-/* ══ REVEAL ══ */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .72s cubic-bezier(.2,0,0,1),transform .72s cubic-bezier(.2,0,0,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}
+/* ══ CONTAINER ══ */
+.phone{
+  width:100%;max-width:420px;
+  margin:0 auto;
+  padding:0 0 3rem;
+  position:relative;z-index:1;
+}
 
-/* ══ LAYOUT ══ */
-.wrap{width:100%;max-width:740px;margin:0 auto;padding:0 clamp(1.2rem,5vw,2.5rem);position:relative;z-index:1}
-section{padding:clamp(4.5rem,11vmin,7.5rem) 0}
-.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent)}
+/* ══ HEADER ══ */
+.header-wrap{
+  padding:2rem 1.4rem 1.6rem;
+  background:linear-gradient(180deg,rgba(90,14,9,.55) 0%,transparent 100%);
+  position:relative;overflow:hidden;
+}
+.header-wrap::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(192,57,43,.4),transparent);
+}
+.header-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.28rem .75rem;border:1px solid rgba(192,57,43,.32);border-radius:999px;
+  font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--red-hi);background:rgba(192,57,43,.1);margin-bottom:.9rem;
+}
+.header-badge span{width:5px;height:5px;border-radius:50%;background:var(--red-hi);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.header-name{
+  font-size:.7rem;font-weight:400;color:var(--text-lo);
+  letter-spacing:.08em;margin-bottom:.55rem;
+}
+.header-title{
+  font-size:clamp(1.05rem,4.5vw,1.22rem);
+  font-weight:700;line-height:1.45;
+  letter-spacing:-.015em;
+  background:linear-gradient(135deg,#ececf0 0%,#c9a96e 50%,#e74c3c 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:.7rem;
+}
+.header-sub{
+  font-size:.8rem;font-weight:300;color:var(--text-md);
+  line-height:1.75;letter-spacing:.02em;
+}
+.header-sub strong{color:var(--text-hi);font-weight:500}
 
-/* ══ TYPE ══ */
-.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:clamp(.57rem,1.35vmin,.62rem);font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--red-hi);margin-bottom:1rem}
-.eyebrow::before{content:'';width:16px;height:1px;background:var(--red-hi)}
-.headline{font-size:clamp(1.62rem,5vw,2.8rem);font-weight:700;line-height:1.23;letter-spacing:-.02em}
-.headline em{font-style:normal;color:var(--red-hi)}
-.sub{font-size:clamp(.85rem,2vw,1rem);font-weight:300;color:var(--text-md);line-height:1.85;margin-top:1rem}
+/* ══ SECTION ══ */
+.sec{padding:1.4rem}
+.sec-label{
+  display:inline-flex;align-items:center;gap:.42rem;
+  font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red-hi);margin-bottom:1rem;
+}
+.sec-label::before{content:'';width:14px;height:1px;background:var(--red-hi)}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
 
-/* ══ BUTTONS ══ */
-.btn-p{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:clamp(.86rem,2.2vmin,1.02rem) 1.5rem;background:var(--red);color:#fff;font-family:var(--font);font-size:clamp(.8rem,1.85vmin,.92rem);font-weight:600;letter-spacing:.03em;border:none;border-radius:3px;cursor:pointer;box-shadow:0 0 26px rgba(192,57,43,.3),0 4px 16px rgba(0,0,0,.4);transition:background .2s,box-shadow .2s,transform .13s;position:relative;overflow:hidden}
-.btn-p::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent);pointer-events:none}
-.btn-p:hover{background:var(--red-hi);box-shadow:0 0 40px rgba(231,76,60,.45),0 4px 16px rgba(0,0,0,.4);transform:translateY(-1px)}
-.btn-p:active{transform:translateY(0)}
-.btn-o{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:clamp(.76rem,1.9vmin,.92rem) 1.5rem;background:transparent;color:var(--text-md);font-family:var(--font);font-size:clamp(.76rem,1.75vmin,.84rem);font-weight:500;letter-spacing:.05em;border:1px solid rgba(255,255,255,.1);border-radius:3px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
-.btn-o:hover{border-color:rgba(255,255,255,.26);color:var(--text-hi);background:rgba(255,255,255,.04)}
+/* ══ AUDIO PLAYER ══ */
+.player-wrap{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem 1.1rem .9rem;
+  position:relative;overflow:hidden;
+}
+.player-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(192,57,43,.07),transparent 65%);
+  pointer-events:none;
+}
+.player-head{display:flex;align-items:center;gap:.8rem;margin-bottom:.85rem}
+.player-art{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(192,57,43,.3),rgba(90,14,9,.6));
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  border:1px solid rgba(192,57,43,.2);
+}
+.player-meta{}
+.player-title{font-size:.82rem;font-weight:600;color:var(--text-hi);margin-bottom:.18rem;line-height:1.3}
+.player-sub{font-size:.65rem;color:var(--text-lo);letter-spacing:.05em}
+.waveform{
+  width:100%;height:36px;display:flex;align-items:center;gap:2px;
+  margin-bottom:.75rem;cursor:pointer;padding:0 .1rem;
+}
+.wave-bar{
+  flex:1;border-radius:999px;
+  background:rgba(255,255,255,.08);
+  transition:background .15s ease;
+}
+.wave-bar.active{background:var(--red-hi)}
+.wave-bar.played{background:rgba(192,57,43,.45)}
+.player-controls{display:flex;align-items:center;justify-content:space-between}
+.play-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--red);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:.95rem;
+  box-shadow:0 0 18px rgba(192,57,43,.4);
+  transition:background .18s,transform .12s,box-shadow .18s;
+  flex-shrink:0;
+}
+.play-btn:hover{background:var(--red-hi);transform:scale(1.06);box-shadow:0 0 28px rgba(231,76,60,.55)}
+.play-btn:active{transform:scale(.95)}
+.player-time{font-size:.65rem;color:var(--text-lo);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.progress-track{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:999px;margin:0 .75rem;position:relative;cursor:pointer}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--red-hi));width:0%;transition:width .1s linear}
+.player-note{
+  margin-top:.85rem;padding-top:.85rem;
+  border-top:1px solid var(--border);
+  font-size:.76rem;color:var(--text-md);line-height:1.65;text-align:center;
+}
 
-/* ══ CARD ══ */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.35rem,3.6vw,2.3rem)}
+/* ══ ZIP BUTTON ══ */
+.zip-wrap{text-align:center}
+.zip-btn{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  width:100%;padding:1rem 1.2rem;
+  background:linear-gradient(135deg,var(--red) 0%,var(--red-hi) 100%);
+  color:#fff;border:none;border-radius:14px;cursor:pointer;
+  font-family:var(--font);font-size:.88rem;font-weight:700;letter-spacing:.02em;
+  box-shadow:0 0 32px rgba(192,57,43,.42),0 4px 20px rgba(0,0,0,.4);
+  transition:box-shadow .22s,transform .14s,filter .22s;
+  position:relative;overflow:hidden;
+  animation:zipBreath 2.8s ease-in-out infinite;
+}
+.zip-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  border-radius:14px;pointer-events:none;
+}
+.zip-btn:hover{filter:brightness(1.1);box-shadow:0 0 48px rgba(231,76,60,.6),0 6px 24px rgba(0,0,0,.5);transform:translateY(-1px)}
+.zip-btn:active{transform:translateY(0) scale(.98)}
+@keyframes zipBreath{
+  0%,100%{box-shadow:0 0 32px rgba(192,57,43,.42),0 4px 20px rgba(0,0,0,.4)}
+  50%{box-shadow:0 0 50px rgba(231,76,60,.65),0 4px 24px rgba(0,0,0,.4)}
+}
+.zip-icon{font-size:1.15rem}
+.zip-caption{
+  margin-top:.65rem;font-size:.65rem;color:var(--text-lo);
+  letter-spacing:.04em;line-height:1.55;text-align:center;
+}
 
-/* ══ HERO ══ */
-#hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(3.5rem,9vmin,6rem) 0;text-align:center;position:relative}
-#hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(80,8,4,.46) 0%,transparent 70%)}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem .9rem;border:1px solid rgba(192,57,43,.3);border-radius:999px;font-size:clamp(.57rem,1.35vmin,.64rem);font-weight:500;letter-spacing:.12em;color:var(--red-hi);background:rgba(192,57,43,.08);margin-bottom:1.7rem}
-.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--red-hi);animation:blink 1.8s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+/* ══ WEAPON CARDS ══ */
+.weapon-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem;margin-bottom:.75rem;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.weapon-card:last-child{margin-bottom:0}
+.weapon-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(192,57,43,.35),transparent);
+}
+.weapon-card:hover{border-color:rgba(192,57,43,.22)}
+.weapon-top{display:flex;align-items:flex-start;gap:.72rem;margin-bottom:.75rem}
+.weapon-ico{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.18);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  margin-top:1px;
+}
+.weapon-meta{}
+.weapon-tag{
+  display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--red-hi);margin-bottom:.25rem;
+}
+.weapon-title{font-size:.85rem;font-weight:600;color:var(--text-hi);line-height:1.35;margin-bottom:.3rem}
+.weapon-desc{font-size:.72rem;font-weight:300;color:var(--text-md);line-height:1.72}
+.weapon-desc strong{color:var(--text-hi);font-weight:500}
+.usage-box{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);
+  border-radius:8px;padding:.65rem .75rem;margin-bottom:.75rem;
+}
+.usage-label{font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-lo);margin-bottom:.28rem}
+.usage-text{font-size:.72rem;color:var(--text-md);line-height:1.7}
+.dl-btn{
+  display:flex;align-items:center;justify-content:center;gap:.45rem;
+  width:100%;padding:.65rem 1rem;
+  background:transparent;color:var(--text-md);
+  font-family:var(--font);font-size:.74rem;font-weight:600;letter-spacing:.05em;
+  border:1px solid rgba(255,255,255,.1);border-radius:8px;cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.dl-btn:hover{border-color:rgba(192,57,43,.45);color:var(--red-hi);background:rgba(192,57,43,.07)}
+.dl-btn:active{transform:scale(.98)}
 
-/* ══ QUIZ ══ */
-#quizBox{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.65rem,4.6vw,2.7rem);width:100%;max-width:520px;margin:0 auto;position:relative;overflow:hidden}
-#quizBox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.quiz-q{display:none;animation:qSlide .36s ease both}
-.quiz-q.active{display:block}
-@keyframes qSlide{from{opacity:0;transform:translateX(13px)}to{opacity:1;transform:translateX(0)}}
-.q-text{font-size:clamp(.9rem,2.3vw,1.04rem);font-weight:400;color:var(--text-hi);line-height:1.7;margin-bottom:1.6rem}
-.q-btns{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
-.q-btn{padding:.8rem;border-radius:3px;border:1px solid var(--border);background:transparent;font-family:var(--font);font-size:.86rem;font-weight:600;color:var(--text-md);cursor:pointer;transition:all .17s ease;letter-spacing:.05em}
-.q-btn.yes:hover,.q-btn.yes.sel{border-color:var(--red-hi);color:var(--red-hi);background:rgba(192,57,43,.08)}
-.q-btn.no:hover,.q-btn.no.sel{border-color:rgba(255,255,255,.2);color:var(--text-hi);background:rgba(255,255,255,.05)}
-.q-prog{display:flex;gap:5px;margin-bottom:1.45rem}
-.q-dot{height:3px;flex:1;border-radius:999px;background:var(--text-lo);transition:background .26s}
-.q-dot.done{background:var(--red)}.q-dot.cur{background:var(--red-hi)}
-#qLoading{display:none;flex-direction:column;align-items:center;gap:1rem;padding:.75rem 0}
-.lbar{width:100%;height:3px;background:var(--text-lo);border-radius:999px;overflow:hidden}
-.lfill{height:100%;width:0%;background:linear-gradient(90deg,var(--red),var(--red-hi));border-radius:999px;transition:width .05s linear}
-.ltxt{font-size:.7rem;color:var(--text-lo);letter-spacing:.12em;text-transform:uppercase}
-#qResult{display:none;animation:qSlide .48s ease both}
-.rbadge{display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .82rem;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.26);border-radius:999px;font-size:.61rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--red-hi);margin-bottom:1rem}
-.rtitle{font-size:clamp(.96rem,2.7vw,1.14rem);font-weight:600;color:var(--text-hi);margin-bottom:.5rem;line-height:1.4}
-.rdesc{font-size:clamp(.76rem,1.85vw,.84rem);color:var(--text-md);line-height:1.85;margin-bottom:1.65rem}
-.rstats{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.8rem}
-.sbox{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:3px;padding:.85rem;text-align:center}
-.snum{font-size:clamp(1.2rem,3.6vw,1.65rem);font-weight:700;color:var(--red-hi);display:block}
-.slbl{font-size:.6rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem;display:block}
-.gift-row{display:flex;align-items:flex-start;gap:.52rem;font-size:.74rem;color:var(--text-md);line-height:1.65;margin-bottom:.8rem}
-.gift-row strong{color:var(--text-hi)}
-.email-row{display:flex;gap:.48rem;flex-wrap:wrap}
-.email-in{flex:1;min-width:0;padding:.72rem .92rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:3px;font-family:var(--font);font-size:.84rem;color:var(--text-hi);outline:none;transition:border-color .18s}
-.email-in:focus{border-color:rgba(192,57,43,.42)}
-.email-in::placeholder{color:var(--text-lo)}
-.email-sub{padding:.72rem 1.25rem;background:var(--red);color:#fff;font-family:var(--font);font-size:.76rem;font-weight:600;letter-spacing:.04em;border:none;border-radius:3px;cursor:pointer;white-space:nowrap;transition:background .18s;flex-shrink:0}
-.email-sub:hover{background:var(--red-hi)}
+/* ══ VIP UPSELL ══ */
+.vip-section{
+  margin:0 1rem 1.4rem;
+  background:linear-gradient(145deg,rgba(20,18,18,.95),rgba(30,14,14,.95));
+  border:1px solid rgba(192,57,43,.22);
+  border-radius:16px;
+  padding:1.4rem 1.2rem;
+  position:relative;overflow:hidden;
+}
+.vip-section::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(90,14,9,.6),transparent 65%);
+  pointer-events:none;
+}
+.vip-section::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;border-radius:16px 16px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(192,57,43,.7),transparent);
+}
+.vip-alert{
+  display:flex;align-items:flex-start;gap:.6rem;
+  background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.22);
+  border-radius:8px;padding:.75rem;margin-bottom:1rem;position:relative;z-index:1;
+}
+.vip-alert-ico{font-size:.9rem;flex-shrink:0;margin-top:.05rem}
+.vip-alert-txt{font-size:.76rem;font-weight:600;color:var(--red-hi);line-height:1.6}
+.vip-body{position:relative;z-index:1}
+.vip-p{font-size:.78rem;font-weight:300;color:var(--text-md);line-height:1.82;margin-bottom:.85rem;letter-spacing:.02em}
+.vip-p strong{color:var(--text-hi);font-weight:500}
+.vip-p em{font-style:normal;color:var(--gold)}
+.vip-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);margin:.9rem 0}
+.vip-btn{
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  width:100%;padding:.9rem 1.2rem;
+  background:transparent;
+  border:1px solid rgba(201,169,110,.4);border-radius:10px;cursor:pointer;
+  font-family:var(--font);font-size:.82rem;font-weight:600;letter-spacing:.05em;
+  color:var(--gold);position:relative;z-index:1;
+  transition:background .22s,border-color .22s,box-shadow .22s;
+  overflow:hidden;
+}
+.vip-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.04));
+  opacity:0;transition:opacity .22s;
+}
+.vip-btn:hover{border-color:rgba(201,169,110,.7);box-shadow:0 0 24px rgba(201,169,110,.18)}
+.vip-btn:hover::before{opacity:1}
+.vip-btn:active{transform:scale(.98)}
+.vip-guarantee{
+  text-align:center;font-size:.62rem;color:var(--text-lo);
+  margin-top:.7rem;letter-spacing:.05em;line-height:1.55;position:relative;z-index:1;
+}
 
-/* ══ PHASE 2 ══ */
-.story-q{position:relative;padding:clamp(1.35rem,3.6vw,2.3rem) clamp(1.35rem,3.6vw,2.3rem) clamp(1.35rem,3.6vw,2.3rem) clamp(1.75rem,4.4vw,2.7rem);background:var(--surface);border:1px solid var(--border);border-radius:4px;border-left:3px solid var(--red)}
-.story-q blockquote{font-size:clamp(.88rem,2.2vw,1.03rem);font-weight:300;color:var(--text-md);line-height:2;letter-spacing:.02em}
-.story-q blockquote strong{color:var(--text-hi);font-weight:500}
-.story-q cite{display:flex;align-items:center;gap:.52rem;margin-top:1rem;font-size:.68rem;font-style:normal;color:var(--text-lo);letter-spacing:.08em}
-.story-q cite::before{content:'';width:16px;height:1px;background:var(--text-lo)}
-.step-row{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1.1rem 0;border-bottom:1px solid var(--border)}
-.step-row:last-child{border-bottom:none;padding-bottom:0}
-.snum2{width:clamp(29px,4.6vmin,36px);height:clamp(29px,4.6vmin,36px);border-radius:50%;border:1px solid rgba(192,57,43,.3);background:rgba(192,57,43,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.64rem;font-weight:700;color:var(--red-hi);letter-spacing:.04em}
-.stitle{font-size:clamp(.84rem,2vw,.95rem);font-weight:500;color:var(--text-hi);margin-bottom:.26rem}
-.sdesc{font-size:clamp(.74rem,1.75vw,.84rem);font-weight:300;color:var(--text-md);line-height:1.82}
-.kk-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.kk-head{background:rgba(254,229,0,.07);border-bottom:1px solid rgba(254,229,0,.08);padding:.82rem 1.3rem;display:flex;align-items:center;gap:.52rem}
-.kk-ico{width:26px;height:26px;border-radius:6px;background:rgba(254,229,0,.13);display:flex;align-items:center;justify-content:center;font-size:.85rem}
-.kk-name{font-size:.73rem;font-weight:600;color:rgba(254,229,0,.62);letter-spacing:.05em}
-.kk-body{padding:1.25rem}
-.bubble{display:inline-block;max-width:87%;padding:.68rem .92rem;border-radius:0 11px 11px 11px;background:rgba(255,255,255,.06);font-size:clamp(.78rem,1.85vw,.86rem);color:var(--text-md);line-height:1.72;margin-bottom:.52rem}
-.bubble.r{margin-left:auto;display:flex;border-radius:11px 0 11px 11px;background:rgba(192,57,43,.13);color:var(--text-hi)}
-.btime{font-size:.57rem;color:var(--text-lo);margin-bottom:.82rem;display:block}
-.btime.r{text-align:right}
+/* ══ FOOTER ══ */
+.footer{padding:1.2rem 1.4rem 2rem;text-align:center}
+.footer p{font-size:.6rem;color:var(--text-lo);letter-spacing:.06em;line-height:1.8}
 
-/* ══ ROI ══ */
-#roiCard{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.65rem,4.6vw,2.7rem);position:relative;overflow:hidden}
-#roiCard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.sl-lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.82rem}
-.sl-lbl span:first-child{font-size:.76rem;color:var(--text-md)}
-#hDisp{font-size:clamp(1.1rem,3.2vw,1.48rem);font-weight:700;color:var(--text-hi)}
-#hDisp em{font-style:normal;font-size:.66rem;font-weight:400;color:var(--text-md);margin-left:.26rem}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:linear-gradient(90deg,var(--red) var(--v,37%),var(--text-lo) var(--v,37%));border-radius:999px;outline:none;cursor:pointer;margin-bottom:1.8rem}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--text-hi);box-shadow:0 0 0 3px rgba(192,57,43,.26),0 2px 8px rgba(0,0,0,.5);cursor:pointer;transition:box-shadow .17s}
-input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 5px rgba(192,57,43,.36),0 2px 8px rgba(0,0,0,.5)}
-.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.25rem}
-.roi-box{padding:clamp(.92rem,2.7vw,1.42rem);border-radius:3px;text-align:center;background:rgba(255,255,255,.02);border:1px solid var(--border);transition:all .32s ease}
-.roi-box.hl{border-color:rgba(201,169,110,.26);background:linear-gradient(135deg,rgba(201,169,110,.06),rgba(201,169,110,.02))}
-.rval{font-size:clamp(1.1rem,3.6vw,1.75rem);font-weight:700;color:var(--text-hi);display:block;line-height:1.07;transition:all .26s ease}
-.rval.gold{color:var(--gold)}
-.runit{font-size:.58rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem;display:block}
-.roi-note{font-size:.68rem;color:var(--text-lo);text-align:center;line-height:1.65;padding:.82rem;background:rgba(255,255,255,.02);border-radius:3px;border:1px solid var(--border)}
-
-/* ══ DEMO ══ */
-.demo-ph{width:100%;aspect-ratio:16/9;max-height:280px;background:var(--s2);border:1px solid var(--border);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.72rem;position:relative;overflow:hidden}
-.demo-ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(192,57,43,.05),transparent 70%)}
-.demo-ico{width:52px;height:52px;border-radius:50%;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;position:relative;animation:demoPulse 2.5s ease-in-out infinite}
-@keyframes demoPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.3)}50%{box-shadow:0 0 0 12px rgba(192,57,43,0)}}
-.demo-lbl{font-size:.68rem;color:var(--text-lo);letter-spacing:.12em;text-transform:uppercase;z-index:1}
-.demo-key{display:inline-flex;align-items:center;justify-content:center;width:33px;height:33px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-size:.67rem;font-weight:700;color:var(--text-md);box-shadow:0 3px 0 rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);z-index:1}
-
-/* ══ FINAL CTA ══ */
-#finalCTA{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:clamp(1.85rem,5.3vw,3.1rem);text-align:center;position:relative;overflow:hidden}
-#finalCTA::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(80,8,4,.36),transparent 65%)}
-.price-row{display:flex;align-items:baseline;justify-content:center;gap:.92rem;margin:1.35rem 0}
-.p-orig{font-size:.9rem;color:var(--text-lo);text-decoration:line-through}
-.p-main{font-size:clamp(1.9rem,5.6vw,2.65rem);font-weight:700;color:var(--text-hi)}
-.p-badge{display:inline-flex;align-items:center;padding:.26rem .65rem;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);border-radius:999px;font-size:.57rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
-.inc-list{display:flex;flex-direction:column;gap:.42rem;margin:1.35rem 0;text-align:left}
-.inc-item{display:flex;align-items:center;gap:.62rem;font-size:clamp(.76rem,1.85vw,.84rem);color:var(--text-md)}
-.inc-item::before{content:'✓';color:var(--red-hi);font-weight:700;flex-shrink:0}
-.seats-wrap{display:flex;flex-direction:column;gap:.42rem;margin-bottom:1.65rem}
-.seats-track{width:100%;height:5px;background:var(--text-lo);border-radius:999px;overflow:hidden}
-.seats-fill{height:100%;width:76%;background:linear-gradient(90deg,var(--red),var(--red-hi));border-radius:999px}
-.seats-lbl{display:flex;justify-content:space-between;font-size:.61rem;color:var(--text-lo);letter-spacing:.07em}
-.guar{margin-top:.92rem;font-size:clamp(.64rem,1.55vw,.71rem);color:var(--text-lo);line-height:1.7}
-.guar strong{color:var(--text-md)}
-
-/* ══ RESET SECTION ══ */
-#resetSection{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:clamp(4rem,10vmin,7rem) 0}
-#resetSection::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(80,8,4,.5) 0%,transparent 72%)}
-.reset-header{text-align:center;position:relative;z-index:5;margin-bottom:clamp(2.4rem,5.8vmin,3.8rem)}
-#btnScene{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;transition:opacity .88s cubic-bezier(.4,0,.2,1),transform .88s cubic-bezier(.4,0,.2,1)}
-#btnScene.out{opacity:0;transform:scale(.86);pointer-events:none}
-.rings-wrap{position:absolute;display:flex;align-items:center;justify-content:center;width:0;height:0}
-.p-ring{position:absolute;border-radius:50%;border:1px solid rgba(192,57,43,.17);animation:rPulse 3.4s ease-out infinite}
-.p-ring.r1{width:clamp(195px,41vmin,265px);height:clamp(195px,41vmin,265px);animation-delay:0s}
-.p-ring.r2{width:clamp(265px,55vmin,355px);height:clamp(265px,55vmin,355px);animation-delay:1s}
-.p-ring.r3{width:clamp(335px,69vmin,445px);height:clamp(335px,69vmin,445px);animation-delay:2s}
-@keyframes rPulse{0%{opacity:0;transform:scale(.87)}20%{opacity:.88}100%{opacity:0;transform:scale(1.1)}}
-#resetBtn{position:relative;z-index:5;width:clamp(142px,31vmin,196px);height:clamp(142px,31vmin,196px);border-radius:50%;border:1.5px solid rgba(192,57,43,.3);background:radial-gradient(circle at 36% 30%,#ef5244 0%,#c0392b 34%,#8b1a10 68%,#5a0e09 100%);box-shadow:0 0 46px rgba(192,57,43,.5),0 0 92px rgba(192,57,43,.21),inset 0 1px 0 rgba(255,200,180,.13),inset 0 -2px 0 rgba(0,0,0,.46);cursor:pointer;font-family:var(--font);font-size:clamp(.47rem,1.25vmin,.62rem);font-weight:700;letter-spacing:.3em;color:rgba(255,255,255,.9);text-transform:uppercase;text-align:center;line-height:1.7;animation:breathe 4.4s ease-in-out infinite;transition:box-shadow .26s ease;outline:none;-webkit-tap-highlight-color:transparent;user-select:none}
-#resetBtn::before{content:'';position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle at 40% 30%,rgba(255,180,160,.15) 0%,transparent 58%);pointer-events:none}
-#resetBtn:hover{box-shadow:0 0 66px rgba(231,76,60,.7),0 0 132px rgba(192,57,43,.33),inset 0 1px 0 rgba(255,200,180,.17),inset 0 -2px 0 rgba(0,0,0,.46)}
-#resetBtn:active{transform:scale(.96)!important}
-#resetBtn.locked{animation:none!important;pointer-events:none}
-@keyframes breathe{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.07);filter:brightness(1.1)}}
-.btn-sub-lbl{margin-top:clamp(1.45rem,3.8vmin,2.3rem);font-size:clamp(.53rem,1.25vmin,.6rem);font-weight:400;letter-spacing:.22em;color:var(--text-lo);text-transform:uppercase;text-align:center;opacity:0;animation:subFade .8s ease 1.1s forwards}
-@keyframes subFade{to{opacity:1}}
-#guidePanel{position:absolute;z-index:10;width:min(570px,90vw);max-height:88dvh;max-height:88vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:clamp(1.55rem,4vw,2.9rem) clamp(1.25rem,4vw,2.9rem);opacity:0;transform:translateY(20px);pointer-events:none;display:none}
-#guidePanel::-webkit-scrollbar{display:none}
-#guidePanel.visible{display:block;pointer-events:auto}
-#guidePanel.fadein{animation:gpIn 1.1s cubic-bezier(.2,0,0,1) forwards}
-@keyframes gpIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-.breath-sec{text-align:center;margin-bottom:clamp(1.55rem,3.8vmin,2.5rem)}
-#breathSvg{display:block;margin:0 auto clamp(.82rem,1.9vmin,1.2rem);width:clamp(50px,10.5vmin,70px);height:clamp(50px,10.5vmin,70px)}
-#breathCircle{transition:r 2.2s cubic-bezier(.45,0,.55,1),fill 2.2s ease}
-#breathRing{transition:r 2.2s cubic-bezier(.45,0,.55,1),stroke-opacity 2.2s ease}
-#breathTxt{font-size:clamp(.84rem,2.2vmin,1.03rem);font-weight:300;color:rgba(200,200,208,.38);letter-spacing:.06em;line-height:1.7;transition:color 2.4s ease,opacity 1.6s ease;min-height:1.7em}
-#breathTxt.lit{color:rgba(215,215,222,.86)}
-#breathTxt.dim{opacity:.2}
-.sep{display:flex;align-items:center;gap:.82rem;margin:clamp(1.25rem,3.1vmin,2rem) 0}
-.sep-l{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(192,57,43,.36),transparent)}
-.sep-d{width:4px;height:4px;border-radius:50%;background:rgba(192,57,43,.52)}
-.gtl{position:relative;padding-left:clamp(.72rem,2.2vw,1.05rem)}
-.gtl::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,rgba(192,57,43,.46),rgba(192,57,43,.13));transform:scaleY(0);transform-origin:top;transition:transform 1.3s cubic-bezier(.2,0,0,1) .22s}
-.gtl.drawn::before{transform:scaleY(1)}
-.g-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(.72rem,1.9vw,1.1rem);align-items:start;margin-bottom:clamp(1.15rem,2.9vmin,1.75rem);opacity:0;transform:translateX(-11px);transition:opacity .62s cubic-bezier(.2,0,0,1),transform .62s cubic-bezier(.2,0,0,1)}
-.g-item:last-child{margin-bottom:0}
-.g-item.show{opacity:1;transform:translateX(0)}
-.g-num-w{width:clamp(24px,4.8vmin,30px);height:clamp(24px,4.8vmin,30px);border-radius:50%;border:1px solid rgba(192,57,43,.36);background:rgba(192,57,43,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.g-num{font-size:clamp(.56rem,1.25vmin,.64rem);font-weight:600;color:var(--red-hi)}
-.g-lbl{display:inline-block;font-size:clamp(.5rem,1.1vmin,.56rem);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-lo);margin-bottom:clamp(.23rem,.56vmin,.36rem)}
-.g-txt{font-size:clamp(.78rem,1.9vw,.89rem);font-weight:300;color:var(--text-md);line-height:1.95;letter-spacing:.02em}
-.g-txt strong{color:var(--text-hi);font-weight:500}
-.g-txt em{font-style:normal;color:var(--gold);font-weight:400}
-.fn-wrap{margin-top:clamp(1.65rem,4vmin,2.5rem);padding-top:clamp(.9rem,2.2vmin,1.3rem);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.48rem;opacity:0;transition:opacity .82s ease}
-.fn-wrap.show{opacity:1}
-#fnote{font-size:clamp(.55rem,1.3vw,.63rem);font-weight:300;color:var(--text-lo);letter-spacing:.07em;text-align:center}
-.reset-again{position:absolute;bottom:clamp(1.1rem,2.8vmin,1.8rem);left:50%;transform:translateX(-50%);font-size:.58rem;color:var(--text-lo);letter-spacing:.1em;text-decoration:none;display:none;transition:color .18s;white-space:nowrap;z-index:20}
-.reset-again:hover{color:var(--text-md)}
-.reset-again.show{display:block}
-
-@media(max-width:480px){.roi-grid{grid-template-columns:1fr}.email-row{flex-direction:column}.email-sub{width:100%}.rstats{grid-template-columns:1fr}}
-@media(max-width:360px){#guidePanel{padding:1.25rem .95rem}}
+/* ══ SCROLL REVEAL ══ */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s cubic-bezier(.2,0,0,1),transform .65s cubic-bezier(.2,0,0,1)}
+.reveal.v{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.08s}.rd2{transition-delay:.18s}.rd3{transition-delay:.28s}.rd4{transition-delay:.38s}
 </style>
 </head>
 <body>
 
-<!-- ══ TOAST CONTAINER ══ -->
-<div id="toastContainer"></div>
+<!-- TOAST -->
+<div id="tc"></div>
 
-<!-- ════════ HERO ════════ -->
-<section id="hero">
-  <div class="wrap" style="text-align:center;position:relative;z-index:1">
-    <div class="reveal">
-      <div class="hero-badge"><span></span>CEO 뇌 에너지 복구 시스템</div>
-    </div>
-    <h1 class="headline reveal d1" style="max-width:620px;margin:0 auto">
-      밤 10시 유튜브 새로고침,<br>사소한 결정 마비.<br><em>당신의 의지 문제가 아닙니다.</em>
-    </h1>
-    <p class="sub reveal d2" style="max-width:460px;margin:1rem auto 2.7rem">
-      혼자 모든 걸 결정하다 보면 밤엔 뇌가 방전됩니다.<br>먼저 지금 상태를 확인해보세요.
+<div class="phone">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header-wrap reveal">
+    <div class="header-badge"><span></span>배포 완료</div>
+    <p class="header-name">김지은 대표님께</p>
+    <h1 class="header-title">🌟 뇌 에너지 100% 방어 무기<br>배포가 완료되었습니다!</h1>
+    <p class="header-sub">
+      복잡한 세팅은 없습니다.<br>
+      지금 당장 <strong>30초 만에 폰에 저장</strong>하고,<br>
+      오늘 밤부터 당신의 <strong>월 1,500만 원을 지키십시오.</strong>
     </p>
-
-    <!-- QUIZ -->
-    <div id="quizBox" class="reveal d3">
-      <p class="eyebrow" style="justify-content:center">CEO 뇌 에너지 누수 자가 진단</p>
-      <div class="q-prog" id="qProg">
-        <div class="q-dot cur" id="d0"></div>
-        <div class="q-dot" id="d1i"></div>
-        <div class="q-dot" id="d2i"></div>
-      </div>
-      <div class="quiz-q active" id="q0">
-        <p class="q-text">오늘 "나중에 결정하자"고 미룬 일이<br><strong>3개 이상</strong> 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(0,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(0,'n')">✕ 아니다</button></div>
-      </div>
-      <div class="quiz-q" id="q1">
-        <p class="q-text">퇴근 후 <strong>멍하게 쇼츠나 릴스</strong>를<br>30분 이상 보다가 정신을 차린 적이 이번 주 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(1,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(1,'n')">✕ 아니다</button></div>
-      </div>
-      <div class="quiz-q" id="q2">
-        <p class="q-text">오늘 하루 끝에<br><strong>"나는 왜 이럴까"</strong> 하고 자책한 적이 있었다.</p>
-        <div class="q-btns"><button class="q-btn yes" onclick="ans(2,'y')">⭕ 맞다</button><button class="q-btn no" onclick="ans(2,'n')">✕ 아니다</button></div>
-      </div>
-      <div id="qLoading"><p class="ltxt" id="ltxt">뇌 에너지 상태 분석 중...</p><div class="lbar"><div class="lfill" id="lfill"></div></div></div>
-      <div id="qResult">
-        <div class="rbadge" id="rbadge">⚡ 진단 완료</div>
-        <p class="rtitle" id="rtitle">결정 피로로 인한 뇌 에너지 방전 상태</p>
-        <p class="rdesc" id="rdesc">매주 <strong style="color:var(--red-hi)">14시간</strong>이 자책과 멍한 시간으로 증발하고 있어요.<br>의지 문제가 아닙니다. 환경의 문제입니다.</p>
-        <div class="rstats">
-          <div class="sbox"><span class="snum" id="sH">14h</span><span class="slbl">주간 손실 시간</span></div>
-          <div class="sbox"><span class="snum" id="sM">4,500만</span><span class="slbl">월 기회비용</span></div>
-        </div>
-        <div class="gift-row">🎁 <span><strong>30초 멘탈 리셋 가이드 PDF</strong>와 <strong>뇌 전원 차단 노션 보드</strong>를 무료로 받아보세요.</span></div>
-        <div class="email-row">
-          <input class="email-in" type="email" placeholder="your@email.com" id="eIn">
-          <button class="email-sub" onclick="doEmail()">무료로 받기</button>
-        </div>
-        <p id="eMsg" style="font-size:.68rem;color:var(--red-hi);margin-top:.52rem;display:none"></p>
-      </div>
-    </div>
-    <p class="reveal" style="font-size:.63rem;color:var(--text-lo);margin-top:1.25rem;letter-spacing:.06em">스팸 없음 · 언제든 수신 거부 가능</p>
   </div>
-</section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- ════════ PHASE 2 ════════ -->
-<section>
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Phase 2 — 작동 원리</p>
-      <h2 class="headline" style="font-size:clamp(1.32rem,4.2vw,2.05rem);margin-bottom:.72rem">멘탈 OS는 어떻게<br>당신의 뇌를 리셋하는가?</h2>
-      <p class="sub" style="margin-bottom:2.7rem">의지에 기대는 것을 포기했을 때, 비로소 달라졌어요.</p>
-    </div>
-    <div class="story-q reveal d1" style="margin-bottom:1.75rem">
-      <blockquote>
-        사업 준비하면서 매일 밤 이랬어요.<br><br>
-        결과물이 없다. <strong>한심하고, 짜증나고, 괴롭고.</strong><br>
-        그러면서도 "좀 쉬어야지" 하면서 유튜브 켜고, 밤 11시.<br><br>
-        의지 문제인 줄 알았는데 — 그냥 <strong>뇌가 하루 종일 방전된 거</strong>더라고요.<br>
-        그래서 의지력 대신, 무너지는 순간 자동으로 잡아주는 환경을 만들었어요.
-      </blockquote>
-      <cite>멘탈 OS 창업자</cite>
-    </div>
-    <div class="card reveal d2" style="margin-bottom:2.7rem">
-      <div class="step-row"><div class="snum2">01</div><div><p class="stitle">F4 긴급 리셋 — 30초 뇌 재부팅</p><p class="sdesc">자책 스파이럴이 올라오는 순간, 브라우저 탭에 고정된 빨간 버튼 하나만 누르세요. 30초 안에 뇌가 실행 모드로 전환됩니다.</p></div></div>
-      <div class="step-row"><div class="snum2">02</div><div><p class="stitle">카카오톡 1:1 핫라인 — 10분 내 지침</p><p class="sdesc">혼자 결정이 안 될 때, 카카오톡으로 상황을 던지면 됩니다. 10분 안에 "지금 이것 하나만 하세요"라는 팩트 기반 지침이 옵니다.</p></div></div>
-      <div class="step-row"><div class="snum2">03</div><div><p class="stitle">매일 아침 원씽 — 단 하나의 집중</p><p class="sdesc">아침마다 그날의 가장 중요한 목표 하나가 푸시로 날아옵니다. 할 일 10개가 아니라, 딱 하나.</p></div></div>
-    </div>
-    <div class="reveal d3" style="margin-bottom:1.35rem">
-      <p style="font-size:.68rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.72rem">실제 대화 예시</p>
-      <div class="kk-card">
-        <div class="kk-head"><div class="kk-ico">💬</div><span class="kk-name">멘탈 OS 핫라인</span></div>
-        <div class="kk-body">
-          <div class="bubble">오늘 클라이언트 미팅 망쳤어요. 뭐부터 해야 할지 모르겠어요 😔</div>
-          <span class="btime">오후 8:47</span>
-          <div class="bubble r">A안: 지금 바로 "다음 미팅 일정 잡겠습니다" 메일 1줄 보내기<br>B안: 오늘은 덮고 내일 아침 연락하기<br><br><strong>→ A안이 3배 유리해요. 5분 안에 보내세요.</strong></div>
-          <span class="btime r">오후 8:54</span>
+  <!-- ══ SEC 1: AUDIO ══ -->
+  <div class="sec reveal rd1">
+    <p class="sec-label">즉각 체험</p>
+
+    <div class="player-wrap">
+      <div class="player-head">
+        <div class="player-art">🎵</div>
+        <div class="player-meta">
+          <p class="player-title">밤 11시 멘탈 리셋 오디오</p>
+          <p class="player-sub">30초 맛보기 · Mental OS</p>
         </div>
       </div>
-    </div>
-    <div class="card reveal" style="text-align:center;border-color:rgba(201,169,110,.12)">
-      <p class="eyebrow" style="justify-content:center">무료 체험</p>
-      <h3 style="font-size:clamp(.96rem,2.7vw,1.15rem);font-weight:600;margin-bottom:.62rem">3일 프리리빙 챌린지</h3>
-      <p style="font-size:clamp(.76rem,1.85vw,.84rem);color:var(--text-md);line-height:1.85;margin-bottom:1.35rem">3일간 <strong style="color:var(--text-hi)">아침 원씽 푸시</strong>와 <strong style="color:var(--text-hi)">수면 전 오디오 가이드</strong>를 무료로 경험해보세요.</p>
-      <button class="btn-o" onclick="toast('신청이 접수됐어요! 이메일을 확인해주세요 📩','ok')">3일 프리리빙 챌린지 신청하기 →</button>
-    </div>
-  </div>
-</section>
 
-<div class="divider"></div>
+      <!-- 웨이브폼 -->
+      <div class="waveform" id="waveform" onclick="togglePlay()"></div>
 
-<!-- ════════ PHASE 3 ════════ -->
-<section>
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Phase 3 — 투자 확신</p>
-      <h2 class="headline" style="font-size:clamp(1.32rem,4.2vw,2.05rem);margin-bottom:.72rem">지금 낭비하는 시간이<br>얼마짜리인지 계산해봤나요?</h2>
-      <p class="sub" style="margin-bottom:2.4rem">슬라이더를 움직여 직접 확인해보세요.</p>
-    </div>
-
-    <!-- ROI -->
-    <div id="roiCard" class="reveal d1" style="margin-bottom:1.75rem">
-      <p class="eyebrow">기회비용 ROI 계산기</p>
-      <div class="sl-lbl"><span>주간 자책·무기력으로 낭비하는 시간</span><span id="hDisp">14<em>시간/주</em></span></div>
-      <input type="range" id="hSlider" min="3" max="40" value="14" oninput="calcROI(this.value)">
-      <div class="roi-grid">
-        <div class="roi-box"><span class="rval" id="rLoss">4,500만</span><span class="runit">월 손실 기회비용</span></div>
-        <div class="roi-box hl"><span class="rval gold" id="rROI">92배</span><span class="runit">멘탈 OS 투자 ROI</span></div>
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="재생">▶</button>
+        <div class="progress-track" onclick="seekAudio(event)">
+          <div class="progress-fill" id="progFill"></div>
+        </div>
+        <span class="player-time" id="timeDisp">0:00 / 0:30</span>
       </div>
-      <div class="roi-note">시간당 가치 <span id="rHourly">75만 원</span> 기준 · 월 4주 계산<br>49만 원 투자로 <span id="rMonthly">4,500만 원</span> 손실 방어 → ROI <span id="rX">92배</span></div>
-    </div>
 
-    <!-- F4 데모 -->
-    <div class="reveal d2" style="margin-bottom:1.75rem">
-      <p style="font-size:.68rem;color:var(--text-lo);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.82rem">10초 F4 긴급 버튼 데모</p>
-      <div class="demo-ph" style="cursor:pointer" onclick="toast('F4 데모 실행 중... 실제 버튼은 하단에서 체험하세요 🔴','info')">
-        <div class="demo-ico">🔴</div>
-        <span class="demo-lbl">클릭하여 미리보기</span>
-        <div style="display:flex;align-items:center;gap:.42rem;z-index:1;margin-top:.22rem">
-          <span style="font-size:.63rem;color:var(--text-lo)">키보드</span>
-          <div class="demo-key">F4</div>
-          <span style="font-size:.63rem;color:var(--text-lo)">누르면 30초 리셋</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 최종 CTA -->
-    <div id="finalCTA" class="reveal d3">
-      <div style="position:relative;z-index:1">
-        <p class="eyebrow" style="justify-content:center">지금 시작하기</p>
-        <h2 style="font-size:clamp(1.22rem,3.7vw,1.68rem);font-weight:700;margin-bottom:.42rem">뇌 에너지를 복구할 준비가 됐다면</h2>
-        <p style="font-size:clamp(.76rem,1.85vw,.84rem);color:var(--text-md);margin-bottom:1.35rem">파운딩 멤버 50명 한정 · 마감 시 99만 원으로 영구 인상</p>
-        <div class="seats-wrap" style="max-width:370px;margin:0 auto 1.65rem">
-          <div class="seats-track"><div class="seats-fill"></div></div>
-          <div class="seats-lbl"><span>파운딩 멤버 현황</span><span style="color:var(--red-hi);font-weight:600">잔여 12자리</span></div>
-        </div>
-        <div class="inc-list" style="max-width:350px;margin:0 auto 1.65rem">
-          <div class="inc-item">F4 긴급 리셋 웹앱 (브라우저 영구 고정)</div>
-          <div class="inc-item">카카오톡 1:1 핫라인 (10분 내 지침)</div>
-          <div class="inc-item">매일 아침 원씽 푸시 알림</div>
-          <div class="inc-item">15분 온보딩 세팅콜 (1:1 직접 진행)</div>
-          <div class="inc-item">30초 멘탈 리셋 가이드 PDF</div>
-        </div>
-        <div class="price-row"><span class="p-orig">99만 원</span><span class="p-main">49만 원</span><span class="p-badge">파운딩</span></div>
-        <div style="max-width:390px;margin:0 auto">
-          <button class="btn-p" style="font-size:clamp(.84rem,2vw,.96rem);padding:1.02rem" onclick="handlePurchase()">지금 바로 뇌 에너지 복구하기 →</button>
-          <p class="guar" style="margin-top:.88rem">🛡️ <strong>30일 완전 보장</strong> — 매일 F4 누르고도 효과 없으면 단 1원도 묻지 않고 100% 전액 환불</p>
-          <p style="font-size:.6rem;color:var(--text-lo);margin-top:.72rem">15분 온보딩 세팅콜 포함 · 결제 즉시 카카오톡 채널 입장</p>
-        </div>
+      <div class="player-note">
+        💭 지금 당장 30초만 들어보세요.<br>머릿속의 안개가 걷히는 걸 느끼실 겁니다.
       </div>
     </div>
   </div>
-</section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- ════════ EMERGENCY RESET ════════ -->
-<section id="resetSection">
-  <div class="reset-header reveal">
-    <p class="eyebrow" style="justify-content:center">지금 당장 무너지고 있다면</p>
-    <h2 class="headline" style="font-size:clamp(1.18rem,3.7vw,1.85rem);text-align:center">결제는 나중에.<br><em>지금 이 버튼 하나만 누르세요.</em></h2>
-  </div>
-  <div id="btnScene">
-    <div class="rings-wrap">
-      <div class="p-ring r1"></div><div class="p-ring r2"></div><div class="p-ring r3"></div>
+  <!-- ══ SEC 2: ZIP ══ -->
+  <div class="sec reveal rd2">
+    <p class="sec-label">핵심 CTA</p>
+    <div class="zip-wrap">
+      <button class="zip-btn" onclick="handleZip()">
+        <span class="zip-icon">📦</span>
+        <span>10초 응급처치 팩<br><span style="font-size:.75rem;opacity:.85;font-weight:500">전체 한 번에 다운로드 (ZIP)</span></span>
+      </button>
+      <p class="zip-caption">
+        ※ ZIP 파일 포함 내역: 스크립트 이미지 15장 + MP3 파일 + 배경화면 5장
+      </p>
     </div>
-    <button id="resetBtn" onclick="activateReset()" aria-label="긴급 멘탈 리셋 시작">
-      EMERGENCY<br>RESET
-    </button>
-    <p class="btn-sub-lbl">탭하여 즉시 리셋 시작</p>
   </div>
-  <div id="guidePanel" aria-live="polite">
-    <div class="breath-sec">
-      <svg id="breathSvg" viewBox="0 0 80 80" fill="none">
-        <circle id="breathRing" cx="40" cy="40" r="22" stroke="rgba(192,57,43,0.24)" stroke-width="1" fill="none"/>
-        <circle id="breathCircle" cx="40" cy="40" r="11" fill="rgba(192,57,43,0.18)"/>
-      </svg>
-      <p id="breathTxt">숨을 깊게 들이마시고...</p>
-    </div>
-    <div class="sep"><div class="sep-l"></div><div class="sep-d"></div><div class="sep-l"></div></div>
-    <div class="gtl" id="gtl">
-      <div class="g-item" id="g1">
-        <div class="g-num-w"><span class="g-num">1</span></div>
-        <div><span class="g-lbl">인식의 재조정</span><p class="g-txt">지금 느끼는 자책감은 팩트가 아닙니다.<br>그것은 단지 뇌가 피로하다는 <strong>'신호'</strong>일 뿐입니다.</p></div>
-      </div>
-      <div class="g-item" id="g2">
-        <div class="g-num-w"><span class="g-num">2</span></div>
-        <div><span class="g-lbl">포커스 복원</span><p class="g-txt">어제 정해둔 <strong>'단 하나의 목표<em>(One Thing)</em>'</strong>가<br>무엇인지 지금 이 순간 떠올리십시오.</p></div>
-      </div>
-      <div class="g-item" id="g3">
-        <div class="g-num-w"><span class="g-num">3</span></div>
-        <div><span class="g-lbl">즉각 실행</span><p class="g-txt">지금 당장 카카오톡을 켜고, <strong>CDO(나)</strong>에게<br>오늘의 <strong>MVT<em>(최소 실행 테스트)</em></strong> 지침을 요청하십시오.<br><strong>10분 안에</strong> 답을 드립니다.</p></div>
-      </div>
-    </div>
-    <div class="fn-wrap" id="fnWrap"><p id="fnote">새로고침하면 리셋 버튼으로 돌아갑니다</p></div>
-  </div>
-  <a href="#resetSection" class="reset-again" id="resetAgain" onclick="resetScene(event)">↺ 다시 시작</a>
-</section>
 
-<footer style="padding:2.6rem 0;text-align:center;border-top:1px solid var(--border)">
-  <div class="wrap">
-    <p style="font-size:.64rem;color:var(--text-lo);letter-spacing:.06em;line-height:2">멘탈 OS · CEO Mind VIP 파트너십</p>
-    <p style="font-size:.6rem;color:var(--text-lo);margin-top:.38rem">© 2025 Mental OS. 모든 권리 보유.</p>
+  <div class="divider"></div>
+
+  <!-- ══ SEC 3: WEAPONS ══ -->
+  <div class="sec reveal rd3">
+    <p class="sec-label">개별 무기 다운로드</p>
+
+    <!-- 무기 1 -->
+    <div class="weapon-card">
+      <div class="weapon-top">
+        <div class="weapon-ico">📱</div>
+        <div class="weapon-meta">
+          <span class="weapon-tag">무기 1</span>
+          <p class="weapon-title">진상 카톡 10초 컷<br>카톡 고정용 스크립트 이미지 15종</p>
+        </div>
+      </div>
+      <div class="usage-box">
+        <p class="usage-label">사용법</p>
+        <p class="usage-text">갤러리나 '카톡 나에게 쓰기'에 고정하세요. 상황 발생 시 이미지 하단의 <strong style="color:var(--text-hi)">'복사' 버튼</strong>을 눌러 즉시 쳐내십시오.</p>
+      </div>
+      <button class="dl-btn" onclick="handleDl('스크립트 이미지 15종')">
+        ↓ 개별 다운로드
+      </button>
+    </div>
+
+    <!-- 무기 2 -->
+    <div class="weapon-card">
+      <div class="weapon-top">
+        <div class="weapon-ico">🎵</div>
+        <div class="weapon-meta">
+          <span class="weapon-tag">무기 2</span>
+          <p class="weapon-title">밤 11시 자책 강제 종료<br>7시간 딥슬립 MP3</p>
+        </div>
+      </div>
+      <div class="usage-box">
+        <p class="usage-label">사용법</p>
+        <p class="usage-text">오늘 다 못 끝냈다고 자책하지 마십시오. <strong style="color:var(--text-hi)">폰 화면을 끄고 이 음원을 재생</strong>하세요.</p>
+      </div>
+      <button class="dl-btn" onclick="handleDl('딥슬립 MP3')">
+        ↓ 개별 다운로드
+      </button>
+    </div>
+
+    <!-- 보너스 -->
+    <div class="weapon-card" style="border-color:rgba(201,169,110,.18)">
+      <div class="weapon-top">
+        <div class="weapon-ico" style="background:rgba(201,169,110,.1);border-color:rgba(201,169,110,.2)">📴</div>
+        <div class="weapon-meta">
+          <span class="weapon-tag" style="color:var(--gold)">보너스</span>
+          <p class="weapon-title">폰 켤 때마다 무의식 리셋<br>행동 강제 배경화면 5종</p>
+        </div>
+      </div>
+      <div class="usage-box" style="border-color:rgba(201,169,110,.08);background:rgba(201,169,110,.04)">
+        <p class="usage-label" style="color:rgba(201,169,110,.5)">사용법</p>
+        <p class="usage-text">지금 바로 폰 잠금화면으로 설정하세요. 매일 아침 당신의 <strong style="color:var(--gold)">'One-Thing'</strong>을 강제로 각인시킵니다.</p>
+      </div>
+      <button class="dl-btn" style="border-color:rgba(201,169,110,.2);color:rgba(201,169,110,.7)"
+        onmouseover="this.style.borderColor='rgba(201,169,110,.55)';this.style.color='var(--gold)';this.style.background='rgba(201,169,110,.07)'"
+        onmouseout="this.style.borderColor='rgba(201,169,110,.2)';this.style.color='rgba(201,169,110,.7)';this.style.background='transparent'"
+        onclick="handleDl('배경화면 5종')">
+        ↓ 개별 다운로드
+      </button>
+    </div>
   </div>
-</footer>
+
+  <div class="divider"></div>
+
+  <!-- ══ SEC 4: VIP UPSELL ══ -->
+  <div style="padding:.2rem 0 0" class="reveal rd4">
+    <div class="vip-section">
+
+      <div class="vip-alert">
+        <span class="vip-alert-ico">🛑</span>
+        <p class="vip-alert-txt">잠깐, 이미지에서 스크립트를 고르는 5초의 시간조차 뇌 에너지가 아까우신가요?</p>
+      </div>
+
+      <div class="vip-body">
+        <p class="vip-p">
+          오늘 당장의 진상 고객은 이 스크립트로 쳐냈습니다.<br>
+          하지만 내일 아침, 또다시 수십 개의 파편화된 업무 속에서
+          <strong>'멍때리며' 날아가는 시간</strong>은 누가 잡아줍니까?
+        </p>
+
+        <div class="vip-divider"></div>
+
+        <p class="vip-p">
+          상위 1% 창업가들은 이 5초의 결정조차 <em>'시스템'</em>에 맡깁니다.<br><br>
+          멘탈이 무너질 때 카톡 하나만 남기면,
+          <strong>10분 안에 지침을 꽂아드리는</strong>
+          <em>[멘탈 OS VIP 핫라인]</em>이<br>
+          대표님의 시간을 <strong>24시간 방어</strong>합니다.
+        </p>
+
+        <button class="vip-btn" onclick="handleVIP()">
+          <span style="font-size:.9rem">👑</span>
+          VIP 핫라인 신청하기
+          <span style="font-size:.75rem;opacity:.7;margin-left:.2rem">→</span>
+        </button>
+
+        <p class="vip-guarantee">
+          🛡️ 30일 효과 없으면 100% 전액 환불 · 잔여 12자리
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer reveal">
+    <p>멘탈 OS · CEO Mind VIP 파트너십</p>
+    <p>© 2025 Mental OS. 모든 권리 보유.</p>
+  </div>
+
+</div><!-- /phone -->
 
 <script>
-/* ══════════════════════════════════
-   TOAST SYSTEM
-══════════════════════════════════ */
-let toastQ=[];
-let toastRunning=false;
-
-function toast(msg, type='ok', duration=3200) {
-  const container=document.getElementById('toastContainer');
+/* ══ TOAST ══ */
+function toast(msg, type='ok', dur=3000) {
+  const c=document.getElementById('tc');
   const el=document.createElement('div');
   el.className='toast';
-
-  const icons={ok:'✓',info:'↗',err:'✕'};
-  el.innerHTML=`<span class="toast-icon ${type}">${icons[type]||'✓'}</span><span>${msg}</span>`;
-  container.appendChild(el);
-
-  // 등장
+  const icons={ok:'✓',info:'↗',err:'!'};
+  el.innerHTML=`<span class="t-ico ${type}">${icons[type]||'✓'}</span><span style="flex:1;line-height:1.45">${msg}</span>`;
+  c.appendChild(el);
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
-
-  // 퇴장
   setTimeout(()=>{
-    el.classList.remove('show');
-    el.classList.add('hide');
-    setTimeout(()=>el.remove(), 320);
-  }, duration);
+    el.classList.remove('show');el.classList.add('hide');
+    setTimeout(()=>el.remove(),280);
+  },dur);
 }
 
-/* ══════════════════════════════════
-   SCROLL REVEAL
-══════════════════════════════════ */
-const obs=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
-},{threshold:.09,rootMargin:'0px 0px -32px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+/* ══ SCROLL REVEAL ══ */
+const ro=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');ro.unobserve(e.target)}});
+},{threshold:.08,rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-/* ══════════════════════════════════
-   QUIZ
-══════════════════════════════════ */
-let qAns=[],qCur=0;
-function ans(i,v){
-  qAns[i]=v;
-  const q=document.getElementById('q'+i);
-  q.querySelectorAll('.q-btn').forEach(b=>b.classList.remove('sel'));
-  q.querySelector('.q-btn.'+(v==='y'?'yes':'no')).classList.add('sel');
-  const dot=document.getElementById('d'+i+(i===0?'':'i'));
-  if(dot){dot.classList.remove('cur');dot.classList.add('done')}
-  // fix dot ids
-  const dotEl=document.getElementById(i===0?'d0':i===1?'d1i':'d2i');
-  if(dotEl){dotEl.classList.remove('cur');dotEl.classList.add('done')}
-  setTimeout(()=>{
-    q.classList.remove('active');
-    qCur=i+1;
-    if(qCur<3){
-      document.getElementById('q'+qCur).classList.add('active');
-      const nd=document.getElementById(qCur===1?'d1i':'d2i');
-      if(nd)nd.classList.add('cur');
-    } else {startLoad()}
-  },260);
-}
-function startLoad(){
-  document.getElementById('qProg').style.display='none';
-  const ld=document.getElementById('qLoading');
-  ld.style.display='flex';
-  const fill=document.getElementById('lfill');
-  const msgs=['뇌 에너지 상태 분석 중...','결정 피로 패턴 측정 중...','진단 결과 생성 중...'];
-  const ltxt=document.getElementById('ltxt');
-  let p=0,mi=0;
-  const iv=setInterval(()=>{
-    p+=1.3;fill.style.width=Math.min(p,100)+'%';
-    if(p>33&&mi===0){mi=1;ltxt.textContent=msgs[1]}
-    if(p>66&&mi===1){mi=2;ltxt.textContent=msgs[2]}
-    if(p>=100){clearInterval(iv);setTimeout(showResult,360)}
-  },27);
-}
-function showResult(){
-  document.getElementById('qLoading').style.display='none';
-  const yes=qAns.filter(a=>a==='y').length;
-  document.getElementById('qResult').style.display='block';
-  if(yes<=1){
-    document.getElementById('rbadge').textContent='🟡 초기 에너지 누수 징후';
-    document.getElementById('rtitle').textContent='초기 결정 피로 징후 감지';
-    document.getElementById('rdesc').innerHTML='지금 관리하지 않으면 악화될 수 있어요.<br>매주 <strong style="color:var(--gold)">약 6시간</strong>이 조금씩 새고 있어요.';
-    document.getElementById('sH').textContent='6h';
-    document.getElementById('sM').textContent='1,800만';
-  }
-  // 결과 확인 시 토스트
-  setTimeout(()=>toast('진단 완료! 아래에서 무료 가이드를 받아보세요 🎁','info',4000),600);
-}
-function doEmail(){
-  const v=document.getElementById('eIn').value;
-  const m=document.getElementById('eMsg');
-  if(!v||!v.includes('@')){
-    m.textContent='올바른 이메일 주소를 입력해주세요.';
-    m.style.color='var(--red-hi)';
-    m.style.display='block';
-    toast('이메일 주소를 다시 확인해주세요','err');
-    return;
-  }
-  m.style.color='var(--gold)';
-  m.textContent='✓ 접수됐어요! 5분 안에 메일을 확인해보세요.';
-  m.style.display='block';
-  document.getElementById('eIn').value='';
-  toast('PDF 다운로드 링크가 이메일로 발송됐어요 ✉️','ok',4000);
-}
-
-/* ══════════════════════════════════
-   ROI
-══════════════════════════════════ */
-function calcROI(h){
-  h=parseInt(h);
-  const rates={3:30,5:40,7:50,10:60,14:75,20:90,30:110,40:130};
-  let hr=75;
-  Object.keys(rates).map(Number).sort((a,b)=>a-b).forEach(k=>{if(h>=k)hr=rates[k]});
-  const loss=Math.round(h*4*hr);
-  const roi=Math.round(loss*10000/490000);
-  const pct=Math.round(((h-3)/(40-3))*100);
-  document.getElementById('hSlider').style.setProperty('--v',pct+'%');
-  document.getElementById('hDisp').innerHTML=h+'<em>시간/주</em>';
-  document.getElementById('rLoss').textContent=loss>=10000?Math.round(loss/10000)+'억':loss.toLocaleString()+'만';
-  document.getElementById('rROI').textContent=roi+'배';
-  document.getElementById('rHourly').textContent=hr+'만 원';
-  const ls=loss>=10000?Math.round(loss/10000)+'억 원':loss.toLocaleString()+'만 원';
-  document.getElementById('rMonthly').textContent=ls;
-  document.getElementById('rX').textContent=roi+'배';
-}
-
-function handlePurchase(){
-  toast('결제 페이지로 이동 중... 잠시만 기다려주세요 🔐','info',2500);
-  setTimeout(()=>toast('준비 중입니다. 곧 오픈됩니다!','ok'),2600);
-}
-
-window.addEventListener('load',()=>{
-  calcROI(14);
-  const s=document.getElementById('hSlider');
-  s.addEventListener('input',function(){
-    const p=Math.round(((this.value-this.min)/(this.max-this.min))*100);
-    this.style.setProperty('--v',p+'%');
+/* ══ WAVEFORM BUILD ══ */
+(function buildWave(){
+  const wf=document.getElementById('waveform');
+  const heights=[18,28,38,52,44,62,48,70,55,42,68,58,45,32,60,72,50,38,65,48,35,55,42,30,50,40,28,36,46,34,52,42,38,56,44,30,48,36,52,44];
+  heights.forEach((h,i)=>{
+    const bar=document.createElement('div');
+    bar.className='wave-bar';
+    bar.style.height=h+'px';
+    bar.dataset.i=i;
+    wf.appendChild(bar);
   });
-  s.style.setProperty('--v',Math.round(((14-3)/(40-3))*100)+'%');
-});
+})();
 
-/* ══════════════════════════════════
-   EMERGENCY RESET
-══════════════════════════════════ */
-function activateReset(){
-  const btn=document.getElementById('resetBtn');
-  const scene=document.getElementById('btnScene');
-  const panel=document.getElementById('guidePanel');
-  const bTxt=document.getElementById('breathTxt');
-  const circle=document.getElementById('breathCircle');
-  const ring=document.getElementById('breathRing');
-  const gtl=document.getElementById('gtl');
-  const again=document.getElementById('resetAgain');
+/* ══ AUDIO PLAYER ══ */
+let playing=false,timer=null,elapsed=0,total=30;
 
-  btn.classList.add('locked');
-  scene.classList.add('out');
-  toast('멘탈 리셋 시작 — 잠깐 눈을 감으세요 🔴','info',3500);
-
-  setTimeout(()=>{
-    scene.style.display='none';
-    panel.classList.add('visible');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>panel.classList.add('fadein')));
-
-    bTxt.classList.add('lit');
-    circle.setAttribute('r','22');circle.setAttribute('fill','rgba(192,57,43,.38)');
-    ring.setAttribute('r','32');ring.setAttribute('stroke-opacity','.46');
-
-    setTimeout(()=>{
-      bTxt.textContent='천천히... 내쉬세요...';
-      bTxt.classList.remove('lit');
-      circle.setAttribute('r','8');circle.setAttribute('fill','rgba(192,57,43,.11)');
-      ring.setAttribute('r','16');ring.setAttribute('stroke-opacity','.14');
-    },2800);
-
-    setTimeout(()=>bTxt.classList.add('dim'),5100);
-
-    setTimeout(()=>gtl.classList.add('drawn'),820);
-    [['g1',1020],['g2',1920],['g3',2820]].forEach(([id,d])=>{
-      setTimeout(()=>document.getElementById(id).classList.add('show'),d);
-    });
-
-    setTimeout(()=>{
-      document.getElementById('fnWrap').classList.add('show');
-      again.classList.add('show');
-      toast('30초 리셋 완료 ✓ 카카오톡을 열어보세요','ok',4000);
-    },3750);
-
-  },920);
+function updateWave(pct){
+  const bars=document.querySelectorAll('.wave-bar');
+  const activeIdx=Math.floor(pct*bars.length);
+  bars.forEach((b,i)=>{
+    b.classList.remove('active','played');
+    if(i===activeIdx)b.classList.add('active');
+    else if(i<activeIdx)b.classList.add('played');
+  });
+}
+function updateProgress(){
+  const pct=elapsed/total;
+  document.getElementById('progFill').style.width=(pct*100)+'%';
+  updateWave(pct);
+  const s=Math.floor(elapsed%60);
+  document.getElementById('timeDisp').textContent=`0:${String(s).padStart(2,'0')} / 0:30`;
+}
+function togglePlay(){
+  const btn=document.getElementById('playBtn');
+  if(elapsed>=total){elapsed=0;updateProgress()}
+  playing=!playing;
+  btn.textContent=playing?'⏸':'▶';
+  if(playing){
+    toast('재생 중 — 30초만 집중해보세요 🎵','info',2500);
+    timer=setInterval(()=>{
+      elapsed+=0.25;
+      if(elapsed>=total){
+        elapsed=total;updateProgress();
+        clearInterval(timer);playing=false;btn.textContent='▶';
+        toast('30초 완료! 전체 음원을 다운로드해보세요 ✓','ok',3500);
+      } else {updateProgress()}
+    },250);
+  } else {
+    clearInterval(timer);
+    toast('일시정지 됐어요','info',1800);
+  }
+}
+function seekAudio(e){
+  const rect=e.currentTarget.getBoundingClientRect();
+  const pct=(e.clientX-rect.left)/rect.width;
+  elapsed=pct*total;
+  updateProgress();
 }
 
-function resetScene(e){
-  e.preventDefault();
-  const scene=document.getElementById('btnScene');
-  const panel=document.getElementById('guidePanel');
-  const btn=document.getElementById('resetBtn');
-  const bTxt=document.getElementById('breathTxt');
-  const gtl=document.getElementById('gtl');
-  const again=document.getElementById('resetAgain');
-
-  panel.classList.remove('visible','fadein');
-  panel.style.display='none';
-  ['g1','g2','g3'].forEach(id=>document.getElementById(id).classList.remove('show'));
-  gtl.classList.remove('drawn');
-  document.getElementById('fnWrap').classList.remove('show');
-  bTxt.className='';bTxt.textContent='숨을 깊게 들이마시고...';
-  document.getElementById('breathCircle').setAttribute('r','11');
-  document.getElementById('breathRing').setAttribute('r','22');
-  again.classList.remove('show');
-  btn.classList.remove('locked');
-  scene.style.display='';
-  scene.classList.remove('out');
-  setTimeout(()=>btn.style.animation='',50);
-  document.getElementById('resetSection').scrollIntoView({behavior:'smooth',block:'center'});
-  toast('리셋 버튼이 복원됐어요','info',2200);
+/* ══ DOWNLOADS ══ */
+function handleZip(){
+  toast('ZIP 파일 다운로드가 시작됩니다 📦','ok',3200);
+  setTimeout(()=>toast('응급처치 팩 전체 저장 완료 ✓ 바로 폰에 옮겨두세요','ok',4000),3400);
+}
+function handleDl(name){
+  toast(`${name} 다운로드 시작 ↓`,'ok',2800);
+}
+function handleVIP(){
+  toast('VIP 핫라인 신청 페이지로 이동합니다 👑','info',2500);
+  setTimeout(()=>toast('잔여 12자리 — 마감 전 신청을 완료해주세요','info',3500),2700);
 }
 </script>
 </body>
