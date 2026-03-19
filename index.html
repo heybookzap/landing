@@ -3,653 +3,1049 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMERGENCY RESET</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-
+<title>Voice-Parser — 70초 결단 엔진</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-:root {
-  --bg:      #080809;
-  --red:     #c0392b;
-  --red-hi:  #e74c3c;
-  --gold:    #c9a96e;
-  --text-hi: #e8e8ec;
-  --text-md: #a0a0a8;
-  --text-lo: #525260;
-  --border:  rgba(255,255,255,0.06);
-  --font:    'Pretendard', -apple-system, sans-serif;
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+/* ── TOKENS ── */
+:root{
+  --bg:  #000;
+  --bg2: #090909;
+  --bg3: #111;
+  --w:   #ffffff;
+  --g1:  #d1d1d5;   /* 본문 — 충분히 밝음 */
+  --g2:  #9a9aa4;   /* 보조 — 기존보다 밝게 조정 */
+  --g3:  #2a2a2e;   /* 경계선 */
+  --blue:#6ba3d6;
+  --bdim:rgba(107,163,214,.1);
+  --bline:rgba(107,163,214,.3);
+  --gold:#c9a85c;
+  --gdim:rgba(201,168,92,.1);
+  --gline:rgba(201,168,92,.3);
+  --red: #d47878;
+  --rdim:rgba(212,120,120,.1);
+  --rline:rgba(212,120,120,.3);
+  --green:#5aad72;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; }
+body{
+  background:var(--bg);
+  color:var(--w);
+  font-family:'Pretendard',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
 
-body {
-  background: var(--bg);
-  font-family: var(--font);
-  min-height: 100dvh;
-  min-height: 100vh;
-  overflow: hidden;
-  position: relative;
+/* ── LAYOUT ── */
+.W{width:100%;max-width:600px;margin:0 auto;padding:0 20px}
+.sec{padding:56px 0}
+.sh{
+  font-size:clamp(24px,6vw,36px);
+  font-weight:900;line-height:1.18;letter-spacing:-.025em;
+  margin-bottom:24px;
 }
+.label{
+  display:inline-block;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--g2);margin-bottom:12px;
+}
+.hr{border:none;border-top:1px solid var(--g3)}
 
-.bg-layer { position: fixed; inset: 0; pointer-events: none; }
-.bg-radial {
-  background: radial-gradient(ellipse 60% 55% at 50% 50%,
-    rgba(80,8,4,0.55) 0%, rgba(30,4,2,0.3) 40%, transparent 75%);
-}
-.bg-vignette {
-  background: radial-gradient(ellipse 100% 100% at 50% 50%,
-    transparent 50%, rgba(0,0,0,0.72) 100%);
-}
-.bg-grain {
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 300px 300px;
-}
+/* ── SCROLL REVEAL ── */
+.sr{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.sr.on{opacity:1;transform:none}
 
-.particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
-.dot {
-  position: absolute; border-radius: 50%;
-  background: rgba(192,57,43,0.35);
-  animation: floatDot linear infinite;
-}
-@keyframes floatDot {
-  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.5; }
-  100% { transform: translateY(-120px) translateX(var(--drift)) scale(0.3); opacity: 0; }
-}
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;z-index:9;height:2px;background:linear-gradient(90deg,var(--blue),var(--gold));width:0%}
 
-#stage {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 10;
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:13px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--g3);
 }
+.logo{font-size:15px;font-weight:900;letter-spacing:.04em}
+.logo em{font-style:normal;color:var(--blue)}
+.nav-spot{
+  font-size:11px;font-weight:800;letter-spacing:.08em;
+  border:1px solid var(--rline);color:var(--red);
+  padding:5px 12px;border-radius:20px;
+  animation:blink 2.4s ease-in-out infinite;
+  white-space:nowrap;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* ── 버튼 씬 ── */
-#btnScene {
-  position: absolute;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.4,0,0.2,1);
-  animation: sceneIn 1.1s cubic-bezier(0.2,0,0,1) both;
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+#hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:88px 20px 52px;
+  text-align:center;
+  position:relative;overflow:hidden;
 }
-@keyframes sceneIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
+.hgrid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+  background-size:56px 56px;
 }
-#btnScene.out { opacity: 0; transform: scale(0.86); pointer-events: none; }
-
-.rings { position: absolute; display: flex; align-items: center; justify-content: center; width: 0; height: 0; }
-.ring {
-  position: absolute; border-radius: 50%;
-  border: 1px solid rgba(192,57,43,0.2);
-  animation: ringExpand 3.6s ease-out infinite;
+.hglow{
+  position:absolute;top:44%;left:50%;
+  width:480px;height:480px;pointer-events:none;
+  background:radial-gradient(circle,rgba(107,163,214,.065) 0%,transparent 66%);
+  transform:translate(-50%,-50%);
+  animation:glow 5s ease-in-out infinite;
 }
-.ring-1 { width: clamp(200px,42vmin,290px); height: clamp(200px,42vmin,290px); animation-delay: 0s; }
-.ring-2 { width: clamp(270px,56vmin,380px); height: clamp(270px,56vmin,380px); animation-delay: 1s; }
-.ring-3 { width: clamp(340px,70vmin,470px); height: clamp(340px,70vmin,470px); animation-delay: 2s; }
-@keyframes ringExpand {
-  0%   { opacity: 0; transform: scale(0.86); }
-  20%  { opacity: 0.85; }
-  100% { opacity: 0; transform: scale(1.1); }
-}
-
-#resetBtn {
-  position: relative; z-index: 5;
-  width: clamp(148px,34vmin,210px); height: clamp(148px,34vmin,210px);
-  border-radius: 50%;
-  border: 1.5px solid rgba(192,57,43,0.35);
-  background: radial-gradient(circle at 35% 30%, #ef5244 0%, #c0392b 35%, #8b1a10 70%, #5a0e09 100%);
-  box-shadow:
-    0 0 50px rgba(192,57,43,0.55), 0 0 100px rgba(192,57,43,0.25),
-    inset 0 1px 0 rgba(255,200,180,0.15), inset 0 -2px 0 rgba(0,0,0,0.5);
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: clamp(0.5rem,1.4vmin,0.67rem);
-  font-weight: 700; letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.9);
-  text-transform: uppercase; text-align: center; line-height: 1.7;
-  animation: breathe 4.5s ease-in-out infinite;
-  outline: none; -webkit-tap-highlight-color: transparent; user-select: none;
-}
-#resetBtn::before {
-  content: ''; position: absolute; inset: 12%; border-radius: 50%;
-  background: radial-gradient(circle at 40% 30%, rgba(255,180,160,0.18) 0%, transparent 60%);
-}
-#resetBtn:hover {
-  box-shadow: 0 0 70px rgba(231,76,60,0.75), 0 0 140px rgba(192,57,43,0.38),
-    inset 0 1px 0 rgba(255,200,180,0.2), inset 0 -2px 0 rgba(0,0,0,0.5);
-}
-#resetBtn:active { transform: scale(0.96) !important; }
-#resetBtn.locked { animation: none !important; pointer-events: none; }
-
-@keyframes breathe {
-  0%,100% { transform: scale(1); filter: brightness(1); }
-  50%      { transform: scale(1.07); filter: brightness(1.12); }
+@keyframes glow{
+  0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
 }
 
-.btn-sub {
-  margin-top: clamp(1.6rem,4.5vmin,2.6rem);
-  font-size: clamp(0.56rem,1.4vmin,0.64rem);
-  font-weight: 400; letter-spacing: 0.22em;
-  color: var(--text-lo); text-transform: uppercase; text-align: center;
-  opacity: 0; animation: fadeInSub 0.8s ease 1.4s forwards;
+/* 첫 문장 — 고객 문제 */
+.h-hook{
+  font-size:clamp(14px,3.5vw,16px);font-weight:500;
+  color:var(--g1);margin-bottom:18px;
+  opacity:0;animation:fu .6s ease forwards .1s;
 }
-@keyframes fadeInSub { to { opacity: 1; } }
+.h-hook em{color:var(--red);font-style:normal;font-weight:700}
 
-/* ══ CDO 선언문 팝업 ══ */
-#declarationOverlay {
-  position: fixed; inset: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0);
-  backdrop-filter: blur(0px);
-  pointer-events: none;
-  transition: background 0.6s ease, backdrop-filter 0.6s ease;
-  padding: 1rem;
+.h1{
+  font-size:clamp(38px,10vw,72px);
+  font-weight:900;line-height:1.08;letter-spacing:-.03em;
+  color:var(--w);margin-bottom:14px;
+  opacity:0;animation:fu .6s ease forwards .25s;
 }
-#declarationOverlay.show {
-  background: rgba(0,0,0,0.82);
-  backdrop-filter: blur(10px);
-  pointer-events: auto;
-}
+.h1 em{font-style:normal;color:var(--blue)}
 
-#declarationBox {
-  position: relative;
-  width: min(520px, 94vw);
-  max-height: 88dvh;
-  max-height: 88vh;
-  overflow-y: auto;
-  scrollbar-width: none;
-  padding: clamp(1.8rem,4.5vw,2.8rem) clamp(1.6rem,4.5vw,2.8rem);
-  background: #0c0b0b;
-  border: 1px solid rgba(192,57,43,0.22);
-  border-radius: 2px;
-  box-shadow: 0 0 60px rgba(192,57,43,0.12), 0 40px 80px rgba(0,0,0,0.7);
-  opacity: 0;
-  transform: translateY(24px) scale(0.97);
-  transition: opacity 0.7s cubic-bezier(0.2,0,0,1) 0.2s,
-              transform 0.7s cubic-bezier(0.2,0,0,1) 0.2s;
+.h1-desc{
+  font-size:clamp(15px,3.8vw,17px);font-weight:400;
+  color:var(--g1);line-height:1.75;
+  max-width:400px;margin:0 auto 32px;
+  opacity:0;animation:fu .6s ease forwards .4s;
 }
-#declarationBox::-webkit-scrollbar { display: none; }
-#declarationOverlay.show #declarationBox {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-#declarationBox::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--red), transparent);
-}
+.h1-desc strong{color:var(--w);font-weight:700}
 
-.decl-eyebrow {
-  font-size: clamp(0.52rem,1.2vmin,0.58rem);
-  font-weight: 600; letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--red-hi);
-  margin-bottom: clamp(1.2rem,3vmin,1.8rem);
-  display: flex; align-items: center; gap: 0.6rem;
-}
-.decl-eyebrow::after {
-  content: ''; flex: 1; height: 1px;
-  background: linear-gradient(90deg, rgba(192,57,43,0.35), transparent);
-}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-.decl-body {
-  display: flex; flex-direction: column;
-  gap: clamp(0.85rem,2vmin,1.1rem);
-  margin-bottom: clamp(1.6rem,4vmin,2.2rem);
+/* DEMO WIDGET */
+.demo{
+  width:100%;max-width:440px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--g3);
+  padding:18px;
+  position:relative;
+  opacity:0;animation:fu .6s ease forwards .55s;
 }
+.demo::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--bline),transparent);
+}
+.demo-dots{display:flex;gap:5px;align-items:center;margin-bottom:14px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#ffbd2e}.dot.g{background:#28c940}
+.demo-lbl{margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--g2)}
 
-.decl-line {
-  font-size: clamp(0.82rem,2.1vw,0.95rem);
-  font-weight: 300;
-  color: var(--text-md);
-  line-height: 1.88;
-  letter-spacing: 0.02em;
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+.mic-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px 0 14px}
+.mic-btn{
+  width:64px;height:64px;border-radius:50%;
+  border:1.5px solid var(--g3);
+  background:rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s;
 }
-.decl-line.show { opacity: 1; transform: translateX(0); }
-.decl-line strong { color: var(--text-hi); font-weight: 500; }
-.decl-line em { font-style: normal; color: var(--gold); font-weight: 400; }
+.mic-btn.rec{border-color:var(--blue);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(107,163,214,.3)}
+  50%{box-shadow:0 0 0 14px rgba(107,163,214,0)}
+}
+.mic-btn svg{width:22px;height:22px;fill:var(--g2)}
+.mic-btn.rec svg{fill:var(--blue)}
 
-/* 하이라이트 블록 */
-.decl-line.highlight {
-  color: var(--text-hi);
-  font-size: clamp(0.85rem,2.2vw,0.98rem);
-  font-weight: 400;
-  padding: clamp(0.85rem,2vmin,1.1rem) clamp(1rem,2.5vmin,1.4rem);
-  border-left: 2px solid var(--red);
-  background: rgba(192,57,43,0.07);
-  border-radius: 0 2px 2px 0;
-  line-height: 1.9;
-}
+.wave{display:flex;align-items:center;gap:3px;height:22px;opacity:0;transition:opacity .3s}
+.wave.on{opacity:1}
+.wb{width:2px;background:var(--blue);border-radius:2px;animation:wa .7s ease-in-out infinite alternate}
+.wb:nth-child(1){animation-delay:.00s}.wb:nth-child(2){animation-delay:.09s}
+.wb:nth-child(3){animation-delay:.17s}.wb:nth-child(4){animation-delay:.05s}
+.wb:nth-child(5){animation-delay:.13s}.wb:nth-child(6){animation-delay:.21s}
+.wb:nth-child(7){animation-delay:.07s}.wb:nth-child(8){animation-delay:.15s}
+@keyframes wa{from{height:3px}to{height:20px}}
 
-/* 확인 버튼 */
-#declarationConfirm {
-  width: 100%;
-  padding: clamp(0.82rem,2vmin,1rem);
-  background: transparent;
-  border: 1px solid rgba(192,57,43,0.38);
-  border-radius: 2px;
-  color: var(--text-md);
-  font-family: var(--font);
-  font-size: clamp(0.64rem,1.5vmin,0.72rem);
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.5s ease, background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+.demo-run-btn{
+  font-size:12px;font-weight:700;letter-spacing:.12em;
+  color:var(--blue);
+  border:1px solid var(--bline);background:var(--bdim);
+  padding:8px 20px;transition:background .2s;border-radius:2px;
 }
-#declarationConfirm.show { opacity: 1; }
-#declarationConfirm:hover {
-  background: rgba(192,57,43,0.1);
-  border-color: rgba(192,57,43,0.65);
-  color: var(--text-hi);
+.demo-run-btn:hover{background:rgba(107,163,214,.18)}
+
+.lbar{height:1px;background:var(--g3);overflow:hidden;display:none;margin:2px 0}
+.lfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));width:0%}
+
+.demo-result{
+  display:none;text-align:left;
+  border-top:1px solid var(--g3);padding-top:14px;
+  animation:fu .35s ease forwards;
+}
+.rr{margin-bottom:10px}.rr:last-child{margin-bottom:0}
+.rr-tag{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-bottom:5px;
+}
+.rr-tag.f{background:var(--bdim);color:var(--blue);border:1px solid var(--bline)}
+.rr-tag.a{background:var(--gdim);color:var(--gold);border:1px solid var(--gline)}
+.rr-text{font-size:13px;color:var(--g1);line-height:1.65}
+
+/* HERO CTA */
+.hero-cta{
+  width:100%;max-width:440px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  margin-top:6px;
+  opacity:0;animation:fu .6s ease forwards .7s;
 }
 
-/* ── 가이드 패널 ── */
-#guidePanel {
-  position: absolute;
-  width: min(600px, 90vw);
-  max-height: 88dvh; max-height: 88vh;
-  overflow-y: auto; overflow-x: hidden;
-  scrollbar-width: none;
-  padding: clamp(1.8rem,4.5vw,3.2rem) clamp(1.4rem,4.5vw,3.2rem);
-  opacity: 0; transform: translateY(20px);
-  pointer-events: none; display: none;
+/* ── CTA 버튼 공통 ── */
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:17px 20px;
+  background:linear-gradient(135deg,rgba(107,163,214,.18),rgba(107,163,214,.06));
+  border:1.5px solid var(--bline);
+  color:var(--w);
+  font-size:clamp(14px,3.5vw,15px);font-weight:800;letter-spacing:.03em;
+  border-radius:2px;transition:all .22s;
+  position:relative;overflow:hidden;
 }
-#guidePanel::-webkit-scrollbar { display: none; }
-#guidePanel.visible { display: block; pointer-events: auto; }
-#guidePanel.fade-in { animation: panelIn 1.1s cubic-bezier(0.2,0,0,1) forwards; }
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
+.btn-primary::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  transition:left .5s;
+}
+.btn-primary:hover::before{left:100%}
+.btn-primary:hover{border-color:rgba(107,163,214,.6);background:linear-gradient(135deg,rgba(107,163,214,.26),rgba(107,163,214,.12))}
+.btn-arr{transition:transform .22s}
+.btn-primary:hover .btn-arr{transform:translateX(3px)}
+
+.cta-sub{font-size:11px;font-weight:600;color:var(--red);letter-spacing:.05em;text-align:center}
+.cta-sub span{color:var(--g2)}
+
+/* ══════════════════════════════
+   STATS
+══════════════════════════════ */
+#stats{background:var(--bg2);border-top:1px solid var(--g3);border-bottom:1px solid var(--g3)}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--g3)}
+.stat-cell{background:var(--bg2);padding:22px 8px;text-align:center}
+.stat-n{font-size:clamp(30px,8vw,44px);font-weight:900;line-height:1;color:var(--w)}
+.stat-n.b{color:var(--blue)}.stat-n.g{color:var(--gold)}
+.stat-n sup{font-size:.42em;vertical-align:top;margin-top:.1em}
+.stat-l{font-size:11px;font-weight:600;color:var(--g2);margin-top:6px;letter-spacing:.04em}
+
+/* ══════════════════════════════
+   PROBLEM + FIT (통합)
+══════════════════════════════ */
+#problem{padding:56px 0}
+.prob-cards{display:flex;flex-direction:column;gap:1px;background:var(--g3);margin-bottom:32px}
+.prob-card{
+  background:var(--bg);
+  display:grid;grid-template-columns:40px 1fr;gap:14px;
+  padding:20px 18px;transition:background .18s;
+}
+.prob-card:hover{background:var(--bg3)}
+.prob-n{
+  font-size:24px;font-weight:900;
+  color:rgba(107,163,214,.25);
+  line-height:1;padding-top:2px;
+}
+.prob-title{font-size:clamp(15px,3.8vw,16px);font-weight:800;color:var(--w);margin-bottom:5px;line-height:1.35}
+.prob-desc{font-size:13px;color:var(--g2);line-height:1.65}
+.prob-desc strong{color:var(--blue);font-weight:700}
+
+/* FIT 테이블 */
+.fit-table{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--g3);
+}
+.fit-col{background:var(--bg3);padding:20px 16px}
+.fit-col.yes-col{background:var(--bg2)}
+.fit-head{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.fit-head.y{color:var(--green)}.fit-head.n{color:var(--red)}
+.fit-item{
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:13px;color:var(--g1);line-height:1.5;
+  margin-bottom:9px;
+}
+.fit-item:last-child{margin-bottom:0}
+.fit-check{flex-shrink:0;font-size:12px;margin-top:1px}
+
+/* ══════════════════════════════
+   HOW (3단계 — Features 통합)
+══════════════════════════════ */
+#how{background:var(--bg2);border-top:1px solid var(--g3);border-bottom:1px solid var(--g3);padding:56px 0}
+.how-steps{display:flex;flex-direction:column;gap:1px;background:var(--g3)}
+.how-step{
+  background:var(--bg2);
+  display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;
+  padding:22px 18px;transition:background .18s;
+}
+.how-step:hover{background:var(--bg3)}
+.step-n{
+  font-size:13px;font-weight:800;letter-spacing:.1em;
+  color:var(--blue);
+  background:var(--bdim);border:1px solid var(--bline);
+  border-radius:2px;padding:4px 0;text-align:center;
+  flex-shrink:0;margin-top:2px;
+}
+.step-title{font-size:clamp(15px,3.8vw,16px);font-weight:800;color:var(--w);margin-bottom:5px;line-height:1.35}
+.step-desc{font-size:13px;color:var(--g2);line-height:1.65}
+.step-desc strong{color:var(--w);font-weight:700}
+
+/* ══════════════════════════════
+   TRUST + FOUNDER (통합)
+══════════════════════════════ */
+#trust{padding:56px 0}
+.trust-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--g3);margin-bottom:32px;
+}
+.trust-card{background:var(--bg);padding:20px;transition:background .18s}
+.trust-card:hover{background:var(--bg3)}
+.trust-ico{font-size:18px;margin-bottom:8px}
+.trust-title{font-size:14px;font-weight:800;color:var(--w);margin-bottom:4px;line-height:1.35}
+.trust-desc{font-size:12px;color:var(--g2);line-height:1.6}
+
+/* Founder */
+.founder{
+  border:1px solid var(--g3);padding:24px;
+  background:var(--bg3);position:relative;
+}
+.founder::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--bline),transparent);
+}
+.founder-qm{font-size:52px;line-height:.7;color:rgba(107,163,214,.1);font-family:Georgia,serif;margin-bottom:10px}
+.founder-text{font-size:clamp(14px,3.5vw,15px);font-weight:400;color:var(--g1);line-height:1.85;margin-bottom:20px}
+.founder-text strong{color:var(--w);font-weight:700}
+.founder-by{display:flex;align-items:center;gap:12px}
+.founder-line{flex:1;height:1px;background:var(--g3)}
+.founder-name{font-size:10px;font-weight:700;letter-spacing:.18em;color:var(--g2);text-transform:uppercase;white-space:nowrap}
+
+/* ══════════════════════════════
+   OFFER
+══════════════════════════════ */
+#offer{background:var(--bg2);border-top:1px solid var(--g3);border-bottom:1px solid var(--g3);padding:56px 0}
+
+/* 가격 헤더 */
+.price-head{text-align:center;margin-bottom:24px}
+.price-old{font-size:13px;font-weight:600;color:var(--g2);text-decoration:line-through;margin-bottom:4px}
+.price-main{font-size:clamp(40px,10vw,60px);font-weight:900;letter-spacing:-.03em;color:var(--w);line-height:1}
+.price-unit{font-size:14px;font-weight:500;color:var(--g2);margin-left:4px}
+.price-anchor{
+  display:inline-block;margin-top:10px;
+  font-size:12px;font-weight:600;color:var(--gold);
+  background:var(--gdim);border:1px solid var(--gline);
+  padding:5px 14px;border-radius:20px;line-height:1.5;
 }
 
-/* 호흡 섹션 */
-.breath-section { text-align: center; margin-bottom: clamp(1.8rem,4.5vmin,2.8rem); }
-#breathSvg {
-  display: block; margin: 0 auto clamp(0.9rem,2.2vmin,1.3rem);
-  width: clamp(56px,12vmin,76px); height: clamp(56px,12vmin,76px);
-}
-#breathCircle { transition: r 2.2s cubic-bezier(0.45,0,0.55,1), fill 2.2s ease; }
-#breathRing   { transition: r 2.2s cubic-bezier(0.45,0,0.55,1), stroke-opacity 2.2s ease; }
-#breathText {
-  font-size: clamp(0.88rem,2.4vmin,1.08rem);
-  font-weight: 300; color: rgba(200,200,208,0.42);
-  letter-spacing: 0.06em; line-height: 1.7;
-  transition: color 2.4s ease, opacity 1.6s ease; min-height: 1.7em;
-}
-#breathText.lit { color: rgba(215,215,222,0.88); }
-#breathText.dim { opacity: 0.22; }
-
-.sep { display: flex; align-items: center; gap: 0.9rem; margin: clamp(1.4rem,3.5vmin,2.2rem) 0; }
-.sep-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(192,57,43,0.4), transparent); }
-.sep-dot  { width: 4px; height: 4px; border-radius: 50%; background: rgba(192,57,43,0.6); }
-
-.timeline { position: relative; padding-left: clamp(0.8rem,2.5vw,1.2rem); }
-.timeline::before {
-  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px;
-  background: linear-gradient(180deg, rgba(192,57,43,0.5), rgba(192,57,43,0.15));
-  transform: scaleY(0); transform-origin: top;
-  transition: transform 1.3s cubic-bezier(0.2,0,0,1) 0.3s;
-}
-.timeline.drawn::before { transform: scaleY(1); }
-
-.g-item {
-  display: grid; grid-template-columns: auto 1fr;
-  gap: clamp(0.8rem,2.2vw,1.2rem); align-items: start;
-  margin-bottom: clamp(1.3rem,3.2vmin,1.9rem);
-  opacity: 0; transform: translateX(-14px);
-  transition: opacity 0.7s cubic-bezier(0.2,0,0,1), transform 0.7s cubic-bezier(0.2,0,0,1);
-}
-.g-item:last-child { margin-bottom: 0; }
-.g-item.show { opacity: 1; transform: translateX(0); }
-
-.g-num-wrap {
-  width: clamp(26px,5.2vmin,32px); height: clamp(26px,5.2vmin,32px);
-  border-radius: 50%; border: 1px solid rgba(192,57,43,0.4);
-  background: rgba(192,57,43,0.08);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 2px;
-}
-.g-num { font-size: clamp(0.6rem,1.4vmin,0.68rem); font-weight: 600; color: var(--red-hi); }
-
-.g-label {
-  display: inline-block;
-  font-size: clamp(0.54rem,1.2vmin,0.6rem);
-  font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--text-lo); margin-bottom: clamp(0.28rem,0.7vmin,0.4rem);
-}
-.g-text {
-  font-size: clamp(0.82rem,2vw,0.93rem);
-  font-weight: 300; color: var(--text-md); line-height: 1.95; letter-spacing: 0.02em;
-}
-.g-text strong { color: var(--text-hi); font-weight: 500; }
-.g-text em     { font-style: normal; color: var(--gold); font-weight: 400; }
-
-/* 핫라인 CTA 버튼 */
-.hotline-btn {
-  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
-  width: 100%;
-  margin-top: clamp(1.8rem,4.5vmin,2.8rem);
-  padding: clamp(0.9rem,2.3vmin,1.1rem) 1.5rem;
-  background: var(--red);
-  border: none; border-radius: 3px; cursor: pointer;
-  font-family: var(--font);
-  font-size: clamp(0.8rem,2vmin,0.92rem);
-  font-weight: 700; letter-spacing: 0.05em;
-  color: #fff;
-  box-shadow: 0 0 28px rgba(192,57,43,0.38), 0 4px 18px rgba(0,0,0,0.45);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
-  position: relative; overflow: hidden;
-  opacity: 0; transition: opacity 0.6s ease, background 0.2s, box-shadow 0.2s, transform 0.13s;
-}
-.hotline-btn::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent);
-  pointer-events: none;
-}
-.hotline-btn.show { opacity: 1; }
-.hotline-btn:hover { background: var(--red-hi); box-shadow: 0 0 44px rgba(231,76,60,0.5), 0 4px 18px rgba(0,0,0,0.45); transform: translateY(-1px); }
-.hotline-btn:active { transform: translateY(0) scale(0.98); }
-
-.footnote-wrap {
-  margin-top: clamp(1.5rem,3.8vmin,2.2rem);
-  padding-top: clamp(0.9rem,2.2vmin,1.2rem);
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; gap: 0.55rem;
-  opacity: 0; transition: opacity 0.9s ease;
-}
-.footnote-wrap.show { opacity: 1; }
-#footnote {
-  font-size: clamp(0.59rem,1.4vw,0.67rem);
-  font-weight: 300; color: var(--text-lo); letter-spacing: 0.07em;
+/* 미끼 가격 (Decoy) */
+.decoy{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--g3);margin-bottom:16px}
+.dc{background:var(--bg2);padding:18px}
+.dc.vip{background:var(--bg3);position:relative;overflow:hidden}
+.dc.vip::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.dc-badge{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dc-name{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2)}
+.dc-name.vip{color:var(--gold)}
+.dc-rec{font-size:9px;font-weight:800;letter-spacing:.1em;color:var(--gold);background:var(--gdim);border:1px solid var(--gline);padding:2px 7px;border-radius:20px}
+.dc-price{font-size:clamp(20px,5vw,26px);font-weight:900;color:var(--g2);margin-bottom:12px;letter-spacing:-.02em}
+.dc.vip .dc-price{color:var(--w)}
+.dc-per{font-size:11px;font-weight:500;margin-left:3px}
+.dc-rows{display:flex;flex-direction:column;gap:7px}
+.dc-row{display:flex;align-items:flex-start;gap:6px;font-size:12px;line-height:1.45}
+.dc-row .ck{flex-shrink:0;font-size:11px;margin-top:1px}
+.dc-row.bad{color:var(--g3)}.dc-row.bad .ck{color:rgba(255,255,255,.15)}
+.dc-row.good{color:var(--g1)}.dc-row.good .ck{color:var(--green)}
+.dc-row strong{font-weight:700}
+.dc-note{
+  margin-top:12px;font-size:10px;font-weight:700;
+  color:var(--gold);background:var(--gdim);border:1px solid var(--gline);
+  padding:5px 8px;border-radius:2px;text-align:center;
 }
 
-.scroll-hint {
-  position: fixed; bottom: clamp(1.2rem,3vmin,2rem); left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-  opacity: 0; pointer-events: none; transition: opacity 0.5s ease; z-index: 20;
+/* FOMO */
+.fomo{
+  border:1px solid var(--g3);overflow:hidden;margin-bottom:16px;
+  background:var(--bg3);
 }
-.scroll-hint.show { opacity: 0.3; }
-.scroll-hint span { font-size: 0.56rem; letter-spacing: 0.2em; color: var(--text-lo); text-transform: uppercase; }
-.scroll-arrow {
-  width: 1px; height: 26px;
-  background: linear-gradient(180deg, var(--text-lo), transparent);
-  animation: scrollBounce 1.8s ease-in-out infinite;
+.fomo-bar{height:2px;background:linear-gradient(90deg,var(--blue),transparent)}
+.fomo-body{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.fomo-l{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--g2);margin-bottom:4px}
+.fomo-price{font-size:26px;font-weight:900;color:var(--w);letter-spacing:-.02em}
+.fomo-r{text-align:right}
+.fomo-spot{font-size:12px;font-weight:800;color:var(--blue);margin-bottom:3px}
+.fomo-why{font-size:10px;font-weight:500;color:var(--g2);line-height:1.5;max-width:140px}
+
+/* 보너스 */
+.bonus{
+  border:1px solid var(--g3);padding:20px;margin-bottom:16px;
+  background:var(--bg3);position:relative;
 }
-@keyframes scrollBounce {
-  0%,100% { transform: translateY(0); opacity: 0.6; }
-  50%      { transform: translateY(5px); opacity: 1; }
+.bonus::before{
+  content:'🎁  창립 50인 전용 VVIP 보너스';
+  position:absolute;top:-10px;left:16px;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  background:var(--bg3);padding:0 8px;color:var(--gold);
+}
+.bonus-lead{font-size:14px;font-weight:600;font-style:italic;color:var(--g1);line-height:1.6;margin-bottom:12px}
+.bonus-body{font-size:13px;color:var(--g2);line-height:1.75;margin-bottom:12px}
+.bonus-body strong{color:var(--w);font-weight:700}
+.bonus-warn{
+  display:flex;gap:8px;align-items:flex-start;
+  background:rgba(201,168,92,.06);border:1px solid var(--gline);
+  padding:9px 12px;border-radius:2px;margin-bottom:14px;
+  font-size:11px;font-weight:700;color:var(--gold);line-height:1.55;
+}
+.bonus-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--g3)}
+.bonus-ico{font-size:17px;flex-shrink:0}
+.bonus-txt h4{font-size:13px;font-weight:800;color:var(--w);margin-bottom:1px}
+.bonus-txt p{font-size:11px;color:var(--g2)}
+.bonus-val{margin-left:auto;font-size:13px;font-weight:900;color:var(--gold);white-space:nowrap}
+
+/* 환불 보증 */
+.guar{
+  display:flex;gap:12px;align-items:flex-start;
+  border:1px solid var(--g3);padding:16px;margin-bottom:20px;
+}
+.guar-ico{font-size:18px;flex-shrink:0}
+.guar-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);margin-bottom:4px}
+.guar-text{font-size:13px;color:var(--g1);line-height:1.6}
+
+.cta-hint{font-size:11px;font-weight:500;color:var(--g2);text-align:center;letter-spacing:.05em;margin-top:8px}
+
+/* ══════════════════════════════
+   FAQ
+══════════════════════════════ */
+#faq{padding:56px 0}
+.faq-item{border-bottom:1px solid var(--g3)}
+.faq-btn{
+  width:100%;background:none;border:none;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:18px 0;text-align:left;transition:opacity .18s;
+}
+.faq-btn:hover{opacity:.75}
+.faq-q{font-size:14px;font-weight:700;color:var(--w);line-height:1.45}
+.faq-ic{
+  flex-shrink:0;width:22px;height:22px;
+  border:1px solid var(--g3);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--g2);
+  transition:transform .28s,border-color .2s,color .2s;
+}
+.faq-btn.open .faq-ic{transform:rotate(45deg);border-color:var(--blue);color:var(--blue)}
+.faq-ans{
+  display:none;
+  font-size:13px;color:var(--g2);line-height:1.8;
+  padding:0 0 16px 16px;
+  border-left:2px solid var(--bline);margin-left:2px;
+  animation:fu .28s ease;
+}
+.faq-ans.on{display:block}
+
+/* ══════════════════════════════
+   FINAL CTA
+══════════════════════════════ */
+#final{
+  padding:56px 0;text-align:center;
+  background:linear-gradient(180deg,var(--bg),rgba(107,163,214,.03));
+  border-top:1px solid var(--g3);
+}
+.final-in{max-width:480px;margin:0 auto}
+.final-eye{font-size:10px;font-weight:700;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:14px}
+.final-h{font-size:clamp(26px,7vw,40px);font-weight:900;line-height:1.18;letter-spacing:-.025em;margin-bottom:12px}
+.final-sub{font-size:14px;color:var(--g1);line-height:1.8;margin-bottom:18px}
+.final-sub strong{color:var(--w);font-weight:700}
+.loss{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--rdim);border:1px solid var(--rline);
+  padding:13px 15px;border-radius:2px;margin-bottom:22px;
+  text-align:left;font-size:12px;font-weight:600;color:var(--red);line-height:1.65;
+}
+.loss strong{color:var(--w)}
+.final-guar{font-size:11px;font-weight:500;color:var(--g2);letter-spacing:.05em;margin-top:10px}
+
+/* ══════════════════════════════
+   WAITLIST
+══════════════════════════════ */
+#wl{
+  padding:48px 0;text-align:center;
+  background:var(--bg2);border-top:1px solid var(--g3);
+}
+.wl-in{max-width:360px;margin:0 auto}
+.wl-h{font-size:18px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px}
+.wl-copy{font-size:13px;color:var(--g2);line-height:1.7;margin-bottom:18px}
+.wl-copy strong{color:var(--g1);font-weight:600}
+.wl-form{display:flex;flex-direction:column;gap:7px}
+.wl-input{
+  background:rgba(255,255,255,.04);border:1px solid var(--g3);
+  color:var(--w);font-family:'Pretendard',sans-serif;
+  font-size:14px;padding:12px 14px;outline:none;border-radius:2px;
+  transition:border-color .2s;
+}
+.wl-input::placeholder{color:var(--g2)}
+.wl-input:focus{border-color:var(--bline)}
+.wl-btn{
+  background:rgba(255,255,255,.06);border:1px solid var(--g3);
+  color:var(--g1);font-family:'Pretendard',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:.12em;
+  padding:12px;transition:all .18s;border-radius:2px;
+}
+.wl-btn:hover{background:rgba(255,255,255,.1);color:var(--w)}
+.wl-msg{font-size:11px;font-weight:600;color:var(--blue);letter-spacing:.06em;margin-top:8px;min-height:16px}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer{
+  padding:24px 20px;text-align:center;border-top:1px solid var(--g3);
+  font-size:11px;color:var(--g2);letter-spacing:.06em;line-height:1.8;
 }
 
-@media (max-width: 360px) { #guidePanel { padding: 1.4rem 1.1rem; } }
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:480px){
+  .h1{font-size:36px}
+  .sh{font-size:22px}
+  nav{padding:11px 16px}
+  .trust-grid{grid-template-columns:1fr 1fr}
+  .decoy{grid-template-columns:1fr 1fr}
+  .fit-table{grid-template-columns:1fr 1fr}
+}
+@media(max-width:360px){
+  .trust-grid,.decoy,.fit-table{grid-template-columns:1fr}
+  .h1{font-size:32px}
+}
 </style>
 </head>
 <body>
 
-<div class="bg-layer bg-radial"></div>
-<div class="bg-layer bg-vignette"></div>
-<div class="bg-layer bg-grain"></div>
-<div class="particles" id="particles"></div>
+<div id="prog"></div>
 
-<div id="stage">
+<!-- ════ NAV ════ -->
+<nav>
+  <div class="logo">Voice<em>-Parser</em></div>
+  <div class="nav-spot" id="navSpot">⚡ 2자리 남음</div>
+</nav>
 
-  <!-- 버튼 씬 -->
-  <div id="btnScene">
-    <div class="rings">
-      <div class="ring ring-1"></div>
-      <div class="ring ring-2"></div>
-      <div class="ring ring-3"></div>
+<!-- ═══════════════════════════════════════
+     ① HERO
+═══════════════════════════════════════ -->
+<section id="hero">
+  <div class="hgrid"></div>
+  <div class="hglow"></div>
+
+  <!-- 첫 문장 = 고객 문제 -->
+  <p class="h-hook">요즘 <em>밤마다 감정 때문에</em> 결정 못 하고 잠 못 자지 않나요?</p>
+
+  <h1 class="h1">감정은 버려라.<br>결단만 <em>남긴다.</em></h1>
+
+  <p class="h1-desc">
+    음성 1분 → <strong>70초 안에 팩트 + 행동 1개.</strong><br>
+    상담 예약도, 신분 노출도, 위로도 필요 없다.
+  </p>
+
+  <!-- DEMO -->
+  <div class="demo">
+    <div class="demo-dots">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="demo-lbl">voice-parser v0.9 · BETA</span>
     </div>
-    <button id="resetBtn" onclick="activate()" aria-label="긴급 멘탈 리셋 시작">
-      EMERGENCY<br>RESET
-    </button>
-    <p class="btn-sub">탭하여 즉시 리셋 시작</p>
+    <div class="mic-area">
+      <div class="mic-btn" id="micBtn">
+        <svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v6a2 2 0 0 0 4 0V5a2 2 0 0 0-2-2zm-7 9h2a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.93V21h4v2H7v-2h4v-2.07A7 7 0 0 1 5 12z"/></svg>
+      </div>
+      <div class="wave" id="wave">
+        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+        <div class="wb"></div><div class="wb"></div>
+      </div>
+      <button class="demo-run-btn" id="demoBtn" onclick="runDemo()">▶ 직접 체험하기</button>
+    </div>
+    <div class="lbar" id="lbar"><div class="lfill" id="lfill"></div></div>
+    <div class="demo-result" id="result">
+      <div class="rr">
+        <div class="rr-tag f">Fact</div>
+        <p class="rr-text">분노 원인 = 권한 범위 미합의. 감정 반응은 정상 범주.</p>
+      </div>
+      <div class="rr">
+        <div class="rr-tag a">1 Action</div>
+        <p class="rr-text">지금 권한 재설정 이메일 3줄 발송. 감정 대화는 72시간 후.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- 가이드 패널 -->
-  <div id="guidePanel" role="main" aria-live="polite">
-
-    <div class="breath-section">
-      <svg id="breathSvg" viewBox="0 0 80 80" fill="none">
-        <circle id="breathRing" cx="40" cy="40" r="22" stroke="rgba(192,57,43,0.28)" stroke-width="1" fill="none"/>
-        <circle id="breathCircle" cx="40" cy="40" r="11" fill="rgba(192,57,43,0.22)"/>
-      </svg>
-      <p id="breathText">심박수 안정화 중...</p>
-    </div>
-
-    <div class="sep">
-      <div class="sep-line"></div><div class="sep-dot"></div><div class="sep-line"></div>
-    </div>
-
-    <div class="timeline" id="timeline">
-
-      <div class="g-item" id="g1">
-        <div class="g-num-wrap"><span class="g-num">1</span></div>
-        <div>
-          <span class="g-label">System Override</span>
-          <p class="g-text">
-            지금 느끼는 불안과 자책은 팩트가 아닙니다.<br>
-            전두엽의 <strong>코르티솔 수치가 급증</strong>했다는<br>
-            생물학적 경고음일 뿐입니다.<br>
-            <strong>자책을 멈추십시오.</strong>
-          </p>
-        </div>
-      </div>
-
-      <div class="g-item" id="g2">
-        <div class="g-num-wrap"><span class="g-num">2</span></div>
-        <div>
-          <span class="g-label">Brain Dump</span>
-          <p class="g-text">
-            무엇을 해야 할지 <strong>스스로 고민하지 마십시오.</strong><br>
-            당신을 마비시킨 상황을<br>
-            지금 당장 카카오톡 핫라인에<br>
-            <em>'복붙'</em>하거나 <em>'음성'</em>으로 던지십시오.
-          </p>
-        </div>
-      </div>
-
-      <div class="g-item" id="g3">
-        <div class="g-num-wrap"><span class="g-num">3</span></div>
-        <div>
-          <span class="g-label">1-Minute Resolution</span>
-          <p class="g-text">
-            당신의 뇌 에너지를 <strong>1%도 쓰지 마십시오.</strong><br>
-            전송 즉시 멘탈 OS가 감정을 100% 배제한<br>
-            <strong>'완벽한 대리 결정'</strong>과 <strong>'복붙용 스크립트'</strong>를<br>
-            <em>1분 안에</em> 하달합니다.
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-    <button class="hotline-btn" id="hotlineBtn"
-      onclick="window.open('https://open.kakao.com','_blank')">
-      👉 지금 당장 카톡으로 뇌 비우기 — 핫라인 연결
-    </button>
-
-    <div class="footnote-wrap" id="footnoteWrap">
-      <p id="footnote">새로고침하면 리셋 버튼으로 돌아갑니다</p>
-    </div>
-
+  <!-- CTA -->
+  <div class="hero-cta">
+    <a href="#offer" class="btn-primary">
+      지금 감정 스위치 끄기 <span class="btn-arr">→</span>
+    </a>
+    <p class="cta-sub">⚡ 2자리 · 이후 240,000원 인상 <span>· 14일 전액 환불</span></p>
   </div>
+</section>
 
-</div>
-
-<!-- CDO 선언문 팝업 -->
-<div id="declarationOverlay">
-  <div id="declarationBox">
-    <p class="decl-eyebrow">멘탈 OS 가동</p>
-    <div class="decl-body">
-
-      <p class="decl-line" id="d1">
-        미리 경고합니다.<br>
-        당신은 앞으로도 <strong>수없이 무너질 것입니다.</strong>
-      </p>
-
-      <p class="decl-line" id="d2">
-        그것은 당신의 의지력이 약해서가 아닙니다.<br>
-        하루 <strong>35,000번의 결정</strong>을 내리는<br>
-        1인 창업가 전두엽의 <em>생물학적 한계</em>일 뿐입니다.
-      </p>
-
-      <p class="decl-line highlight" id="d3">
-        멘탈 OS는 당신을 다정하게 위로하지 않습니다.<br>
-        대신, 3일간 이어질 자책과 뇌 에너지 누수를<br>
-        <strong>단 '1분'으로 강제 종료</strong>시킵니다.
-      </p>
-
-      <p class="decl-line" id="d4">
-        당신의 감정은 배제하고,<br>
-        우리가 <strong>기계적으로 대신 결정합니다.</strong><br>
-        준비되었다면, 통제권을 시스템에 넘기십시오.
-      </p>
-
+<!-- ═══════════════════════════════════════
+     ② STATS
+═══════════════════════════════════════ -->
+<section id="stats">
+  <div class="stat-row">
+    <div class="stat-cell sr">
+      <div class="stat-n b">70<sup>초</sup></div>
+      <div class="stat-l">결단 소요 시간</div>
     </div>
-    <button id="declarationConfirm" onclick="closeDeclaration()">
-      ⚡ 통제권 넘기기 — F4 리셋 시작
-    </button>
+    <div class="stat-cell sr">
+      <div class="stat-n">3<sup>시간+</sup></div>
+      <div class="stat-l">기존 상담 시간</div>
+    </div>
+    <div class="stat-cell sr">
+      <div class="stat-n g">0<sup>건</sup></div>
+      <div class="stat-l">정보 유출 위험</div>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="scroll-hint" id="scrollHint">
-  <span>scroll</span>
-  <div class="scroll-arrow"></div>
-</div>
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ③ PROBLEM + FIT
+═══════════════════════════════════════ -->
+<section id="problem" class="sec">
+  <div class="W">
+    <p class="label sr">왜 필요한가</p>
+    <h2 class="sh sr">밤을 망치는 3가지</h2>
+
+    <div class="prob-cards sr">
+      <div class="prob-card">
+        <div class="prob-n">01</div>
+        <div>
+          <p class="prob-title">감정이 결정을 망친다</p>
+          <p class="prob-desc">분노 상태의 결정 = 후회. Voice-Parser는 <strong>감정을 지우고 팩트만</strong> 돌려준다.</p>
+        </div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-n">02</div>
+        <div>
+          <p class="prob-title">상담은 내 정보를 판다</p>
+          <p class="prob-desc">내부 갈등을 타인에게 말하는 순간 통제권을 잃는다. Voice-Parser는 <strong>이름도 회사명도 없다.</strong></p>
+        </div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-n">03</div>
+        <div>
+          <p class="prob-title">미룰수록 손실이 커진다</p>
+          <p class="prob-desc">미결 감정은 복리로 쌓인다. 내일의 결정도 망친다. Voice-Parser는 <strong>오늘 밤 결단을 완료</strong>시킨다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 적합성 -->
+    <p class="label sr">나한테 맞는가?</p>
+    <div class="fit-table sr">
+      <div class="fit-col yes-col">
+        <div class="fit-head y">✅ 맞습니다</div>
+        <div class="fit-item"><span class="fit-check">·</span>밤에 감정 때문에 결정 못 하는 분</div>
+        <div class="fit-item"><span class="fit-check">·</span>상담 예약이 번거로운 바쁜 리더</div>
+        <div class="fit-item"><span class="fit-check">·</span>신분 노출 없이 해소하고 싶은 분</div>
+        <div class="fit-item"><span class="fit-check">·</span>위로 말고 팩트가 필요한 분</div>
+      </div>
+      <div class="fit-col">
+        <div class="fit-head n">❌ 비추천</div>
+        <div class="fit-item"><span class="fit-check">·</span>공감과 위로가 주로 필요한 분</div>
+        <div class="fit-item"><span class="fit-check">·</span>지속적 심리치료가 필요한 분</div>
+        <div class="fit-item"><span class="fit-check">·</span>긴 대화로 감정을 풀어야 하는 분</div>
+        <div class="fit-item"><span class="fit-check">·</span>AI보다 사람 의견이 필요한 분</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ④ HOW IT WORKS
+═══════════════════════════════════════ -->
+<section id="how">
+  <div class="W">
+    <p class="label sr">작동 방식</p>
+    <h2 class="sh sr">딱 3단계.<br>70초면 끝난다.</h2>
+    <div class="how-steps sr">
+      <div class="how-step">
+        <div class="step-n">STEP 1</div>
+        <div>
+          <p class="step-title">말한다 — 1분</p>
+          <p class="step-desc">마이크 하나. 맥락도, 이름도, 설명도 필요 없다. <strong>그냥 쏟아내면 된다.</strong></p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">STEP 2</div>
+        <div>
+          <p class="step-title">AI가 처리한다 — 10초</p>
+          <p class="step-desc">감정 노이즈를 제거하고 <strong>팩트 변수만 추출.</strong> 당신을 판단하지 않는다.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="step-n">STEP 3</div>
+        <div>
+          <p class="step-title">행동 1개를 받는다</p>
+          <p class="step-desc">여러 선택지 없다. <strong>지금 당장 할 단 하나의 행동.</strong> 결단 완료.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ⑤ TRUST + FOUNDER
+═══════════════════════════════════════ -->
+<section id="trust" class="sec">
+  <div class="W">
+    <p class="label sr">왜 믿을 수 있나</p>
+    <h2 class="sh sr">리뷰보다<br>강한 증거</h2>
+
+    <div class="trust-grid sr">
+      <div class="trust-card">
+        <div class="trust-ico">⚙️</div>
+        <div class="trust-title">공감 없음이 설계 기준</div>
+        <p class="trust-desc">위로를 의도적으로 제거. 그 냉정함이 품질의 증거.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">🔬</div>
+        <div class="trust-title">클로즈 베타의 이유</div>
+        <p class="trust-desc">50명의 피드백으로 완성. 당신의 경험이 제품이 됩니다.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">🛡️</div>
+        <div class="trust-title">14일 무조건 환불</div>
+        <p class="trust-desc">조건 없이 보장. 당신이 잃을 것은 없습니다.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">🔒</div>
+        <div class="trust-title">프라이버시 퍼스트</div>
+        <p class="trust-desc">계정 불필요. 음성 즉시 파기. 당신이 누구인지 모릅니다.</p>
+      </div>
+    </div>
+
+    <!-- Founder's Philosophy -->
+    <div class="founder sr">
+      <div class="founder-qm">"</div>
+      <p class="founder-text">
+        수많은 엘리트 사업가들을 분석하며 깨달았습니다.<br>
+        성공을 결정짓는 건 <strong>'얼마나 공감을 잘 받느냐'가 아니라</strong><br>
+        <strong>'얼마나 감정을 빠르게 거세하고 다음 행동을 하느냐'</strong>였습니다.<br>
+        그래서 이 시스템을 설계했습니다.
+      </p>
+      <div class="founder-by">
+        <div class="founder-line"></div>
+        <span class="founder-name">Voice-Parser 설계자</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ⑥ OFFER
+═══════════════════════════════════════ -->
+<section id="offer">
+  <div class="W">
+    <p class="label sr">VIP 50인 한정</p>
+    <h2 class="sh sr">지금이<br>가장 싼 가격입니다.</h2>
+
+    <!-- 가격 헤더 -->
+    <div class="price-head sr">
+      <p class="price-old">정식 출시가 월 290,000원</p>
+      <div>
+        <span class="price-main">190,000</span>
+        <span class="price-unit">원 / 평생</span>
+      </div>
+      <span class="price-anchor">⚖️ 변호사 자문·심리 상담 1회보다 저렴 — 70초로 평생 기회비용을 방어합니다</span>
+    </div>
+
+    <!-- 미끼 가격 (Decoy) -->
+    <div class="decoy sr">
+      <div class="dc">
+        <div class="dc-badge">
+          <span class="dc-name">베이직</span>
+        </div>
+        <div class="dc-price">180,000<span class="dc-per">원/월</span></div>
+        <div class="dc-rows">
+          <div class="dc-row bad"><span class="ck">✕</span><span>결과 반환 <strong>24시간</strong></span></div>
+          <div class="dc-row bad"><span class="ck">✕</span><span>1:1 온보딩 <strong>없음</strong></span></div>
+          <div class="dc-row bad"><span class="ck">✕</span><span>평생 이용권 <strong>없음</strong></span></div>
+        </div>
+      </div>
+      <div class="dc vip">
+        <div class="dc-badge">
+          <span class="dc-name vip">VIP 창립가</span>
+          <span class="dc-rec">추천</span>
+        </div>
+        <div class="dc-price">190,000<span class="dc-per">원/평생</span></div>
+        <div class="dc-rows">
+          <div class="dc-row good"><span class="ck">✓</span><span>결과 반환 <strong>70초</strong></span></div>
+          <div class="dc-row good"><span class="ck">✓</span><span>1:1 온보딩 <strong>포함</strong></span></div>
+          <div class="dc-row good"><span class="ck">✓</span><span>평생 이용권 <strong>포함</strong></span></div>
+        </div>
+        <div class="dc-note">만 원 차이 · 월정액 → 평생 소유</div>
+      </div>
+    </div>
+
+    <!-- FOMO -->
+    <div class="fomo sr">
+      <div class="fomo-bar"></div>
+      <div class="fomo-body">
+        <div>
+          <div class="fomo-l">SPOT 1–10 · 창립 VIP</div>
+          <div class="fomo-price">190,000원</div>
+        </div>
+        <div class="fomo-r">
+          <div class="fomo-spot" id="fomoSt">⚡ 현재 2자리 남음</div>
+          <div class="fomo-why">수동 운영 특성상<br>물리적 한계로 추가 불가</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 보너스 -->
+    <div class="bonus sr">
+      <p class="bonus-lead">AI는 날카롭지만, 당신의 상황은 저마다 다릅니다.</p>
+      <p class="bonus-body">당신은 <strong>단 한 번의 통화만 하십시오.</strong> 대표가 직접 당신의 뇌 구조와 갈등 패턴을 분석해, AI 민감도를 100% <strong>'대리 세팅'</strong> 해드립니다.</p>
+      <div class="bonus-warn">
+        <span>⚠</span><span>정식 런칭 이후 가입자에게는 영구히 제공되지 않습니다.</span>
+      </div>
+      <div class="bonus-row">
+        <div class="bonus-ico">🎯</div>
+        <div class="bonus-txt"><h4>1:1 프라이빗 온보딩</h4><p>대표 직접 · AI 민감도 대리 세팅</p></div>
+        <div class="bonus-val">₩500,000</div>
+      </div>
+      <div class="bonus-row">
+        <div class="bonus-ico">🔒</div>
+        <div class="bonus-txt"><h4>창립 멤버 평생 이용권</h4><p>인상 후에도 영구 보장</p></div>
+        <div class="bonus-val">영구</div>
+      </div>
+    </div>
+
+    <!-- 보증 -->
+    <div class="guar sr">
+      <div class="guar-ico">🛡️</div>
+      <div>
+        <div class="guar-title">14일 무조건 100% 환불</div>
+        <p class="guar-text">AI 결단력이 기준 미달이면, 묻지도 따지지도 않고 전액 환불합니다.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="sr">
+      <a href="#" onclick="return false;" class="btn-primary">
+        단 19만 원에 VVIP 시스템 소유권 확보하기 <span class="btn-arr">→</span>
+      </a>
+      <p class="cta-hint">Stripe 결제 · SSL 암호화 · 100% 익명 · 14일 환불</p>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ⑦ FAQ
+═══════════════════════════════════════ -->
+<section id="faq" class="sec">
+  <div class="W">
+    <p class="label sr">FAQ</p>
+    <h2 class="sh sr">자주 묻는 것들</h2>
+    <div class="sr">
+      <div class="faq-item">
+        <button class="faq-btn" onclick="faq(this)">
+          <span class="faq-q">맥락 없이 AI가 이해할 수 있나요?</span>
+          <span class="faq-ic">+</span>
+        </button>
+        <div class="faq-ans">맥락이 없을수록 더 냉정한 팩트를 추출합니다. 배경·이름·스토리 불필요. 그냥 쏟아내면 됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="faq(this)">
+          <span class="faq-q">음성이 유출될 위험은 없나요?</span>
+          <span class="faq-ic">+</span>
+        </button>
+        <div class="faq-ans">분석 후 즉시 파기됩니다. 이름·소속 요구 없음. 시스템은 당신이 누구인지 알 수 없습니다.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="faq(this)">
+          <span class="faq-q">심리 상담과 어떻게 다른가요?</span>
+          <span class="faq-ic">+</span>
+        </button>
+        <div class="faq-ans">감정을 치료하지 않습니다. 감정이 결정을 방해하는 그 순간만 해소합니다. 지속적 정서 문제는 전문 상담사를 권장합니다.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="faq(this)">
+          <span class="faq-q">베타 이후 가격이 오르나요?</span>
+          <span class="faq-ic">+</span>
+        </button>
+        <div class="faq-ans">창립 멤버 190,000원은 정식 런칭 후에도 영구 유지됩니다. 정식가 290,000원이 적용되지 않습니다.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="faq(this)">
+          <span class="faq-q">언제 쓰면 효과적인가요?</span>
+          <span class="faq-ic">+</span>
+        </button>
+        <div class="faq-ans">파트너 갈등, 팀원 해고, 투자 협상 전, 이사회 전날 밤. 공통점 하나 — 감정 때문에 판단이 흐려졌을 때.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<!-- ═══════════════════════════════════════
+     ⑧ FINAL CTA + WAITLIST
+═══════════════════════════════════════ -->
+<section id="final">
+  <div class="W">
+    <div class="final-in sr">
+      <p class="final-eye">Last Call</p>
+      <h2 class="final-h">지금 닫으면,<br>내일 밤도 똑같습니다.</h2>
+      <p class="final-sub">단 <strong>2자리.</strong> 이후 240,000원으로 인상됩니다.<br>1:1 온보딩은 창립 멤버 외에 <strong>영구히 없습니다.</strong></p>
+      <div class="loss">
+        <span>⚠</span>
+        <span>지금 안 하면 잃는 것 —<br><strong>창립가 190,000원 + 1:1 온보딩(₩500,000) + 평생 이용권</strong></span>
+      </div>
+      <a href="#offer" class="btn-primary" style="max-width:460px;margin:0 auto">
+        지금 바로 선점하기 <span class="btn-arr">→</span>
+      </a>
+      <p class="final-guar">🛡️ 14일 환불 · 익명 처리 · Stripe 암호화</p>
+    </div>
+  </div>
+</section>
+
+<hr class="hr">
+
+<section id="wl">
+  <div class="W">
+    <div class="wl-in sr">
+      <p class="label" style="margin-bottom:10px">아직 준비가 안 됐다면</p>
+      <h2 class="wl-h">대기 명단 등록</h2>
+      <p class="wl-copy">아직도 감정에 휘둘릴 시간이 남으셨습니까?<br>그렇다면 대기 명단에라도 등록하십시오.<br><strong>정식 출시가: 월 290,000원</strong></p>
+      <form class="wl-form" onsubmit="subWL(event)">
+        <input type="email" class="wl-input" id="wlEmail" placeholder="이메일 주소" required>
+        <button type="submit" class="wl-btn">대기 명단 등록하기</button>
+      </form>
+      <p class="wl-msg" id="wlMsg"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Voice-Parser · 상위 1% 여성 리더 전용<br>
+  <span style="opacity:.4">본 서비스는 의료적 정신과 상담을 대체하지 않습니다.</span>
+</footer>
 
 <script>
-/* 파티클 */
-(function() {
-  const c = document.getElementById('particles');
-  const n = window.innerWidth < 480 ? 10 : 18;
-  for (let i = 0; i < n; i++) {
-    const d = document.createElement('div');
-    d.classList.add('dot');
-    const s = Math.random() * 3 + 1.5;
-    d.style.cssText = `
-      width:${s}px;height:${s}px;
-      left:${Math.random()*100}%;
-      bottom:${Math.random()*30}%;
-      --drift:${(Math.random()-0.5)*80}px;
-      animation-duration:${Math.random()*14+10}s;
-      animation-delay:${Math.random()*12}s;
-      filter:blur(${Math.random()*0.8}px);
-    `;
-    c.appendChild(d);
-  }
-})();
+/* PROGRESS */
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('prog').style.width=p+'%';
+});
 
-/* STEP 1: 버튼 → 팝업 */
-function activate() {
-  const btn     = document.getElementById('resetBtn');
-  const scene   = document.getElementById('btnScene');
-  const overlay = document.getElementById('declarationOverlay');
+/* SCROLL REVEAL */
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')});
+},{threshold:.1});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
 
-  btn.classList.add('locked');
-  scene.classList.add('out');
+/* DEMO */
+let busy=false;
+function runDemo(){
+  if(busy)return; busy=true;
+  const btn=document.getElementById('demoBtn');
+  const mic=document.getElementById('micBtn');
+  const wv=document.getElementById('wave');
+  const lb=document.getElementById('lbar');
+  const lf=document.getElementById('lfill');
+  const res=document.getElementById('result');
 
-  setTimeout(() => {
-    scene.style.display = 'none';
-    overlay.classList.add('show');
+  res.style.display='none';
+  lf.style.width='0%';
+  btn.textContent='● 녹음 중...';
+  btn.style.color='#d47878';
+  mic.classList.add('rec');
+  wv.classList.add('on');
 
-    const lines = ['d1','d2','d3','d4'];
-    lines.forEach((id, i) => {
-      setTimeout(() => {
-        document.getElementById(id).classList.add('show');
-      }, 280 + i * 420);
-    });
-
-    setTimeout(() => {
-      document.getElementById('declarationConfirm').classList.add('show');
-    }, 280 + lines.length * 420 + 200);
-
-  }, 950);
-}
-
-/* STEP 2: 팝업 닫기 → 가이드 패널 */
-function closeDeclaration() {
-  const overlay  = document.getElementById('declarationOverlay');
-  const panel    = document.getElementById('guidePanel');
-  const breath   = document.getElementById('breathText');
-  const circle   = document.getElementById('breathCircle');
-  const ring     = document.getElementById('breathRing');
-  const timeline = document.getElementById('timeline');
-  const scroll   = document.getElementById('scrollHint');
-
-  overlay.style.transition = 'opacity 0.5s ease, backdrop-filter 0.5s ease';
-  overlay.style.opacity = '0';
-  overlay.style.backdropFilter = 'blur(0px)';
-
-  setTimeout(() => {
-    overlay.style.display = 'none';
-
-    panel.classList.add('visible');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      panel.classList.add('fade-in');
-    }));
-
-    /* 호흡 — 들이마시기 */
-    breath.classList.add('lit');
-    circle.setAttribute('r', '22');
-    circle.setAttribute('fill', 'rgba(192,57,43,0.42)');
-    ring.setAttribute('r', '32');
-    ring.setAttribute('stroke-opacity', '0.5');
-
-    /* 호흡 — 내쉬기 + 텍스트 전환 */
-    setTimeout(() => {
-      breath.textContent = '뇌의 인지적 과부하를 강제 종료합니다.';
-      breath.classList.remove('lit');
-      circle.setAttribute('r', '8');
-      circle.setAttribute('fill', 'rgba(192,57,43,0.12)');
-      ring.setAttribute('r', '16');
-      ring.setAttribute('stroke-opacity', '0.18');
-    }, 2600);
-
-    setTimeout(() => { breath.classList.add('dim'); }, 5000);
-
-    /* 타임라인 & 항목 */
-    setTimeout(() => { timeline.classList.add('drawn'); }, 900);
-    [['g1',1100],['g2',2050],['g3',3000]].forEach(([id,delay]) => {
-      setTimeout(() => document.getElementById(id).classList.add('show'), delay);
-    });
-
-    /* 핫라인 버튼 */
-    setTimeout(() => {
-      document.getElementById('hotlineBtn').classList.add('show');
-    }, 4000);
-
-    /* 각주 */
-    setTimeout(() => {
-      document.getElementById('footnoteWrap').classList.add('show');
-    }, 4600);
-
-    /* 스크롤 힌트 */
-    setTimeout(() => {
-      if (window.innerWidth < 640 && panel.scrollHeight > window.innerHeight * 0.82) {
-        scroll.classList.add('show');
+  setTimeout(()=>{
+    mic.classList.remove('rec');
+    wv.classList.remove('on');
+    btn.textContent='⟳ AI 분석 중...';
+    btn.style.color='var(--blue)';
+    lb.style.display='block';
+    let p=0;
+    const t=setInterval(()=>{
+      p+=Math.random()*14;
+      if(p>=100){
+        p=100; clearInterval(t);
+        setTimeout(()=>{
+          lb.style.display='none';
+          res.style.display='block';
+          btn.textContent='▶ 다시 체험하기';
+          btn.style.color='var(--blue)';
+          busy=false;
+        },150);
       }
-    }, 5000);
-
-    panel.addEventListener('scroll', () => scroll.classList.remove('show'), { once: true });
-
-  }, 500);
+      lf.style.width=p+'%';
+    },60);
+  },2000);
 }
 
-/* 키보드 접근성 */
-document.getElementById('resetBtn').addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-});
-document.getElementById('declarationConfirm').addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); closeDeclaration(); }
-});
+/* FAQ */
+function faq(btn){
+  const ans=btn.nextElementSibling;
+  const isOpen=btn.classList.contains('open');
+  document.querySelectorAll('.faq-btn.open').forEach(b=>{
+    b.classList.remove('open');
+    b.nextElementSibling.classList.remove('on');
+  });
+  if(!isOpen){btn.classList.add('open');ans.classList.add('on');}
+}
+
+/* WAITLIST */
+function subWL(e){
+  e.preventDefault();
+  const em=document.getElementById('wlEmail').value;
+  document.getElementById('wlMsg').textContent=`✓ ${em} 등록 완료. 런칭 시 먼저 알려드립니다.`;
+  document.getElementById('wlEmail').value='';
+}
+
+/* FOMO */
+let spots=2;
+setInterval(()=>{
+  if(Math.random()>.97&&spots>1){
+    spots--;
+    document.getElementById('fomoSt').textContent=`⚡ 현재 ${spots}자리 남음`;
+    document.getElementById('navSpot').textContent=`⚡ ${spots}자리 남음`;
+  }
+},9000);
 </script>
 </body>
 </html>
