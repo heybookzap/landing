@@ -310,32 +310,6 @@ nav{
 .fit-item:last-child{border-bottom:none}
 .fit-item::before{content:'·';color:var(--w15);flex-shrink:0}
 
-/* Failure Quote Block */
-.fail-quote {
-  margin-top: 40px;
-  padding: 24px 20px;
-  background: var(--bg2);
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--w15);
-  border-radius: 2px;
-}
-.fail-quote-t {
-  font-size: clamp(15px, 3.8vw, 17px);
-  font-weight: 800;
-  color: var(--w);
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-.fail-quote-d {
-  font-size: 13px;
-  color: var(--w70);
-  line-height: 1.7;
-}
-.fail-quote-d strong {
-  color: var(--accent);
-  font-weight: 700;
-}
-
 /* ─────────────────────────────────────
    ④ HOW (3 Steps)
 ───────────────────────────────────── */
@@ -445,6 +419,44 @@ nav{
   margin-bottom:20px;
 }
 
+.rl-list{display:flex;flex-direction:column;gap:1px;background:var(--line);margin-bottom:32px}
+.rl{
+  background:var(--bg1);
+  display:grid;grid-template-columns:32px 1fr;gap:12px;
+  padding:20px;transition:background .2s;
+}
+.rl:hover{background:var(--bg2)}
+.rl-i{font-size:16px;line-height:1;padding-top:2px}
+.rl-t{font-size:14px;font-weight:800;color:var(--w);margin-bottom:3px;line-height:1.3}
+.rl-d{font-size:12px;color:var(--dim);line-height:1.65}
+.rl-d em{font-style:normal;color:var(--accent)}
+
+/* founder */
+.founder{
+  padding:28px;background:var(--bg2);
+  border:1px solid var(--line);border-radius:2px;
+  position:relative;overflow:hidden;
+}
+.founder::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--w15),transparent);
+}
+.f-qm{
+  font-size:64px;line-height:.75;
+  color:var(--w08);
+  font-family:'Georgia',serif;
+  margin-bottom:12px;display:block;
+}
+.f-text{
+  font-size:clamp(14px,3.2vw,16px);font-weight:400;
+  color:var(--w70);line-height:1.9;margin-bottom:20px;
+}
+.f-text strong{color:var(--w);font-weight:700}
+.f-sig{display:flex;align-items:center;gap:14px}
+.f-line{flex:1;height:1px;background:var(--line2)}
+.f-name{font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+
+/* trust pills */
 .trust-pills{
   display:flex;flex-wrap:wrap;gap:8px;
 }
@@ -456,6 +468,37 @@ nav{
   transition:border-color .2s,color .2s;
 }
 .tpill:hover{border-color:var(--w15);color:var(--w)}
+
+/* warn red emphasis */
+.warn-txt{color:#e05c5c;font-weight:700}
+
+/* timeline clean — no dots */
+.tl::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent 0%,var(--line2) 6%,var(--line2) 94%,transparent 100%);
+}
+.t-row{
+  display:grid;grid-template-columns:52px 1fr;gap:14px;
+  padding:20px 0;border-bottom:1px solid var(--line);
+  position:relative;
+}
+.t-row-last{border-bottom:none}
+.t-time{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.06em;padding-top:2px;line-height:1}
+.t-con{position:relative}
+.t-evt{
+  font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:5px;
+}
+.t-evt-peak{color:#c8a84b}   /* gold for peak moment */
+.t-body{font-size:13px;color:var(--w70);line-height:1.75}
+.t-body strong{color:var(--w);font-weight:700}
+.t-body em{font-style:italic;color:var(--accent)}
+
+/* final CTA red emphasis */
+.fi-h em{font-style:normal;color:#e05c5c}
+
+/* loss-box accent */
+.loss-box .red{color:#e05c5c;font-weight:700}
 
 /* ─────────────────────────────────────
    ⑦ OFFER
@@ -482,8 +525,8 @@ nav{
 .price-lbl{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
 .price-vs{font-size:12px;color:var(--dim);text-decoration:line-through;margin-bottom:6px}
 .price-num{
-  font-size:clamp(52px,13vw,80px);
-  font-weight:900;letter-spacing:-.05em;line-height:1;
+  font-size:clamp(36px,9vw,52px);
+  font-weight:900;letter-spacing:-.04em;line-height:1;
   color:var(--w);
   display:flex;align-items:flex-end;justify-content:center;gap:4px;
 }
@@ -512,6 +555,21 @@ nav{
 .oc-d{font-size:13px;color:var(--dim);line-height:1.7}
 .oc-d strong{color:var(--accent);font-weight:600}
 
+/* after purchase */
+.after{
+  background:var(--bg2);border:1px solid var(--line);
+  padding:20px;margin-bottom:16px;border-radius:2px;
+}
+.after-lbl{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.after-steps{display:flex;flex-direction:column;gap:9px}
+.after-row{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--w70);line-height:1.5}
+.after-n{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:var(--w04);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--dim);
+}
+
 /* fomo */
 .fomo{
   background:var(--w04);
@@ -534,6 +592,16 @@ nav{
   font-size:12px;color:var(--dim);line-height:1.6;
 }
 .fomo-row::before{content:'—';flex-shrink:0;color:var(--line2)}
+
+/* guarantee */
+.guar{
+  display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line);padding:18px 20px;margin-bottom:20px;
+  background:var(--bg2);border-radius:2px;
+}
+.guar-i{font-size:20px;flex-shrink:0}
+.guar-lbl{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.guar-t{font-size:13px;color:var(--w70);line-height:1.65}
 
 .cta-stack{display:flex;flex-direction:column;gap:10px}
 
@@ -562,7 +630,7 @@ nav{
 .fq.open .fq-i{transform:rotate(45deg);border-color:var(--w15);color:var(--accent)}
 .fa{
   display:none;
-  font-size:13px;color:var(--w70);line-height:1.85;
+  font-size:13px;color:var(--dim);line-height:1.85;
   padding:0 0 18px 0;
   border-left:2px solid var(--w08);padding-left:16px;
   margin-left:1px;
@@ -629,7 +697,7 @@ nav{
   padding:13px;cursor:pointer;transition:all .2s;border-radius:2px;
 }
 .wl-btn:hover{background:var(--w15);color:var(--w)}
-.wl-msg{font-size:12px;font-weight:600;letter-spacing:.04em;margin-top:12px;min-height:18px}
+.wl-msg{font-size:11px;font-weight:600;color:var(--w40);letter-spacing:.08em;margin-top:8px;min-height:16px}
 
 /* ─────────────────────────────────────
    FOOTER
@@ -663,11 +731,16 @@ footer{
 
 <div id="pbar"></div>
 
+<!-- ─ NAV ─ -->
 <nav>
   <div class="n-logo">ONE BLANK</div>
   <div class="n-badge">⚡ 50명 한정 · 1기</div>
 </nav>
 
+
+<!-- ══════════════════════════════════
+     ① HERO
+══════════════════════════════════ -->
 <section id="hero">
   <div class="h-grid"></div>
   <div class="h-glow"></div>
@@ -688,11 +761,13 @@ footer{
     <p class="btn-note">⚡ 단 50명 · 30일 성공 시 <em>전액 환급</em></p>
     <div class="warn">
       <span class="warn-ico">⚠</span>
-      <span>지금 닫으면 오늘 밤도 쇼츠입니다.</span>
+      <span class="warn-txt">지금 닫으면 오늘 밤도 쇼츠입니다.</span>
     </div>
   </div>
 </section>
 
+
+<!-- ② STATS -->
 <section id="stats">
   <div class="stat-row">
     <div class="stat-cell r"><span class="stat-n">1<sup>개</sup></span><div class="stat-l">오늘 할 것</div></div>
@@ -703,6 +778,9 @@ footer{
 
 <hr class="div">
 
+<!-- ══════════════════════════════════
+     ③ WHY
+══════════════════════════════════ -->
 <section id="why" class="sec">
   <div class="W">
     <span class="sec-tag r">왜 안 되는가</span>
@@ -746,17 +824,14 @@ footer{
         <div class="fit-item">돈 잃는 게 두려운 분</div>
       </div>
     </div>
-
-    <div class="fail-quote r">
-      <p class="fail-quote-t">"우리는 당신의 첫 번째 실패를 예상하고 있습니다."</p>
-      <p class="fail-quote-d">무너져도 괜찮습니다. 중요한 건 넘어진 당신을 자책감 속에 방치하지 않고, 다시 책상 앞으로 끌고 올 <strong>'강제 복귀 시스템'</strong>이 준비되어 있다는 것입니다. 당신이 완전히 포기하지만 않는다면, 우리는 끝까지 당신의 통제선이 되어 드립니다.</p>
-    </div>
-
   </div>
 </section>
 
 <hr class="div">
 
+<!-- ══════════════════════════════════
+     ⑤ STORY
+══════════════════════════════════ -->
 <section id="story" class="sec">
   <div class="W">
     <span class="sec-tag r">30일 후 당신의 하루</span>
@@ -766,7 +841,6 @@ footer{
       <div class="t-row">
         <div class="t-time">07:12</div>
         <div class="t-con">
-          <div class="t-dot a"></div>
           <p class="t-evt">기상 — 결정 없이 시작</p>
           <p class="t-body">세팅해둔 <strong>One-Thing</strong> 하나만 화면에 있다. '오늘 뭐하지?' 고민이 사라졌다.</p>
         </div>
@@ -774,25 +848,22 @@ footer{
       <div class="t-row">
         <div class="t-time">09:30</div>
         <div class="t-con">
-          <div class="t-dot b"></div>
           <p class="t-evt">집중 — 감정을 내려두다</p>
-          <p class="t-body">오전 피드백이 마음에 걸린다. 감정 분리 존에 쏟아내고 화면은 다시 One-Thing으로.</p>
+          <p class="t-body">오전 피드백이 마음에 걸린다.<br>감정 분리 존에 쏟아내고<br>화면은 다시 One-Thing으로.</p>
         </div>
       </div>
       <div class="t-row">
         <div class="t-time">14:00</div>
         <div class="t-con">
-          <div class="t-dot c"></div>
-          <p class="t-evt">Peak-End — 체크박스를 누른다</p>
-          <p class="t-body"><em>"오늘도 당신을 이겨냈군요."</em> 라운지에 인증을 올리자 대표 멘션 도착. <strong>"결국 해내셨군요."</strong></p>
+          <p class="t-evt t-evt-peak">Peak-End — 체크박스를 누른다</p>
+          <p class="t-body"><em>"오늘도 당신을 이겨냈군요."</em><br>라운지에 인증을 올리자 대표 멘션 도착.<br><strong>"결국 해내셨군요."</strong></p>
         </div>
       </div>
-      <div class="t-row">
+      <div class="t-row t-row-last">
         <div class="t-time">23:00</div>
         <div class="t-con">
-          <div class="t-dot d"></div>
           <p class="t-evt">생존자 명단에 이름이 박혔다</p>
-          <p class="t-body">일주일 개근. <strong>명예의 전당에 이름이 올라갔다.</strong> 쇼츠를 보던 시간이 내일의 One-Thing을 설계하는 시간이 됐다.</p>
+          <p class="t-body">일주일 개근. <strong>명예의 전당에 이름이 올라갔다.</strong><br>쇼츠를 보던 시간이<br>내일의 One-Thing을 설계하는 시간이 됐다.</p>
         </div>
       </div>
     </div>
@@ -801,13 +872,16 @@ footer{
 
 <hr class="div">
 
+<!-- ══════════════════════════════════
+     ⑥ TRUST (간소화)
+══════════════════════════════════ -->
 <section id="trust" class="sec">
   <div class="W">
     <p class="rule-q r">"감정을 토로했다면,<br>반드시 결과를 증명하라."</p>
 
     <div class="trust-pills r">
       <div class="tpill">⚙️ 행동과학 기반 설계</div>
-      <div class="tpill">🚫 행동 없으면 즉각 퇴출</div>
+      <div class="tpill">🚫 결과 없인 함께할 수 없습니다</div>
       <div class="tpill">✍️ 대표가 직접 멘션</div>
       <div class="tpill">🛡️ 성공 시 전액 환급</div>
     </div>
@@ -816,6 +890,9 @@ footer{
 
 <hr class="div">
 
+<!-- ══════════════════════════════════
+     ⑦ OFFER
+══════════════════════════════════ -->
 <section id="offer" class="sec">
   <div class="W">
     <span class="sec-tag r">Grand Slam Offer</span>
@@ -835,6 +912,13 @@ footer{
         <div>
           <p class="oc-t">성공하면 무료입니다</p>
           <p class="oc-d">30일 성공 시 전액 환급. 또는 그 환급금을 다음 기수로 <strong>100% 이월(Rollover)</strong>하십시오. 당신이 계속 증명해 내는 한, 이 하이엔드 시스템은 <strong>평생 무료</strong>입니다.</p>
+        </div>
+      </div>
+      <div class="oc">
+        <div class="oc-i">🔄</div>
+        <div>
+          <p class="oc-t">무너져도 괜찮습니다</p>
+          <p class="oc-d">중요한 건 넘어진 당신을 자책감 속에 방치하지 않는 것입니다.<br>약속한 One-Thing을 해내지 못하면 현금 환불은 무효화됩니다.<br>하지만 당신의 도전을 거기서 끝내게 두지 않습니다.<br>실패하셨다면, 결제하신 29만 원은 다음 기수에 재도전할 수 있는 <strong>100% 크레딧</strong>으로 전환됩니다.<br>우리의 목적은 당신의 돈을 뺏는 것이 아니라, 당신이 기어코 실행해 내는 모습을 보는 것입니다.</p>
         </div>
       </div>
     </div>
@@ -861,21 +945,23 @@ footer{
 
 <hr class="div">
 
+<!-- FAQ -->
 <section id="faq" class="sec">
   <div class="W">
     <span class="sec-tag r">FAQ</span>
     <h2 class="sec-h r">자주 묻는 것들</h2>
     <div class="faq-list r">
       <div class="fi">
-        <button class="fq" onclick="faq(this)">
-          <span class="fq-t">하루라도 빠지면 정말 환불이 안 되나요? 또 실패할까 봐 두렵습니다.</span>
-          <span class="fq-i">+</span>
-        </button>
-        <div class="fa">네, 약속한 원 띵(One-Thing)을 해내지 못하면 '현금 환불'은 즉시 무효화됩니다. 하지만 당신의 도전을 거기서 끝내게 두지는 않습니다. 누구나 처음엔 넘어집니다. 실패하셨다면, 결제하신 29만 원은 다음 기수에 재도전할 수 있는 '100% 크레딧'으로 전환됩니다. 우리의 목적은 당신의 돈을 뺏는 것이 아니라, 당신이 기어코 실행해 내는 모습을 보는 것입니다.</div>
+        <button class="fq" onclick="faq(this)"><span class="fq-t">하루라도 빠지면 환불이 안 되나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">One-Thing은 5분짜리도 됩니다.<br>거창할 필요 없습니다.<br>매일 완료하고 증명하면 30일 후 전액 환급.</div>
       </div>
       <div class="fi">
         <button class="fq" onclick="faq(this)"><span class="fq-t">노션을 써본 적이 없어도 되나요?</span><span class="fq-i">+</span></button>
         <div class="fa">버튼 하나로 복제, 세 칸만 채우면 됩니다. 5분 안에 시작 가능. 온보딩 가이드 제공합니다.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="faq(this)"><span class="fq-t">실패하면 정말 환불이 없나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">30일 미달성 시 환불되지 않습니다.<br>돈을 걸어야 실행합니다.<br>하지만 며칠이라도 싸운 경험은 평생 남습니다.</div>
       </div>
       <div class="fi">
         <button class="fq" onclick="faq(this)"><span class="fq-t">왜 대표가 직접 수동으로 멘션을 달아주나요?</span><span class="fq-i">+</span></button>
@@ -887,11 +973,12 @@ footer{
 
 <hr class="div">
 
+<!-- FINAL CTA -->
 <section id="final">
   <div class="W">
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
-      <h2 class="fi-h">지금 닫으면,<br>오늘 밤도 쇼츠입니다.</h2>
+      <h2 class="fi-h">지금 닫으면,<br><em>오늘 밤도 쇼츠입니다.</em></h2>
       <p class="fi-sub">단 <strong>50명.</strong> 잔여 스팟 극소수.<br>창립 멤버 혜택은 <strong>1기뿐</strong>입니다.</p>
       <div class="loss-box">
         <span>⚠</span>
@@ -910,19 +997,18 @@ footer{
 
 <hr class="div">
 
+<!-- WAITLIST -->
 <section id="wl">
   <div class="W">
     <div class="wl-in r">
       <p class="sec-tag" style="margin-bottom:10px">아직 준비가 안 됐다면</p>
       <h2 class="wl-h">대기 명단 등록</h2>
-      <p class="wl-copy">오늘 밤도 쇼츠를 보며 2시간을 버리시겠습니까?<br>차라리 그 시간에 <strong>&lt;1페이지 안티 비전 시트&gt;</strong>라도 채우십시오. 무료로 보내드립니다.</p>
-      
-      <form class="wl-form" id="wlForm" action="https://formspree.io/f/xbdzwyzr" method="POST">
-        <input type="email" class="wl-inp" id="wlEmail" name="email" placeholder="이메일 주소" required>
-        <button type="submit" class="wl-btn" id="wlBtn">대기 명단 등록하고 시트 받기</button>
+      <p class="wl-copy">오늘 밤도 쇼츠를 보며 2시간을 버리시겠습니까?<br>차라리 그 시간에 <strong>&lt;1페이지 안티 비전 시트&gt;</strong>를 채우십시오. 무료로 보내드립니다.</p>
+      <form class="wl-form" onsubmit="subWL(event)">
+        <input type="email" class="wl-inp" id="wlEmail" placeholder="이메일 주소" required>
+        <button type="submit" class="wl-btn">대기 명단 등록하고 시트 받기</button>
       </form>
       <p class="wl-msg" id="wlMsg"></p>
-
     </div>
   </div>
 </section>
@@ -956,45 +1042,13 @@ function faq(btn){
   if(!open){btn.classList.add('open');a.classList.add('on');}
 }
 
-/* WAITLIST FORMSPREE 비동기 전송 */
-const form = document.getElementById("wlForm");
-const msg = document.getElementById("wlMsg");
-const btn = document.getElementById("wlBtn");
-
-form.addEventListener("submit", async function(event) {
-  event.preventDefault(); 
-  
-  const emailVal = document.getElementById('wlEmail').value;
-  btn.textContent = "전송 중...";
-  btn.style.opacity = "0.7";
-  btn.disabled = true;
-
-  try {
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: new FormData(form),
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      msg.textContent = `✓ ${emailVal} 등록 완료. 1페이지 시트를 곧 보내드립니다.`;
-      msg.style.color = "var(--accent)";
-      form.reset();
-    } else {
-      msg.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
-      msg.style.color = "#ff6b6b";
-    }
-  } catch (error) {
-    msg.textContent = "네트워크 오류가 발생했습니다.";
-    msg.style.color = "#ff6b6b";
-  } finally {
-    btn.textContent = "대기 명단 등록하고 시트 받기";
-    btn.style.opacity = "1";
-    btn.disabled = false;
-  }
-});
+/* WAITLIST */
+function subWL(e){
+  e.preventDefault();
+  const v=document.getElementById('wlEmail').value;
+  document.getElementById('wlMsg').textContent=`✓ ${v} 등록 완료. 시트를 보내드립니다.`;
+  document.getElementById('wlEmail').value='';
+}
 </script>
 </body>
 </html>
