@@ -261,7 +261,24 @@ nav{
   display:flex;align-items:flex-end;justify-content:center;gap:4px;
 }
 .price-num sub{font-size:.3em;font-weight:600;color:var(--t3);letter-spacing:.04em;margin-bottom:.12em}
-/* price-tag — 중립 */
+/* 가격 대조 — 고통 vs 해결 */
+.price-pain{
+  display:flex;flex-direction:column;gap:1px;
+  background:var(--ln);margin-bottom:20px;
+}
+.pain-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:11px 14px;background:var(--bg);
+  flex-wrap:wrap;
+}
+.pain-row:first-child{background:var(--red2)}
+.pain-row:last-child{background:var(--grn2)}
+.pain-label{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.04em;white-space:nowrap}
+.pain-cost{font-size:13px;font-weight:700;color:var(--t2);text-align:right}
+.pain-cost.green{color:var(--grn)}
+.pain-cost strong{color:var(--grn);font-weight:900}
+
+/* price-tag */
 .price-tag{margin-top:10px;font-size:13px;font-weight:600;color:var(--t2);letter-spacing:.02em}
 /* 0원 — 초록: 핵심 혜택 */
 .price-tag strong{color:var(--grn);font-weight:800}
@@ -536,9 +553,21 @@ footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-s
 
     <div class="price-box r">
       <p class="price-lbl">30일 보증금 환급형 멤버십</p>
-      <p class="price-vs">일반 코칭 월 50~100만 원 · 상담 1회 10~15만 원</p>
+
+      <!-- 해결 안 했을 때의 비용 대조 -->
+      <div class="price-pain">
+        <div class="pain-row">
+          <span class="pain-label">지금 이대로라면</span>
+          <span class="pain-cost">잃어버린 5년 · 기회비용 수천만 원</span>
+        </div>
+        <div class="pain-row">
+          <span class="pain-label">ONE BLANK로 해결하면</span>
+          <span class="pain-cost green">성공 시 <strong>0원</strong></span>
+        </div>
+      </div>
+
       <div class="price-num">290,000<sub>원</sub></div>
-      <p class="price-tag">⚖️ 당신의 잃어버린 5년을 되찾는 비용. 단, 성공하면 <strong>0원</strong>.</p>
+      <p class="price-tag">이 문제를 해결하지 않으면 매일 밤이 낭비됩니다.<br>29만 원은 그 낭비를 멈추는 비용입니다.</p>
       <p class="price-note">30일 완료 + 증명 → <strong>보증금 전액 환급.</strong> 당신이 잃는 건 핑계뿐입니다.</p>
     </div>
 
