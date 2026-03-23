@@ -3,36 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONE BLANK — 실행 강제 시스템</title>
+<title>ONE BLANK — 하이엔드 실행 강제 시스템</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
+
 /* ══ RESET ══ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 
-/* ══ TOKENS ══ */
+/* ══ 색상 시스템 ══
+   빨강 = 경고·손실·FOMO
+   초록 = 혜택·환급·해결
+   중립 = 구조·시스템
+*/
 :root{
-  /* 배경 */
   --bg:  #0a0a0a;
   --bg1: #0f0f0f;
-  --bg2: #141414;
+  --bg2: #161616;
 
-  /* 텍스트 */
-  --t1: #f2f2ee;       /* 헤드라인 */
-  --t2: #c0c0ba;       /* 본문 — 밝게 */
-  --t3: #848480;       /* 보조 레이블 */
+  --t1: #f2f2ee;    /* 헤드라인 */
+  --t2: #c8c8c2;    /* 본문 */
+  --t3: #888882;    /* 보조 */
 
-  /* 선 */
   --ln:  rgba(255,255,255,.07);
   --ln2: rgba(255,255,255,.14);
 
-  /* 강조 2가지만 */
   --red:  #e05c5c;
   --red2: rgba(224,92,92,.09);
   --red3: rgba(224,92,92,.22);
+
   --grn:  #4fba7c;
   --grn2: rgba(79,186,124,.09);
   --grn3: rgba(79,186,124,.22);
+
+  --amb:  #d4a84b;
+  --amb2: rgba(212,168,75,.09);
+  --amb3: rgba(212,168,75,.22);
 }
 
 /* ══ BASE ══ */
@@ -49,12 +55,12 @@ body::after{
 }
 
 /* ══ LAYOUT ══ */
-.W{width:100%;max-width:580px;margin:0 auto;padding:0 22px}
-.sec{padding:72px 0}
+.W{width:100%;max-width:580px;margin:0 auto;padding:0 20px}
+.sec{padding:64px 0}
 hr.div{border:none;border-top:1px solid var(--ln)}
 
 /* ══ REVEAL ══ */
-.r{opacity:0;transform:translateY(18px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.r{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
 .r.in{opacity:1;transform:none}
 .r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
 
@@ -64,146 +70,156 @@ hr.div{border:none;border-top:1px solid var(--ln)}
 /* ══ NAV ══ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
-  padding:0 22px;height:54px;
+  padding:0 20px;height:52px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,10,10,.9);backdrop-filter:blur(22px);
+  background:rgba(10,10,10,.92);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--ln);
 }
-.n-logo{
-  font-size:13px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
-  display:flex;align-items:center;gap:8px;
-}
-.n-logo::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--t1);opacity:.4;
-  animation:blink 2.5s ease-in-out infinite;
-}
-@keyframes blink{0%,100%{opacity:.3}50%{opacity:.8}}
-/* Nav badge — 빨강: FOMO */
-.n-badge{
-  font-size:10px;font-weight:700;letter-spacing:.1em;
-  color:var(--red);border:1px solid var(--red3);
-  padding:4px 12px;border-radius:40px;
-  animation:blink 2.5s ease-in-out infinite;
-}
+.n-logo{font-size:13px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.n-logo::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--t1);opacity:.4;animation:blink 2.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:.8}}
+.n-badge{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--red);border:1px solid var(--red3);padding:4px 12px;border-radius:40px;animation:blink 2.5s ease-in-out infinite}
 
 /* ══ HERO ══ */
 #hero{
   min-height:100svh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:72px 22px 60px;
+  text-align:center;padding:70px 20px 56px;
   position:relative;overflow:hidden;
 }
 .h-grid{
   position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
   background-size:56px 56px;
   mask-image:radial-gradient(ellipse 65% 65% at 50% 50%,black,transparent);
 }
 .h-glow{
-  position:absolute;top:44%;left:50%;width:600px;height:600px;pointer-events:none;
-  background:radial-gradient(circle,rgba(255,255,255,.016) 0%,transparent 66%);
+  position:absolute;top:44%;left:50%;width:560px;height:560px;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.015) 0%,transparent 66%);
   transform:translate(-50%,-50%);animation:glow 6s ease-in-out infinite;
 }
 @keyframes glow{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes fu{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
 
 .h-hook{
-  font-size:clamp(13px,3.2vw,15px);font-weight:500;
-  color:var(--t3);letter-spacing:.04em;margin-bottom:22px;
+  font-size:clamp(14px,3.5vw,16px);font-weight:600;color:var(--t2);
+  letter-spacing:.02em;margin-bottom:20px;
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .1s;
 }
-/* hook em — 빨강: 고객 문제 */
-.h-hook em{font-style:normal;color:var(--red);font-weight:700}
+.h-hook em{font-style:normal;color:var(--red);font-weight:800}
 
 .h1{
-  font-size:clamp(40px,10.5vw,82px);
+  font-size:clamp(40px,10.5vw,80px);
   font-weight:900;line-height:1.05;letter-spacing:-.04em;
-  margin-bottom:18px;
+  margin-bottom:14px;
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .22s;
 }
-.h-sol{
-  font-size:clamp(15px,3.8vw,17px);font-weight:400;
-  color:var(--t2);line-height:1.78;
-  max-width:340px;margin:0 auto 36px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .36s;
+
+.h-def{
+  font-size:clamp(13px,3.2vw,15px);font-weight:500;
+  color:var(--t2);line-height:1.65;margin-bottom:16px;
+  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .34s;
 }
-.h-sol strong{color:var(--t1);font-weight:700}
+.h-def strong{color:var(--t1);font-weight:800}
+
+.h-sub{
+  font-size:clamp(15px,3.8vw,17px);font-weight:400;
+  color:var(--t2);line-height:1.75;
+  max-width:340px;margin:0 auto 32px;
+  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .46s;
+}
+.h-sub strong{color:var(--t1);font-weight:700}
+
 .h-cta{
   width:100%;max-width:400px;
-  display:flex;flex-direction:column;align-items:center;gap:11px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .5s;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .58s;
 }
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* ══ BUTTONS ══ */
 .btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;padding:17px 22px;
+  width:100%;padding:17px 20px;
   font-family:'Pretendard',sans-serif;
   font-size:clamp(14px,3.5vw,15px);font-weight:800;letter-spacing:.04em;
   border:none;border-radius:3px;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:transform .18s,box-shadow .18s;
+  position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s;
 }
 .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 60%);opacity:0;transition:opacity .22s}
 .btn:hover::after{opacity:1}
 .btn:active{transform:scale(.985)}
-
 .btn-solid{background:var(--t1);color:#0a0a0a}
-.btn-solid:hover{box-shadow:0 0 28px rgba(242,242,238,.13);transform:translateY(-1px)}
-
+.btn-solid:hover{box-shadow:0 0 26px rgba(242,242,238,.13);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--ln2)}
 .btn-ghost:hover{color:var(--t1);border-color:rgba(255,255,255,.24)}
-
 .btn-note{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.06em;text-align:center;line-height:1.55}
-/* btn-note em — 초록: 혜택 */
 .btn-note em{font-style:normal;color:var(--grn)}
 
 /* 경고 배너 — 빨강 */
-.warn{
-  display:flex;gap:8px;align-items:center;
-  background:var(--red2);border:1px solid var(--red3);
-  padding:10px 14px;border-radius:3px;width:100%;
-  font-size:12px;font-weight:700;color:var(--red);line-height:1.5;
-}
+.warn{display:flex;gap:8px;align-items:center;background:var(--red2);border:1px solid var(--red3);padding:10px 14px;border-radius:3px;width:100%;font-size:12px;font-weight:700;color:var(--red);line-height:1.5}
 
 /* ══ STATS ══ */
 #stats{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr)}
-.stat-cell{padding:26px 12px;text-align:center;position:relative}
-.stat-cell+.stat-cell::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--ln)}
-/* 숫자 — 모두 흰색, 구분 불필요 */
-.stat-n{font-size:clamp(34px,8.5vw,52px);font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--t1);display:block}
-.stat-n sup{font-size:.36em;font-weight:700;vertical-align:top;margin-top:.2em;letter-spacing:.02em}
-/* 0원만 초록: 핵심 혜택 */
-.stat-n.green{color:var(--grn)}
-.stat-l{font-size:11px;font-weight:600;color:var(--t3);margin-top:6px;letter-spacing:.06em}
+.sg{display:grid;grid-template-columns:repeat(3,1fr)}
+.sc{padding:24px 10px;text-align:center;position:relative}
+.sc+.sc::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--ln)}
+.sn{font-size:clamp(32px,8.5vw,50px);font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--t1);display:block}
+.sn sup{font-size:.36em;font-weight:700;vertical-align:top;margin-top:.2em;letter-spacing:.02em}
+.sn.grn{color:var(--grn)}  /* 0원만 초록 */
+.sl{font-size:11px;font-weight:600;color:var(--t3);margin-top:5px;letter-spacing:.06em}
 
 /* ══ TYPE ══ */
-.sec-tag{display:block;font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
-.sec-h{font-size:clamp(24px,5.8vw,36px);font-weight:900;line-height:1.17;letter-spacing:-.03em;margin-bottom:26px}
+.sec-tag{display:block;font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.sec-h{font-size:clamp(24px,5.8vw,36px);font-weight:900;line-height:1.17;letter-spacing:-.03em;margin-bottom:24px}
 
-/* ══ WHY — Problem ══ */
-.prob-stack{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:36px}
-.pb{background:var(--bg);padding:22px 20px;transition:background .18s}
-.pb:hover{background:var(--bg2)}
-.pb-num{font-size:10px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.1);margin-bottom:8px}
-.pb-t{font-size:clamp(15px,3.8vw,16px);font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
-.pb-d{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:0}
-/* 해결책 — 초록 왼쪽 테두리만 */
-.pb-sol{
-  display:flex;gap:8px;align-items:flex-start;
-  border-left:2px solid var(--grn3);
-  padding:8px 12px;margin-top:10px;
-  font-size:13px;color:var(--t2);line-height:1.6;
+/* ══ PROBLEM ══ */
+/* 숫자 박스 — 빨강: 손실 */
+.prob-cost{background:var(--red2);border:1px solid var(--red3);border-radius:2px;padding:20px;text-align:center;margin-bottom:20px}
+.prob-cost-n{font-size:clamp(40px,10vw,56px);font-weight:900;letter-spacing:-.04em;color:var(--red);line-height:1}
+.prob-cost-n sub{font-size:.3em;font-weight:600;letter-spacing:.04em}
+.prob-cost-l{font-size:11px;font-weight:700;color:var(--red);opacity:.8;margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+
+.prob-body{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:18px}
+.prob-body strong{color:var(--t1);font-weight:700}
+
+/* Before → After */
+.ba{border:1px solid var(--ln2);border-radius:2px;overflow:hidden;margin-bottom:0}
+.ba-row{display:flex;align-items:flex-start;gap:12px;padding:14px 16px}
+.ba-before{background:var(--red2)}
+.ba-after{background:var(--grn2)}
+.ba-divider{text-align:center;font-size:12px;color:var(--t3);padding:4px 0;background:var(--bg2);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);font-weight:700;letter-spacing:.06em}
+.ba-tag{font-size:9px;font-weight:800;letter-spacing:.18em;flex-shrink:0;margin-top:2px}
+.ba-before .ba-tag{color:var(--red)}
+.ba-after  .ba-tag{color:var(--grn)}
+.ba-txt{font-size:13px;color:var(--t2);line-height:1.55}
+.ba-txt strong{color:var(--t1);font-weight:700}
+
+/* ══ SOLUTION — 3카드 ══ */
+#solution{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.sol-cards{display:flex;flex-direction:column;gap:1px;background:var(--ln)}
+.sol-card{background:var(--bg1);padding:22px 20px;transition:background .18s}
+.sol-card:hover{background:var(--bg2)}
+.sol-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sol-ico{font-size:22px;flex-shrink:0}
+.sol-tag{font-size:10px;font-weight:800;letter-spacing:.12em;padding:4px 10px;border-radius:40px;white-space:nowrap}
+.sol-tag.emp{color:var(--t2);background:var(--bg2);border:1px solid var(--ln2)}
+.sol-tag.rul{color:var(--grn);background:var(--grn2);border:1px solid var(--grn3)}
+.sol-tag.rew{color:var(--amb);background:var(--amb2);border:1px solid var(--amb3)}
+.sol-title{font-size:clamp(15px,3.8vw,16px);font-weight:800;color:var(--t1);line-height:1.3}
+.sol-desc{font-size:13px;color:var(--t2);line-height:1.72}
+.sol-desc strong{color:var(--t1);font-weight:700}
+/* Peak-End 리워드 박스 — 앰버 */
+.reward-box{
+  margin-top:10px;padding:12px 14px;
+  background:var(--amb2);border:1px solid var(--amb3);
+  border-radius:2px;font-size:13px;color:var(--t2);line-height:1.65;
+  font-style:italic;
 }
-.pb-sol::before{content:'→';flex-shrink:0;color:var(--grn);font-weight:700}
-.pb-sol strong{color:var(--t1);font-weight:700}
+.reward-box strong{color:var(--amb);font-weight:700;font-style:normal}
 
-/* ══ WHY — Fit ══ */
+/* ══ FIT ══ */
 .fit{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ln)}
 .fit-col{padding:18px 16px;background:var(--bg2)}
-/* 상단 컬러 선만 — 배경 없음 */
 .fit-col.yes{border-top:2px solid var(--grn3)}
 .fit-col.no {border-top:2px solid var(--red3)}
 .fit-h{font-size:11px;font-weight:800;letter-spacing:.06em;margin-bottom:12px}
@@ -214,210 +230,156 @@ nav{
 .fit-col.yes .fit-item::before{content:'✓';color:var(--grn);flex-shrink:0;font-weight:800;font-size:11px}
 .fit-col.no  .fit-item::before{content:'✕';color:var(--red);flex-shrink:0;font-weight:800;font-size:11px}
 
-/* ══ STORY — Timeline ══ */
-#story{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
-.tl{position:relative;padding-left:20px}
-.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--ln2) 6%,var(--ln2) 94%,transparent)}
-.t-row{display:grid;grid-template-columns:50px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid var(--ln);position:relative}
-.t-row-last{border-bottom:none}
-.t-time{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.06em;padding-top:2px;line-height:1}
-.t-evt{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
-/* Peak 이벤트 — 흰색으로 강조 (색 제거) */
-.t-evt-peak{color:var(--t1)}
-.t-body{font-size:13px;color:var(--t2);line-height:1.75}
-.t-body strong{color:var(--t1);font-weight:700}
-.t-body em{font-style:italic;color:var(--t2)}
-
 /* ══ TRUST ══ */
-/* 인용구 — 중립 선 */
-.rule-q{
-  font-size:clamp(17px,4.2vw,22px);font-weight:900;
-  color:var(--t1);line-height:1.3;letter-spacing:-.02em;
-  padding:22px 0 22px 18px;
-  border-left:2px solid var(--ln2);
-  margin-bottom:20px;
-}
-/* pills — 모두 같은 중립 스타일 */
+.rule-q{font-size:clamp(16px,4vw,22px);font-weight:900;color:var(--t1);line-height:1.3;letter-spacing:-.02em;padding:20px 0 20px 16px;border-left:2px solid var(--ln2);margin-bottom:14px}
+.trust-std{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:18px}
+.trust-std strong{color:var(--t1);font-weight:800}
 .trust-pills{display:flex;flex-wrap:wrap;gap:8px}
-.tpill{
-  font-size:12px;font-weight:600;letter-spacing:.04em;
-  color:var(--t2);background:var(--bg2);border:1px solid var(--ln2);
-  padding:8px 14px;border-radius:40px;
-  transition:border-color .2s,color .2s;
-}
-.tpill:hover{color:var(--t1);border-color:rgba(255,255,255,.22)}
-
-/* ② 의도 */
-.offer-intent{
-  font-size:13px;font-weight:400;color:var(--t2);
-  line-height:1.7;margin-bottom:24px;
-  border-left:2px solid var(--ln2);padding-left:14px;
-}
-.offer-intent strong{color:var(--t1);font-weight:700}
-
-/* ③ 결정 */
-.decision-box{
-  padding:16px 18px;margin-bottom:18px;
-  background:var(--bg2);border:1px solid var(--ln2);
-  border-radius:2px;
-}
-.decision-txt{
-  font-size:13px;color:var(--t2);line-height:1.75;text-align:center;
-}
-.decision-txt strong{color:var(--t1);font-weight:800}
+.tpill{font-size:12px;font-weight:700;letter-spacing:.04em;padding:8px 14px;border-radius:40px;transition:filter .2s}
+.tpill:hover{filter:brightness(1.15)}
+.tpill-grn{color:var(--grn);background:var(--grn2);border:1px solid var(--grn3)}
+.tpill-red{color:var(--red);background:var(--red2);border:1px solid var(--red3)}
+.tpill-neu{color:var(--t2);background:var(--bg2);border:1px solid var(--ln2)}
 
 /* ══ OFFER ══ */
-.price-box{
-  text-align:center;padding:30px 22px;background:var(--bg2);
-  border:1px solid var(--ln2);position:relative;overflow:hidden;
-  margin-bottom:14px;border-radius:2px;
-}
-.price-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
-.price-lbl{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
-.price-vs{font-size:12px;color:var(--t3);text-decoration:line-through;margin-bottom:6px}
-.price-num{
-  font-size:clamp(36px,9vw,52px);font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--t1);
-  display:flex;align-items:flex-end;justify-content:center;gap:4px;
-}
-.price-num sub{font-size:.3em;font-weight:600;color:var(--t3);letter-spacing:.04em;margin-bottom:.12em}
-/* 가격 대조 — 고통 vs 해결 */
-.price-pain{
-  display:flex;flex-direction:column;gap:1px;
-  background:var(--ln);margin-bottom:20px;
-}
-.pain-row{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:11px 14px;background:var(--bg);
-  flex-wrap:wrap;
-}
+/* 가격 대조 */
+.price-pain{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
+.pain-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;flex-wrap:wrap}
 .pain-row:first-child{background:var(--red2)}
 .pain-row:last-child{background:var(--grn2)}
-.pain-label{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.04em;white-space:nowrap}
-.pain-cost{font-size:13px;font-weight:700;color:var(--t2);text-align:right}
-.pain-cost.green{color:var(--grn)}
-.pain-cost strong{color:var(--grn);font-weight:900}
+.pain-lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.04em;white-space:nowrap}
+.pain-val{font-size:13px;font-weight:700;color:var(--t2);text-align:right}
+.pain-val.grn{color:var(--grn)}
+.pain-val strong{color:var(--grn);font-weight:900}
 
-/* price-tag */
-.price-tag{margin-top:10px;font-size:13px;font-weight:600;color:var(--t2);letter-spacing:.02em}
-/* 0원 — 초록: 핵심 혜택 */
-.price-tag strong{color:var(--t1);font-weight:800}
-.price-note{font-size:13px;color:var(--t2);line-height:1.75;margin-top:13px;padding-top:13px;border-top:1px solid var(--ln)}
-/* 환급 강조 — 초록 */
-.price-note strong{color:var(--grn);font-weight:700}
+/* 3단계 가격 */
+.plan-grid{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
+.plan{background:var(--bg);padding:22px 20px;transition:background .18s;position:relative;overflow:hidden}
+.plan:hover{background:var(--bg2)}
+.plan.core{background:var(--bg2);border:1px solid var(--ln2)}
+.plan.core::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--grn),transparent)}
+.plan-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.plan-name{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.plan-badge{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--grn);background:var(--grn2);border:1px solid var(--grn3);padding:3px 10px;border-radius:40px}
+.plan-price{font-size:clamp(28px,7vw,38px);font-weight:900;letter-spacing:-.04em;color:var(--t1);margin-bottom:4px;line-height:1}
+.plan-price sub{font-size:.3em;font-weight:600;color:var(--t3);letter-spacing:.04em}
+.plan-title{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.plan-desc{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:10px}
+.plan-value{font-size:11px;color:var(--t3);text-decoration:line-through;margin-bottom:8px}
+.plan-items{display:flex;flex-direction:column;gap:6px}
+.plan-item{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--t2);line-height:1.5}
+.plan-item::before{content:'✔';color:var(--grn);flex-shrink:0;font-weight:800;font-size:11px;margin-top:1px}
+.plan-highlight{font-size:12px;color:var(--grn);font-weight:700;margin-top:12px;line-height:1.6}
 
-.oc-wrap{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
-.oc{background:var(--bg);display:grid;grid-template-columns:28px 1fr;gap:14px;padding:22px 20px;transition:background .18s}
-.oc:hover{background:var(--bg2)}
-.oc-i{font-size:18px;padding-top:2px}
-.oc-t{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
-.oc-d{font-size:13px;color:var(--t2);line-height:1.72}
-/* 카드 내 강조 — 흰색 bold만 */
-.oc-d strong{color:var(--t1);font-weight:700}
-
-/* FOMO — 빨강 */
-.fomo{background:var(--red2);border:1px solid var(--red3);padding:16px 18px;margin-bottom:16px;border-radius:2px}
-.fomo-t{
-  font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--red);margin-bottom:10px;
-  display:flex;align-items:center;gap:7px;
+/* 보증 */
+.guar-list{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
+.guar-row{background:var(--bg);display:grid;grid-template-columns:28px 1fr;gap:12px;padding:20px;transition:background .18s}
+.guar-row:hover{background:var(--bg2)}
+.guar-ico{font-size:17px;padding-top:1px}
+.guar-t{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:6px;line-height:1.3}
+.guar-d{font-size:13px;color:var(--t2);line-height:1.75}
+.guar-d strong{color:var(--t1);font-weight:700}
+/* 보증 강조 박스 */
+.guar-quote{
+  margin-top:14px;padding:14px 16px;
+  background:var(--bg2);border-left:3px solid var(--grn);
+  font-size:13px;font-weight:600;color:var(--grn);line-height:1.65;
+  border-radius:0 2px 2px 0;
 }
+
+/* FOMO */
+.fomo{background:var(--red2);border:1px solid var(--red3);padding:14px 16px;margin-bottom:14px;border-radius:2px}
+.fomo-t{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:9px;display:flex;align-items:center;gap:6px}
 .fomo-t::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:blink 1.8s ease-in-out infinite}
-.fomo-list{display:flex;flex-direction:column;gap:7px}
-.fomo-row{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--t2);line-height:1.6}
+.fomo-list{display:flex;flex-direction:column;gap:6px}
+.fomo-row{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--t2);line-height:1.6}
 .fomo-row::before{content:'—';flex-shrink:0;color:var(--red3)}
 
-/* 보증 — 중립 */
-.guar{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--ln2);padding:16px 18px;margin-bottom:18px;background:var(--bg2);border-radius:2px}
-.guar-i{font-size:18px;flex-shrink:0}
-.guar-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
-.guar-t{font-size:13px;color:var(--t2);line-height:1.6}
+/* 결제 후 장면 */
+.after-scene{background:var(--bg2);border:1px solid var(--ln2);padding:16px 18px;margin-bottom:14px;border-radius:2px}
+.after-lbl{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
+.after-rows{display:flex;flex-direction:column;gap:8px}
+.after-row{display:flex;align-items:flex-start;gap:11px;font-size:13px;color:var(--t2);line-height:1.5}
+.after-n{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--grn2);border:1px solid var(--grn3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--grn)}
+
+/* FAQ */
+.faq-lbl{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--t3);margin-bottom:10px;display:block}
+.faq-list{display:flex;flex-direction:column;margin-bottom:18px}
+.fi{border-bottom:1px solid var(--ln)}
+.fq{width:100%;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:17px 0;cursor:pointer;text-align:left;font-family:'Pretendard',sans-serif;transition:opacity .18s}
+.fq:hover{opacity:.75}
+.fq-t{font-size:14px;font-weight:700;color:var(--t1);line-height:1.45}
+.fq-i{flex-shrink:0;width:22px;height:22px;border:1px solid var(--ln2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--t3);transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .2s,color .2s;font-family:'Pretendard',sans-serif}
+.fq.open .fq-i{transform:rotate(45deg);border-color:rgba(255,255,255,.22);color:var(--t1)}
+.fa{display:none;font-size:13px;color:var(--t2);line-height:1.85;padding:0 0 16px;border-left:2px solid var(--ln2);padding-left:14px;animation:fu .28s cubic-bezier(.22,1,.36,1)}
+.fa.on{display:block}
 
 .cta-stack{display:flex;flex-direction:column;gap:10px}
 
-/* hero one-liner definition */
-.h-what{
-  font-size:clamp(13px,3vw,14px);font-weight:500;
-  color:var(--t3);line-height:1.65;
-  margin-bottom:18px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .33s;
-}
-.h-what strong{color:var(--t2);font-weight:700}
-
-/* FAQ inline — CTA 직전 */
-.faq-inline{margin-bottom:20px}
-.faq-inline-lbl{
-  font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:12px;display:block;
-}
-
-/* ══ FAQ ══ */
-.faq-list{display:flex;flex-direction:column}
-.fi{border-bottom:1px solid var(--ln)}
-.fq{
-  width:100%;background:none;border:none;
-  display:flex;justify-content:space-between;align-items:center;gap:16px;
-  padding:18px 0;cursor:pointer;text-align:left;
-  font-family:'Pretendard',sans-serif;transition:opacity .18s;
-}
-.fq:hover{opacity:.75}
-.fq-t{font-size:14px;font-weight:700;color:var(--t1);line-height:1.45}
-.fq-i{
-  flex-shrink:0;width:22px;height:22px;border:1px solid var(--ln2);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--t3);
-  transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .2s,color .2s;
-  font-family:'Pretendard',sans-serif;
-}
-.fq.open .fq-i{transform:rotate(45deg);border-color:rgba(255,255,255,.22);color:var(--t1)}
-.fa{
-  display:none;font-size:13px;color:var(--t2);line-height:1.85;
-  padding:0 0 16px;border-left:2px solid var(--ln2);padding-left:14px;
-  animation:fu .28s cubic-bezier(.22,1,.36,1);
-}
-.fa.on{display:block}
-
 /* ══ FINAL CTA ══ */
-#final{padding:68px 0;text-align:center;border-top:1px solid var(--ln);position:relative}
-#final::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:1px;height:72px;background:linear-gradient(180deg,var(--ln2),transparent)}
-.fi-in{max-width:460px;margin:0 auto}
-.fi-tag{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
-.fi-h{font-size:clamp(26px,6.5vw,40px);font-weight:900;line-height:1.18;letter-spacing:-.03em;margin-bottom:14px}
-/* 빨강: 손실 각성 */
+#final{padding:64px 0;text-align:center;border-top:1px solid var(--ln);position:relative}
+#final::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:1px;height:64px;background:linear-gradient(180deg,var(--ln2),transparent)}
+.fi-in{max-width:440px;margin:0 auto}
+.fi-tag{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
+.fi-h{font-size:clamp(24px,6vw,38px);font-weight:900;line-height:1.18;letter-spacing:-.03em;margin-bottom:12px}
 .fi-h em{font-style:normal;color:var(--red)}
-.fi-sub{font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:20px}
+.fi-sub{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:18px}
 .fi-sub strong{color:var(--t1);font-weight:700}
-/* loss-box — 빨강 */
-.loss-box{
-  display:flex;gap:10px;align-items:flex-start;
-  background:var(--red2);border:1px solid var(--red3);
-  padding:12px 16px;border-radius:2px;margin-bottom:22px;
-  text-align:left;font-size:12px;font-weight:600;color:var(--red);line-height:1.65;
-}
+.loss-box{display:flex;gap:10px;align-items:flex-start;background:var(--red2);border:1px solid var(--red3);padding:12px 14px;border-radius:2px;margin-bottom:20px;text-align:left;font-size:12px;font-weight:600;color:var(--red);line-height:1.65}
 .loss-box strong{color:var(--t1)}
-.fi-guar{font-size:11px;color:var(--t3);letter-spacing:.06em;margin-top:14px}
+.fi-guar{font-size:11px;color:var(--t3);letter-spacing:.06em;margin-top:12px}
 
 /* ══ WAITLIST ══ */
-#wl{padding:56px 0;background:var(--bg1);border-top:1px solid var(--ln);text-align:center}
-.wl-in{max-width:320px;margin:0 auto}
+#wl{padding:52px 0;background:var(--bg1);border-top:1px solid var(--ln);text-align:center}
+.wl-in{max-width:300px;margin:0 auto}
 .wl-h{font-size:20px;font-weight:900;letter-spacing:-.025em;margin-bottom:8px}
-.wl-copy{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:20px}
-/* 시트 이름 — 중립 흰색 bold */
+.wl-copy{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:18px}
 .wl-copy strong{color:var(--t1);font-weight:700}
 
+/* ══ EXIT-INTENT POPUP ══ */
+#exit-popup{
+  display:none;
+  position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.85);
+  align-items:center;justify-content:center;
+  padding:20px;
+}
+#exit-popup.show{display:flex;animation:popIn .35s cubic-bezier(.22,1,.36,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.ep-box{
+  background:var(--bg2);border:1px solid var(--ln2);
+  border-radius:4px;width:100%;max-width:380px;
+  padding:32px 28px;text-align:center;
+  position:relative;
+}
+.ep-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.ep-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;cursor:pointer;
+  font-size:18px;color:var(--t3);font-family:'Pretendard',sans-serif;
+  transition:color .2s;
+}
+.ep-close:hover{color:var(--t1)}
+.ep-tag{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:block}
+.ep-h{font-size:clamp(18px,5vw,24px);font-weight:900;line-height:1.25;letter-spacing:-.02em;margin-bottom:12px;color:var(--t1)}
+.ep-h em{font-style:normal;color:var(--red)}
+.ep-body{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:20px}
+.ep-body strong{color:var(--t1);font-weight:700}
+
 /* ══ FOOTER ══ */
-footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-size:11px;color:var(--t3);letter-spacing:.12em;line-height:2}
+footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-size:11px;color:var(--t3);letter-spacing:.12em;line-height:2}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:480px){
   nav{padding:0 16px}
-  .W{padding:0 18px}
-  .sec{padding:56px 0}
-  .stat-n{font-size:32px}
+  .W{padding:0 16px}
+  .sec{padding:52px 0}
+  .sn{font-size:30px}
+  .ep-box{padding:28px 20px}
 }
-@media(max-width:380px){
+@media(max-width:360px){
   .fit{grid-template-columns:1fr}
   .h1{font-size:36px}
-  .t-row{grid-template-columns:44px 1fr}
 }
 </style>
 </head>
@@ -425,28 +387,31 @@ footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <div id="pbar"></div>
 
+<!-- NAV -->
 <nav>
   <div class="n-logo">ONE BLANK</div>
-  <div class="n-badge">⚡ 50명 한정 · 1기</div>
+  <div class="n-badge">⚡ 1기 단 50명</div>
 </nav>
 
 
+<!-- ① HERO -->
 <section id="hero">
   <div class="h-grid"></div>
   <div class="h-glow"></div>
 
-  <p class="h-hook">밤 11시, 또 <em>쇼츠 보다 자책</em>하셨습니까?</p>
-  <h1 class="h1">비전 보드는<br>찢어버리십시오.</h1>
+  <p class="h-hook">밤 11시, 또 <em>쇼츠만 보다가 자책</em>했죠?</p>
 
-  <p class="h-what">알면서도 실행 못 하는 당신을 위한<br><strong>30일 실행 강제 시스템</strong></p>
+  <h1 class="h1">비전 보드는<br>찢어버리세요.</h1>
 
-  <p class="h-sol">의지력 탓이 아닙니다.<br><strong>실행이 일어나는 환경</strong>이 없었을 뿐입니다.</p>
+  <p class="h-def">압도적 성장을 갈망하는 20대 프리랜서를 위한<br><strong>하이엔드 실행 강제 시스템, ONE BLANK</strong></p>
+
+  <p class="h-sub">일주일 커피 두 잔 값으로<br><strong>당신의 아침을 통제할 AI 비서</strong>를 고용하세요.</p>
 
   <div class="h-cta">
     <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
-      ONE BLANK 경험 시작하기 →
+      ONE BLANK 1기 자리 선점하기 →
     </button>
-    <p class="btn-note">⚡ 단 50명 · 30일 성공 시 <em>전액 환급</em></p>
+    <p class="btn-note">⚡ 단 50명 한정 · 잔여 스팟 극소수 · <em>14일 효과 없으면 전액 환불</em></p>
     <div class="warn">
       <span>⚠</span>
       <span>지금 닫으면 오늘 밤도 쇼츠입니다.</span>
@@ -455,66 +420,124 @@ footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-s
 </section>
 
 
+<!-- ② STATS -->
 <section id="stats">
-  <div class="stat-row">
-    <div class="stat-cell r">
-      <span class="stat-n">1<sup>개</sup></span>
-      <div class="stat-l">오늘 할 것</div>
+  <div class="sg">
+    <div class="sc r">
+      <span class="sn">15<sup>시간</sup></span>
+      <div class="sl">한 달 낭비 시간</div>
     </div>
-    <div class="stat-cell r d1">
-      <span class="stat-n">30<sup>일</sup></span>
-      <div class="stat-l">실행 강제</div>
+    <div class="sc r d1">
+      <span class="sn">30<sup>일</sup></span>
+      <div class="sl">실행 강제</div>
     </div>
-    <div class="stat-cell r d2">
-      <span class="stat-n green">0<sup>원</sup></span>
-      <div class="stat-l">성공 시 비용</div>
+    <div class="sc r d2">
+      <span class="sn grn">0<sup>원</sup></span>
+      <div class="sl">14일 효과 없으면</div>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
-<section id="why" class="sec">
+<!-- ③ PROBLEM -->
+<section id="problem" class="sec">
   <div class="W">
     <span class="sec-tag r">왜 안 되는가</span>
-    <h2 class="sec-h r">당신의 실패는<br>의지력 탓이 아닙니다.</h2>
+    <h2 class="sec-h r">지금 당신은<br>매월 45만 원을 날리고 있어요.</h2>
 
-    <div class="prob-stack r">
-      <div class="pb">
-        <p class="pb-num">01</p>
-        <p class="pb-t">가짜 동기부여의 함정</p>
-        <p class="pb-d">뻔한 긍정 확언은 오히려 무기력을 만듭니다.</p>
-        <p class="pb-sol"><strong>'최악의 5년'</strong>을 직시. 생존 위기감이 모든 동기부여보다 강합니다.</p>
-      </div>
-      <div class="pb">
-        <p class="pb-num">02</p>
-        <p class="pb-t">결정 피로</p>
-        <p class="pb-d">'오늘 뭐부터?' 고민하는 순간 뇌 에너지가 방전됩니다.</p>
-        <p class="pb-sol">선택지 없음. <strong>단 하나(One-Thing)</strong>만 화면에 띄웁니다.</p>
-      </div>
-      <div class="pb">
-        <p class="pb-num">03</p>
-        <p class="pb-t">고립된 싸움의 한계</p>
-        <p class="pb-d">아무도 감시하지 않는 방 안에서 의지력은 나약합니다.</p>
-        <p class="pb-sol"><strong>결과로만 소통하는 연대</strong>가 오늘도 당신을 감시합니다.</p>
-      </div>
+    <div class="prob-cost r">
+      <div class="prob-cost-n">45<sub>만원</sub></div>
+      <div class="prob-cost-l">매월 날아가는 기회비용</div>
     </div>
 
-    <h2 class="sec-h r" style="margin-top:0">나한테 맞는<br>서비스인가요?</h2>
+    <p class="prob-body r">
+      눈을 뜨면 <strong>"오늘 뭐부터 하지?"</strong> 고민하다<br>
+      아침 30분이 그냥 사라져요.<br>
+      한 달이면 15시간. 시급 3만 원으로만 쳐도<br>
+      <strong>매월 45만 원의 손실</strong>이에요.<br><br>
+      실패한 건 의지 문제가 아니에요.<br>
+      <strong>시작의 마찰을 0으로 만들어줄 환경</strong>이 없었을 뿐이에요.
+    </p>
+
+    <div class="ba r">
+      <div class="ba-row ba-before">
+        <span class="ba-tag">BEFORE</span>
+        <span class="ba-txt">눈 뜸 → 뭐부터 하지? → 30분 증발 → 자책</span>
+      </div>
+      <div class="ba-divider">↓ ONE BLANK</div>
+      <div class="ba-row ba-after">
+        <span class="ba-tag">AFTER</span>
+        <span class="ba-txt">눈 뜸 → 켜면 <strong>할 것 딱 1개만</strong> → 고민 없이 즉시 실행</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ④ SOLUTION -->
+<section id="solution" class="sec">
+  <div class="W">
+    <span class="sec-tag r">솔루션</span>
+    <h2 class="sec-h r">기능 말고,<br>확실한 변화를 드려요.</h2>
+    <p class="r" style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:24px">단 3칸, 하루 30초면 시스템이 작동해요.<br>복잡한 앱 설정은 잊으세요.</p>
+
+    <div class="sol-cards r">
+      <div class="sol-card">
+        <div class="sol-head">
+          <span class="sol-ico">💬</span>
+          <div>
+            <div class="sol-tag emp">20% 공감</div>
+          </div>
+          <span class="sol-title">AI 감정 배출구</span>
+        </div>
+        <p class="sol-desc">아침의 불안과 피곤함을 쏟아내세요.<br>즉시 <strong>시각적으로 삭제</strong>되어 자책 루프를 끊어줘요.</p>
+      </div>
+      <div class="sol-card">
+        <div class="sol-head">
+          <span class="sol-ico">🧠</span>
+          <div>
+            <div class="sol-tag rul">80% 규율</div>
+          </div>
+          <span class="sol-title">원 띵 포커스</span>
+        </div>
+        <p class="sol-desc">고민하지 마세요. AI가 오늘 당장 해야 할 <strong>딱 하나만</strong> 화면 중앙에 띄워줘요.</p>
+      </div>
+      <div class="sol-card">
+        <div class="sol-head">
+          <span class="sol-ico">💰</span>
+          <div>
+            <div class="sol-tag rew">도파민 보상</div>
+          </div>
+          <span class="sol-title">Peak-End 리워드</span>
+        </div>
+        <p class="sol-desc">완료 즉시 팝업이 떠요. 매일 아침, <strong>본전을 뽑았다는 감각</strong>이 내일도 켜게 만들어요.</p>
+        <div class="reward-box">"오늘 절약한 시간: 30분 / 벌어들인 가치: <strong>35,000원</strong>"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ⑤ FIT -->
+<section id="fit" class="sec">
+  <div class="W">
+    <span class="sec-tag r">나한테 맞는가?</span>
+    <h2 class="sec-h r">솔직하게 말씀드릴게요.<br>아무나 받지 않아요.</h2>
     <div class="fit r">
       <div class="fit-col yes">
-        <div class="fit-h">✅ 이런 분께 맞습니다</div>
-        <div class="fit-item">알면서도 실행이 안 되는 분</div>
-        <div class="fit-item">새벽에 유튜브 보다 자책하는 분</div>
-        <div class="fit-item">동기부여 콘텐츠만 소비하는 분</div>
-        <div class="fit-item">돈을 걸어서라도 바꾸고 싶은 분</div>
+        <div class="fit-h">✅ 이런 분께 완벽해요</div>
+        <div class="fit-item">알면서도 실행이 안 돼서 매일 밤 자책하는 분</div>
+        <div class="fit-item">동기부여 영상만 보고 내 일은 미루는 분</div>
+        <div class="fit-item">돈을 걸어서라도 성장하고 싶은 분</div>
       </div>
       <div class="fit-col no">
-        <div class="fit-h">❌ 이런 분은 비추천</div>
-        <div class="fit-item">위로와 공감이 주로 필요한 분</div>
-        <div class="fit-item">완벽하게 준비 후 시작하고 싶은 분</div>
-        <div class="fit-item">하루라도 빠질 것 같은 분</div>
-        <div class="fit-item">돈 잃는 게 두려운 분</div>
+        <div class="fit-h">❌ 절대 신청하지 마세요</div>
+        <div class="fit-item">차가운 규율보다 위로만 바라는 분</div>
+        <div class="fit-item">하루 5분 기록도 꾸준히 할 생각 없는 분</div>
+        <div class="fit-item">어제와 똑같이 사는 게 편한 분</div>
       </div>
     </div>
   </div>
@@ -522,184 +545,180 @@ footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <hr class="div">
 
-<section id="story" class="sec">
-  <div class="W">
-    <span class="sec-tag r">30일 후 당신의 하루</span>
-    <h2 class="sec-h r">결제하면<br>내일이 달라집니다.</h2>
-
-    <div class="tl r">
-      <div class="t-row">
-        <div class="t-time">07:12</div>
-        <div class="t-con">
-          <p class="t-evt">기상 — 결정 없이 시작</p>
-          <p class="t-body">세팅해둔 <strong>One-Thing</strong> 하나만 화면에 있다.<br>'오늘 뭐하지?' 고민이 사라졌다.</p>
-        </div>
-      </div>
-      <div class="t-row">
-        <div class="t-time">09:30</div>
-        <div class="t-con">
-          <p class="t-evt">집중 — 감정을 내려두다</p>
-          <p class="t-body">오전 피드백이 마음에 걸린다.<br>감정 분리 존에 쏟아내고<br>화면은 다시 One-Thing으로.</p>
-        </div>
-      </div>
-      <div class="t-row">
-        <div class="t-time">14:00</div>
-        <div class="t-con">
-          <p class="t-evt t-evt-peak">⭐ Peak-End — 체크박스를 누른다</p>
-          <p class="t-body"><em>"오늘도 당신을 이겨냈군요."</em><br>라운지에 인증을 올리자 대표 멘션 도착.<br><strong>"결국 해내셨군요."</strong></p>
-        </div>
-      </div>
-      <div class="t-row t-row-last">
-        <div class="t-time">23:00</div>
-        <div class="t-con">
-          <p class="t-evt">⑤ 인정 — 얼마나 왔는지 확인한다</p>
-          <p class="t-body">일주일 개근. <strong>명예의 전당에 이름이 올라갔다.</strong><br>타인과의 경쟁이 아닌, 어제의 나보다 나아졌음을 안다.<br>쇼츠를 보던 시간이 내일의 One-Thing을 설계하는 시간이 됐다.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
+<!-- ⑥ TRUST -->
 <section id="trust" class="sec">
   <div class="W">
     <p class="rule-q r">"감정을 토로했다면,<br>반드시 결과를 증명하라."</p>
+    <p class="trust-std r">우리 기준은 단 하나예요. <strong>어제의 나보다 나아졌는가.</strong><br>타인과 비교하지 않아요. 기록으로 증명해요.</p>
     <div class="trust-pills r">
-      <div class="tpill">⚙️ 행동과학 기반 설계</div>
-      <div class="tpill">🚫 결과 없인 함께할 수 없습니다</div>
-      <div class="tpill">✍️ 대표가 직접 멘션</div>
-      <div class="tpill">🛡️ 성공 시 전액 환급</div>
+      <div class="tpill tpill-grn">🛡️ 14일 효과 없으면 전액 환불</div>
+      <div class="tpill tpill-red">🚫 결과 없인 함께 못 해요</div>
+      <div class="tpill tpill-neu">⚙️ 행동과학 기반</div>
+      <div class="tpill tpill-neu">✍️ 대표가 직접 멘션</div>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
+<!-- ⑦ OFFER -->
 <section id="offer" class="sec">
   <div class="W">
-    <span class="sec-tag r">Choice of Pain</span>
-    <h2 class="sec-h r" style="margin-bottom:16px;">지금 참아낼 1g의 귀찮음인가요,<br>5년 뒤 짓눌릴 1톤의 후회인가요.</h2>
-    
-    <p class="offer-intent r" style="font-size:13px; color:var(--t2); line-height:1.75; margin-bottom:24px; border-left:2px solid var(--ln2); padding-left:14px;">
-      살면서 힘든 순간은 반드시 찾아옵니다. 우리가 할 수 있는 건 딱 하나, <strong>'어떤 힘듦을 겪을지'</strong> 먼저 선택하는 것뿐입니다.<br><br>
-      당장 폰을 끄고 오늘 해야 할 일 하나를 끝내는 <strong>'귀찮음'</strong>은 가볍고 금방 지나갑니다. 하지만 오늘 이 작은 귀찮음을 피하려다 5년 뒤 맞이할 <strong>'후회'</strong>는 내 인생을 1톤의 무게로 짓눌러 버립니다.
-    </p>
+    <span class="sec-tag r">Grand Slam Offer</span>
+    <h2 class="sec-h r">잃어버린 15시간을<br>되찾아줄 플랜.</h2>
 
-    <div class="price-box r">
-      <p class="price-lbl">30일 보증금 환급형 멤버십</p>
-
-      <div class="price-pain">
-        <div class="pain-row">
-          <span class="pain-label">1톤의 후회 (Regret)</span>
-          <span class="pain-cost">잃어버린 5년 · 기회비용 수천만 원</span>
-        </div>
-        <div class="pain-row">
-          <span class="pain-label">1g의 귀찮음 (Discipline)</span>
-          <span class="pain-cost green">성공 시 <strong>0원</strong></span>
-        </div>
+    <!-- 가격 대조 — 손실 vs 혜택 -->
+    <div class="price-pain r">
+      <div class="pain-row">
+        <span class="pain-lbl">지금 이대로라면</span>
+        <span class="pain-val">매월 45만 원 낭비 · 15시간 증발</span>
       </div>
-
-      <div class="price-num">290,000<sub>원</sub></div>
-      <p class="price-tag">⚖️ 1톤의 후회를 막기 위해 오늘 지불하는 <strong>1g의 귀찮음</strong>.</p>
-      <p class="price-note">30일 완료 + 증명 → <strong>보증금 전액 환급.</strong> 성공한다면 잃는 건 나태함뿐입니다.</p>
-    </div>
-
-    <div class="oc-wrap r">
-      <div class="oc">
-        <div class="oc-i">🛡️</div>
-        <div>
-          <p class="oc-t">성공하면 무료입니다</p>
-          <p class="oc-d">30일 성공 시 전액 환급. 또는 그 환급금을 다음 기수로 <strong>100% 이월(Rollover)</strong>하십시오. 당신이 계속 증명해 내는 한, 이 하이엔드 시스템은 <strong>평생 무료</strong>입니다.</p>
-        </div>
-      </div>
-      <div class="oc">
-        <div class="oc-i">🔄</div>
-        <div>
-          <p class="oc-t">무너져도 괜찮습니다</p>
-          <p class="oc-d">중요한 건 넘어진 당신을 자책감 속에 방치하지 않는 것입니다.<br>약속한 One-Thing을 해내지 못하면 현금 환불은 무효화됩니다.<br>하지만 당신의 도전을 거기서 끝내게 두지 않습니다.<br>실패하셨다면, 결제하신 29만 원은 다음 기수에 재도전할 수 있는 <strong>100% 크레딧</strong>으로 전환됩니다.<br>우리의 목적은 당신의 돈을 뺏는 것이 아니라, 당신이 기어코 실행해 내는 모습을 보는 것입니다.</p>
-        </div>
+      <div class="pain-row">
+        <span class="pain-lbl">ONE BLANK + 성공하면</span>
+        <span class="pain-val grn"><strong>0원</strong></span>
       </div>
     </div>
 
+    <!-- 3단계 미끼 효과 -->
+    <div class="plan-grid r">
+      <!-- Entry: 미끼 — 자제력 있는 분 전용 -->
+      <div class="plan">
+        <div class="plan-head"><span class="plan-name">Entry</span></div>
+        <div class="plan-price">49,000<sub>원</sub></div>
+        <p class="plan-title">Manual Blank</p>
+        <p class="plan-desc">AI 없이 스스로 통제하는 수동 노션 템플릿.<br>강력한 자제력이 있는 분에게만 추천해요.</p>
+      </div>
+      <!-- Core: 핵심 — 추천 -->
+      <div class="plan core">
+        <div class="plan-head">
+          <span class="plan-name">Core ⭐</span>
+          <span class="plan-badge">추천</span>
+        </div>
+        <div class="plan-price">149,000<sub>원</sub></div>
+        <p class="plan-value">개별 구매 시 591,000원 상당</p>
+        <p class="plan-title">ONE BLANK 1기 멤버십</p>
+        <div class="plan-items">
+          <div class="plan-item">12주 코어 리셋 프로그램</div>
+          <div class="plan-item">AI 감정 배출구 + 원 띵 자동화</div>
+          <div class="plan-item">Sunday Reset 개인화 리포트</div>
+        </div>
+        <p class="plan-highlight">149,000원으로 591,000원어치.<br>성공하면 그마저도 전액 돌아와요.</p>
+      </div>
+      <!-- Premium: 앵커 -->
+      <div class="plan">
+        <div class="plan-head"><span class="plan-name">Premium</span></div>
+        <div class="plan-price">390,000<sub>원</sub></div>
+        <p class="plan-title">Private Boardroom</p>
+        <p class="plan-desc">Core 전체 + 월 1회 익명 디렉터의 프라이빗 오디오 멘탈 진단.</p>
+      </div>
+    </div>
+
+    <!-- 보증 — 리스크 역전 -->
+    <div class="guar-list r">
+      <div class="guar-row">
+        <div class="guar-ico">🛡️</div>
+        <div>
+          <p class="guar-t">14일 효과 없으면 전액 환불</p>
+          <p class="guar-d">14일 동안 매일 아침 ONE BLANK를 사용했는데도<br>아침 멍때림이 사라지지 않고<br>하루 30분 시간을 절약하지 못했나요?<br><strong>묻지도 따지지도 않고 전액 돌려드려요.</strong></p>
+          <div class="guar-quote">당신의 시간과 커리어를 지켜내지 못하는 시스템이라면,<br>저희도 돈을 받을 자격이 없어요.</div>
+        </div>
+      </div>
+      <div class="guar-row">
+        <div class="guar-ico">🔄</div>
+        <div>
+          <p class="guar-t">무너져도 괜찮아요</p>
+          <p class="guar-d">14일 이후 중간에 실패해도<br>결제 금액 <strong>100% 다음 기수 크레딧</strong>으로 이월해드려요.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOMO — 타이밍 -->
     <div class="fomo r">
-      <p class="fomo-t">지금 결제해야 하는 이유</p>
+      <p class="fomo-t">지금 신청해야 하는 이유</p>
       <div class="fomo-list">
-        <div class="fomo-row">50명 마감 시 다음 기수는 최소 3개월 후</div>
-        <div class="fomo-row">1기 창립 멤버만 대표 직접 멘션 혜택 영구 제공</div>
+        <div class="fomo-row">50명 마감 시 다음 기수 최소 3개월 후</div>
+        <div class="fomo-row">창립 멤버 혜택은 1기뿐이에요</div>
       </div>
     </div>
 
-    <div class="guar r">
-      <div class="guar-i">🛡️</div>
-      <div>
-        <div class="guar-lbl">30일 무조건 환급 보증</div>
-        <p class="guar-t">미션 성공 시 묻지도 따지지도 않고 전액 환급합니다.</p>
+    <!-- 결제 후 장면 — 결정 이후 선명한 미래 -->
+    <div class="after-scene r">
+      <span class="after-lbl">신청하면 바로 이렇게 돼요</span>
+      <div class="after-rows">
+        <div class="after-row"><span class="after-n">1</span><span>노션 복제 링크 즉시 발송</span></div>
+        <div class="after-row"><span class="after-n">2</span><span>프라이빗 라운지 초대 — 오늘 밤부터 소속</span></div>
+        <div class="after-row"><span class="after-n">3</span><span>내일 아침, 고민 없이 One-Thing 하나만</span></div>
       </div>
     </div>
 
-    <div class="faq-inline r">
-      <p class="faq-inline-lbl">신청 전 궁금한 것들</p>
-      <div class="faq-list">
-        <div class="fi">
-          <button class="fq" onclick="doFaq(this)"><span class="fq-t">하루라도 빠지면 환불이 안 되나요?</span><span class="fq-i">+</span></button>
-          <div class="fa">One-Thing은 5분짜리도 됩니다.<br>거창할 필요 없습니다.<br>매일 완료하고 증명하면 30일 후 전액 환급.</div>
-        </div>
-        <div class="fi">
-          <button class="fq" onclick="doFaq(this)"><span class="fq-t">노션을 써본 적이 없어도 되나요?</span><span class="fq-i">+</span></button>
-          <div class="fa">버튼 하나로 복제, 세 칸만 채우면 됩니다. 5분 안에 시작 가능. 온보딩 가이드 제공합니다.</div>
-        </div>
-        <div class="fi">
-          <button class="fq" onclick="doFaq(this)"><span class="fq-t">실패하면 정말 환불이 없나요?</span><span class="fq-i">+</span></button>
-          <div class="fa">30일 미달성 시 환불되지 않습니다.<br>돈을 걸어야 실행합니다.<br>하지만 며칠이라도 싸운 경험은 평생 남습니다.</div>
-        </div>
-        <div class="fi">
-          <button class="fq" onclick="doFaq(this)"><span class="fq-t">왜 대표가 직접 수동으로 멘션을 달아주나요?</span><span class="fq-i">+</span></button>
-          <div class="fa">기계적인 AI 알림보다, 진짜 치열하게 살아본 사람의 묵직한 인정 한 번이 인간을 움직이게 한다는 것을 알기 때문입니다. 그 한 줄이 내일도 책상에 앉게 만듭니다.</div>
-        </div>
+    <!-- FAQ — 망설임 포착 -->
+    <span class="faq-lbl r">신청 전 궁금한 것들</span>
+    <div class="faq-list r">
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">하루라도 빠지면 환불이 안 되나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">One-Thing은 5분짜리도 돼요. 매일 완료하고 증명하면 30일 후 전액 환급이에요.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">노션을 써본 적 없어도 되나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">버튼 하나로 복제, 세 칸만 채우면 돼요. 5분 안에 시작 가능해요.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">14일 환불 조건이 뭔가요?</span><span class="fq-i">+</span></button>
+        <div class="fa">14일 동안 매일 아침 ONE BLANK를 사용했는데 효과를 못 느꼈다면 전액 환불해드려요. 사용 기록만 보여주시면 돼요.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">Core랑 Entry 중 뭘 골라야 하나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">혼자서 꾸준히 해낸 적 없다면 Core예요. 대부분의 1기 멤버는 Core를 선택해요. 성공하면 어차피 전액 돌아오니까요.</div>
       </div>
     </div>
 
-    <div class="decision-box r">
-      <p class="decision-txt">결정(Decision)의 어원은 <strong>'잘라내다'</strong>입니다.<br>지금 이 버튼을 누르는 순간, 당신은 도파민과 핑계를 잘라냅니다.</p>
-    </div>
-
+    <!-- CTA -->
     <div class="cta-stack r">
       <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        ONE BLANK 참가 신청서 작성하기 →
+        위험 부담 0원, ONE BLANK 1기 선점하기 →
       </button>
-      <p class="btn-note">⚡ 50명 한정 · 잔여 극소수 <em>· 성공 시 전액 환급</em></p>
-      
-      </div>
+      <p class="btn-note">⚡ 단 50명 · 잔여 극소수 <em>· 14일 효과 없으면 전액 환불</em></p>
+      <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
+        아직 망설여진다면 → 무료 안티 비전 시트 먼저 받기
+      </button>
+    </div>
   </div>
 </section>
 
 <hr class="div">
 
+<!-- FINAL CTA -->
 <section id="final">
   <div class="W">
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
-      <h2 class="fi-h">지금 닫으면,<br><em>오늘 밤도 쇼츠입니다.</em></h2>
-      <p class="fi-sub">단 <strong>50명.</strong> 잔여 스팟 극소수.<br>창립 멤버 혜택은 <strong>1기뿐</strong>입니다.</p>
+      <h2 class="fi-h">지금 닫으면,<br><em>오늘 밤도 쇼츠예요.</em></h2>
+      <p class="fi-sub">단 <strong>50명.</strong> 잔여 스팟 극소수.<br>창립 멤버 혜택은 <strong>1기뿐</strong>이에요.</p>
       <div class="loss-box">
         <span>⚠</span>
-        <span>지금 안 하면 잃는 것 — <strong>실행 환경 + 연대 + 29만 원 환급 기회</strong></span>
+        <span>지금 안 하면 잃는 것 — <strong>실행 환경 + 연대 + 환급 기회</strong></span>
       </div>
-      <p class="fi-guar">🛡️ 30일 성공 시 100% 환급 · Stripe 결제</p>
+      <div class="cta-stack" style="margin-bottom:14px">
+        <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
+          ONE BLANK 1기 경험 시작하기 →
+        </button>
+        <p class="btn-note">⚡ 50명 한정 · <em>14일 효과 없으면 전액 환불</em></p>
+      </div>
+      <p class="fi-guar">🛡️ 14일 ROI 100% 환불 보장 · Stripe 결제</p>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
+<!-- WAITLIST -->
 <section id="wl">
   <div class="W">
     <div class="wl-in r">
-      <p class="sec-tag" style="margin-bottom:10px">아직 준비가 안 됐다면</p>
+      <p class="sec-tag" style="margin-bottom:10px">아직 준비가 안 됐나요?</p>
       <h2 class="wl-h">무료 시트 받기</h2>
-      <p class="wl-copy">오늘 밤도 쇼츠를 보며 2시간을 버리시겠습니까?<br>차라리 그 시간에 <strong>&lt;1페이지 안티 비전 시트&gt;</strong>를 채우십시오.<br>폼 작성 시 잔여 스팟 발생 시 가장 먼저 안내드립니다.</p>
-      <button class="btn btn-ghost" style="max-width:340px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
+      <p class="wl-copy">오늘 밤 쇼츠 보며 2시간 날리기 전에<br>딱 5분만 써보세요.<br><strong>&lt;안티 비전 시트&gt;</strong> 무료로 드릴게요.<br>다음 기수 자리 날 때 가장 먼저 알려드려요.</p>
+      <button class="btn btn-ghost" style="max-width:320px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
         무료 안티 비전 시트 받기 →
       </button>
     </div>
@@ -708,25 +727,90 @@ footer{padding:26px 22px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <footer>
   © 2026 ONE BLANK &nbsp;&nbsp;·&nbsp;&nbsp;
+  <span style="opacity:.35">80% Stoic, 20% Human.</span>
 </footer>
 
+
+<!-- ══ EXIT-INTENT POPUP ══ -->
+<div id="exit-popup" role="dialog" aria-modal="true">
+  <div class="ep-box">
+    <button class="ep-close" onclick="closePopup()" aria-label="닫기">✕</button>
+    <span class="ep-tag">🚨 잠깐, 아직 결제할 준비가 안 되셨나요?</span>
+    <h2 class="ep-h">오늘 밤도<br><em>쇼츠 2시간</em> 날리실 건가요?</h2>
+    <p class="ep-body">
+      딱 5분만 써보세요.<br>
+      당신의 멘탈을 지켜줄<br>
+      <strong>&lt;1페이지 안티 비전 시트&gt;</strong>를 무료로 드려요.<br><br>
+      작성하시면 다음 기수 잔여 스팟 발생 시<br>
+      <strong>가장 먼저 안내해 드려요.</strong>
+    </p>
+    <button class="btn btn-solid" style="margin-bottom:10px" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank');closePopup()">
+      무료 안티 비전 시트 이메일로 받기 →
+    </button>
+    <button class="btn btn-ghost" onclick="closePopup()" style="font-size:12px;padding:12px">
+      괜찮아요, 오늘 밤도 쇼츠 볼게요
+    </button>
+  </div>
+</div>
+
+
 <script>
+/* ── PROGRESS BAR ── */
 window.addEventListener('scroll',()=>{
   const p=window.scrollY/(document.documentElement.scrollHeight-innerHeight)*100;
   document.getElementById('pbar').style.width=p+'%';
 },{passive:true});
 
+/* ── REVEAL ── */
 const ro=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
 },{threshold:.1});
 document.querySelectorAll('.r').forEach(el=>ro.observe(el));
 
+/* ── FAQ ── */
 function doFaq(btn){
   const a=btn.nextElementSibling;
   const open=btn.classList.contains('open');
   document.querySelectorAll('.fq.open').forEach(b=>{b.classList.remove('open');b.nextElementSibling.classList.remove('on')});
   if(!open){btn.classList.add('open');a.classList.add('on');}
 }
+
+/* ── EXIT-INTENT POPUP ── */
+let popupShown=false;
+
+function showPopup(){
+  if(popupShown)return;
+  popupShown=true;
+  document.getElementById('exit-popup').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closePopup(){
+  document.getElementById('exit-popup').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+// 데스크톱: 마우스가 뷰포트 상단 이탈
+document.addEventListener('mouseleave',e=>{
+  if(e.clientY<=0)showPopup();
+});
+
+// 모바일: 뒤로가기 제스처 감지
+history.pushState(null,'',location.href);
+window.addEventListener('popstate',()=>{
+  showPopup();
+  history.pushState(null,'',location.href);
+});
+
+// 팝업 외부 클릭 시 닫기
+document.getElementById('exit-popup').addEventListener('click',function(e){
+  if(e.target===this)closePopup();
+});
+
+// ESC 키
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closePopup();
+});
 </script>
 </body>
 </html>
