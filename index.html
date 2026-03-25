@@ -92,7 +92,7 @@ nav{
 @keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
 .n-badge{
   font-size:11px;font-weight:800;letter-spacing:.08em;
-  color:var(--red);border:1px solid var(--red3);
+  color:#286bff;border:1px solid rgba(40,107,255,.35);
   padding:5px 12px;border-radius:40px;
   animation:pulse 3s ease-in-out infinite;
 }
@@ -572,6 +572,67 @@ nav{
 .ep-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:20px}
 .ep-body strong{color:var(--t1);font-weight:700}
 
+
+/* sys-proof — 인정·기록 */
+.sys-proof{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.sys-proof-row{font-size:13px;color:var(--t2);line-height:1.55;display:flex;align-items:flex-start;gap:8px}
+
+/* brand-std — 브랜드 기준 */
+.brand-std{font-size:15px;color:var(--t2);line-height:1.75;margin-bottom:20px;padding-left:2px}
+.brand-std strong{color:var(--t1);font-weight:800}
+
+/* plan-dismiss — Entry 억제 경고 */
+.plan-dismiss{
+  margin-top:8px;padding:10px 12px;
+  background:var(--red2);border:1px solid var(--red3);
+  border-radius:2px;font-size:13px;color:var(--red);
+  line-height:1.6;font-weight:600;
+}
+
+/* plan-most — Core "대부분 선택" 뱃지 */
+.plan-most{
+  font-size:10px;font-weight:800;letter-spacing:.06em;
+  color:var(--t3);margin-left:auto;
+  white-space:nowrap;
+}
+
+/* Core 플랜 강조 — 패딩 살짝 더 */
+.plan.core{padding:26px 20px}
+
+
+
+/* ══ 신뢰 블록 ══ */
+
+.trust-badge{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--grn);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.trust-badge::before{content:'🔒';font-size:13px;letter-spacing:0}
+.trust-h{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.4}
+.trust-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:16px}
+.trust-body em{font-style:normal;color:var(--t1);font-weight:700}
+.trust-rows{display:flex;flex-direction:column;gap:8px}
+.trust-row{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--t2);line-height:1.6}
+.trust-row::before{content:'—';flex-shrink:0;color:var(--grn);font-weight:700}
+
+
+/* ══ 혜택 6카드 ══ */
+#benefits{background:var(--bg);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ln)}
+.feat-card{background:var(--bg);padding:20px 16px;transition:background .18s}
+.feat-card:hover{background:var(--bg2)}
+.feat-ico{font-size:22px;margin-bottom:8px}
+.feat-name{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
+.feat-desc{font-size:13px;color:var(--t2);line-height:1.65}
+
+
+/* ══ 누락 CSS 보완 ══ */
+.brand-std{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.brand-std strong{color:var(--t1);font-weight:800}
+.plan-dismiss{font-size:12px;color:var(--red);font-weight:600;margin-top:8px;line-height:1.5}
+.plan-most{font-size:10px;font-weight:700;color:var(--grn);margin-left:4px;letter-spacing:.04em}
+.sys-proof{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.sys-proof-row{font-size:13px;color:var(--t2);line-height:1.6;display:flex;align-items:baseline;gap:7px}
+/* benefits 패딩 */
+#benefits{background:var(--bg);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:40px 0}
+
 /* ══ FOOTER ══ */
 footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-size:13px;color:var(--t3);letter-spacing:.1em;line-height:2}
 
@@ -625,13 +686,13 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
   <h1 class="h1">비전 보드는<br>찢어버리세요.</h1>
 
-  <p class="h-def">실행보다 계획이 앞서는 2030 여성 창업가/프리랜서를 위한<br><strong>초몰입 실행 라운지, ONE BLANK</strong></p>
+  <p class="h-def">2030 여성 창업가·프리랜서를 위한<br><strong>초몰입 실행 라운지, ONE BLANK</strong></p>
 
   <p class="h-sub">일주일 스타벅스 두 잔 값으로<br><strong>당신의 실행을 강제할 프라이빗 코치</strong>를 고용하세요.</p>
 
   <div class="h-cta">
     <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
-      보안 코드 발급받기 (1기 한정) →
+      ONE BLANK 1기 경험 시작하기 →
     </button>
     <p class="btn-note">⚡ 단 50명 한정 · 잔여 스팟 극소수 · <em>30일 효과 없으면 전액 환불</em></p>
     <div class="warn">
@@ -673,22 +734,21 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       <span class="av-year">5년</span>
       <div class="av-sub">최악의 미래까지 남은 시간</div>
       <p class="av-body">
-        화려한 인맥 모임, 남는 것 없는 공허한 밤.<br>
+        열심히 한 것 같은데, 뭘 했는지 모르는 하루.<br>
+        또 자려는데 '오늘도 그냥 넘겼다'는 느낌.<br>
         <strong>지금 이 패턴이 5년 후에도 계속된다면?</strong>
       </p>
     </div>
 
-    <p class="prob-body r">의지의 문제가 아니에요.<br>당신을 지켜낼 <strong>'시스템'이 없었을 뿐</strong>이에요.</p>
-
     <div class="ba r">
       <div class="ba-row ba-before">
         <span class="ba-tag">BEFORE</span>
-        <span class="ba-txt">눈 뜸 → 쏟아지는 할 일 → 압도됨 → <strong>실행 지연 + 자책</strong></span>
+        <span class="ba-txt">눈 뜸 → 할 일 폭탄 → 압도됨 → <strong>자책</strong></span>
       </div>
       <div class="ba-divider">👤 ONE BLANK 접속 후</div>
       <div class="ba-row ba-after">
         <span class="ba-tag">AFTER</span>
-        <span class="ba-txt">눈 뜸 → 접속 → <strong>할 것 딱 1개만</strong> → 바로 집중 시작</span>
+        <span class="ba-txt">눈 뜸 → 접속 → <strong>할 것 딱 1개만</strong> → 바로 시작</span>
       </div>
     </div>
   </div>
@@ -710,7 +770,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
           <span class="sys-tag emp">20% 공감</span>
           <span class="sys-title">AI 감정 배출구</span>
         </div>
-        <p class="sys-desc">아침의 불안과 피곤함을 쏟아내세요. 즉시 <strong>시각적으로 삭제</strong>되며, 한 줄 메시지가 머릿속을 가볍게 비워줘요.</p>
+        <p class="sys-desc">아침의 불안을 쏟아내면 <strong>즉시 사라져요.</strong> 뇌가 비워지고 실행 모드가 켜져요.</p>
       </div>
       <div class="sys-card">
         <div class="sys-step">Step 02. 강제 몰입</div>
@@ -728,7 +788,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
           <span class="sys-tag rew">도파민 보상</span>
           <span class="sys-title">ROI 대시보드</span>
         </div>
-        <p class="sys-desc">끝나는 순간 바로, 내가 아낀 시간을 <strong>돈으로 환산해서 보여줘요.</strong> 오늘도 앞으로 나아가고 있다는 확신을 가지세요.</p>
+        <p class="sys-desc">끝나는 순간, 내가 아낀 시간을 <strong>돈으로 환산해서 보여줘요.</strong></p>
         <div class="roi-box">"오늘 절약한 시간: 30분 / 벌어들인 가치: <strong>35,000원</strong>"</div>
       </div>
     </div>
@@ -744,27 +804,25 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <h2 class="sec-h r">묵묵히 실행하는<br>사람들의 공간.</h2>
 
     <p class="tribe-quote r">
-      "화려한 공유 대신 조용한 실행.<br>여기서는 결과만이 말합니다."<br>
-      <em>— 말보다 행동으로 증명하는 사람들의 프라이빗 공간</em>
+      "화려한 공유 대신 조용한 실행.<br>여기서는 결과만이 말합니다."
     </p>
 
     <div class="social-bar r">
-      <div class="sp live"><span class="sp-dot"></span>✦ 현재 7명 접속 중</div>
       <div class="sp hours">🔥 누적 절약 4,200시간</div>
       <div class="sp report">💌 매주 일요일 리포트</div>
     </div>
 
     <div class="fit r">
       <div class="fit-col yes">
-        <div class="fit-h">✅ 우리가 원하는 분들</div>
-        <div class="fit-item">인맥보다 내 일의 밀도를 높이고 싶은 분</div>
-        <div class="fit-item">계획 말고 오늘의 결과로 증명하는 분</div>
-        <div class="fit-item">비슷한 사람들 사이의 조용한 소속감이 필요한 분</div>
+        <div class="fit-h">✅ 이런 분을 기다려요</div>
+        <div class="fit-item">"알아. 근데 왜 나는 못 하지?" 자책이 반복되는 분</div>
+        <div class="fit-item">계획은 잘 세우는데 실행이 안 되는 분</div>
+        <div class="fit-item">조용히, 혼자, 그냥 해내고 싶은 분</div>
       </div>
       <div class="fit-col no">
-        <div class="fit-h">❌ 정중히 사양합니다</div>
-        <div class="fit-item">이름 묻고 근황 나누는 친목을 기대하는 분</div>
-        <div class="fit-item">결제하고 실행은 안 하시는 분</div>
+        <div class="fit-h">❌ 솔직히 안 맞아요</div>
+        <div class="fit-item">동기부여 콘텐츠 보고 만족하는 분</div>
+        <div class="fit-item">어제랑 똑같이 살아도 괜찮은 분</div>
       </div>
     </div>
   </div>
@@ -775,17 +833,17 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 <!-- ⑥ OFFER -->
 <section id="offer" class="sec">
   <div class="W">
-    <span class="sec-tag r">Grand Slam Offer</span>
+    <span class="sec-tag r">플랜 선택</span>
     <h2 class="sec-h r">잃어버린 하루 30분을<br>현금으로 되찾는 플랜.</h2>
 
     <div class="price-pain r">
       <div class="pain-row">
         <span class="pain-lbl">지금 이대로라면</span>
-        <span class="pain-val">매일 결정 피로 · 실행 지연</span>
+        <span class="pain-val" style="color:var(--red)">매월 <strong style="color:var(--red)">45만 원</strong> 손실 계속</span>
       </div>
       <div class="pain-row">
-        <span class="pain-lbl">ONE BLANK + 본전 회수하면</span>
-        <span class="pain-val grn"><strong>0원</strong> (오히려 +가치)</span>
+        <span class="pain-lbl">ONE BLANK + 성공하면</span>
+        <span class="pain-val grn"><strong>0원</strong></span>
       </div>
     </div>
 
@@ -794,7 +852,8 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
         <div class="plan-head"><span class="plan-name">Entry</span></div>
         <div class="plan-price">49,000<sub>원</sub></div>
         <p class="plan-title">Manual Blank</p>
-        <p class="plan-desc">AI 없이 스스로 통제하는 수동 템플릿.<br>강력한 자제력이 있는 분에게만 추천해요.</p>
+        <p class="plan-desc">AI 없이 스스로 통제하는 수동 템플릿.</p>
+        <p class="plan-dismiss">⚠ 혼자서 꾸준히 해낸 경험 있는 분만</p>
       </div>
       <div class="plan core">
         <div class="plan-head">
@@ -802,21 +861,20 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
           <span class="plan-badge">추천</span>
         </div>
         <div class="plan-price">149,000<sub>원</sub></div>
-        <p class="plan-coach">나만의 프라이빗 마인드 코치 고용비용</p>
         <p class="plan-title">ONE BLANK 1기 멤버십</p>
         <div class="plan-items">
           <div class="plan-item">라운지 입장 보안 코드 발급</div>
           <div class="plan-item">AI 감정 리셋 + 원 띵 포커스 자동화</div>
-          <div class="plan-item">ROI 대시보드 (내 시급 커스텀 기능)</div>
-          <div class="plan-item">Sunday Reset 개인화 리포트 (매주 일요일)</div>
+          <div class="plan-item">ROI 대시보드 (내 시급 커스텀)</div>
+          <div class="plan-item">Sunday Reset 개인화 리포트</div>
         </div>
-        <p class="plan-highlight">커피 두 잔 값으로 아침을 통제하세요.<br>성공하면 14만 원 이상의 가치로 돌아와요.</p>
+        <p class="plan-highlight">성공하면 전액 돌아와요.</p>
       </div>
       <div class="plan">
         <div class="plan-head"><span class="plan-name">Premium</span></div>
         <div class="plan-price">390,000<sub>원</sub></div>
         <p class="plan-title">Private Boardroom</p>
-        <p class="plan-desc">Core 전체 + 월 1회 익명 디렉터의 프라이빗 오디오 멘탈 진단.</p>
+        <p class="plan-desc">Core 전체 + 월 1회 익명 디렉터의 프라이빗 멘탈 진단.</p>
       </div>
     </div>
 
@@ -824,22 +882,15 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       <div class="guar-row">
         <div class="guar-ico">🛡️</div>
         <div>
-          <p class="guar-t">30일 '실행 보장' 100% 환불</p>
-          <p class="guar-d"><strong>진짜로 실행하는 분들의 리스크는 0원</strong>이에요.</p>
-          <div class="guar-cond">
-            만약 <strong>30일 동안 단 하루도 빠짐없이</strong> 매일 아침 라운지에 접속하고<br>
-            원 띵(One-Thing)을 작성했음에도<br>
-            '본전 회수의 감각'(내 투자가 충분히 가치 있었다는 느낌)을 못 느끼셨다면,<br>
-            <strong>전액 돌려드려요.</strong>
-          </div>
-          <div class="guar-quote">리스크는 모두 ONE BLANK가 집니다.</div>
+          <p class="guar-t">30일 효과 없으면 전액 환불</p>
+          <p class="guar-d"><strong>매일 아침 접속하고 원 띵을 작성했는데도</strong> 효과를 못 느끼셨다면 — 전액 돌려드려요.</p>
         </div>
       </div>
       <div class="guar-row">
         <div class="guar-ico">🔄</div>
         <div>
-          <p class="guar-t">무너져도 괜찮아요</p>
-          <p class="guar-d">결제 금액 <strong>100%를 다음 기수 참가권으로 넘겨드려요.</strong><br>도전은 끝나지 않아요.</p>
+          <p class="guar-t">중간에 무너져도 괜찮아요</p>
+          <p class="guar-d">결제 금액 <strong>100%를 다음 기수 참가권</strong>으로 이월해드려요.</p>
         </div>
       </div>
     </div>
@@ -847,43 +898,37 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <div class="fomo r">
       <p class="fomo-t">지금 신청해야 하는 이유</p>
       <div class="fomo-list">
-        <div class="fomo-row">50명 마감 → 2기 오픈 최소 3개월 후 예정</div>
-        <div class="fomo-row">지금 결제하면 오늘 밤부터 ONE BLANK 소속</div>
-      </div>
-    </div>
-
-    <div class="after-scene r">
-      <span class="after-lbl">신청하시면 일어나는 일</span>
-      <div class="after-rows">
-        <div class="after-row"><span class="after-n">1</span><span>보안 입장 코드 즉시 발급</span></div>
-        <div class="after-row"><span class="after-n">2</span><span>프라이빗 라운지 초대 — 오늘 밤부터 소속</span></div>
-        <div class="after-row"><span class="after-n">3</span><span>내일 아침, 고민 없이 One-Thing에만 몰입</span></div>
+        <div class="fomo-row">50명 마감 → 2기 오픈 최소 3개월 후</div>
       </div>
     </div>
 
     <span class="faq-lbl r">신청 전 궁금한 것들</span>
     <div class="faq-list r">
       <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">하루라도 빠지면 환불이 안 되나요?</span><span class="fq-i">+</span></button>
-        <div class="fa">One-Thing은 5분짜리도 돼요. 매일 완료하고 증명하면 30일 후 전액 환급이에요.</div>
-      </div>
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 조건이 정확히 뭔가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">30일 동안 단 하루도 빠짐없이 매일 아침 접속하고 원 띵을 작성했는데도 효과를 못 느꼈다면 전액 환불해드려요. 단순 변심은 해당 안 돼요.</div>
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 조건이 뭔가요?</span><span class="fq-i">+</span></button>
+        <div class="fa">매일 아침 접속하고 원 띵을 작성했는데도 효과를 못 느꼈다면 전액 환불해드려요. 단순 변심은 해당 안 돼요.</div>
       </div>
       <div class="fi">
         <button class="fq" onclick="doFaq(this)"><span class="fq-t">Core랑 Entry 중 뭘 골라야 하나요?</span><span class="fq-i">+</span></button>
         <div class="fa">혼자서 꾸준히 해낸 적 없다면 Core예요. 성공하면 어차피 전액 돌아오니까요.</div>
       </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">지금 바로 시작할 수 있나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">결제 직후 보안 코드가 발급돼요. 오늘 밤부터 바로 접속 가능해요.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">다른 생산성 앱이랑 뭐가 다른가요?</span><span class="fq-i">+</span></button>
+        <div class="fa">앱은 도구예요. ONE BLANK는 구조예요. 뭘 할지 골라주고, 감정을 정리해주고, 오늘의 가치를 돈으로 보여주는 실행 강제 시스템이에요.</div>
+      </div>
     </div>
 
     <div class="cta-stack r">
       <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        위험 부담 0원, ONE BLANK 1기 합류하기 →
+        위험 부담 0원 — 지금 바로 경험 시작하기 →
       </button>
-      <p class="btn-note">⚡ 단 50명 · 잔여 극소수 <em>· 30일 효과 없으면 전액 환불</em></p>
+      <p class="btn-note">⚡ 단 50명 · <em>30일 효과 없으면 전액 환불</em></p>
       <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        아직 망설여진다면 → 무료 안티 비전 시트 먼저 받기
+        아직 망설여진다면 → 무료 안티 비전 시트
       </button>
     </div>
   </div>
@@ -896,11 +941,11 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
   <div class="W">
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
-      <h2 class="fi-h">지금 닫으면,<br><em>내일도 투두 리스트만 적습니다.</em></h2>
-      <p class="fi-sub">단 <strong>50명,</strong> 지금도 자리는 줄어들고 있어요.<br>50명 마감 시, ONE BLANK 2기 오픈은<br><strong>최소 3개월 후</strong>예요.</p>
+      <h2 class="fi-h">지금 닫으면,<br><em>내일도 같은 아침입니다.</em></h2>
+      <p class="fi-sub">단 <strong>50명.</strong> 마감 후 2기는 <strong>최소 3개월 후</strong>예요.</p>
       <div class="loss-box">
         <span>⚠</span>
-        <span>지금 이 창을 닫으면 잃는 것 — <strong>압도적 실행 환경 + ONE BLANK의 연대</strong></span>
+        <span>지금 닫으면 — <strong>50명 중 내 자리가 사라져요</strong></span>
       </div>
       <div class="cta-stack" style="margin-bottom:16px">
         <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
@@ -908,7 +953,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
         </button>
         <p class="btn-note">⚡ 50명 한정 · <em>30일 효과 없으면 100% 환불</em></p>
       </div>
-      <p class="fi-guar">🛡️ 30일 효과 없으면 100% 환불 · 토스 안전 결제 · 익명 보장</p>
+      <p class="fi-guar">🛡️ 30일 환불 보장 · 토스 안전 결제 · 익명 보장</p>
     </div>
   </div>
 </section>
@@ -919,7 +964,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 <section id="wl">
   <div class="W">
     <div class="wl-in r">
-      <p class="sec-tag" style="margin-bottom:10px">아직 결제가 망설여지시나요?</p>
+      <p class="sec-tag" style="margin-bottom:10px">아직 망설여지시나요?</p>
       <h2 class="wl-h">무료 안티 비전 시트</h2>
       <p class="wl-copy">딱 5분만 적어보세요.<br><strong>&lt;안티 비전 시트&gt;</strong> 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
       <button class="btn btn-ghost" style="max-width:320px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
@@ -939,20 +984,14 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 <div id="exit-popup" role="dialog" aria-modal="true">
   <div class="ep-box">
     <button class="ep-close" onclick="closePopup()" aria-label="닫기">✕</button>
-    <span class="ep-tag">잠깐, 아직 결제할 준비가 안 되셨나요?</span>
-    <h2 class="ep-h">오늘 밤도<br><em>투두 리스트만 적을 건가요?</em></h2>
-    <p class="ep-body">
-      딱 5분만 써보세요.<br>
-      당신의 멘탈을 지켜줄<br>
-      <strong>&lt;1페이지 안티 비전 시트&gt;</strong>를 무료로 드려요.<br><br>
-      다음 기수 잔여 스팟 발생 시<br>
-      <strong>가장 먼저 안내해 드려요.</strong>
-    </p>
+    <span class="ep-tag">잠깐, 아직 준비가 안 되셨나요?</span>
+    <h2 class="ep-h">오늘 밤도<br><em>같은 아침이 반복됩니다.</em></h2>
+    <p class="ep-body"><strong>&lt;안티 비전 시트&gt;</strong>를 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
     <button class="btn btn-solid" style="margin-bottom:12px" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank');closePopup()">
       무료 안티 비전 시트 받기 →
     </button>
     <button class="btn btn-ghost" onclick="closePopup()" style="font-size:13px;padding:14px">
-      괜찮아요, 오늘 밤도 투두 리스트 적을게요
+      괜찮아요, 그냥 닫을게요
     </button>
   </div>
 </div>
