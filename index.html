@@ -15,30 +15,33 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 :root{
   --bg:  #0a0a0a;
   --bg1: #0e0e0e;
-  --bg2: #161616;
+  --bg2: #141414;
+  --bg3: #1a1a1a;
 
-  /* 텍스트 — WCAG AA 기준 통과 */
-  --t1: #f2f2ee;   /* 헤드라인 — 대비율 18:1 */
-  --t2: #c8c8c2;   /* 본문 — 대비율 9:1 */
-  --t3: #9a9a94;   /* 보조 레이블 전용 — 대비율 5:1 */
+  --t1: #f2f2ee;
+  --t2: #c8c8c2;
+  --t3: #8a8a84;
 
-  --ln:  rgba(255,255,255,.08);
-  --ln2: rgba(255,255,255,.15);
+  --ln:  rgba(255,255,255,.07);
+  --ln2: rgba(255,255,255,.13);
+  --ln3: rgba(255,255,255,.22);
 
-  /* 빨강: 경고·손실·FOMO */
   --red:  #e05c5c;
-  --red2: rgba(224,92,92,.1);
-  --red3: rgba(224,92,92,.25);
+  --red2: rgba(224,92,92,.08);
+  --red3: rgba(224,92,92,.22);
 
-  /* 초록: 혜택·환불·해결 */
   --grn:  #4fba7c;
-  --grn2: rgba(79,186,124,.1);
-  --grn3: rgba(79,186,124,.25);
+  --grn2: rgba(79,186,124,.08);
+  --grn3: rgba(79,186,124,.22);
 
-  /* 앰버: 보상·성취 */
   --amb:  #d4a84b;
-  --amb2: rgba(212,168,75,.1);
-  --amb3: rgba(212,168,75,.25);
+  --amb2: rgba(212,168,75,.08);
+  --amb3: rgba(212,168,75,.22);
+
+  /* Glass */
+  --glass-bg: rgba(255,255,255,.04);
+  --glass-bd: rgba(255,255,255,.1);
+  --glass-blur: blur(16px);
 }
 
 /* ══ BASE ══ */
@@ -51,6 +54,7 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
+/* 노이즈 텍스처 */
 body::after{
   content:'';position:fixed;inset:0;z-index:997;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
@@ -62,21 +66,40 @@ body::after{
 .sec{padding:56px 0}
 hr.div{border:none;border-top:1px solid var(--ln)}
 
+/* ══ ANIMATIONS ══ */
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
+@keyframes glow{
+  0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.09)}
+}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
 /* ══ REVEAL ══ */
-.r{opacity:0;transform:translateY(14px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.r{opacity:0;transform:translateY(16px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
 .r.in{opacity:1;transform:none}
 .r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
 
-/* ══ PROGRESS ══ */
-#pbar{position:fixed;top:0;left:0;z-index:996;height:2px;width:0%;background:rgba(255,255,255,.2);transition:width .1s linear}
+/* ══ PROGRESS BAR ══ */
+#pbar{
+  position:fixed;top:0;left:0;z-index:998;
+  height:2px;width:0%;
+  background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.5),rgba(255,255,255,.1));
+  background-size:200% 100%;
+  animation:shimmer 2s infinite;
+  transition:width .1s linear;
+}
 
-/* ══ NAV ══ */
+/* ══ NAV — glass ══ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
   padding:0 20px;height:52px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,10,10,.93);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--ln);
+  background:rgba(10,10,10,.7);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-bd);
 }
 .n-logo{
   font-size:13px;font-weight:900;letter-spacing:.18em;
@@ -84,15 +107,17 @@ nav{
 }
 .n-logo::before{
   content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--t1);opacity:.4;
+  background:var(--t1);opacity:.5;
   animation:pulse 3s ease-in-out infinite;
 }
-@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
 .n-badge{
   font-size:11px;font-weight:800;letter-spacing:.08em;
-  color:#286bff;border:1px solid rgba(40,107,255,.35);
+  color:#286bff;
+  border:1px solid rgba(40,107,255,.4);
+  background:rgba(40,107,255,.08);
   padding:5px 12px;border-radius:40px;
   animation:pulse 3s ease-in-out infinite;
+  backdrop-filter:blur(8px);
 }
 
 /* ══ HERO ══ */
@@ -105,46 +130,36 @@ nav{
 .h-grid{
   position:absolute;inset:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
-  background-size:56px 56px;
-  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
 }
 .h-glow{
   position:absolute;top:44%;left:50%;
-  width:560px;height:560px;pointer-events:none;
-  background:radial-gradient(circle,rgba(255,255,255,.014) 0%,transparent 66%);
+  width:600px;height:600px;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.018) 0%,transparent 66%);
   transform:translate(-50%,-50%);
   animation:glow 7s ease-in-out infinite;
 }
-@keyframes glow{
-  0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:1;transform:translate(-50%,-50%) scale(1.09)}
-}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
 .h-hook{
   font-size:15px;font-weight:600;color:var(--t2);
   letter-spacing:.02em;margin-bottom:20px;
-  max-width:320px;
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .1s;
 }
 .h-hook em{font-style:normal;color:var(--red);font-weight:800}
-
 .h1{
   font-size:clamp(36px,9.5vw,78px);
   font-weight:900;line-height:1.06;letter-spacing:-.04em;
   margin-bottom:16px;
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .22s;
 }
-
 .h-def{
   font-size:15px;font-weight:500;
-  color:var(--t2);line-height:1.7;margin-bottom:16px;
+  color:var(--t2);line-height:1.7;margin-bottom:14px;
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .34s;
 }
 .h-def strong{color:var(--t1);font-weight:800}
-
 .h-sub{
   font-size:16px;font-weight:400;
   color:var(--t2);line-height:1.78;
@@ -152,7 +167,6 @@ nav{
   opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .46s;
 }
 .h-sub strong{color:var(--t1);font-weight:700}
-
 .h-cta{
   width:100%;max-width:400px;
   display:flex;flex-direction:column;align-items:center;gap:12px;
@@ -162,50 +176,56 @@ nav{
 /* ══ BUTTONS ══ */
 .btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;
-  padding:16px 20px;min-height:52px;
+  width:100%;padding:17px 20px;min-height:54px;
   font-family:'Pretendard',sans-serif;
   font-size:15px;font-weight:800;letter-spacing:.04em;
-  border:none;border-radius:3px;cursor:pointer;
+  border:none;border-radius:4px;cursor:pointer;
   position:relative;overflow:hidden;
-  transition:transform .18s,box-shadow .18s;
+  transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s;
   -webkit-tap-highlight-color:transparent;
 }
-.btn::after{
+.btn::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 60%);
-  opacity:0;transition:opacity .22s;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 55%);
+  opacity:0;transition:opacity .25s;
 }
-.btn:hover::after{opacity:1}
-.btn:active{transform:scale(.982)}
+.btn:hover::before{opacity:1}
+.btn:active{transform:scale(.978)}
 
-.btn-solid{background:var(--t1);color:#0a0a0a}
-.btn-solid:hover{box-shadow:0 0 28px rgba(242,242,238,.12);transform:translateY(-1px)}
-.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--ln2)}
-.btn-ghost:hover{color:var(--t1);border-color:rgba(255,255,255,.28)}
+.btn-solid{
+  background:var(--t1);color:#0a0a0a;
+  box-shadow:0 1px 0 rgba(255,255,255,.08) inset;
+}
+.btn-solid:hover{
+  box-shadow:0 0 32px rgba(242,242,238,.15),0 1px 0 rgba(255,255,255,.08) inset;
+  transform:translateY(-2px);
+}
+.btn-ghost{
+  background:var(--glass-bg);color:var(--t2);
+  border:1px solid var(--ln2);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.btn-ghost:hover{color:var(--t1);border-color:var(--ln3);background:rgba(255,255,255,.07)}
 
 .btn-note{
   font-size:13px;font-weight:600;color:var(--t2);
-  letter-spacing:.04em;text-align:center;line-height:1.6;
+  letter-spacing:.03em;text-align:center;line-height:1.6;
 }
 .btn-note em{font-style:normal;color:var(--grn);font-weight:700}
 
 .warn{
-  display:flex;gap:8px;align-items:center;
+  display:flex;gap:9px;align-items:center;
   background:var(--red2);border:1px solid var(--red3);
-  padding:12px 14px;border-radius:3px;width:100%;
+  padding:12px 14px;border-radius:4px;width:100%;
   font-size:14px;font-weight:700;color:var(--red);line-height:1.55;
   text-align:left;
 }
 
 /* ══ STATS ══ */
-#stats{
-  background:var(--bg1);
-  border-top:1px solid var(--ln);
-  border-bottom:1px solid var(--ln);
-}
+#stats{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
 .sg{display:grid;grid-template-columns:repeat(3,1fr)}
-.sc{padding:24px 10px;text-align:center;position:relative}
+.sc{padding:26px 10px;text-align:center;position:relative}
 .sc+.sc::before{
   content:'';position:absolute;left:0;top:20%;bottom:20%;
   width:1px;background:var(--ln);
@@ -217,31 +237,33 @@ nav{
 .sn sup{font-size:.36em;font-weight:700;vertical-align:top;margin-top:.2em}
 .sn.red{color:var(--red)}
 .sn.grn{color:var(--grn)}
-.sl{font-size:13px;font-weight:600;color:var(--t2);margin-top:7px;line-height:1.45}
+.sl{font-size:13px;font-weight:600;color:var(--t2);margin-top:8px;line-height:1.45}
 
 /* ══ TYPE ══ */
 .sec-tag{
   display:block;font-size:11px;font-weight:700;
-  letter-spacing:.22em;text-transform:uppercase;
+  letter-spacing:.24em;text-transform:uppercase;
   color:var(--t3);margin-bottom:10px;
 }
 .sec-h{
-  font-size:clamp(22px,5.8vw,36px);font-weight:900;
-  line-height:1.18;letter-spacing:-.03em;margin-bottom:22px;
+  font-size:clamp(23px,6vw,36px);font-weight:900;
+  line-height:1.16;letter-spacing:-.03em;margin-bottom:22px;
 }
 
 /* ══ PROBLEM ══ */
 .av-box{
-  background:var(--bg2);border:1px solid var(--red3);
-  border-radius:2px;padding:22px 18px;margin-bottom:20px;
+  background:linear-gradient(135deg,rgba(224,92,92,.06),rgba(224,92,92,.02));
+  border:1px solid var(--red3);
+  border-radius:6px;padding:22px 20px;margin-bottom:20px;
   position:relative;overflow:hidden;
+  backdrop-filter:blur(4px);
 }
 .av-box::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,var(--red),transparent);
 }
 .av-label{
-  font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
   color:var(--red);margin-bottom:10px;
   display:flex;align-items:center;gap:7px;
 }
@@ -255,36 +277,41 @@ nav{
   letter-spacing:-.05em;color:var(--red);line-height:1;
   display:block;margin-bottom:4px;
 }
-.av-sub{
-  font-size:12px;color:var(--red);font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;
-}
+.av-sub{font-size:12px;color:var(--red);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;opacity:.8}
 .av-body{font-size:15px;color:var(--t2);line-height:1.78}
 .av-body strong{color:var(--t1);font-weight:700}
 
-.prob-body{font-size:15px;color:var(--t2);line-height:1.82;margin-bottom:20px}
-.prob-body strong{color:var(--t1);font-weight:700}
-
-.ba{border:1px solid var(--ln2);border-radius:2px;overflow:hidden}
-.ba-row{display:flex;align-items:flex-start;gap:12px;padding:14px 16px}
-.ba-before{background:var(--red2)}
-.ba-after{background:var(--grn2)}
+.ba{border:1px solid var(--ln2);border-radius:6px;overflow:hidden}
+.ba-row{display:flex;align-items:flex-start;gap:12px;padding:15px 16px}
+.ba-before{background:rgba(224,92,92,.06)}
+.ba-after{background:rgba(79,186,124,.06)}
 .ba-divider{
-  text-align:center;font-size:13px;font-weight:700;color:var(--t3);
-  padding:5px 0;background:var(--bg2);
+  text-align:center;font-size:12px;font-weight:700;color:var(--t3);
+  padding:6px 0;background:var(--bg2);
   border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);
+  letter-spacing:.05em;
 }
-.ba-tag{font-size:10px;font-weight:800;letter-spacing:.16em;flex-shrink:0;margin-top:2px}
+.ba-tag{font-size:10px;font-weight:800;letter-spacing:.18em;flex-shrink:0;margin-top:3px;text-transform:uppercase}
 .ba-before .ba-tag{color:var(--red)}
 .ba-after  .ba-tag{color:var(--grn)}
-.ba-txt{font-size:14px;color:var(--t2);line-height:1.6}
+.ba-txt{font-size:14px;color:var(--t2);line-height:1.65}
 .ba-txt strong{color:var(--t1);font-weight:700}
 
 /* ══ SYSTEM ══ */
 #system{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
 .sys-cards{display:flex;flex-direction:column;gap:1px;background:var(--ln)}
-.sys-card{background:var(--bg1);padding:24px 20px;transition:background .18s}
-.sys-card:hover{background:var(--bg2)}
+.sys-card{
+  background:var(--bg1);padding:24px 20px;
+  transition:background .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.sys-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.03) 0%,transparent 50%);
+  opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.sys-card:hover{background:var(--bg3)}
+.sys-card:hover::after{opacity:1}
 .sys-step{
   font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
   color:var(--t3);margin-bottom:10px;
@@ -294,10 +321,10 @@ nav{
 .sys-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .sys-ico{font-size:24px;flex-shrink:0}
 .sys-tag{
-  font-size:11px;font-weight:800;letter-spacing:.1em;
+  font-size:11px;font-weight:800;letter-spacing:.08em;
   padding:4px 10px;border-radius:40px;white-space:nowrap;
 }
-.sys-tag.emp{color:var(--t2);background:var(--bg2);border:1px solid var(--ln2)}
+.sys-tag.emp{color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--ln2)}
 .sys-tag.rul{color:var(--grn);background:var(--grn2);border:1px solid var(--grn3)}
 .sys-tag.rew{color:var(--amb);background:var(--amb2);border:1px solid var(--amb3)}
 .sys-title{font-size:16px;font-weight:800;color:var(--t1);line-height:1.3}
@@ -305,35 +332,73 @@ nav{
 .sys-desc strong{color:var(--t1);font-weight:700}
 .roi-box{
   margin-top:12px;padding:14px 16px;
-  background:var(--amb2);border:1px solid var(--amb3);
-  border-radius:2px;font-size:14px;color:var(--t2);
+  background:rgba(212,168,75,.07);border:1px solid var(--amb3);
+  border-radius:6px;font-size:14px;color:var(--t2);
   line-height:1.65;font-style:italic;
+  backdrop-filter:blur(4px);
 }
 .roi-box strong{color:var(--amb);font-weight:700;font-style:normal}
+
+/* ══ BENEFITS 6카드 — glass ══ */
+#benefits{
+  background:var(--bg);
+  border-top:1px solid var(--ln);
+  border-bottom:1px solid var(--ln);
+  padding:40px 0;
+}
+.feat-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--ln);
+}
+.feat-card{
+  background:var(--glass-bg);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  padding:22px 18px;
+  transition:background .22s,transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s;
+  cursor:default;
+  position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.feat-card:hover{
+  background:rgba(255,255,255,.07);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  z-index:1;
+}
+.feat-card:hover::before{opacity:1}
+.feat-ico{font-size:22px;margin-bottom:10px;display:block}
+.feat-name{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
+.feat-desc{font-size:13px;color:var(--t2);line-height:1.65}
 
 /* ══ TRIBE (FIT) ══ */
 .tribe-quote{
   font-size:16px;font-weight:700;
-  color:var(--t1);line-height:1.6;letter-spacing:-.01em;
+  color:var(--t1);line-height:1.65;letter-spacing:-.01em;
   padding:20px 0 20px 16px;
   border-left:2px solid var(--ln2);margin-bottom:20px;
 }
-.tribe-quote em{font-style:normal;color:var(--t3);font-weight:400;font-size:14px}
-
 .social-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
 .sp{
   font-size:13px;font-weight:700;letter-spacing:.04em;
   padding:8px 14px;border-radius:40px;
   display:flex;align-items:center;gap:6px;
+  backdrop-filter:blur(6px);
 }
-.sp.live{color:var(--grn);background:var(--grn2);border:1px solid var(--grn3)}
-.sp.hours{color:var(--amb);background:var(--amb2);border:1px solid var(--amb3)}
-.sp.report{color:var(--t2);background:var(--bg2);border:1px solid var(--ln2)}
-.sp-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;animation:pulse 2s ease-in-out infinite}
-.sp.live .sp-dot{background:var(--grn)}
+.sp.hours{color:var(--amb);background:rgba(212,168,75,.08);border:1px solid var(--amb3)}
+.sp.report{color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--ln2)}
 
 .fit{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ln)}
-.fit-col{padding:18px 16px;background:var(--bg2)}
+.fit-col{
+  padding:20px 16px;
+  background:var(--glass-bg);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
 .fit-col.yes{border-top:2px solid var(--grn3)}
 .fit-col.no {border-top:2px solid var(--red3)}
 .fit-h{font-size:13px;font-weight:800;margin-bottom:12px}
@@ -341,7 +406,7 @@ nav{
 .fit-col.no  .fit-h{color:var(--red)}
 .fit-item{
   font-size:14px;color:var(--t2);line-height:1.6;
-  padding:7px 0;border-bottom:1px solid var(--ln);
+  padding:8px 0;border-bottom:1px solid var(--ln);
   display:flex;align-items:baseline;gap:7px;
 }
 .fit-item:last-child{border-bottom:none}
@@ -349,98 +414,86 @@ nav{
 .fit-col.no  .fit-item::before{content:'✕';color:var(--red);flex-shrink:0;font-weight:800;font-size:12px}
 
 /* ══ OFFER ══ */
-.price-pain{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
+.price-pain{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
 .pain-row{
   display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:13px 16px;flex-wrap:wrap;
+  gap:12px;padding:14px 18px;flex-wrap:wrap;
 }
-.pain-row:first-child{background:var(--red2)}
-.pain-row:last-child{background:var(--grn2)}
+.pain-row:first-child{background:rgba(224,92,92,.07)}
+.pain-row:last-child{background:rgba(79,186,124,.07)}
 .pain-lbl{font-size:13px;font-weight:700;color:var(--t2);letter-spacing:.02em}
-.pain-val{font-size:14px;font-weight:700;color:var(--t2);text-align:right}
+.pain-val{font-size:15px;font-weight:800;color:var(--t2);text-align:right}
 .pain-val.grn{color:var(--grn)}
-.pain-val strong{color:var(--grn);font-weight:900}
+.pain-val strong{font-weight:900}
 
-/* 🚨 2기 인상 경고 배너 (추가됨) */
-.urgent-banner{
-  background:var(--red2);border:1px solid var(--red3);
-  padding:18px 20px;border-radius:3px;margin-bottom:20px;
-  text-align:left;
+/* 플랜 */
+.plan-grid{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
+.plan{
+  background:var(--glass-bg);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  padding:22px 20px;
+  transition:background .2s;position:relative;overflow:hidden;
 }
-.ub-title{
-  font-size:13px;font-weight:800;color:var(--red);letter-spacing:.08em;
-  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+.plan:hover{background:rgba(255,255,255,.05)}
+.plan.core{
+  background:rgba(79,186,124,.05);
+  border:1px solid rgba(79,186,124,.18);
+  padding:26px 20px;
 }
-.ub-title::before{content:'🚨';font-size:14px;}
-.ub-desc{
-  font-size:14px;color:var(--t2);line-height:1.65;
-}
-.ub-desc strong{color:var(--t1);font-weight:700;}
-
-.plan-grid{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
-.plan{background:var(--bg);padding:22px 20px;transition:background .18s;position:relative;overflow:hidden}
-.plan:hover{background:var(--bg2)}
-.plan.core{background:var(--bg2);border:1px solid var(--ln2)}
 .plan.core::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,var(--grn),transparent);
 }
-.plan-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.plan-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
 .plan-name{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
 .plan-badge{
   font-size:11px;font-weight:800;color:var(--grn);
   background:var(--grn2);border:1px solid var(--grn3);
   padding:4px 10px;border-radius:40px;
 }
-
-/* 🚨 취소선 앵커링 (수정됨) */
-.plan-price-anchor{
-  font-size:15px;color:var(--t3);text-decoration:line-through;font-weight:600;
-  margin-bottom:2px;display:block;
-}
 .plan-price{
   font-size:clamp(26px,7vw,36px);font-weight:900;
-  letter-spacing:-.04em;color:var(--t1);margin-bottom:4px;line-height:1;
+  letter-spacing:-.04em;color:var(--t1);margin-bottom:6px;line-height:1;
 }
 .plan-price sub{font-size:.3em;font-weight:600;color:var(--t3)}
-.plan-coach{font-size:13px;font-weight:600;color:var(--t3);margin-bottom:6px}
-.plan-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:8px}
-.plan-desc{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:10px}
-.plan-value{font-size:12px;color:var(--t3);text-decoration:line-through;margin-bottom:10px}
-.plan-items{display:flex;flex-direction:column;gap:8px}
+.plan-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:10px}
+.plan-desc{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:8px}
+.plan-items{display:flex;flex-direction:column;gap:9px}
 .plan-item{
   display:flex;gap:9px;align-items:flex-start;
   font-size:14px;color:var(--t2);line-height:1.55;
 }
 .plan-item::before{content:'✔';color:var(--grn);flex-shrink:0;font-weight:800;font-size:12px;margin-top:2px}
-.plan-highlight{font-size:14px;color:var(--grn);font-weight:700;margin-top:14px;line-height:1.65}
-
-.guar-list{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
-.guar-row{
-  background:var(--bg);
-  display:grid;grid-template-columns:28px 1fr;gap:12px;
-  padding:22px 20px;transition:background .18s;
+.plan-highlight{font-size:14px;color:var(--grn);font-weight:700;margin-top:14px;line-height:1.6}
+.plan-dismiss{
+  margin-top:10px;padding:10px 12px;
+  background:var(--red2);border:1px solid var(--red3);
+  border-radius:4px;font-size:13px;color:var(--red);
+  line-height:1.6;font-weight:600;
 }
-.guar-row:hover{background:var(--bg2)}
+
+/* 보증 — glass */
+.guar-list{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
+.guar-row{
+  background:var(--glass-bg);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:grid;grid-template-columns:28px 1fr;gap:12px;
+  padding:22px 20px;transition:background .2s;
+}
+.guar-row:hover{background:rgba(255,255,255,.05)}
 .guar-ico{font-size:20px;padding-top:1px}
 .guar-t{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:7px;line-height:1.3}
 .guar-d{font-size:14px;color:var(--t2);line-height:1.78}
 .guar-d strong{color:var(--t1);font-weight:700}
-.guar-cond{
-  margin-top:12px;padding:14px 16px;
-  background:var(--bg2);border:1px solid var(--ln2);
-  border-radius:2px;
-  font-size:14px;color:var(--t2);line-height:1.78;
-}
-.guar-cond strong{color:var(--t1);font-weight:700}
-.guar-quote{
-  margin-top:10px;padding:13px 16px;
-  background:var(--bg2);border-left:3px solid var(--grn);
-  font-size:14px;font-weight:600;color:var(--grn);
-  line-height:1.65;border-radius:0 2px 2px 0;
-}
 
-.fomo{background:var(--red2);border:1px solid var(--red3);padding:16px;margin-bottom:14px;border-radius:2px}
+/* FOMO */
+.fomo{
+  background:var(--red2);border:1px solid var(--red3);
+  padding:16px 18px;margin-bottom:16px;border-radius:6px;
+  backdrop-filter:blur(4px);
+}
 .fomo-t{
   font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--red);margin-bottom:10px;
@@ -454,13 +507,14 @@ nav{
 .fomo-row{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--t2);line-height:1.6}
 .fomo-row::before{content:'—';flex-shrink:0;color:var(--red3)}
 
-.faq-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
+/* FAQ */
+.faq-lbl{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
 .faq-list{display:flex;flex-direction:column;margin-bottom:20px}
 .fi{border-bottom:1px solid var(--ln)}
 .fq{
   width:100%;background:none;border:none;
   display:flex;justify-content:space-between;align-items:center;gap:14px;
-  padding:18px 0;min-height:52px;cursor:pointer;text-align:left;
+  padding:18px 0;min-height:54px;cursor:pointer;text-align:left;
   font-family:'Pretendard',sans-serif;transition:opacity .18s;
   -webkit-tap-highlight-color:transparent;
 }
@@ -471,10 +525,14 @@ nav{
   border:1px solid var(--ln2);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:16px;color:var(--t3);
-  transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .2s;
-  font-family:'Pretendard',sans-serif;
+  transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .2s,background .2s;
 }
-.fq.open .fq-i{transform:rotate(45deg);border-color:rgba(255,255,255,.28);color:var(--t1)}
+.fq.open .fq-i{
+  transform:rotate(45deg);
+  border-color:rgba(255,255,255,.28);
+  color:var(--t1);
+  background:rgba(255,255,255,.06);
+}
 .fa{
   display:none;font-size:14px;color:var(--t2);line-height:1.85;
   padding:0 0 18px;
@@ -482,60 +540,76 @@ nav{
   animation:fu .28s cubic-bezier(.22,1,.36,1);
 }
 .fa.on{display:block}
-
 .cta-stack{display:flex;flex-direction:column;gap:12px}
 
+/* after-scene */
+.after-scene{
+  background:var(--glass-bg);border:1px solid var(--ln2);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:18px 20px;margin-bottom:16px;border-radius:6px;
+}
+.after-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;display:block}
+.after-rows{display:flex;flex-direction:column;gap:10px}
+.after-row{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--t2);line-height:1.5}
+.after-n{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:var(--grn2);border:1px solid var(--grn3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--grn);
+}
+
 /* ══ FINAL CTA ══ */
-#final{padding:60px 0;text-align:center;border-top:1px solid var(--ln);position:relative}
+#final{padding:64px 0;text-align:center;border-top:1px solid var(--ln);position:relative}
 #final::before{
   content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-  width:1px;height:64px;background:linear-gradient(180deg,var(--ln2),transparent);
+  width:1px;height:64px;
+  background:linear-gradient(180deg,var(--ln2),transparent);
 }
-.fi-in{max-width:440px;margin:0 auto}
-.fi-tag{font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
+.fi-in{max-width:440px;margin:0 auto;padding:0 20px}
+.fi-tag{font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;display:block}
 .fi-h{font-size:clamp(22px,6vw,38px);font-weight:900;line-height:1.18;letter-spacing:-.03em;margin-bottom:14px}
 .fi-h em{font-style:normal;color:var(--red)}
 .fi-sub{font-size:15px;color:var(--t2);line-height:1.82;margin-bottom:20px}
 .fi-sub strong{color:var(--t1);font-weight:700}
-
-/* 🚨 이중 손실 박스 (수정됨) */
 .loss-box{
-  display:flex;flex-direction:column;gap:10px;
+  display:flex;gap:10px;align-items:flex-start;
   background:var(--red2);border:1px solid var(--red3);
-  padding:16px 20px;border-radius:3px;margin-bottom:24px;
-  text-align:left;
+  padding:14px 16px;border-radius:4px;margin-bottom:22px;
+  text-align:left;font-size:14px;font-weight:600;color:var(--red);line-height:1.65;
+  backdrop-filter:blur(4px);
 }
-.loss-box-t{font-size:13px;font-weight:800;color:var(--red);letter-spacing:.05em;display:flex;align-items:center;gap:6px;}
-.loss-box-t::before{content:'⚠';}
-.loss-item{font-size:14px;color:var(--t2);line-height:1.6;display:flex;align-items:flex-start;gap:8px;}
-.loss-item::before{content:'—';color:var(--red3);flex-shrink:0;}
-.loss-item strong{color:var(--t1);font-weight:700;}
-
+.loss-box strong{color:var(--t1)}
 .fi-guar{font-size:13px;color:var(--t2);letter-spacing:.04em;margin-top:14px}
 
 /* ══ WAITLIST ══ */
 #wl{padding:52px 0;background:var(--bg1);border-top:1px solid var(--ln);text-align:center}
-.wl-in{max-width:300px;margin:0 auto}
+.wl-in{max-width:300px;margin:0 auto;padding:0 20px}
 .wl-h{font-size:22px;font-weight:900;letter-spacing:-.025em;margin-bottom:10px}
 .wl-copy{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:20px}
 .wl-copy strong{color:var(--t1);font-weight:700}
 
-/* ══ EXIT POPUP ══ */
+/* ══ EXIT POPUP — glass ══ */
 #exit-popup{
   display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
   align-items:center;justify-content:center;padding:20px;
 }
 #exit-popup.show{display:flex;animation:popIn .35s cubic-bezier(.22,1,.36,1)}
-@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 .ep-box{
-  background:var(--bg2);border:1px solid var(--ln2);
-  border-radius:4px;width:100%;max-width:380px;
+  background:rgba(20,20,20,.85);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--ln2);
+  border-radius:10px;width:100%;max-width:380px;
   padding:32px 24px;text-align:center;position:relative;
+  box-shadow:0 32px 64px rgba(0,0,0,.6);
 }
 .ep-box::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,var(--red),transparent);
+  border-radius:10px 10px 0 0;
 }
 .ep-close{
   position:absolute;top:14px;right:16px;
@@ -552,26 +626,42 @@ nav{
 .ep-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:20px}
 .ep-body strong{color:var(--t1);font-weight:700}
 
-/* plan-dismiss — Entry 억제 경고 */
-.plan-dismiss{
-  font-size:12px;color:var(--red);font-weight:600;margin-top:8px;line-height:1.5;
-  padding:10px 12px;background:var(--red2);border:1px solid var(--red3);border-radius:2px;
-}
 
-/* Core 플랜 강조 — 패딩 살짝 더 */
-.plan.core{padding:26px 20px}
-
+/* ══ 가독성 패치 ══ */
+/* sys-step: t3→t2로 올려서 모바일에서 읽히게 */
+.sys-step{color:var(--t2) !important}
+/* av-sub: opacity 제거 */
+.av-sub{opacity:1 !important}
+/* sec-tag: letter-spacing 줄이고 t3 유지하되 11px→12px */
+.sec-tag{font-size:12px !important;letter-spacing:.16em !important}
+/* fi-guar: 환불 정보 — 14px + t1 */
+.fi-guar{font-size:14px !important;color:var(--t1) !important}
+/* pain-val red — 인라인 스타일 대체 */
+.pain-val.red-val{color:var(--red);font-weight:800}
+.pain-val.red-val strong{color:var(--red);font-weight:900}
+/* benefits 헤더 */
+#benefits .W{padding-top:0;padding-bottom:0}
+.benefits-head{padding:40px 20px 22px;max-width:580px;margin:0 auto}
+.benefits-h{margin-bottom:0}
+/* cta-mb: 인라인 margin 대체 */
+.cta-mb{margin-bottom:16px}
+/* after-scene 위치 CSS는 HTML 순서로 해결 */
 
 /* ══ FOOTER ══ */
 footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-size:13px;color:var(--t3);letter-spacing:.1em;line-height:2}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:480px){
-  .fit{grid-template-columns:1fr}
   .W{padding:0 18px}
   .sec{padding:48px 0}
   nav{padding:0 16px}
   #hero{padding:66px 18px 50px}
+  .fit{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .feat-card{padding:18px 14px}
+}
+@media(max-width:380px){
+  .feat-grid{grid-template-columns:1fr}
 }
 @media(max-width:360px){
   .W{padding:0 14px}
@@ -591,6 +681,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
   .tribe-quote{font-size:18px}
   .fit{grid-template-columns:1fr 1fr}
 }
+
 </style>
 </head>
 <body>
@@ -603,6 +694,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 </nav>
 
 
+<!-- ① HERO -->
 <section id="hero">
   <div class="h-grid"></div>
   <div class="h-glow"></div>
@@ -613,13 +705,13 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
   <p class="h-def">2030 여성 창업가·프리랜서를 위한<br><strong>초몰입 실행 라운지, ONE BLANK</strong></p>
 
-  <p class="h-sub">일주일 스타벅스 두 잔 값으로<br><strong>당신의 실행을 강제할 프라이빗 코치</strong>를 고용하세요.</p>
+  <p class="h-sub">일주일 스타벅스 두 잔 값으로<br><strong>매일 아침 당신을 실행시킬 AI 코치</strong>를 고용하세요.</p>
 
   <div class="h-cta">
     <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
       ONE BLANK 1기 경험 시작하기 →
     </button>
-    <p class="btn-note">⚡ 3/29(일) 24시 마감 · <em>2기 오픈 시 298,000원으로 100% 인상</em></p>
+    <p class="btn-note">⚡ 단 50명 한정 · 잔여 스팟 극소수 · <em>30일 효과 없으면 전액 환불</em></p>
     <div class="warn">
       <span>⚠</span>
       <span>지금 닫으면 내일 아침도 '뭐부터 하지' 고민만 합니다.</span>
@@ -628,6 +720,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 </section>
 
 
+<!-- ② STATS -->
 <section id="stats">
   <div class="sg">
     <div class="sc r">
@@ -640,13 +733,14 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     </div>
     <div class="sc r d2">
       <span class="sn grn">0<sup>원</sup></span>
-      <div class="sl">30일 실행 증명 시<br>100% 환불</div>
+      <div class="sl">30일 효과<br>없으면 환불</div>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
+<!-- ③ PROBLEM -->
 <section id="problem" class="sec">
   <div class="W">
     <span class="sec-tag r">왜 안 되는가</span>
@@ -662,6 +756,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
         <strong>지금 이 패턴이 5년 후에도 계속된다면?</strong>
       </p>
     </div>
+
 
     <div class="ba r">
       <div class="ba-row ba-before">
@@ -679,6 +774,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <hr class="div">
 
+<!-- ④ THE SYSTEM -->
 <section id="system" class="sec">
   <div class="W">
     <span class="sec-tag r">THE SYSTEM</span>
@@ -719,6 +815,51 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <hr class="div">
 
+<!-- 핵심 혜택 6카드 -->
+<section id="benefits">
+  <div class="benefits-head r">
+    <span class="sec-tag">ONE BLANK가 주는 것</span>
+    <h2 class="sec-h benefits-h">실행하면<br>이런 게 생겨요.</h2>
+  </div>
+  <div class="W">
+    <div class="feat-grid r">
+      <div class="feat-card">
+        <div class="feat-ico">🏆</div>
+        <div class="feat-name">조용한 소속감</div>
+        <div class="feat-desc">결과로만 소통하는 연대에 합류해요.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">✅</div>
+        <div class="feat-name">변화의 확신</div>
+        <div class="feat-desc">'나는 달라졌다'는 증거가 생겨요.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">⚡</div>
+        <div class="feat-name">30초 시작</div>
+        <div class="feat-desc">켜면 바로 시작. 준비가 필요 없어요.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">💌</div>
+        <div class="feat-name">Sunday Reset</div>
+        <div class="feat-desc">매주 일요일 개인 리포트를 드려요.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🔒</div>
+        <div class="feat-name">완전 익명</div>
+        <div class="feat-desc">이름·직업 묻지 않아요. 실행만 남아요.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">💰</div>
+        <div class="feat-name">성공하면 0원</div>
+        <div class="feat-desc">30일 완주하면 전액 환불이에요.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ⑤ ONE BLANK -->
 <section id="tribe" class="sec">
   <div class="W">
     <span class="sec-tag r">ONE BLANK</span>
@@ -730,7 +871,6 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
     <div class="social-bar r">
       <div class="sp hours">🔥 누적 절약 4,200시간</div>
-      <div class="sp report">💌 매주 일요일 개인 리포트</div>
     </div>
 
     <div class="fit r">
@@ -751,6 +891,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <hr class="div">
 
+<!-- ⑥ OFFER -->
 <section id="offer" class="sec">
   <div class="W">
     <span class="sec-tag r">플랜 선택</span>
@@ -759,17 +900,12 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <div class="price-pain r">
       <div class="pain-row">
         <span class="pain-lbl">지금 이대로라면</span>
-        <span class="pain-val" style="color:var(--red)">매월 <strong style="color:var(--red)">45만 원</strong> 손실 계속</span>
+        <span class="pain-val red-val">매월 <strong>45만 원</strong> 손실 계속</span>
       </div>
       <div class="pain-row">
-        <span class="pain-lbl">ONE BLANK + 성공하면</span>
+        <span class="pain-lbl">ONE BLANK로 이득을 얻으면</span>
         <span class="pain-val grn"><strong>0원</strong></span>
       </div>
-    </div>
-
-    <div class="urgent-banner r">
-      <p class="ub-title">본 가격은 이번 1기까지만 유지됩니다.</p>
-      <p class="ub-desc">기존 노션 방식에서 <strong>'자체 웹사이트 OS'</strong>로 완벽하게 업그레이드되었습니다. 압도적인 퀄리티 유지를 위해 3개월 뒤 열릴 2기부터는 <strong>참가비가 298,000원으로 100% 인상 확정</strong>되었습니다.</p>
     </div>
 
     <div class="plan-grid r">
@@ -780,24 +916,21 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
         <p class="plan-desc">AI 없이 스스로 통제하는 수동 템플릿.</p>
         <p class="plan-dismiss">⚠ 혼자서 꾸준히 해낸 경험 있는 분만</p>
       </div>
-      
       <div class="plan core">
         <div class="plan-head">
           <span class="plan-name">Core ⭐</span>
           <span class="plan-badge">추천</span>
         </div>
-        <span class="plan-price-anchor">298,000원</span>
         <div class="plan-price">149,000<sub>원</sub></div>
-        <p class="plan-title">ONE BLANK 1기 창립 멤버십</p>
+        <p class="plan-title">ONE BLANK 1기 멤버십</p>
         <div class="plan-items">
-          <div class="plan-item">웹 OS 라운지 입장 보안 코드 발급</div>
+          <div class="plan-item">라운지 입장 보안 코드 발급</div>
           <div class="plan-item">AI 감정 리셋 + 원 띵 포커스 자동화</div>
           <div class="plan-item">ROI 대시보드 (내 시급 커스텀)</div>
-          <div class="plan-item">Sunday Reset 1:1 멘탈 리포트</div>
+          <div class="plan-item">Sunday Reset 개인화 리포트</div>
         </div>
         <p class="plan-highlight">성공하면 전액 돌아와요.</p>
       </div>
-
       <div class="plan">
         <div class="plan-head"><span class="plan-name">Premium</span></div>
         <div class="plan-price">390,000<sub>원</sub></div>
@@ -810,8 +943,8 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       <div class="guar-row">
         <div class="guar-ico">🛡️</div>
         <div>
-          <p class="guar-t">30일 행동 증명 100% 환불 보장</p>
-          <p class="guar-d"><strong>30일간 매일 시스템에 접속해 '원 띵'을 완료한 대시보드 기록을 제출했음에도</strong> 변화를 느끼지 못하셨다면 — 전액 돌려드려요.</p>
+          <p class="guar-t">30일 효과 없으면 전액 환불</p>
+          <p class="guar-d">30일 매일 접속하고 원 띵을 완료했는데 효과가 없다면 — <strong>전액 돌려드려요.</strong></p>
         </div>
       </div>
       <div class="guar-row">
@@ -823,18 +956,23 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       </div>
     </div>
 
+    <div class="after-scene r">
+      <span class="after-lbl">신청 직후 일어나는 일</span>
+      <div class="after-rows">
+        <div class="after-row"><span class="after-n">1</span><span>보안 코드 즉시 발급</span></div>
+
     <div class="fomo r">
       <p class="fomo-t">지금 신청해야 하는 이유</p>
       <div class="fomo-list">
-        <div class="fomo-row">3/29(일) 24시 1기 마감 → 2기 오픈 시 298,000원으로 인상</div>
+        <div class="fomo-row">50명 마감 → 2기 오픈 최소 3개월 후</div>
       </div>
     </div>
 
     <span class="faq-lbl r">신청 전 궁금한 것들</span>
     <div class="faq-list r">
       <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 보장 조건이 정확히 뭔가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">30일간 매일 아침 라운지에 접속해 '원 띵'을 완료하고 ROI 대시보드를 채운 기록(증명)을 제출했음에도 효과가 없다면 전액 환불해 드립니다. 핑계를 대고 실행하지 않는 분의 단순 변심은 환불이 불가합니다.</div>
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 조건이 뭔가요?</span><span class="fq-i">+</span></button>
+        <div class="fa">매일 아침 접속하고 원 띵을 작성했는데도 효과를 못 느꼈다면 전액 환불해드려요. 단순 변심은 해당 안 돼요.</div>
       </div>
       <div class="fi">
         <button class="fq" onclick="doFaq(this)"><span class="fq-t">Core랑 Entry 중 뭘 골라야 하나요?</span><span class="fq-i">+</span></button>
@@ -846,17 +984,26 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       </div>
       <div class="fi">
         <button class="fq" onclick="doFaq(this)"><span class="fq-t">다른 생산성 앱이랑 뭐가 다른가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">앱은 도구예요. ONE BLANK는 구조예요. 뭘 할지 골라주고, 감정을 정리해주고, 오늘의 가치를 돈으로 보여주는 실행 강제 시스템이에요.</div>
+        <div class="fa">앱은 도구예요. ONE BLANK는 구조예요. 뭘 할지 골라주고, 감정 정리하고, 오늘의 가치를 돈으로 보여줘요.</div>
+      </div>
+      <div class="fi">
+        <button class="fq" onclick="doFaq(this)"><span class="fq-t">이미 다른 생산성 툴을 쓰는데 같이 써도 되나요?</span><span class="fq-i">+</span></button>
+        <div class="fa">네. ONE BLANK는 기존 툴과 충돌하지 않아요. 하지만 ONE BLANK로 충분하게 되실 겁니다.</div>
+      </div>
+    </div>
+
+        <div class="after-row"><span class="after-n">2</span><span>오늘 밤부터 라운지 소속</span></div>
+        <div class="after-row"><span class="after-n">3</span><span>내일 아침, 고민 없이 One-Thing만</span></div>
       </div>
     </div>
 
     <div class="cta-stack r">
       <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        위험 부담 0원 — 1기 창립 멤버로 시작하기 →
+        위험 부담 0원 — 지금 바로 경험 시작하기 →
       </button>
-      <p class="btn-note">⚡ 3/29(일) 24시 영구 마감 · <em>30일 행동 증명 시 전액 환불</em></p>
+      <p class="btn-note">⚡ 단 50명 · <em>30일 효과 없으면 전액 환불</em></p>
       <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        아직 망설여진다면 → 2기 대기자 명단 등록
+        무료 안티 비전 시트 먼저 받기
       </button>
     </div>
   </div>
@@ -864,40 +1011,39 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
 <hr class="div">
 
+<!-- FINAL CTA -->
 <section id="final">
   <div class="W">
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
       <h2 class="fi-h">지금 닫으면,<br><em>내일도 같은 아침입니다.</em></h2>
-      <p class="fi-sub"><strong>3/29(일) 자정 1기 마감.</strong> 이후 2기 오픈 시 <strong>가격은 298,000원으로 인상</strong>됩니다.</p>
-      
+      <p class="fi-sub">단 <strong>50명.</strong> 마감 후 2기는 <strong>최소 3개월 후</strong>예요.</p>
       <div class="loss-box">
-        <span class="loss-box-t">지금 닫을 경우 당신이 치러야 할 대가</span>
-        <div class="loss-item">최소 3개월 동안 아침을 낭비하며 잃어버릴 <strong>135만 원의 기회비용</strong> (월 45만 x 3)</div>
-        <div class="loss-item">3개월 후 2기 정규 오픈 시 추가로 지불해야 할 <strong>149,000원의 인상분</strong></div>
+        <span>⚠</span>
+        <span>지금 닫으면 — <strong>50명 중 내 자리가 사라져요</strong></span>
       </div>
-
-      <div class="cta-stack" style="margin-bottom:16px">
+      <div class="cta-stack cta-mb">
         <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-          가장 저렴할 때 보안 코드 발급받기 →
+          ONE BLANK 보안 코드 발급받기 →
         </button>
-        <p class="btn-note">⚡ 일요일 자정 마감 · <em>30일 행동 증명 시 100% 환불</em></p>
+        <p class="btn-note">⚡ 50명 한정 · <em>30일 효과 없으면 100% 환불</em></p>
       </div>
-      <p class="fi-guar">🛡️ 30일 조건부 환불 보장 · 토스 안전 결제 · 익명 보장</p>
+      <p class="fi-guar">🛡️ 30일 환불 보장 · 토스 안전 결제 · 익명 보장</p>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
+<!-- WAITLIST -->
 <section id="wl">
   <div class="W">
     <div class="wl-in r">
-      <p class="sec-tag" style="margin-bottom:10px">아직 망설여지시나요?</p>
-      <h2 class="wl-h">2기 대기자 명단 등록</h2>
-      <p class="wl-copy">1기 합류가 부담스러우신가요?<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>를 받고 2기 대기자 명단에 등록하세요.<br>3개월 뒤 오픈 시 가장 먼저 얼리버드 혜택을 드립니다.</p>
+      <p class="sec-tag">아직 망설여지시나요?</p>
+      <h2 class="wl-h">무료 안티 비전 시트</h2>
+      <p class="wl-copy">딱 5분만 적어보세요.<br><strong>&lt;안티 비전 시트&gt;</strong> 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
       <button class="btn btn-ghost" style="max-width:320px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        무료 시트 받고 2기 대기하기 →
+        무료 안티 비전 시트 받기 →
       </button>
     </div>
   </div>
@@ -909,14 +1055,15 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 </footer>
 
 
+<!-- EXIT-INTENT POPUP -->
 <div id="exit-popup" role="dialog" aria-modal="true">
   <div class="ep-box">
     <button class="ep-close" onclick="closePopup()" aria-label="닫기">✕</button>
     <span class="ep-tag">잠깐, 아직 준비가 안 되셨나요?</span>
-    <h2 class="ep-h">3개월 동안 혼자서<br><em>버티실 수 있겠습니까?</em></h2>
-    <p class="ep-body">1기 마감이 얼마 남지 않았습니다.<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>라도 먼저 받아두고<br>2기 대기자 명단에 합류하세요.</p>
+    <h2 class="ep-h">오늘 밤도<br><em>같은 아침이 반복됩니다.</em></h2>
+    <p class="ep-body"><strong>&lt;안티 비전 시트&gt;</strong>를 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
     <button class="btn btn-solid" style="margin-bottom:12px" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank');closePopup()">
-      무료 시트 받고 2기 대기하기 →
+      무료 안티 비전 시트 받기 →
     </button>
     <button class="btn btn-ghost" onclick="closePopup()" style="font-size:13px;padding:14px">
       괜찮아요, 그냥 닫을게요
