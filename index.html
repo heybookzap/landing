@@ -195,6 +195,7 @@ nav{
   background:var(--red2);border:1px solid var(--red3);
   padding:12px 14px;border-radius:3px;width:100%;
   font-size:14px;font-weight:700;color:var(--red);line-height:1.55;
+  text-align:left;
 }
 
 /* ══ STATS ══ */
@@ -360,6 +361,22 @@ nav{
 .pain-val.grn{color:var(--grn)}
 .pain-val strong{color:var(--grn);font-weight:900}
 
+/* 🚨 2기 인상 경고 배너 (추가됨) */
+.urgent-banner{
+  background:var(--red2);border:1px solid var(--red3);
+  padding:18px 20px;border-radius:3px;margin-bottom:20px;
+  text-align:left;
+}
+.ub-title{
+  font-size:13px;font-weight:800;color:var(--red);letter-spacing:.08em;
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.ub-title::before{content:'🚨';font-size:14px;}
+.ub-desc{
+  font-size:14px;color:var(--t2);line-height:1.65;
+}
+.ub-desc strong{color:var(--t1);font-weight:700;}
+
 .plan-grid{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:14px}
 .plan{background:var(--bg);padding:22px 20px;transition:background .18s;position:relative;overflow:hidden}
 .plan:hover{background:var(--bg2)}
@@ -374,6 +391,12 @@ nav{
   font-size:11px;font-weight:800;color:var(--grn);
   background:var(--grn2);border:1px solid var(--grn3);
   padding:4px 10px;border-radius:40px;
+}
+
+/* 🚨 취소선 앵커링 (수정됨) */
+.plan-price-anchor{
+  font-size:15px;color:var(--t3);text-decoration:line-through;font-weight:600;
+  margin-bottom:2px;display:block;
 }
 .plan-price{
   font-size:clamp(26px,7vw,36px);font-weight:900;
@@ -431,20 +454,6 @@ nav{
 .fomo-row{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--t2);line-height:1.6}
 .fomo-row::before{content:'—';flex-shrink:0;color:var(--red3)}
 
-.after-scene{background:var(--bg2);border:1px solid var(--ln2);padding:18px 18px;margin-bottom:14px;border-radius:2px}
-.after-lbl{
-  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:14px;display:block;
-}
-.after-rows{display:flex;flex-direction:column;gap:10px}
-.after-row{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--t2);line-height:1.55}
-.after-n{
-  flex-shrink:0;width:22px;height:22px;border-radius:50%;
-  background:var(--grn2);border:1px solid var(--grn3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;color:var(--grn);
-}
-
 .faq-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
 .faq-list{display:flex;flex-direction:column;margin-bottom:20px}
 .fi{border-bottom:1px solid var(--ln)}
@@ -488,13 +497,20 @@ nav{
 .fi-h em{font-style:normal;color:var(--red)}
 .fi-sub{font-size:15px;color:var(--t2);line-height:1.82;margin-bottom:20px}
 .fi-sub strong{color:var(--t1);font-weight:700}
+
+/* 🚨 이중 손실 박스 (수정됨) */
 .loss-box{
-  display:flex;gap:10px;align-items:flex-start;
+  display:flex;flex-direction:column;gap:10px;
   background:var(--red2);border:1px solid var(--red3);
-  padding:14px 16px;border-radius:2px;margin-bottom:22px;
-  text-align:left;font-size:14px;font-weight:600;color:var(--red);line-height:1.65;
+  padding:16px 20px;border-radius:3px;margin-bottom:24px;
+  text-align:left;
 }
-.loss-box strong{color:var(--t1)}
+.loss-box-t{font-size:13px;font-weight:800;color:var(--red);letter-spacing:.05em;display:flex;align-items:center;gap:6px;}
+.loss-box-t::before{content:'⚠';}
+.loss-item{font-size:14px;color:var(--t2);line-height:1.6;display:flex;align-items:flex-start;gap:8px;}
+.loss-item::before{content:'—';color:var(--red3);flex-shrink:0;}
+.loss-item strong{color:var(--t1);font-weight:700;}
+
 .fi-guar{font-size:13px;color:var(--t2);letter-spacing:.04em;margin-top:14px}
 
 /* ══ WAITLIST ══ */
@@ -536,53 +552,14 @@ nav{
 .ep-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:20px}
 .ep-body strong{color:var(--t1);font-weight:700}
 
-
-/* sys-proof — 인정·기록 */
-.sys-proof{margin-top:12px;display:flex;flex-direction:column;gap:6px}
-.sys-proof-row{font-size:13px;color:var(--t2);line-height:1.55;display:flex;align-items:flex-start;gap:8px}
-
-/* brand-std — 브랜드 기준 */
-.brand-std{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px}
-.brand-std strong{color:var(--t1);font-weight:800}
-
 /* plan-dismiss — Entry 억제 경고 */
 .plan-dismiss{
   font-size:12px;color:var(--red);font-weight:600;margin-top:8px;line-height:1.5;
   padding:10px 12px;background:var(--red2);border:1px solid var(--red3);border-radius:2px;
 }
 
-/* plan-most — Core "대부분 선택" 뱃지 */
-.plan-most{
-  font-size:10px;font-weight:700;letter-spacing:.04em;
-  color:var(--grn);margin-left:4px;
-  white-space:nowrap;
-}
-
 /* Core 플랜 강조 — 패딩 살짝 더 */
 .plan.core{padding:26px 20px}
-
-
-
-/* ══ 신뢰 블록 ══ */
-
-.trust-badge{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--grn);margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.trust-badge::before{content:'🔒';font-size:13px;letter-spacing:0}
-.trust-h{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.4}
-.trust-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:16px}
-.trust-body em{font-style:normal;color:var(--t1);font-weight:700}
-.trust-rows{display:flex;flex-direction:column;gap:8px}
-.trust-row{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--t2);line-height:1.6}
-.trust-row::before{content:'—';flex-shrink:0;color:var(--grn);font-weight:700}
-
-
-/* ══ 혜택 6카드 ══ */
-#benefits{background:var(--bg);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:40px 0}
-.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ln)}
-.feat-card{background:var(--bg);padding:20px 16px;transition:background .18s}
-.feat-card:hover{background:var(--bg2)}
-.feat-ico{font-size:22px;margin-bottom:8px}
-.feat-name{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
-.feat-desc{font-size:13px;color:var(--t2);line-height:1.65}
 
 
 /* ══ FOOTER ══ */
@@ -642,7 +619,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
       ONE BLANK 1기 경험 시작하기 →
     </button>
-    <p class="btn-note">⚡ 3/29(일) 24시 영구 마감 · <em>30일 행동 증명 시 100% 환불</em></p>
+    <p class="btn-note">⚡ 3/29(일) 24시 마감 · <em>2기 오픈 시 298,000원으로 100% 인상</em></p>
     <div class="warn">
       <span>⚠</span>
       <span>지금 닫으면 내일 아침도 '뭐부터 하지' 고민만 합니다.</span>
@@ -790,6 +767,11 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       </div>
     </div>
 
+    <div class="urgent-banner r">
+      <p class="ub-title">본 가격은 이번 1기까지만 유지됩니다.</p>
+      <p class="ub-desc">기존 노션 방식에서 <strong>'자체 웹사이트 OS'</strong>로 완벽하게 업그레이드되었습니다. 압도적인 퀄리티 유지를 위해 3개월 뒤 열릴 2기부터는 <strong>참가비가 298,000원으로 100% 인상 확정</strong>되었습니다.</p>
+    </div>
+
     <div class="plan-grid r">
       <div class="plan">
         <div class="plan-head"><span class="plan-name">Entry</span></div>
@@ -798,21 +780,24 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
         <p class="plan-desc">AI 없이 스스로 통제하는 수동 템플릿.</p>
         <p class="plan-dismiss">⚠ 혼자서 꾸준히 해낸 경험 있는 분만</p>
       </div>
+      
       <div class="plan core">
         <div class="plan-head">
           <span class="plan-name">Core ⭐</span>
           <span class="plan-badge">추천</span>
         </div>
+        <span class="plan-price-anchor">298,000원</span>
         <div class="plan-price">149,000<sub>원</sub></div>
-        <p class="plan-title">ONE BLANK 1기 멤버십</p>
+        <p class="plan-title">ONE BLANK 1기 창립 멤버십</p>
         <div class="plan-items">
-          <div class="plan-item">라운지 입장 보안 코드 발급</div>
+          <div class="plan-item">웹 OS 라운지 입장 보안 코드 발급</div>
           <div class="plan-item">AI 감정 리셋 + 원 띵 포커스 자동화</div>
           <div class="plan-item">ROI 대시보드 (내 시급 커스텀)</div>
-          <div class="plan-item">Sunday Reset 개인화 리포트</div>
+          <div class="plan-item">Sunday Reset 1:1 멘탈 리포트</div>
         </div>
         <p class="plan-highlight">성공하면 전액 돌아와요.</p>
       </div>
+
       <div class="plan">
         <div class="plan-head"><span class="plan-name">Premium</span></div>
         <div class="plan-price">390,000<sub>원</sub></div>
@@ -841,7 +826,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <div class="fomo r">
       <p class="fomo-t">지금 신청해야 하는 이유</p>
       <div class="fomo-list">
-        <div class="fomo-row">3/29(일) 24시 1기 마감 → 2기 오픈 최소 3개월 후</div>
+        <div class="fomo-row">3/29(일) 24시 1기 마감 → 2기 오픈 시 298,000원으로 인상</div>
       </div>
     </div>
 
@@ -867,7 +852,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
     <div class="cta-stack r">
       <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        위험 부담 0원 — 지금 바로 경험 시작하기 →
+        위험 부담 0원 — 1기 창립 멤버로 시작하기 →
       </button>
       <p class="btn-note">⚡ 3/29(일) 24시 영구 마감 · <em>30일 행동 증명 시 전액 환불</em></p>
       <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
@@ -884,14 +869,17 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
       <h2 class="fi-h">지금 닫으면,<br><em>내일도 같은 아침입니다.</em></h2>
-      <p class="fi-sub"><strong>3/29(일) 자정 마감.</strong> 이후 2기 오픈은 <strong>최소 3개월 후</strong>입니다.</p>
+      <p class="fi-sub"><strong>3/29(일) 자정 1기 마감.</strong> 이후 2기 오픈 시 <strong>가격은 298,000원으로 인상</strong>됩니다.</p>
+      
       <div class="loss-box">
-        <span>⚠</span>
-        <span>지금 닫으면 — <strong>일요일 자정 이후 3개월간 혼자 견뎌야 합니다.</strong></span>
+        <span class="loss-box-t">지금 닫을 경우 당신이 치러야 할 대가</span>
+        <div class="loss-item">최소 3개월 동안 아침을 낭비하며 잃어버릴 <strong>135만 원의 기회비용</strong> (월 45만 x 3)</div>
+        <div class="loss-item">3개월 후 2기 정규 오픈 시 추가로 지불해야 할 <strong>149,000원의 인상분</strong></div>
       </div>
+
       <div class="cta-stack" style="margin-bottom:16px">
         <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-          ONE BLANK 보안 코드 발급받기 →
+          가장 저렴할 때 보안 코드 발급받기 →
         </button>
         <p class="btn-note">⚡ 일요일 자정 마감 · <em>30일 행동 증명 시 100% 환불</em></p>
       </div>
