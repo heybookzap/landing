@@ -647,6 +647,44 @@ nav{
 .cta-mb{margin-bottom:16px}
 /* after-scene 위치 CSS는 HTML 순서로 해결 */
 
+
+/* ══ 문서3 반영 CSS ══ */
+.urgent-banner{
+  background:var(--red2);border:1px solid var(--red3);
+  padding:16px 18px;border-radius:4px;margin-bottom:16px;
+}
+.ub-title{
+  font-size:13px;font-weight:800;color:var(--red);letter-spacing:.06em;
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.ub-title::before{content:'🚨';font-size:13px}
+.ub-desc{font-size:14px;color:var(--t2);line-height:1.65}
+.ub-desc strong{color:var(--t1);font-weight:700}
+
+.plan-price-anchor{
+  font-size:14px;color:var(--t3);text-decoration:line-through;
+  font-weight:600;margin-bottom:2px;display:block;
+}
+.loss-box-t{
+  font-size:13px;font-weight:800;color:var(--red);
+  letter-spacing:.04em;display:flex;align-items:center;gap:6px;
+  margin-bottom:8px;
+}
+.loss-box-t::before{content:'⚠'}
+.loss-item{
+  font-size:14px;color:var(--t2);line-height:1.6;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.loss-item::before{content:'—';color:var(--red3);flex-shrink:0}
+.loss-item strong{color:var(--t1);font-weight:700}
+/* loss-box: flex-column으로 변경 */
+.loss-box-multi{
+  display:flex;flex-direction:column;gap:8px;
+  background:var(--red2);border:1px solid var(--red3);
+  padding:16px 18px;border-radius:4px;margin-bottom:22px;
+  text-align:left;
+}
+
 /* ══ FOOTER ══ */
 footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-size:13px;color:var(--t3);letter-spacing:.1em;line-height:2}
 
@@ -711,7 +749,7 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
       ONE BLANK 1기 경험 시작하기 →
     </button>
-    <p class="btn-note">⚡ 단 50명 한정 · 잔여 스팟 극소수 · <em>30일 효과 없으면 전액 환불</em></p>
+    <p class="btn-note">⚡ 3/29(일) 24시 마감 · <em>2기 오픈 시 298,000원으로 100% 인상</em></p>
     <div class="warn">
       <span>⚠</span>
       <span>지금 닫으면 내일 아침도 '뭐부터 하지' 고민만 합니다.</span>
@@ -908,6 +946,11 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       </div>
     </div>
 
+    <div class="urgent-banner r">
+      <p class="ub-title">본 가격은 이번 1기까지만 유지됩니다.</p>
+      <p class="ub-desc">3개월 뒤 열릴 2기부터는 <strong>참가비가 298,000원으로 100% 인상 확정</strong>되었습니다.</p>
+    </div>
+
     <div class="plan-grid r">
       <div class="plan">
         <div class="plan-head"><span class="plan-name">Entry</span></div>
@@ -921,8 +964,9 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
           <span class="plan-name">Core ⭐</span>
           <span class="plan-badge">추천</span>
         </div>
+        <span class="plan-price-anchor">298,000원</span>
         <div class="plan-price">149,000<sub>원</sub></div>
-        <p class="plan-title">ONE BLANK 1기 멤버십</p>
+        <p class="plan-title">ONE BLANK 1기 창립 멤버십</p>
         <div class="plan-items">
           <div class="plan-item">라운지 입장 보안 코드 발급</div>
           <div class="plan-item">AI 감정 리셋 + 원 띵 포커스 자동화</div>
@@ -943,8 +987,8 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       <div class="guar-row">
         <div class="guar-ico">🛡️</div>
         <div>
-          <p class="guar-t">30일 효과 없으면 전액 환불</p>
-          <p class="guar-d">30일 매일 접속하고 원 띵을 완료했는데 효과가 없다면 — <strong>전액 돌려드려요.</strong></p>
+          <p class="guar-t">30일 행동 증명 100% 환불 보장</p>
+          <p class="guar-d"><strong>30일간 매일 시스템에 접속해 '원 띵'을 완료한 기록을 제출했음에도</strong> 변화를 느끼지 못하셨다면 — 전액 돌려드려요.</p>
         </div>
       </div>
       <div class="guar-row">
@@ -956,23 +1000,11 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
       </div>
     </div>
 
-    <div class="after-scene r">
-      <span class="after-lbl">신청 직후 일어나는 일</span>
-      <div class="after-rows">
-        <div class="after-row"><span class="after-n">1</span><span>보안 코드 즉시 발급</span></div>
-
-    <div class="fomo r">
-      <p class="fomo-t">지금 신청해야 하는 이유</p>
-      <div class="fomo-list">
-        <div class="fomo-row">50명 마감 → 2기 오픈 최소 3개월 후</div>
-      </div>
-    </div>
-
     <span class="faq-lbl r">신청 전 궁금한 것들</span>
     <div class="faq-list r">
       <div class="fi">
         <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 조건이 뭔가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">매일 아침 접속하고 원 띵을 작성했는데도 효과를 못 느꼈다면 전액 환불해드려요. 단순 변심은 해당 안 돼요.</div>
+        <div class="fa">30일간 매일 아침 라운지에 접속해 '원 띵'을 완료하고 ROI 대시보드를 채운 기록(증명)을 제출했음에도 효과가 없다면 전액 환불해 드립니다. 단순 변심은 환불이 불가합니다.</div>
       </div>
       <div class="fi">
         <button class="fq" onclick="doFaq(this)"><span class="fq-t">Core랑 Entry 중 뭘 골라야 하나요?</span><span class="fq-i">+</span></button>
@@ -999,11 +1031,11 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
 
     <div class="cta-stack r">
       <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        위험 부담 0원 — 지금 바로 경험 시작하기 →
+        위험 부담 0원 — 1기 창립 멤버로 시작하기 →
       </button>
-      <p class="btn-note">⚡ 단 50명 · <em>30일 효과 없으면 전액 환불</em></p>
+      <p class="btn-note">⚡ 3/29(일) 24시 영구 마감 · <em>30일 행동 증명 시 전액 환불</em></p>
       <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        무료 안티 비전 시트 먼저 받기
+        아직 망설여진다면 → 2기 대기자 명단 등록
       </button>
     </div>
   </div>
@@ -1017,18 +1049,19 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
     <div class="fi-in r">
       <p class="fi-tag">Last Call</p>
       <h2 class="fi-h">지금 닫으면,<br><em>내일도 같은 아침입니다.</em></h2>
-      <p class="fi-sub">단 <strong>50명.</strong> 마감 후 2기는 <strong>최소 3개월 후</strong>예요.</p>
-      <div class="loss-box">
-        <span>⚠</span>
-        <span>지금 닫으면 — <strong>50명 중 내 자리가 사라져요</strong></span>
+      <p class="fi-sub"><strong>3/29(일) 자정 1기 마감.</strong> 이후 2기 오픈 시 <strong>가격은 298,000원으로 인상</strong>됩니다.</p>
+      <div class="loss-box-multi">
+        <span class="loss-box-t">지금 닫을 경우 당신이 치러야 할 대가</span>
+        <div class="loss-item">최소 3개월 동안 잃어버릴 <strong>135만 원의 기회비용</strong> (월 45만 × 3)</div>
+        <div class="loss-item">2기 오픈 시 추가로 내야 할 <strong>149,000원의 인상분</strong></div>
       </div>
       <div class="cta-stack cta-mb">
         <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-          ONE BLANK 보안 코드 발급받기 →
+          가장 저렴할 때 보안 코드 발급받기 →
         </button>
-        <p class="btn-note">⚡ 50명 한정 · <em>30일 효과 없으면 100% 환불</em></p>
+        <p class="btn-note">⚡ 일요일 자정 마감 · <em>30일 행동 증명 시 100% 환불</em></p>
       </div>
-      <p class="fi-guar">🛡️ 30일 환불 보장 · 토스 안전 결제 · 익명 보장</p>
+      <p class="fi-guar">🛡️ 30일 조건부 환불 보장 · 토스 안전 결제 · 익명 보장</p>
     </div>
   </div>
 </section>
@@ -1040,10 +1073,10 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
   <div class="W">
     <div class="wl-in r">
       <p class="sec-tag">아직 망설여지시나요?</p>
-      <h2 class="wl-h">무료 안티 비전 시트</h2>
-      <p class="wl-copy">딱 5분만 적어보세요.<br><strong>&lt;안티 비전 시트&gt;</strong> 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
+      <h2 class="wl-h">2기 대기자 명단 등록</h2>
+      <p class="wl-copy">1기 합류가 부담스러우신가요?<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>를 받고 2기 대기자 명단에 등록하세요.<br>3개월 뒤 오픈 시 가장 먼저 얼리버드 혜택을 드립니다.</p>
       <button class="btn btn-ghost" style="max-width:320px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        무료 안티 비전 시트 받기 →
+        무료 시트 받고 2기 대기하기 →
       </button>
     </div>
   </div>
@@ -1060,10 +1093,10 @@ footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-s
   <div class="ep-box">
     <button class="ep-close" onclick="closePopup()" aria-label="닫기">✕</button>
     <span class="ep-tag">잠깐, 아직 준비가 안 되셨나요?</span>
-    <h2 class="ep-h">오늘 밤도<br><em>같은 아침이 반복됩니다.</em></h2>
-    <p class="ep-body"><strong>&lt;안티 비전 시트&gt;</strong>를 무료로 드려요.<br>다음 기수 오픈 시 가장 먼저 알려드려요.</p>
+    <h2 class="ep-h">3개월 동안 혼자서<br><em>버티실 수 있겠습니까?</em></h2>
+    <p class="ep-body">1기 마감이 얼마 남지 않았습니다.<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>라도 먼저 받아두고<br>2기 대기자 명단에 합류하세요.</p>
     <button class="btn btn-solid" style="margin-bottom:12px" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank');closePopup()">
-      무료 안티 비전 시트 받기 →
+      무료 시트 받고 2기 대기하기 →
     </button>
     <button class="btn btn-ghost" onclick="closePopup()" style="font-size:13px;padding:14px">
       괜찮아요, 그냥 닫을게요
