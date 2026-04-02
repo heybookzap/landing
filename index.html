@@ -2,1135 +2,521 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONE BLANK — 1기 모집</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ONE BLANK — 결정 피로 제로</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-
-/* ══ RESET ══ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-
-/* ══ 색상 시스템 ══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:  #0a0a0a;
-  --bg1: #0e0e0e;
-  --bg2: #141414;
-  --bg3: #1a1a1a;
+  --blue:#286bff;--blue-l:#c8d9ee;--blue-50:#eef4ff;--blue-100:#dce8fd;
+  --blue-200:#b3ccfb;--bg:#f4f6fa;--wh:#fff;
+  --gl:rgba(255,255,255,0.6);--gl-s:rgba(255,255,255,0.78);
+  --gl-b:rgba(255,255,255,0.5);
+  --sh:0 8px 32px rgba(40,107,255,0.06);
+  --tx:#0c1a3a;--tx2:#3d4c6e;--tx3:#8891a8;
+  --red:#e34850;--gold:#e8a308;
+  --f:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --r:20px;--rs:14px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--f);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased;word-break:keep-all}
 
-  --t1: #f2f2ee;
-  --t2: #c8c8c2;
-  --t3: #8a8a84;
+.ct{max-width:1060px;margin:0 auto;padding:0 20px}
+.gl{background:var(--gl);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--gl-b);box-shadow:var(--sh);border-radius:var(--r)}
+.gl-s{background:var(--gl-s);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,0.7);box-shadow:var(--sh);border-radius:var(--r)}
 
-  --ln:  rgba(255,255,255,.07);
-  --ln2: rgba(255,255,255,.13);
-  --ln3: rgba(255,255,255,.22);
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);opacity:.3;z-index:0}
+.dvd{height:1px;background:linear-gradient(90deg,transparent,var(--blue-l),transparent);border:none;margin:0}
 
-  --red:  #e05c5c;
-  --red2: rgba(224,92,92,.08);
-  --red3: rgba(224,92,92,.22);
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rgba(244,246,250,0.8);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(200,217,238,0.3)}
+nav .ct{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.15rem;letter-spacing:-.4px}.logo b{color:var(--blue);font-weight:800}
+.nav-cta{font-size:.8rem;font-weight:700;padding:10px 22px;background:var(--blue);color:#fff;border:none;border-radius:100px;cursor:pointer;transition:all .3s;text-decoration:none;box-shadow:0 4px 16px rgba(40,107,255,0.2)}
+.nav-cta:hover{box-shadow:0 6px 24px rgba(40,107,255,0.3);transform:translateY(-1px)}
 
-  --grn:  #4fba7c;
-  --grn2: rgba(79,186,124,.08);
-  --grn3: rgba(79,186,124,.22);
+/* ═══ HERO ═══ */
+.hero{min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:110px 20px 80px;overflow:hidden}
+.hero-ct{position:relative;z-index:2;max-width:600px}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--blue);background:rgba(40,107,255,0.06);border:1px solid rgba(40,107,255,0.1);padding:8px 18px;border-radius:100px;margin-bottom:24px;animation:fu .7s ease-out both}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:dp 2s ease-in-out infinite}
+@keyframes dp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
 
-  --amb:  #d4a84b;
-  --amb2: rgba(212,168,75,.08);
-  --amb3: rgba(212,168,75,.22);
+.hero h1{font-size:clamp(1.85rem,5.5vw,3.1rem);font-weight:800;line-height:1.22;letter-spacing:-1px;margin-bottom:20px;animation:fu .7s ease-out .08s both}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue),#5b8fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.05rem;color:var(--tx2);font-weight:400;line-height:1.9;margin-bottom:40px;animation:fu .7s ease-out .16s both}
+.hero-sub strong{color:var(--tx);font-weight:600}
 
-  /* Glass */
-  --glass-bg: rgba(255,255,255,.04);
-  --glass-bd: rgba(255,255,255,.1);
-  --glass-blur: blur(16px);
-}
+.btn-hero{display:inline-flex;align-items:center;gap:10px;font-family:var(--f);font-size:.97rem;font-weight:700;padding:17px 36px;background:linear-gradient(135deg,var(--blue),#4a87ff);color:#fff;border:none;border-radius:100px;cursor:pointer;text-decoration:none;transition:all .3s;box-shadow:0 6px 30px rgba(40,107,255,0.28);animation:fu .7s ease-out .24s both;position:relative;overflow:hidden}
+.btn-hero::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.12);border-radius:50%;transform:translate(-50%,-50%);transition:all .6s}
+.btn-hero:hover::after{width:320px;height:320px}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(40,107,255,0.36)}
+.btn-hero svg,.btn-hero span{position:relative;z-index:1}
+.btn-hero svg{width:17px;height:17px}
 
-/* ══ BASE ══ */
-body{
-  background:var(--bg);
-  color:var(--t1);
-  font-family:'Pretendard',sans-serif;
-  font-weight:400;
-  line-height:1.7;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-/* 노이즈 텍스처 */
-body::after{
-  content:'';position:fixed;inset:0;z-index:997;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-  opacity:.45;
-}
+.hero-micro{margin-top:14px;font-size:.78rem;color:var(--tx3);animation:fu .7s ease-out .32s both}
 
-/* ══ LAYOUT ══ */
-.W{width:100%;max-width:580px;margin:0 auto;padding:0 20px}
-.sec{padding:56px 0}
-hr.div{border:none;border-top:1px solid var(--ln)}
+.hf{position:absolute;border-radius:var(--r);z-index:1;animation:hf 8s ease-in-out infinite alternate}
+.hf-a{width:180px;height:110px;top:16%;left:3%;background:rgba(255,255,255,0.35);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.4);box-shadow:0 6px 24px rgba(40,107,255,0.04);--rt:-6deg}
+.hf-b{width:140px;height:90px;bottom:20%;right:4%;background:rgba(40,107,255,0.05);backdrop-filter:blur(14px);border:1px solid rgba(40,107,255,0.08);--rt:4deg;animation-delay:-3s}
+.hf-c{width:70px;height:70px;top:32%;right:13%;border-radius:50%;background:rgba(200,217,238,0.3);backdrop-filter:blur(10px);border:1px solid rgba(200,217,238,0.4);--rt:0deg;animation-delay:-5s}
+@keyframes hf{0%{transform:translateY(0) rotate(var(--rt))}100%{transform:translateY(-18px) rotate(var(--rt))}}
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-/* ══ ANIMATIONS ══ */
-@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
-@keyframes glow{
-  0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:1;transform:translate(-50%,-50%) scale(1.09)}
-}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+/* ═══ SECTIONS ═══ */
+section{padding:96px 0;position:relative;overflow:hidden}
+.sl{font-size:.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.st{font-size:clamp(1.45rem,3.5vw,2.1rem);font-weight:800;line-height:1.3;letter-spacing:-.5px;margin-bottom:10px}
+.sd{font-size:.97rem;color:var(--tx2);line-height:1.85;max-width:520px}
 
-/* ══ REVEAL ══ */
-.r{opacity:0;transform:translateY(16px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
-.r.in{opacity:1;transform:none}
-.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
+/* ═══ PROBLEM → SOLUTION ═══ */
+.ps-grid{display:flex;flex-direction:column;gap:12px;margin-top:40px}
+.ps-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:28px 24px}
+.ps-l{display:flex;flex-direction:column;gap:3px}
+.ps-l .tag{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.ps-l.p .tag{color:var(--red)}.ps-l.s .tag{color:var(--blue)}
+.ps-l h3{font-size:1rem;font-weight:700;line-height:1.45}
+.ps-l.p h3{color:var(--tx2)}.ps-l.s h3{color:var(--tx)}
+.ps-a{color:var(--blue);font-size:1.3rem;flex-shrink:0;display:flex;align-items:center}
 
-/* ══ PROGRESS BAR ══ */
-#pbar{
-  position:fixed;top:0;left:0;z-index:998;
-  height:2px;width:0%;
-  background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.5),rgba(255,255,255,.1));
-  background-size:200% 100%;
-  animation:shimmer 2s infinite;
-  transition:width .1s linear;
-}
+/* ═══ BEFORE / AFTER ═══ */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px}
+.ba-c{padding:28px 24px;border-radius:var(--r)}
+.ba-c.bf{background:rgba(227,72,80,0.035);border:1px solid rgba(227,72,80,0.08)}
+.ba-c.af{background:rgba(40,107,255,0.035);border:1px solid rgba(40,107,255,0.1)}
+.ba-t{font-size:.67rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;display:block}
+.ba-c.bf .ba-t{color:var(--red)}.ba-c.af .ba-t{color:var(--blue)}
+.ba-s{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;line-height:1.55;color:var(--tx2)}
+.ba-s+.ba-s{margin-top:14px}
+.ba-s .e{flex-shrink:0;font-size:1.15rem;line-height:1.45}
+.ba-s strong{color:var(--tx);font-weight:600}
 
-/* ══ NAV — glass ══ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  padding:0 20px;height:52px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,10,10,.7);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
-  border-bottom:1px solid var(--glass-bd);
-}
-.n-logo{
-  font-size:13px;font-weight:900;letter-spacing:.18em;
-  text-transform:uppercase;display:flex;align-items:center;gap:8px;
-}
-.n-logo::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--t1);opacity:.5;
-  animation:pulse 3s ease-in-out infinite;
-}
-.n-badge{
-  font-size:11px;font-weight:800;letter-spacing:.08em;
-  color:#286bff;
-  border:1px solid rgba(40,107,255,.4);
-  background:rgba(40,107,255,.08);
-  padding:5px 12px;border-radius:40px;
-  animation:pulse 3s ease-in-out infinite;
-  backdrop-filter:blur(8px);
-}
+/* ═══ BENEFITS + HOW IT WORKS ═══ */
+.bn-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px;margin-bottom:12px}
+.bn{padding:20px 16px;border-radius:var(--rs);text-align:center}
+.bn .ic{font-size:1.4rem;margin-bottom:10px;display:block}
+.bn h4{font-size:.92rem;font-weight:700;line-height:1.35;margin-bottom:3px}
+.bn p{font-size:.8rem;color:var(--tx2);line-height:1.55}
 
-/* ══ HERO ══ */
-#hero{
-  min-height:100svh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:72px 20px 56px;
-  position:relative;overflow:hidden;
-}
-.h-grid{
-  position:absolute;inset:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:52px 52px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
-}
-.h-glow{
-  position:absolute;top:44%;left:50%;
-  width:600px;height:600px;pointer-events:none;
-  background:radial-gradient(circle,rgba(255,255,255,.018) 0%,transparent 66%);
-  transform:translate(-50%,-50%);
-  animation:glow 7s ease-in-out infinite;
-}
-.h-hook{
-  font-size:15px;font-weight:600;color:var(--t2);
-  letter-spacing:.02em;margin-bottom:20px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .1s;
-}
-.h-hook em{font-style:normal;color:var(--red);font-weight:800}
-.h1{
-  font-size:clamp(36px,9.5vw,78px);
-  font-weight:900;line-height:1.06;letter-spacing:-.04em;
-  margin-bottom:16px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .22s;
-}
-.h-def{
-  font-size:15px;font-weight:500;
-  color:var(--t2);line-height:1.7;margin-bottom:14px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .34s;
-}
-.h-def strong{color:var(--t1);font-weight:800}
-.h-sub{
-  font-size:16px;font-weight:400;
-  color:var(--t2);line-height:1.78;
-  max-width:320px;margin:0 auto 32px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .46s;
-}
-.h-sub strong{color:var(--t1);font-weight:700}
-.h-cta{
-  width:100%;max-width:400px;
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  opacity:0;animation:fu .8s cubic-bezier(.22,1,.36,1) forwards .58s;
-}
+.steps{margin-top:40px}
+.stp{display:grid;grid-template-columns:56px 1fr;gap:20px;padding:30px 0;border-bottom:1px solid rgba(200,217,238,0.4);align-items:start}
+.stp:last-child{border-bottom:none}
+.stp-n{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:800;color:var(--blue);background:rgba(40,107,255,0.06);border:1px solid rgba(40,107,255,0.08)}
+.stp h3{font-size:1.05rem;font-weight:700;margin-bottom:5px}.stp h3 span{color:var(--blue)}
+.stp p{color:var(--tx2);font-size:.92rem;line-height:1.7}
 
-/* ══ BUTTONS ══ */
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;padding:17px 20px;min-height:54px;
-  font-family:'Pretendard',sans-serif;
-  font-size:15px;font-weight:800;letter-spacing:.04em;
-  border:none;border-radius:4px;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 55%);
-  opacity:0;transition:opacity .25s;
-}
-.btn:hover::before{opacity:1}
-.btn:active{transform:scale(.978)}
+/* ═══ TRUST ═══ */
+.tr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px}
+.tr-c{padding:26px 20px;border-radius:var(--r);text-align:center}
+.tr-c .ic{font-size:1.6rem;margin-bottom:12px;display:block}
+.tr-c h3{font-size:.95rem;font-weight:700;margin-bottom:5px;line-height:1.4}
+.tr-c p{font-size:.85rem;color:var(--tx2);line-height:1.65}
+.tr-c .nm{font-size:1.8rem;font-weight:800;color:var(--blue);line-height:1;margin-bottom:6px;display:block}
 
-.btn-solid{
-  background:var(--t1);color:#0a0a0a;
-  box-shadow:0 1px 0 rgba(255,255,255,.08) inset;
-}
-.btn-solid:hover{
-  box-shadow:0 0 32px rgba(242,242,238,.15),0 1px 0 rgba(255,255,255,.08) inset;
-  transform:translateY(-2px);
-}
-.btn-ghost{
-  background:var(--glass-bg);color:var(--t2);
-  border:1px solid var(--ln2);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-.btn-ghost:hover{color:var(--t1);border-color:var(--ln3);background:rgba(255,255,255,.07)}
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}
+.fit-b{padding:22px 20px;border-radius:var(--rs)}
+.fit-b.y{border-color:rgba(40,107,255,0.16)!important}
+.fit-b.n{border-color:rgba(227,72,80,0.1)!important}
+.fit-t{font-size:.66rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:block}
+.fit-b.y .fit-t{color:var(--blue)}.fit-b.n .fit-t{color:var(--red)}
+.fit-b p{color:var(--tx2);font-size:.9rem;line-height:1.65}
+.fit-b p strong{color:var(--tx);font-weight:600}
 
-.btn-note{
-  font-size:13px;font-weight:600;color:var(--t2);
-  letter-spacing:.03em;text-align:center;line-height:1.6;
-}
-.btn-note em{font-style:normal;color:var(--grn);font-weight:700}
+/* ═══ PRICING ═══ */
+.pr-intro{text-align:center;margin-bottom:44px}
+.pr-intro .sd{margin:0 auto}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pr-c{padding:32px 24px;border-radius:var(--r);position:relative;transition:all .35s}
+.pr-c:hover{transform:translateY(-3px)}
+.pr-c.ft{border-color:rgba(40,107,255,0.22)!important;background:linear-gradient(180deg,rgba(40,107,255,0.05),rgba(255,255,255,0.7))!important;box-shadow:0 10px 48px rgba(40,107,255,0.09)}
+.pr-pop{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:linear-gradient(135deg,var(--blue),#4a87ff);color:#fff;padding:5px 16px;border-radius:100px;white-space:nowrap;box-shadow:0 3px 14px rgba(40,107,255,0.2)}
+.pr-nm{font-size:.82rem;font-weight:600;color:var(--tx3);margin-bottom:4px}
+.pr-amt{font-size:2.4rem;font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:2px}
+.pr-amt small{font-size:.82rem;font-weight:400;color:var(--tx3);letter-spacing:0}
+.pr-dy{font-size:.78rem;color:var(--blue);font-weight:600;margin-bottom:22px}
+.pr-ft{list-style:none;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+.pr-ft li{font-size:.86rem;color:var(--tx2);padding-left:22px;position:relative}
+.pr-ft li::before{content:'✓';position:absolute;left:0;color:var(--blue);font-weight:700;font-size:.8rem}
+.btn-c{display:block;width:100%;text-align:center;padding:14px;border-radius:100px;font-family:var(--f);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-o{background:transparent;border:1.5px solid var(--blue-l);color:var(--tx)}
+.btn-o:hover{border-color:var(--blue);color:var(--blue)}
+.btn-f{background:linear-gradient(135deg,var(--blue),#4a87ff);border:none;color:#fff;box-shadow:0 4px 20px rgba(40,107,255,0.2)}
+.btn-f:hover{box-shadow:0 8px 30px rgba(40,107,255,0.3);transform:translateY(-1px)}
 
-.warn{
-  display:flex;gap:9px;align-items:center;
-  background:var(--red2);border:1px solid var(--red3);
-  padding:12px 14px;border-radius:4px;width:100%;
-  font-size:14px;font-weight:700;color:var(--red);line-height:1.55;
-  text-align:left;
-}
+/* ═══ FAQ ═══ */
+.faq{max-width:660px;margin:40px auto 0;display:flex;flex-direction:column;gap:8px}
+.fq{border-radius:var(--rs);overflow:hidden;transition:box-shadow .3s}
+.fq:hover{box-shadow:0 4px 20px rgba(40,107,255,0.06)}
+.fq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;font-size:.95rem;font-weight:600;color:var(--tx);gap:12px;-webkit-tap-highlight-color:transparent;user-select:none}
+.fq-q:hover{color:var(--blue)}
+.fq-i{width:22px;height:22px;flex-shrink:0;transition:transform .3s;color:var(--blue)}
+.fq.open .fq-i{transform:rotate(45deg)}
+.fq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 22px}
+.fq.open .fq-a{max-height:180px;padding:0 22px 20px}
+.fq-a p{font-size:.9rem;color:var(--tx2);line-height:1.75}
 
-/* ══ STATS ══ */
-#stats{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
-.sg{display:grid;grid-template-columns:repeat(3,1fr)}
-.sc{padding:26px 10px;text-align:center;position:relative}
-.sc+.sc::before{
-  content:'';position:absolute;left:0;top:20%;bottom:20%;
-  width:1px;background:var(--ln);
-}
-.sn{
-  font-size:clamp(30px,8vw,48px);font-weight:900;
-  line-height:1;letter-spacing:-.04em;color:var(--t1);display:block;
-}
-.sn sup{font-size:.36em;font-weight:700;vertical-align:top;margin-top:.2em}
-.sn.red{color:var(--red)}
-.sn.grn{color:var(--grn)}
-.sl{font-size:13px;font-weight:600;color:var(--t2);margin-top:8px;line-height:1.45}
+/* ═══ GUARANTEE ═══ */
+.guar{text-align:center}
+.g-box{max-width:600px;margin:0 auto;padding:44px 36px;border-radius:var(--r);background:linear-gradient(135deg,rgba(40,107,255,0.035),rgba(200,217,238,0.16));border:1px solid rgba(40,107,255,0.08);position:relative;overflow:hidden}
+.g-box::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,rgba(40,107,255,0.06),transparent 70%);pointer-events:none}
+.g-box>*{position:relative;z-index:1}
+.g-ic{font-size:1.8rem;margin-bottom:14px;display:block}
+.g-box h2{font-size:1.3rem;font-weight:800;margin-bottom:3px}
+.g-sub{font-size:.68rem;font-weight:700;letter-spacing:1px;color:var(--blue);margin-bottom:14px;display:block}
+.g-box>p{font-size:.9rem;color:var(--tx2);line-height:1.8}
+.g-box>p strong{color:var(--blue);font-weight:700}
+.g-fn{font-size:.76rem;color:var(--tx3);margin-top:10px}
 
-/* ══ TYPE ══ */
-.sec-tag{
-  display:block;font-size:11px;font-weight:700;
-  letter-spacing:.24em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:10px;
-}
-.sec-h{
-  font-size:clamp(23px,6vw,36px);font-weight:900;
-  line-height:1.16;letter-spacing:-.03em;margin-bottom:22px;
+/* ═══ FINAL CTA ═══ */
+.fcta{text-align:center;padding:96px 0 110px;background:linear-gradient(180deg,var(--bg),var(--blue-50))}
+.urg{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:700;color:#b45309;background:rgba(251,191,36,0.07);border:1px solid rgba(251,191,36,0.12);padding:9px 22px;border-radius:100px;margin-bottom:28px}
+.u-d{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:bl 1.5s ease-in-out infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.fcta h2{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
+.fcta .sub{color:var(--tx2);font-size:.9rem;margin-bottom:34px}
+.btn-end{display:inline-flex;align-items:center;gap:10px;font-family:var(--f);font-size:1.02rem;font-weight:700;padding:19px 46px;background:linear-gradient(135deg,var(--blue),#4a87ff);color:#fff;border:none;border-radius:100px;cursor:pointer;text-decoration:none;transition:all .35s;box-shadow:0 8px 36px rgba(40,107,255,0.28);position:relative;overflow:hidden}
+.btn-end::before{content:'';position:absolute;inset:-2px;border-radius:100px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);animation:sh 3.5s infinite}
+@keyframes sh{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.btn-end:hover{transform:translateY(-2px);box-shadow:0 12px 48px rgba(40,107,255,0.36)}
+.btn-end>*{position:relative;z-index:1}
+.f-micro{margin-top:14px;font-size:.76rem;color:var(--tx3)}
+
+/* ═══ STICKY MOBILE CTA ═══ */
+.sticky-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:90;padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:rgba(244,246,250,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(200,217,238,0.35);transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:linear-gradient(135deg,var(--blue),#4a87ff);color:#fff;border-radius:100px;font-size:.93rem;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(40,107,255,0.25)}
+
+/* ═══ MODAL ═══ */
+.mo{display:none;position:fixed;inset:0;background:rgba(13,27,62,0.3);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.mo.active{display:flex}
+.mo-b{background:var(--wh);border:1px solid rgba(200,217,238,0.4);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;text-align:center;position:relative;animation:mi .5s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 72px rgba(40,107,255,0.1)}
+@keyframes mi{from{opacity:0;transform:scale(.93) translateY(14px)}to{opacity:1;transform:none}}
+.mo-ck{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:rgba(40,107,255,0.06);display:flex;align-items:center;justify-content:center}
+.mo-ck svg{width:30px;height:30px;stroke:var(--blue)}
+.mo-b h2{font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.mo-b p{color:var(--tx2);font-size:.9rem;line-height:1.7}
+.mo-cd{font-size:2.2rem;color:var(--blue);font-weight:800;margin-top:18px}
+.mo-x{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--tx3);cursor:pointer;font-size:1.2rem;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.mo-x:hover{background:rgba(0,0,0,0.04);color:var(--tx)}
+
+footer{padding:32px 0;border-top:1px solid rgba(200,217,238,0.35);text-align:center}
+footer p{font-size:.72rem;color:var(--tx3)}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  section{padding:68px 0}
+  .hf{display:none}
+  .hero{padding:96px 20px 60px;min-height:auto}
+  .hero h1{font-size:clamp(1.65rem,7vw,2.4rem);margin-bottom:16px}
+  .hero-sub{font-size:1rem;margin-bottom:32px}
+  .btn-hero{padding:16px 30px;font-size:.93rem;width:100%;justify-content:center}
+  .st{font-size:clamp(1.35rem,5vw,1.8rem)}
+  .ps-card{grid-template-columns:1fr;gap:4px;text-align:center;padding:24px 20px}
+  .ps-a{transform:rotate(90deg);margin:6px auto}
+  .ba{grid-template-columns:1fr;gap:10px}
+  .ba-c{padding:24px 20px}
+  .bn-row{grid-template-columns:1fr;gap:8px}
+  .bn{display:grid;grid-template-columns:auto 1fr;gap:14px;text-align:left;padding:16px 18px}
+  .bn .ic{margin-bottom:0;align-self:center}
+  .tr-grid{grid-template-columns:1fr;gap:8px}
+  .tr-c{display:grid;grid-template-columns:auto 1fr;gap:14px;text-align:left;padding:20px}
+  .tr-c .ic{margin-bottom:0;align-self:center}
+  .tr-c .nm{font-size:1.4rem}
+  .fit{grid-template-columns:1fr;gap:8px}
+  .pr-grid{grid-template-columns:1fr;gap:20px}
+  .pr-c{padding:28px 22px}
+  .stp{grid-template-columns:46px 1fr;gap:14px;padding:26px 0}
+  .stp-n{width:46px;height:46px;font-size:.95rem}
+  .g-box{padding:36px 22px}
+  .mo-b{padding:40px 24px}
+  .fq-q{padding:17px 18px;font-size:.93rem}
+  .btn-end{padding:17px 36px;font-size:.95rem;width:100%;justify-content:center}
+  .sticky-cta{display:block}
+  .fcta{padding-bottom:140px}
 }
 
-/* ══ PROBLEM ══ */
-.av-box{
-  background:linear-gradient(135deg,rgba(224,92,92,.06),rgba(224,92,92,.02));
-  border:1px solid var(--red3);
-  border-radius:6px;padding:22px 20px;margin-bottom:20px;
-  position:relative;overflow:hidden;
-  backdrop-filter:blur(4px);
-}
-.av-box::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--red),transparent);
-}
-.av-label{
-  font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--red);margin-bottom:10px;
-  display:flex;align-items:center;gap:7px;
-}
-.av-label::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--red);flex-shrink:0;
-  animation:pulse 2s ease-in-out infinite;
-}
-.av-year{
-  font-size:clamp(44px,11vw,68px);font-weight:900;
-  letter-spacing:-.05em;color:var(--red);line-height:1;
-  display:block;margin-bottom:4px;
-}
-.av-sub{font-size:12px;color:var(--red);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;opacity:.8}
-.av-body{font-size:15px;color:var(--t2);line-height:1.78}
-.av-body strong{color:var(--t1);font-weight:700}
-
-.ba{border:1px solid var(--ln2);border-radius:6px;overflow:hidden}
-.ba-row{display:flex;align-items:flex-start;gap:12px;padding:15px 16px}
-.ba-before{background:rgba(224,92,92,.06)}
-.ba-after{background:rgba(79,186,124,.06)}
-.ba-divider{
-  text-align:center;font-size:12px;font-weight:700;color:var(--t3);
-  padding:6px 0;background:var(--bg2);
-  border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);
-  letter-spacing:.05em;
-}
-.ba-tag{font-size:10px;font-weight:800;letter-spacing:.18em;flex-shrink:0;margin-top:3px;text-transform:uppercase}
-.ba-before .ba-tag{color:var(--red)}
-.ba-after  .ba-tag{color:var(--grn)}
-.ba-txt{font-size:14px;color:var(--t2);line-height:1.65}
-.ba-txt strong{color:var(--t1);font-weight:700}
-
-/* ══ SYSTEM ══ */
-#system{background:var(--bg1);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
-.sys-cards{display:flex;flex-direction:column;gap:1px;background:var(--ln)}
-.sys-card{
-  background:var(--bg1);padding:24px 20px;
-  transition:background .2s,box-shadow .2s;
-  position:relative;overflow:hidden;
-}
-.sys-card::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.03) 0%,transparent 50%);
-  opacity:0;transition:opacity .25s;pointer-events:none;
-}
-.sys-card:hover{background:var(--bg3)}
-.sys-card:hover::after{opacity:1}
-.sys-step{
-  font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:10px;
-  display:flex;align-items:center;gap:7px;
-}
-.sys-step::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--t3);flex-shrink:0}
-.sys-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.sys-ico{font-size:24px;flex-shrink:0}
-.sys-tag{
-  font-size:11px;font-weight:800;letter-spacing:.08em;
-  padding:4px 10px;border-radius:40px;white-space:nowrap;
-}
-.sys-tag.emp{color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--ln2)}
-.sys-tag.rul{color:var(--grn);background:var(--grn2);border:1px solid var(--grn3)}
-.sys-tag.rew{color:var(--amb);background:var(--amb2);border:1px solid var(--amb3)}
-.sys-title{font-size:16px;font-weight:800;color:var(--t1);line-height:1.3}
-.sys-desc{font-size:14px;color:var(--t2);line-height:1.75}
-.sys-desc strong{color:var(--t1);font-weight:700}
-.roi-box{
-  margin-top:12px;padding:14px 16px;
-  background:rgba(212,168,75,.07);border:1px solid var(--amb3);
-  border-radius:6px;font-size:14px;color:var(--t2);
-  line-height:1.65;font-style:italic;
-  backdrop-filter:blur(4px);
-}
-.roi-box strong{color:var(--amb);font-weight:700;font-style:normal}
-
-/* ══ BENEFITS 6카드 — glass ══ */
-#benefits{
-  background:var(--bg);
-  border-top:1px solid var(--ln);
-  border-bottom:1px solid var(--ln);
-  padding:40px 0;
-}
-.feat-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:1px;background:var(--ln);
-}
-.feat-card{
-  background:var(--glass-bg);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  padding:22px 18px;
-  transition:background .22s,transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s;
-  cursor:default;
-  position:relative;overflow:hidden;
-}
-.feat-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
-  opacity:0;transition:opacity .25s;
-}
-.feat-card:hover{
-  background:rgba(255,255,255,.07);
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px rgba(0,0,0,.4);
-  z-index:1;
-}
-.feat-card:hover::before{opacity:1}
-.feat-ico{font-size:22px;margin-bottom:10px;display:block}
-.feat-name{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:5px;line-height:1.3}
-.feat-desc{font-size:13px;color:var(--t2);line-height:1.65}
-
-/* ══ TRIBE (FIT) ══ */
-.tribe-quote{
-  font-size:16px;font-weight:700;
-  color:var(--t1);line-height:1.65;letter-spacing:-.01em;
-  padding:20px 0 20px 16px;
-  border-left:2px solid var(--ln2);margin-bottom:20px;
-}
-.social-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.sp{
-  font-size:13px;font-weight:700;letter-spacing:.04em;
-  padding:8px 14px;border-radius:40px;
-  display:flex;align-items:center;gap:6px;
-  backdrop-filter:blur(6px);
-}
-.sp.hours{color:var(--amb);background:rgba(212,168,75,.08);border:1px solid var(--amb3)}
-.sp.report{color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--ln2)}
-
-.fit{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ln)}
-.fit-col{
-  padding:20px 16px;
-  background:var(--glass-bg);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-.fit-col.yes{border-top:2px solid var(--grn3)}
-.fit-col.no {border-top:2px solid var(--red3)}
-.fit-h{font-size:13px;font-weight:800;margin-bottom:12px}
-.fit-col.yes .fit-h{color:var(--grn)}
-.fit-col.no  .fit-h{color:var(--red)}
-.fit-item{
-  font-size:14px;color:var(--t2);line-height:1.6;
-  padding:8px 0;border-bottom:1px solid var(--ln);
-  display:flex;align-items:baseline;gap:7px;
-}
-.fit-item:last-child{border-bottom:none}
-.fit-col.yes .fit-item::before{content:'✓';color:var(--grn);flex-shrink:0;font-weight:800;font-size:12px}
-.fit-col.no  .fit-item::before{content:'✕';color:var(--red);flex-shrink:0;font-weight:800;font-size:12px}
-
-/* ══ OFFER ══ */
-.price-pain{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
-.pain-row{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:14px 18px;flex-wrap:wrap;
-}
-.pain-row:first-child{background:rgba(224,92,92,.07)}
-.pain-row:last-child{background:rgba(79,186,124,.07)}
-.pain-lbl{font-size:13px;font-weight:700;color:var(--t2);letter-spacing:.02em}
-.pain-val{font-size:15px;font-weight:800;color:var(--t2);text-align:right}
-.pain-val.grn{color:var(--grn)}
-.pain-val strong{font-weight:900}
-
-/* 플랜 */
-.plan-grid{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
-.plan{
-  background:var(--glass-bg);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  padding:22px 20px;
-  transition:background .2s;position:relative;overflow:hidden;
-}
-.plan:hover{background:rgba(255,255,255,.05)}
-.plan.core{
-  background:rgba(79,186,124,.05);
-  border:1px solid rgba(79,186,124,.18);
-  padding:26px 20px;
-}
-.plan.core::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--grn),transparent);
-}
-.plan-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-.plan-name{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
-.plan-badge{
-  font-size:11px;font-weight:800;color:var(--grn);
-  background:var(--grn2);border:1px solid var(--grn3);
-  padding:4px 10px;border-radius:40px;
-}
-.plan-price{
-  font-size:clamp(26px,7vw,36px);font-weight:900;
-  letter-spacing:-.04em;color:var(--t1);margin-bottom:6px;line-height:1;
-}
-.plan-price sub{font-size:.3em;font-weight:600;color:var(--t3)}
-.plan-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:10px}
-.plan-desc{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:8px}
-.plan-items{display:flex;flex-direction:column;gap:9px}
-.plan-item{
-  display:flex;gap:9px;align-items:flex-start;
-  font-size:14px;color:var(--t2);line-height:1.55;
-}
-.plan-item::before{content:'✔';color:var(--grn);flex-shrink:0;font-weight:800;font-size:12px;margin-top:2px}
-.plan-highlight{font-size:14px;color:var(--grn);font-weight:700;margin-top:14px;line-height:1.6}
-.plan-dismiss{
-  margin-top:10px;padding:10px 12px;
-  background:var(--red2);border:1px solid var(--red3);
-  border-radius:4px;font-size:13px;color:var(--red);
-  line-height:1.6;font-weight:600;
-}
-
-/* 보증 — glass */
-.guar-list{display:flex;flex-direction:column;gap:1px;background:var(--ln);margin-bottom:16px;border-radius:6px;overflow:hidden}
-.guar-row{
-  background:var(--glass-bg);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  display:grid;grid-template-columns:28px 1fr;gap:12px;
-  padding:22px 20px;transition:background .2s;
-}
-.guar-row:hover{background:rgba(255,255,255,.05)}
-.guar-ico{font-size:20px;padding-top:1px}
-.guar-t{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:7px;line-height:1.3}
-.guar-d{font-size:14px;color:var(--t2);line-height:1.78}
-.guar-d strong{color:var(--t1);font-weight:700}
-
-/* FOMO */
-.fomo{
-  background:var(--red2);border:1px solid var(--red3);
-  padding:16px 18px;margin-bottom:16px;border-radius:6px;
-  backdrop-filter:blur(4px);
-}
-.fomo-t{
-  font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--red);margin-bottom:10px;
-  display:flex;align-items:center;gap:6px;
-}
-.fomo-t::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--red);flex-shrink:0;animation:pulse 1.8s ease-in-out infinite;
-}
-.fomo-list{display:flex;flex-direction:column;gap:8px}
-.fomo-row{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--t2);line-height:1.6}
-.fomo-row::before{content:'—';flex-shrink:0;color:var(--red3)}
-
-/* FAQ */
-.faq-lbl{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
-.faq-list{display:flex;flex-direction:column;margin-bottom:20px}
-.fi{border-bottom:1px solid var(--ln)}
-.fq{
-  width:100%;background:none;border:none;
-  display:flex;justify-content:space-between;align-items:center;gap:14px;
-  padding:18px 0;min-height:54px;cursor:pointer;text-align:left;
-  font-family:'Pretendard',sans-serif;transition:opacity .18s;
-  -webkit-tap-highlight-color:transparent;
-}
-.fq:hover{opacity:.75}
-.fq-t{font-size:15px;font-weight:700;color:var(--t1);line-height:1.5}
-.fq-i{
-  flex-shrink:0;width:26px;height:26px;
-  border:1px solid var(--ln2);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:var(--t3);
-  transition:transform .28s cubic-bezier(.22,1,.36,1),border-color .2s,background .2s;
-}
-.fq.open .fq-i{
-  transform:rotate(45deg);
-  border-color:rgba(255,255,255,.28);
-  color:var(--t1);
-  background:rgba(255,255,255,.06);
-}
-.fa{
-  display:none;font-size:14px;color:var(--t2);line-height:1.85;
-  padding:0 0 18px;
-  border-left:2px solid var(--ln2);padding-left:14px;
-  animation:fu .28s cubic-bezier(.22,1,.36,1);
-}
-.fa.on{display:block}
-.cta-stack{display:flex;flex-direction:column;gap:12px}
-
-/* after-scene */
-.after-scene{
-  background:var(--glass-bg);border:1px solid var(--ln2);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  padding:18px 20px;margin-bottom:16px;border-radius:6px;
-}
-.after-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;display:block}
-.after-rows{display:flex;flex-direction:column;gap:10px}
-.after-row{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--t2);line-height:1.5}
-.after-n{
-  flex-shrink:0;width:22px;height:22px;border-radius:50%;
-  background:var(--grn2);border:1px solid var(--grn3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;color:var(--grn);
-}
-
-/* ══ FINAL CTA ══ */
-#final{padding:64px 0;text-align:center;border-top:1px solid var(--ln);position:relative}
-#final::before{
-  content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-  width:1px;height:64px;
-  background:linear-gradient(180deg,var(--ln2),transparent);
-}
-.fi-in{max-width:440px;margin:0 auto;padding:0 20px}
-.fi-tag{font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;display:block}
-.fi-h{font-size:clamp(22px,6vw,38px);font-weight:900;line-height:1.18;letter-spacing:-.03em;margin-bottom:14px}
-.fi-h em{font-style:normal;color:var(--red)}
-.fi-sub{font-size:15px;color:var(--t2);line-height:1.82;margin-bottom:20px}
-.fi-sub strong{color:var(--t1);font-weight:700}
-.loss-box{
-  display:flex;gap:10px;align-items:flex-start;
-  background:var(--red2);border:1px solid var(--red3);
-  padding:14px 16px;border-radius:4px;margin-bottom:22px;
-  text-align:left;font-size:14px;font-weight:600;color:var(--red);line-height:1.65;
-  backdrop-filter:blur(4px);
-}
-.loss-box strong{color:var(--t1)}
-.fi-guar{font-size:13px;color:var(--t2);letter-spacing:.04em;margin-top:14px}
-
-/* ══ WAITLIST ══ */
-#wl{padding:52px 0;background:var(--bg1);border-top:1px solid var(--ln);text-align:center}
-.wl-in{max-width:300px;margin:0 auto;padding:0 20px}
-.wl-h{font-size:22px;font-weight:900;letter-spacing:-.025em;margin-bottom:10px}
-.wl-copy{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:20px}
-.wl-copy strong{color:var(--t1);font-weight:700}
-
-/* ══ EXIT POPUP — glass ══ */
-#exit-popup{
-  display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;padding:20px;
-}
-#exit-popup.show{display:flex;animation:popIn .35s cubic-bezier(.22,1,.36,1)}
-.ep-box{
-  background:rgba(20,20,20,.85);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border:1px solid var(--ln2);
-  border-radius:10px;width:100%;max-width:380px;
-  padding:32px 24px;text-align:center;position:relative;
-  box-shadow:0 32px 64px rgba(0,0,0,.6);
-}
-.ep-box::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--red),transparent);
-  border-radius:10px 10px 0 0;
-}
-.ep-close{
-  position:absolute;top:14px;right:16px;
-  background:none;border:none;cursor:pointer;
-  font-size:20px;color:var(--t3);font-family:'Pretendard',sans-serif;
-  transition:color .2s;min-width:44px;min-height:44px;
-  display:flex;align-items:center;justify-content:center;
-  -webkit-tap-highlight-color:transparent;
-}
-.ep-close:hover{color:var(--t1)}
-.ep-tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:block}
-.ep-h{font-size:clamp(18px,5vw,22px);font-weight:900;line-height:1.25;letter-spacing:-.02em;margin-bottom:12px;color:var(--t1)}
-.ep-h em{font-style:normal;color:var(--red)}
-.ep-body{font-size:14px;color:var(--t2);line-height:1.78;margin-bottom:20px}
-.ep-body strong{color:var(--t1);font-weight:700}
-
-
-/* ══ 가독성 패치 ══ */
-/* sys-step: t3→t2로 올려서 모바일에서 읽히게 */
-.sys-step{color:var(--t2) !important}
-/* av-sub: opacity 제거 */
-.av-sub{opacity:1 !important}
-/* sec-tag: letter-spacing 줄이고 t3 유지하되 11px→12px */
-.sec-tag{font-size:12px !important;letter-spacing:.16em !important}
-/* fi-guar: 환불 정보 — 14px + t1 */
-.fi-guar{font-size:14px !important;color:var(--t1) !important}
-/* pain-val red — 인라인 스타일 대체 */
-.pain-val.red-val{color:var(--red);font-weight:800}
-.pain-val.red-val strong{color:var(--red);font-weight:900}
-/* benefits 헤더 */
-#benefits .W{padding-top:0;padding-bottom:0}
-.benefits-head{padding:40px 20px 22px;max-width:580px;margin:0 auto}
-.benefits-h{margin-bottom:0}
-/* cta-mb: 인라인 margin 대체 */
-.cta-mb{margin-bottom:16px}
-/* after-scene 위치 CSS는 HTML 순서로 해결 */
-
-
-/* ══ 문서3 반영 CSS ══ */
-.urgent-banner{
-  background:var(--red2);border:1px solid var(--red3);
-  padding:16px 18px;border-radius:4px;margin-bottom:16px;
-}
-.ub-title{
-  font-size:13px;font-weight:800;color:var(--red);letter-spacing:.06em;
-  margin-bottom:8px;display:flex;align-items:center;gap:6px;
-}
-.ub-title::before{content:'🚨';font-size:13px}
-.ub-desc{font-size:14px;color:var(--t2);line-height:1.65}
-.ub-desc strong{color:var(--t1);font-weight:700}
-
-.plan-price-anchor{
-  font-size:14px;color:var(--t3);text-decoration:line-through;
-  font-weight:600;margin-bottom:2px;display:block;
-}
-.loss-box-t{
-  font-size:13px;font-weight:800;color:var(--red);
-  letter-spacing:.04em;display:flex;align-items:center;gap:6px;
-  margin-bottom:8px;
-}
-.loss-box-t::before{content:'⚠'}
-.loss-item{
-  font-size:14px;color:var(--t2);line-height:1.6;
-  display:flex;align-items:flex-start;gap:8px;
-}
-.loss-item::before{content:'—';color:var(--red3);flex-shrink:0}
-.loss-item strong{color:var(--t1);font-weight:700}
-/* loss-box: flex-column으로 변경 */
-.loss-box-multi{
-  display:flex;flex-direction:column;gap:8px;
-  background:var(--red2);border:1px solid var(--red3);
-  padding:16px 18px;border-radius:4px;margin-bottom:22px;
-  text-align:left;
-}
-
-/* ══ FOOTER ══ */
-footer{padding:24px 20px;text-align:center;border-top:1px solid var(--ln);font-size:13px;color:var(--t3);letter-spacing:.1em;line-height:2}
-
-/* ══ RESPONSIVE ══ */
-@media(max-width:480px){
-  .W{padding:0 18px}
-  .sec{padding:48px 0}
-  nav{padding:0 16px}
-  #hero{padding:66px 18px 50px}
-  .fit{grid-template-columns:1fr}
-  .feat-grid{grid-template-columns:1fr 1fr}
-  .feat-card{padding:18px 14px}
-}
-@media(max-width:380px){
-  .feat-grid{grid-template-columns:1fr}
-}
-@media(max-width:360px){
-  .W{padding:0 14px}
-  .h1{font-size:32px}
-  .sn{font-size:26px}
-  .av-year{font-size:42px}
-  .sec-h{font-size:20px}
-  .plan-price{font-size:24px}
-  .ep-box{padding:26px 18px}
-}
-@media(min-width:620px){
-  .sec{padding:72px 0}
-  .h-hook{font-size:16px}
-  .h-sub{font-size:17px}
-  .sec-h{font-size:clamp(28px,4vw,36px)}
-  .sys-title{font-size:17px}
-  .tribe-quote{font-size:18px}
-  .fit{grid-template-columns:1fr 1fr}
-}
-
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+.rv.v{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
 
-<div id="pbar"></div>
-
 <nav>
-  <div class="n-logo">ONE BLANK</div>
-  <div class="n-badge">ONE BLANK 1</div>
+  <div class="ct">
+    <div class="logo">ONE <b>BLANK</b></div>
+    <a href="#pricing" class="nav-cta">10초 무료 진단</a>
+  </div>
 </nav>
 
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="orb" style="width:420px;height:420px;background:var(--blue);top:-140px;right:-80px"></div>
+  <div class="orb" style="width:340px;height:340px;background:var(--blue-l);bottom:-80px;left:-60px"></div>
+  <div class="orb" style="width:260px;height:260px;background:var(--blue-200);top:40%;left:55%"></div>
+  <div class="hf hf-a"></div><div class="hf hf-b"></div><div class="hf hf-c"></div>
 
-<!-- ① HERO -->
-<section id="hero">
-  <div class="h-grid"></div>
-  <div class="h-glow"></div>
-
-  <p class="h-hook"><em>5년 뒤에도 같은 아침입니까?</em></p>
-
-  <h1 class="h1">비전 보드는<br>찢어버리세요.</h1>
-
-  <p class="h-def">2030 여성 창업가·프리랜서를 위한<br><strong>초몰입 실행 라운지, ONE BLANK</strong></p>
-
-  <p class="h-sub">일주일 스타벅스 두 잔 값으로<br><strong>매일 아침 당신을 실행시킬 AI 코치</strong>를 고용하세요.</p>
-
-  <div class="h-cta">
-    <button class="btn btn-solid" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">
-      ONE BLANK 1기 경험 시작하기 →
-    </button>
-    <p class="btn-note">⚡ 3/29(일) 24시 마감 · <em>2기 오픈 시 298,000원으로 100% 인상</em></p>
-    <div class="warn">
-      <span>⚠</span>
-      <span>지금 닫으면 내일 아침도 '뭐부터 하지' 고민만 합니다.</span>
-    </div>
-  </div>
-</section>
-
-
-<!-- ② STATS -->
-<section id="stats">
-  <div class="sg">
-    <div class="sc r">
-      <span class="sn red">45<sup>만원</sup></span>
-      <div class="sl">한 달에 그냥<br>날리는 돈</div>
-    </div>
-    <div class="sc r d1">
-      <span class="sn">7<sup>명</sup></span>
-      <div class="sl">지금 접속 중인<br>멤버</div>
-    </div>
-    <div class="sc r d2">
-      <span class="sn grn">0<sup>원</sup></span>
-      <div class="sl">30일 효과<br>없으면 환불</div>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- ③ PROBLEM -->
-<section id="problem" class="sec">
-  <div class="W">
-    <span class="sec-tag r">왜 안 되는가</span>
-    <h2 class="sec-h r">계획만 세우다<br>하루가 끝납니까?</h2>
-
-    <div class="av-box r">
-      <div class="av-label">ANTI-VISION</div>
-      <span class="av-year">5년</span>
-      <div class="av-sub">최악의 미래까지 남은 시간</div>
-      <p class="av-body">
-        열심히 한 것 같은데, 뭘 했는지 모르는 하루.<br>
-        또 자려는데 '오늘도 그냥 넘겼다'는 느낌.<br>
-        <strong>지금 이 패턴이 5년 후에도 계속된다면?</strong>
-      </p>
-    </div>
-
-
-    <div class="ba r">
-      <div class="ba-row ba-before">
-        <span class="ba-tag">BEFORE</span>
-        <span class="ba-txt">눈 뜸 → 할 일 폭탄 → 압도됨 → <strong>자책</strong></span>
-      </div>
-      <div class="ba-divider">👤 ONE BLANK 접속 후</div>
-      <div class="ba-row ba-after">
-        <span class="ba-tag">AFTER</span>
-        <span class="ba-txt">눈 뜸 → 접속 → <strong>할 것 딱 1개만</strong> → 바로 시작</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- ④ THE SYSTEM -->
-<section id="system" class="sec">
-  <div class="W">
-    <span class="sec-tag r">THE SYSTEM</span>
-    <h2 class="sec-h r">빈칸 하나만<br>채우면 됩니다.</h2>
-
-    <div class="sys-cards r">
-      <div class="sys-card">
-        <div class="sys-step">Step 01. 감정 리셋</div>
-        <div class="sys-head">
-          <span class="sys-ico">💬</span>
-          <span class="sys-tag emp">20% 공감</span>
-          <span class="sys-title">AI 감정 배출구</span>
-        </div>
-        <p class="sys-desc">아침의 불안을 쏟아내면 <strong>즉시 사라져요.</strong> 뇌가 비워지고 실행 모드가 켜져요.</p>
-      </div>
-      <div class="sys-card">
-        <div class="sys-step">Step 02. 강제 몰입</div>
-        <div class="sys-head">
-          <span class="sys-ico">⏱️</span>
-          <span class="sys-tag rul">80% 규율</span>
-          <span class="sys-title">원 띵 포커스 타이머</span>
-        </div>
-        <p class="sys-desc">할 일 중 <strong>딱 1개만</strong> 화면 정중앙에 뜨고 25분 타이머가 자동으로 켜져요.</p>
-      </div>
-      <div class="sys-card">
-        <div class="sys-step">Step 03. 본전 회수</div>
-        <div class="sys-head">
-          <span class="sys-ico">📈</span>
-          <span class="sys-tag rew">도파민 보상</span>
-          <span class="sys-title">ROI 대시보드</span>
-        </div>
-        <p class="sys-desc">끝나는 순간, 내가 아낀 시간을 <strong>돈으로 환산해서 보여줘요.</strong></p>
-        <div class="roi-box">"오늘 절약한 시간: 30분 / 벌어들인 가치: <strong>35,000원</strong>"</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- 핵심 혜택 6카드 -->
-<section id="benefits">
-  <div class="benefits-head r">
-    <span class="sec-tag">ONE BLANK가 주는 것</span>
-    <h2 class="sec-h benefits-h">실행하면<br>이런 게 생겨요.</h2>
-  </div>
-  <div class="W">
-    <div class="feat-grid r">
-      <div class="feat-card">
-        <div class="feat-ico">🏆</div>
-        <div class="feat-name">조용한 소속감</div>
-        <div class="feat-desc">결과로만 소통하는 연대에 합류해요.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-ico">✅</div>
-        <div class="feat-name">변화의 확신</div>
-        <div class="feat-desc">'나는 달라졌다'는 증거가 생겨요.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-ico">⚡</div>
-        <div class="feat-name">30초 시작</div>
-        <div class="feat-desc">켜면 바로 시작. 준비가 필요 없어요.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-ico">💌</div>
-        <div class="feat-name">Sunday Reset</div>
-        <div class="feat-desc">매주 일요일 개인 리포트를 드려요.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-ico">🔒</div>
-        <div class="feat-name">완전 익명</div>
-        <div class="feat-desc">이름·직업 묻지 않아요. 실행만 남아요.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-ico">💰</div>
-        <div class="feat-name">성공하면 0원</div>
-        <div class="feat-desc">30일 완주하면 전액 환불이에요.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- ⑤ ONE BLANK -->
-<section id="tribe" class="sec">
-  <div class="W">
-    <span class="sec-tag r">ONE BLANK</span>
-    <h2 class="sec-h r">묵묵히 실행하는<br>사람들의 공간.</h2>
-
-    <p class="tribe-quote r">
-      "화려한 공유 대신 조용한 실행.<br>여기서는 결과만이 말합니다."
+  <div class="hero-ct">
+    <div class="badge"><span class="dot"></span> 결정 피로 제로</div>
+    <h1>아침에 눈 뜨면,<br>오늘 할 일이 <em>이미 정해져 있다면?</em></h1>
+    <p class="hero-sub">
+      선택지가 많아서 못 움직이는 거예요.<br>
+      AI가 딱 <strong>1가지</strong>만 골라드립니다.
     </p>
+    <a href="#" class="btn-hero" onclick="event.preventDefault()">
+      <span>10초 만에 실행 차단 원인 확인하기</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="hero-micro">카드 등록 없음 · 10초면 끝</p>
+  </div>
+</section>
 
-    <div class="social-bar r">
-      <div class="sp hours">🔥 누적 절약 4,200시간</div>
+<hr class="dvd">
+
+<!-- ═══ PROBLEM → SOLUTION ═══ -->
+<section>
+  <div class="ct">
+    <div class="rv">
+      <div class="sl">Problem → Solution</div>
+      <h2 class="st">이거 다 겪어봤죠?</h2>
     </div>
-
-    <div class="fit r">
-      <div class="fit-col yes">
-        <div class="fit-h">✅ 이런 분을 기다려요</div>
-        <div class="fit-item">"알아. 근데 왜 나는 못 하지?" 자책이 반복되는 분</div>
-        <div class="fit-item">계획은 잘 세우는데 실행이 안 되는 분</div>
-        <div class="fit-item">조용히, 혼자, 그냥 해내고 싶은 분</div>
+    <div class="ps-grid">
+      <div class="ps-card gl rv">
+        <div class="ps-l p"><span class="tag">😵 문제</span><h3>뭐부터 해야 할지 몰라서<br>결국 아무것도 안 함</h3></div>
+        <div class="ps-a">→</div>
+        <div class="ps-l s"><span class="tag">✦ 해결</span><h3>매일 아침 AI가<br>딱 1개만 띄워줍니다</h3></div>
       </div>
-      <div class="fit-col no">
-        <div class="fit-h">❌ 솔직히 안 맞아요</div>
-        <div class="fit-item">동기부여 콘텐츠 보고 만족하는 분</div>
-        <div class="fit-item">어제랑 똑같이 살아도 괜찮은 분</div>
+      <div class="ps-card gl rv">
+        <div class="ps-l p"><span class="tag">📋 문제</span><h3>계획은 세우는데<br>실행을 못 함</h3></div>
+        <div class="ps-a">→</div>
+        <div class="ps-l s"><span class="tag">✦ 해결</span><h3>계획 없음.<br>버튼 하나 누르면 끝</h3></div>
+      </div>
+      <div class="ps-card gl rv">
+        <div class="ps-l p"><span class="tag">😮‍💨 문제</span><h3>작심삼일,<br>며칠 빠지면 포기</h3></div>
+        <div class="ps-a">→</div>
+        <div class="ps-l s"><span class="tag">✦ 해결</span><h3>빠져도 OK.<br>언제든 리셋 가능</h3></div>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="div">
+<hr class="dvd">
 
-<!-- ⑥ OFFER -->
-<section id="offer" class="sec">
-  <div class="W">
-    <span class="sec-tag r">플랜 선택</span>
-    <h2 class="sec-h r">잃어버린 하루 30분을<br>현금으로 되찾는 플랜.</h2>
-
-    <div class="price-pain r">
-      <div class="pain-row">
-        <span class="pain-lbl">지금 이대로라면</span>
-        <span class="pain-val red-val">매월 <strong>45만 원</strong> 손실 계속</span>
-      </div>
-      <div class="pain-row">
-        <span class="pain-lbl">ONE BLANK로 이득을 얻으면</span>
-        <span class="pain-val grn"><strong>0원</strong></span>
-      </div>
+<!-- ═══ BEFORE / AFTER ═══ -->
+<section>
+  <div class="ct">
+    <div class="rv">
+      <div class="sl">Your Day</div>
+      <h2 class="st">당신의 하루가 이렇게 바뀝니다.</h2>
     </div>
-
-    <div class="urgent-banner r">
-      <p class="ub-title">본 가격은 이번 1기까지만 유지됩니다.</p>
-      <p class="ub-desc">3개월 뒤 열릴 2기부터는 <strong>참가비가 298,000원으로 100% 인상 확정</strong>되었습니다.</p>
-    </div>
-
-    <div class="plan-grid r">
-      <div class="plan">
-        <div class="plan-head"><span class="plan-name">Entry</span></div>
-        <div class="plan-price">49,000<sub>원</sub></div>
-        <p class="plan-title">Manual Blank</p>
-        <p class="plan-desc">AI 없이 스스로 통제하는 수동 템플릿.</p>
-        <p class="plan-dismiss">⚠ 혼자서 꾸준히 해낸 경험 있는 분만</p>
+    <div class="ba">
+      <div class="ba-c bf rv">
+        <span class="ba-t">❌ Before</span>
+        <div class="ba-s"><span class="e">⏰</span><span>알람 5번, 일어나기 싫음</span></div>
+        <div class="ba-s"><span class="e">📱</span><span>할 일 앱 — 항목 12개</span></div>
+        <div class="ba-s"><span class="e">🤯</span><span>"뭐부터?" 30분 고민</span></div>
+        <div class="ba-s"><span class="e">▶️</span><span>유튜브 열림</span></div>
+        <div class="ba-s"><span class="e">😞</span><span>자괴감으로 하루 끝</span></div>
       </div>
-      <div class="plan core">
-        <div class="plan-head">
-          <span class="plan-name">Core ⭐</span>
-          <span class="plan-badge">추천</span>
-        </div>
-        <span class="plan-price-anchor">298,000원</span>
-        <div class="plan-price">149,000<sub>원</sub></div>
-        <p class="plan-title">ONE BLANK 1기 창립 멤버십</p>
-        <div class="plan-items">
-          <div class="plan-item">라운지 입장 보안 코드 발급</div>
-          <div class="plan-item">AI 감정 리셋 + 원 띵 포커스 자동화</div>
-          <div class="plan-item">ROI 대시보드 (내 시급 커스텀)</div>
-          <div class="plan-item">Sunday Reset 개인화 리포트</div>
-        </div>
-        <p class="plan-highlight">성공하면 전액 돌아와요.</p>
+      <div class="ba-c af rv">
+        <span class="ba-t">✅ After</span>
+        <div class="ba-s"><span class="e">⏰</span><span>알람 1번에 일어남</span></div>
+        <div class="ba-s"><span class="e">📱</span><span>화면에 할 것 <strong>딱 1개</strong></span></div>
+        <div class="ba-s"><span class="e">⚡</span><span>바로 시작, 30분 만에 완료</span></div>
+        <div class="ba-s"><span class="e">✅</span><span>완료 버튼 탭</span></div>
+        <div class="ba-s"><span class="e">☕</span><span>"오늘도 해냈다" + 커피</span></div>
       </div>
-      <div class="plan">
-        <div class="plan-head"><span class="plan-name">Premium</span></div>
-        <div class="plan-price">390,000<sub>원</sub></div>
-        <p class="plan-title">Private Boardroom</p>
-        <p class="plan-desc">Core 전체 + 월 1회 익명 디렉터의 프라이빗 멘탈 진단.</p>
-      </div>
-    </div>
-
-    <div class="guar-list r">
-      <div class="guar-row">
-        <div class="guar-ico">🛡️</div>
-        <div>
-          <p class="guar-t">30일 행동 증명 100% 환불 보장</p>
-          <p class="guar-d"><strong>30일간 매일 시스템에 접속해 '원 띵'을 완료한 기록을 제출했음에도</strong> 변화를 느끼지 못하셨다면 — 전액 돌려드려요.</p>
-        </div>
-      </div>
-      <div class="guar-row">
-        <div class="guar-ico">🔄</div>
-        <div>
-          <p class="guar-t">중간에 무너져도 괜찮아요</p>
-          <p class="guar-d">결제 금액 <strong>100%를 다음 기수 참가권</strong>으로 이월해드려요.</p>
-        </div>
-      </div>
-    </div>
-
-    <span class="faq-lbl r">신청 전 궁금한 것들</span>
-    <div class="faq-list r">
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">30일 환불 조건이 뭔가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">30일간 매일 아침 라운지에 접속해 '원 띵'을 완료하고 ROI 대시보드를 채운 기록(증명)을 제출했음에도 효과가 없다면 전액 환불해 드립니다. 단순 변심은 환불이 불가합니다.</div>
-      </div>
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">Core랑 Entry 중 뭘 골라야 하나요?</span><span class="fq-i">+</span></button>
-        <div class="fa">혼자서 꾸준히 해낸 적 없다면 Core예요. 성공하면 어차피 전액 돌아오니까요.</div>
-      </div>
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">지금 바로 시작할 수 있나요?</span><span class="fq-i">+</span></button>
-        <div class="fa">결제 직후 보안 코드가 발급돼요. 오늘 밤부터 바로 접속 가능해요.</div>
-      </div>
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">다른 생산성 앱이랑 뭐가 다른가요?</span><span class="fq-i">+</span></button>
-        <div class="fa">앱은 도구예요. ONE BLANK는 구조예요. 뭘 할지 골라주고, 감정 정리하고, 오늘의 가치를 돈으로 보여줘요.</div>
-      </div>
-      <div class="fi">
-        <button class="fq" onclick="doFaq(this)"><span class="fq-t">이미 다른 생산성 툴을 쓰는데 같이 써도 되나요?</span><span class="fq-i">+</span></button>
-        <div class="fa">네. ONE BLANK는 기존 툴과 충돌하지 않아요. 하지만 ONE BLANK로 충분하게 되실 겁니다.</div>
-      </div>
-    </div>
-
-        <div class="after-row"><span class="after-n">2</span><span>오늘 밤부터 라운지 소속</span></div>
-        <div class="after-row"><span class="after-n">3</span><span>내일 아침, 고민 없이 One-Thing만</span></div>
-      </div>
-    </div>
-
-    <div class="cta-stack r">
-      <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-        위험 부담 0원 — 1기 창립 멤버로 시작하기 →
-      </button>
-      <p class="btn-note">⚡ 3/29(일) 24시 영구 마감 · <em>30일 행동 증명 시 전액 환불</em></p>
-      <button class="btn btn-ghost" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        아직 망설여진다면 → 2기 대기자 명단 등록
-      </button>
     </div>
   </div>
 </section>
 
-<hr class="div">
+<hr class="dvd">
 
-<!-- FINAL CTA -->
-<section id="final">
-  <div class="W">
-    <div class="fi-in r">
-      <p class="fi-tag">Last Call</p>
-      <h2 class="fi-h">지금 닫으면,<br><em>내일도 같은 아침입니다.</em></h2>
-      <p class="fi-sub"><strong>3/29(일) 자정 1기 마감.</strong> 이후 2기 오픈 시 <strong>가격은 298,000원으로 인상</strong>됩니다.</p>
-      <div class="loss-box-multi">
-        <span class="loss-box-t">지금 닫을 경우 당신이 치러야 할 대가</span>
-        <div class="loss-item">최소 3개월 동안 잃어버릴 <strong>135만 원의 기회비용</strong> (월 45만 × 3)</div>
-        <div class="loss-item">2기 오픈 시 추가로 내야 할 <strong>149,000원의 인상분</strong></div>
+<!-- ═══ HOW IT WORKS ═══ -->
+<section>
+  <div class="ct">
+    <div class="rv">
+      <div class="sl">How it Works</div>
+      <h2 class="st">3단계, 총 10초.</h2>
+    </div>
+    <div class="bn-row">
+      <div class="bn gl rv"><span class="ic">🕐</span><div><h4>아침 30분 → 0분</h4><p>"뭐 하지?" 고민 제로</p></div></div>
+      <div class="bn gl rv"><span class="ic">🧠</span><div><h4>선택지 10개 → 1개</h4><p>머리가 가벼워집니다</p></div></div>
+      <div class="bn gl rv"><span class="ic">📈</span><div><h4>작은 완료 → 큰 변화</h4><p>매일 1개씩, 인생이 바뀝니다</p></div></div>
+    </div>
+    <div class="steps">
+      <div class="stp rv">
+        <div class="stp-n">01</div>
+        <div><h3><span>10초 진단</span> — 뇌를 비워드립니다</h3><p>대화 몇 마디면 AI가 당신 상황을 파악합니다.</p></div>
       </div>
-      <div class="cta-stack cta-mb">
-        <button class="btn btn-solid" onclick="window.open('https://forms.gle/RhFw24NqK2Vuf2yt6','_blank')">
-          가장 저렴할 때 보안 코드 발급받기 →
-        </button>
-        <p class="btn-note">⚡ 일요일 자정 마감 · <em>30일 행동 증명 시 100% 환불</em></p>
+      <div class="stp rv">
+        <div class="stp-n">02</div>
+        <div><h3><span>오늘의 딱 1가지</span> — 고민 끝</h3><p>매일 아침, 지금 가장 필요한 행동 1개만 띄웁니다.</p></div>
       </div>
-      <p class="fi-guar">🛡️ 30일 조건부 환불 보장 · 토스 안전 결제 · 익명 보장</p>
+      <div class="stp rv">
+        <div class="stp-n">03</div>
+        <div><h3><span>완료 버튼 탭</span> — 오늘 끝</h3><p>했으면 탭. 안 했으면 내일 다시. 그게 끝입니다.</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<hr class="div">
+<hr class="dvd">
 
-<!-- WAITLIST -->
-<section id="wl">
-  <div class="W">
-    <div class="wl-in r">
-      <p class="sec-tag">아직 망설여지시나요?</p>
-      <h2 class="wl-h">2기 대기자 명단 등록</h2>
-      <p class="wl-copy">1기 합류가 부담스러우신가요?<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>를 받고 2기 대기자 명단에 등록하세요.<br>3개월 뒤 오픈 시 가장 먼저 얼리버드 혜택을 드립니다.</p>
-      <button class="btn btn-ghost" style="max-width:320px;margin:0 auto" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank')">
-        무료 시트 받고 2기 대기하기 →
-      </button>
+<!-- ═══ TRUST ═══ -->
+<section>
+  <div class="ct">
+    <div class="rv">
+      <div class="sl">Why it Works</div>
+      <h2 class="st">감이 아니라, 과학입니다.</h2>
+    </div>
+    <div class="tr-grid">
+      <div class="tr-c gl rv"><span class="ic">🧠</span><div><h3>Hick's Law</h3><p>선택지를 1개로 줄이면 실행 확률 <strong style="color:var(--blue)">3.5배</strong> 상승</p></div></div>
+      <div class="tr-c gl rv"><span class="ic">🛡️</span><div><h3>리스크 제로</h3><p>변화 없으면 <strong style="color:var(--blue)">100% 환불</strong>. 저희가 먼저 리스크를 집니다.</p></div></div>
+      <div class="tr-c gl rv"><span class="ic">🔢</span><div><span class="nm count-up" data-target="73">0</span><p>명이 사전 대기 중. 매월 <strong style="color:var(--blue)">100명</strong> 한정.</p></div></div>
+    </div>
+    <div class="fit">
+      <div class="fit-b gl y rv"><span class="fit-t">✦ 딱 맞는 분</span><p>완벽한 계획 대신 <strong>작은 한 걸음</strong>이 필요한 분</p></div>
+      <div class="fit-b gl n rv"><span class="fit-t">✕ 안 맞는 분</span><p>복잡한 기록 도구를 원하시는 분</p></div>
     </div>
   </div>
 </section>
 
-<footer>
-  © 2026 ONE BLANK &nbsp;&nbsp;·&nbsp;&nbsp;
-  <span style="opacity:.4">Proof of Focus.</span>
-</footer>
+<hr class="dvd">
 
+<!-- ═══ PRICING ═══ -->
+<section id="pricing" style="position:relative">
+  <div class="orb" style="width:360px;height:360px;background:var(--blue-100);top:-80px;left:-80px;filter:blur(100px);opacity:.2"></div>
+  <div class="ct" style="position:relative;z-index:2">
+    <div class="pr-intro rv">
+      <div class="sl">Pricing</div>
+      <h2 class="st">매일 낭비하는 30분,<br>1년이면 182시간입니다.</h2>
+      <p class="sd">커피 반 잔 값으로 그 시간을 되찾으세요.</p>
+    </div>
+    <div class="pr-grid">
+      <div class="pr-c gl-s rv">
+        <div class="pr-nm">Starter</div>
+        <div class="pr-amt">19,900<small>원/월</small></div>
+        <div class="pr-dy">하루 663원</div>
+        <ul class="pr-ft"><li>매일 행동 1개 지시</li><li>AI 기본 코칭</li><li>10초 퀵 체크인</li></ul>
+        <a href="#" class="btn-c btn-o" onclick="event.preventDefault()">가볍게 시작하기</a>
+      </div>
+      <div class="pr-c gl-s ft rv">
+        <div class="pr-pop">73%가 선택</div>
+        <div class="pr-nm">Core</div>
+        <div class="pr-amt">39,000<small>원/월</small></div>
+        <div class="pr-dy">하루 1,300원 · 커피 반 잔</div>
+        <ul class="pr-ft"><li>AI 맞춤 설계</li><li>주간 변화 리포트</li><li>30일 뇌 비움 보증</li><li>성장 배지 시스템</li></ul>
+        <a href="#" class="btn-c btn-f" onclick="openModal(event)">30일 변화 체험하기</a>
+      </div>
+      <div class="pr-c gl-s rv">
+        <div class="pr-nm">Premium</div>
+        <div class="pr-amt">99,000<small>원/월</small></div>
+        <div class="pr-dy">하루 3,300원</div>
+        <ul class="pr-ft"><li>Core 전체 포함</li><li>1:1 VIP 디렉팅</li><li>월간 심층 분석</li><li>전용 커뮤니티</li></ul>
+        <a href="#" class="btn-c btn-o" onclick="event.preventDefault()">올인하기</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- EXIT-INTENT POPUP -->
-<div id="exit-popup" role="dialog" aria-modal="true">
-  <div class="ep-box">
-    <button class="ep-close" onclick="closePopup()" aria-label="닫기">✕</button>
-    <span class="ep-tag">잠깐, 아직 준비가 안 되셨나요?</span>
-    <h2 class="ep-h">3개월 동안 혼자서<br><em>버티실 수 있겠습니까?</em></h2>
-    <p class="ep-body">1기 마감이 얼마 남지 않았습니다.<br>무료 <strong>&lt;안티 비전 시트&gt;</strong>라도 먼저 받아두고<br>2기 대기자 명단에 합류하세요.</p>
-    <button class="btn btn-solid" style="margin-bottom:12px" onclick="window.open('https://forms.gle/Zdk55VYAJvtKPrPe9','_blank');closePopup()">
-      무료 시트 받고 2기 대기하기 →
-    </button>
-    <button class="btn btn-ghost" onclick="closePopup()" style="font-size:13px;padding:14px">
-      괜찮아요, 그냥 닫을게요
-    </button>
+<hr class="dvd">
+
+<!-- ═══ FAQ ═══ -->
+<section>
+  <div class="ct">
+    <div class="rv" style="text-align:center">
+      <div class="sl">FAQ</div>
+      <h2 class="st">자주 묻는 질문</h2>
+    </div>
+    <div class="faq">
+      <div class="fq gl rv"><div class="fq-q" onclick="tFaq(this)"><span>진짜 하루에 1개만 시키나요?</span><svg class="fq-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="fq-a"><p>네. 그게 핵심입니다. 1개를 끝내면 자연스럽게 다음이 따라옵니다.</p></div></div>
+      <div class="fq gl rv"><div class="fq-q" onclick="tFaq(this)"><span>AI가 시키는 게 안 맞으면요?</span><svg class="fq-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="fq-a"><p>첫 진단에서 상황과 목표를 파악합니다. 안 맞으면 즉시 조정됩니다.</p></div></div>
+      <div class="fq gl rv"><div class="fq-q" onclick="tFaq(this)"><span>며칠 빠져도 괜찮나요?</span><svg class="fq-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="fq-a"><p>네. 빠진 날은 신경 쓰지 마세요. 돌아오면 바로 리셋됩니다.</p></div></div>
+      <div class="fq gl rv"><div class="fq-q" onclick="tFaq(this)"><span>다른 플래너랑 뭐가 다른가요?</span><svg class="fq-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="fq-a"><p>플래너는 기록 도구입니다. ONE BLANK는 기록 없이 실행만 합니다.</p></div></div>
+      <div class="fq gl rv"><div class="fq-q" onclick="tFaq(this)"><span>환불은 어떻게 하나요?</span><svg class="fq-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="fq-a"><p>30일 내 변화 없으면 100% 환불. 커피 기프티콘까지 드립니다.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="dvd">
+
+<!-- ═══ GUARANTEE ═══ -->
+<section class="guar">
+  <div class="ct">
+    <div class="g-box rv">
+      <span class="g-ic">🛡️</span>
+      <h2>30일 뇌 비움 보증제</h2>
+      <span class="g-sub">No-Brainer Guarantee</span>
+      <p>30일 동안 매일 딱 1가지를 하셨는데도 변화가 없다면,<br><strong>100% 환불 + 커피 기프티콘</strong>까지 드립니다.</p>
+      <p class="g-fn">※ 30일 연속 접속 및 체크인 로그 확인 시 적용</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="fcta">
+  <div class="ct">
+    <div class="urg rv"><span class="u-d"></span> 이번 달 잔여 27명 — 마감 시 다음 달까지 대기</div>
+    <h2 class="rv">내일 아침, "뭐 하지?" 없는 하루.<br>오늘 시작하세요.</h2>
+    <p class="sub rv">매월 100명 한정. 지금이 가장 빠릅니다.</p>
+    <a href="#" class="btn-end rv" onclick="openModal(event)">
+      <span>지금 30일 변화 시작하기</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="f-micro rv">하루 1,300원 · 언제든 해지 가능</p>
+  </div>
+</section>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="#" onclick="openModal(event)">지금 30일 변화 시작하기 →</a>
+</div>
+
+<!-- MODAL -->
+<div class="mo" id="modal">
+  <div class="mo-b">
+    <button class="mo-x" onclick="closeModal()">✕</button>
+    <div class="mo-ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <h2>환영합니다.</h2>
+    <p>당신의 뇌는 이제 쉴 수 있습니다.<br>첫 번째 실행 진단이 시작됩니다.</p>
+    <div class="mo-cd" id="countdown">10</div>
   </div>
 </div>
 
+<footer><div class="ct"><p>© 2026 ONE BLANK. All rights reserved.</p></div></footer>
 
 <script>
+// Reveal
+const obs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('v'),i*40);obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -10px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// Count-up
+const cob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=+el.dataset.target,d=1500,s=performance.now();const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;!function tk(n){const p=Math.min((n-s)/d,1);el.textContent=Math.round(ease(p)*t);p<1&&requestAnimationFrame(tk)}(s);cob.unobserve(el)}})},{threshold:.5});
+document.querySelectorAll('.count-up').forEach(el=>cob.observe(el));
+
+// Parallax orbs desktop
+if(matchMedia('(min-width:769px)').matches){document.addEventListener('mousemove',e=>{const mx=(e.clientX/innerWidth-.5)*2,my=(e.clientY/innerHeight-.5)*2;document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translate(${mx*(i+1)*7}px,${my*(i+1)*7}px)`})})}
+
+// Sticky mobile CTA
+const sc=document.getElementById('stickyCta');
+let lastY=0;
 window.addEventListener('scroll',()=>{
-  const p=window.scrollY/(document.documentElement.scrollHeight-innerHeight)*100;
-  document.getElementById('pbar').style.width=p+'%';
+  const y=window.scrollY;
+  const heroH=document.querySelector('.hero').offsetHeight;
+  if(y>heroH&&y>lastY){sc.classList.add('show')}
+  else if(y<heroH*.5){sc.classList.remove('show')}
+  lastY=y;
 },{passive:true});
 
-const ro=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
-},{threshold:.1});
-document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+// FAQ
+function tFaq(q){const it=q.parentElement,w=it.classList.contains('open');document.querySelectorAll('.fq.open').forEach(i=>i.classList.remove('open'));if(!w)it.classList.add('open')}
 
-function doFaq(btn){
-  const a=btn.nextElementSibling;
-  const open=btn.classList.contains('open');
-  document.querySelectorAll('.fq.open').forEach(b=>{b.classList.remove('open');b.nextElementSibling.classList.remove('on')});
-  if(!open){btn.classList.add('open');a.classList.add('on');}
-}
-
-let popupShown=false;
-function showPopup(){if(popupShown)return;popupShown=true;document.getElementById('exit-popup').classList.add('show');document.body.style.overflow='hidden'}
-function closePopup(){document.getElementById('exit-popup').classList.remove('show');document.body.style.overflow=''}
-document.addEventListener('mouseleave',e=>{if(e.clientY<=0)showPopup()});
-history.pushState(null,'',location.href);
-window.addEventListener('popstate',()=>{showPopup();history.pushState(null,'',location.href)});
-document.getElementById('exit-popup').addEventListener('click',function(e){if(e.target===this)closePopup()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup()});
+// Modal
+let cdi;
+function openModal(e){e.preventDefault();sc.classList.remove('show');document.getElementById('modal').classList.add('active');let c=10;document.getElementById('countdown').textContent=c;clearInterval(cdi);cdi=setInterval(()=>{c--;document.getElementById('countdown').textContent=c<=0?'시작!':c;if(c<=0)clearInterval(cdi)},1000)}
+function closeModal(){document.getElementById('modal').classList.remove('active');clearInterval(cdi)}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 </script>
 </body>
 </html>
