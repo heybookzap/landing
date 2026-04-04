@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE BLANK | 10초 실행 진단</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #0a0a0a; color: white; }
+        .fade-in { animation: fadeIn 0.7s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div id="diagnostic-container" class="w-full max-w-lg text-center">
+        <div id="step-content" class="fade-in"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = '대표님의_SUPABASE_URL';
+        const SUPABASE_KEY = '대표님의_SUPABASE_ANON_KEY';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentStep = 0;
+        let answers = [];
+        const questions = [
+            { q: "당신의 실행을 가로막는\n가장 큰 소음은 무엇입니까?", opts: ["완벽주의", "주의산만", "의지력 고갈"] },
+            { q: "미루는 습관 때문에 발생하는\n심리적 자산 손실은 어느 정도입니까?", opts: ["상당함 (불안/자책)", "보통 (현상유지)", "적음 (무감각)"] },
+            { q: "어떤 강제 장치가 있을 때\n당신은 비로소 움직입니까?", opts: ["물리적 격리", "시각적 손실 데이터", "공개적 선언"] }
+        ];
+
+        function renderStep() {
+            const container = document.getElementById('step-content');
+            if (currentStep < 3) {
+                container.innerHTML = `
+                    <p class="text-[10px] text-[#DAA520] tracking-[0.5em] uppercase mb-10">Step 0${currentStep + 1}</p>
+                    <h2 class="text-2xl font-light leading-tight mb-12 whitespace-pre-line">${questions[currentStep].q}</h2>
+                    <div class="grid gap-4">
+                        ${questions[currentStep].opts.map(opt => `
+                            <button onclick="handleSelect('${opt}')" class="w-full py-6 border border-[#222] text-xs font-light hover:border-[#DAA520] hover:bg-[#111] transition-all uppercase tracking-widest">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentStep === 3) {
+                container.innerHTML = `
+                    <h2 class="text-3xl font-light mb-6">분석 완료.</h2>
+                    <p class="text-[#888] text-sm leading-relaxed mb-12">실행 차단 원인 분석 결과와<br>[3일 리셋 플랜 PDF]를 전송받으십시오.</p>
+                    <form onsubmit="handleComplete(event)" class="space-y-6">
+                        <input type="email" id="user-email" required placeholder="이메일을 입력하십시오" class="w-full bg-transparent border-b border-[#333] py-4 text-center focus:outline-none focus:border-[#DAA520] transition-all">
+                        <button type="submit" id="submit-btn" class="w-full py-6 bg-[#DAA520] text-black text-[10px] font-bold tracking-[0.4em] uppercase">
+                            [ 리셋 플랜 즉시 수령 ]
+                        </button>
+                    </form>
+                `;
+            } else {
+                container.innerHTML = `
+                    <h2 class="text-3xl font-light mb-8 text-[#DAA520]">ACCESS GRANTED.</h2>
+                    <p class="text-[#888] text-sm leading-relaxed mb-12">입력하신 메일함으로 리셋 플랜이 발송되었습니다.<br>본질에 집중할 준비가 되셨습니까?</p>
+                    <button onclick="location.href='https://당신의-웹앱-주소.com'" class="px-12 py-5 border border-[#333] text-[10px] tracking-[0.5em] uppercase hover:border-[#DAA520] transition-all">
+                        [ 대시보드 입장 ]
+                    </button>
+                `;
+            }
+        }
+
+        function handleSelect(opt) {
+            answers.push(opt);
+            currentStep++;
+            renderStep();
+        }
+
+        async function handleComplete(e) {
+            e.preventDefault();
+            const email = document.getElementById('user-email').value;
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "SENDING...";
+            btn.disabled = true;
+
+            try {
+                await supabase.from('leads').insert([{ email, answers, source: 'landing_diagnostic' }]);
+                currentStep = 4;
+                renderStep();
+            } catch (err) {
+                currentStep = 4;
+                renderStep();
+            }
+        }
+
+        renderStep();
+    </script>
+</body>
+</html>
