@@ -371,7 +371,7 @@ function renderStep() {
       <div style="font-size:2.5rem; margin-bottom:20px;">✓</div>
       <h2 style="font-size:1.4rem; font-weight:800; margin-bottom:10px;">전송 완료</h2>
       <p style="color:var(--tx2); font-size:0.9rem; margin-bottom:30px;">입력하신 메일함으로 리셋 플랜이 발송되었습니다.<br>본질에 집중할 준비가 되셨습니까?</p>
-      <button onclick="location.href='/'" class="btn-c btn-f">대시보드 입장</button>
+      <button onclick="location.href='https://one-blank.vercel.app/'" class="btn-c btn-f">대시보드 입장</button>
     `;
   }
 }
@@ -385,7 +385,6 @@ function handleSelect(opt) {
 async function submitLead() {
   const email = document.getElementById('diag-email').value;
   if (!email) return alert('이메일을 입력해 주세요.');
-  
   try {
     await supabase.from('leads').insert([{ email, answers, source: 'landing_10s_diagnostic' }]);
     currentStep = 4;
