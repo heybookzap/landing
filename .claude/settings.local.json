@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp .env.local /tmp/env.local.bak)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(cp /tmp/env.local.bak .env.local)",
+      "Bash(mv .env.local /tmp/env.local.bak)",
+      "Bash(mv /tmp/env.local.bak .env.local)"
+    ]
+  }
+}
