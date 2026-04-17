@@ -33,7 +33,9 @@
       "Bash(tasklist /FI \"PID eq 15832\" /FO LIST)",
       "Bash(powershell *)",
       "Bash(findstr \":3000\")",
-      "Bash(findstr \"LISTENING\")"
+      "Bash(findstr \"LISTENING\")",
+      "Bash(findstr \":3000\\\\|:3001\\\\|:3002\")",
+      "Bash(findstr \":300\")"
     ]
   }
 }

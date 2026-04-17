@@ -1,104 +1,24 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v3.2.1/dist/web/static/pretendard.css");
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
 
-@import "tailwindcss";
+const inter = Inter({ subsets: ['latin'] })
 
-@theme {
-  --color-pure-black:   #000000;
-  --color-surface:      #0A0A0A;
-  --color-surface-mid:  #111111;
-  --color-surface-high: #1A1A1A;
-
-  --color-white:        #FFFFFF;
-  --color-muted:        rgba(237, 237, 237, 0.45);
-  --color-faint:        rgba(237, 237, 237, 0.15);
-
-  --color-dust-gold:    #D4AF37;
-  --color-dark-gold:    #B8860B;
-  --color-shadow-gold:  #8B6914;
+export const metadata: Metadata = {
+  title: 'ONE BLANK | 영구적 인지 보호 시스템',
+  description: '상위 0.1%를 위한 하이엔드 인지적 아웃소싱 시스템',
 }
 
-:root {
-  --font-playfair: 'Playfair Display';
-
-  --pure-black:   #000000;
-  --surface:      #0A0A0A;
-  --surface-mid:  #111111;
-  --surface-high: #1A1A1A;
-
-  --white:        #FFFFFF;
-  --muted:        rgba(237, 237, 237, 0.45);
-  --faint:        rgba(237, 237, 237, 0.15);
-
-  --dust-gold:    #D4AF37;
-  --dark-gold:    #B8860B;
-  --shadow-gold:  #8B6914;
-}
-
-body {
-  background: var(--pure-black);
-  color: var(--white);
-  line-height: 1.6;
-}
-
-h1, h2, h3, .serif {
-  font-family: var(--font-playfair), serif;
-}
-
-.gold-btn-luxury {
-  background: var(--dark-gold);
-  color: #000;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.gold-btn-luxury:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 30px rgba(184, 134, 11, 0.2);
-}
-
-.luxury-input {
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.3s;
-}
-
-.luxury-input:focus {
-  border-bottom: 1px solid var(--dust-gold);
-}
-
-.orb-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.glowing-orb {
-  position: absolute;
-  top: -15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 70vh;
-  background: radial-gradient(
-    circle at center,
-    rgba(212, 175, 55, 0.08) 0%,
-    rgba(212, 175, 55, 0.03) 40%,
-    transparent 70%
-  );
-  filter: blur(100px);
-}
-
-html {
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-}
-
-/* 세리프 폰트는 고급스러운 Playfair Display나 디폴트 명조체 사용 */
-.serif {
-  font-family: "Playfair Display", "KoPub Batang", "Nanum Myeongjo", serif;
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="ko" className="bg-[#050505]">
+      <body className={`${inter.className} bg-[#050505] text-white antialiased selection:bg-[#C2A35D] selection:text-black min-h-screen flex flex-col`}>
+        {children}
+      </body>
+    </html>
+  )
 }

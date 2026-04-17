@@ -1,313 +1,97 @@
-"use client";
+'use client'
 
-/**
- * ONE BLANK — MainDashboard
- *
- * ─── 6-Dimension Session Schema ───────────────────────────────────────────────
- *
- *  sessions table (one row per mission attempt):
- *
- *  customer_id      uuid        references profiles.id (NOT user_id — maps to
- *                               B2B whitepaper model: one customer may have
- *                               multiple seats; for now 1:1 with auth user)
- *  condition        text        self-reported before mission starts
- *                               CHECK IN ('tired', 'normal', 'good')
- *  day_of_week      smallint    0 = Sunday … 6 = Saturday (JS getDay() convention)
- *  time_slot        smallint    0–23 (hour of day when mission was started)
- *  task_type        text        'research' | 'writing' | 'review' |
- *                               'meeting' | 'deep_work'
- *  difficulty_rating smallint   1–5 post-mission cognitive fatigue score
- *                               (captured via QuickFeedbackModal)
- *  mission_completed boolean    true = user tapped "완료"
- *
- * ─── B2B Whitepaper Vision Note ───────────────────────────────────────────────
- *  Future: customer_id decouples from auth identity → one org can register
- *  N seats, all sessions aggregated under a single business customer_id.
- *  Weekly signal analytics then surface team-level cognitive load patterns,
- *  enabling ops managers to rebalance workload distribution.
- * ──────────────────────────────────────────────────────────────────────────────
- */
+import { useState } from 'react'
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "../../lib/supabase";
-import QuickFeedbackModal from "../components/QuickFeedbackModal";
+type FlowState = 'CONDITION' | 'TASK' | 'DONE' | 'GHOST'
 
-type Mission = {
-  id: string;
-  title: string;
-  task_type: string;
-  duration_minutes: number;
-  difficulty: number;
-};
+export default function DashboardPage() {
+  const [view, setView] = useState<FlowState>('CONDITION')
+  const [task, setTask] = useState('')
 
-type Condition = "tired" | "normal" | "good";
-
-const CONDITION_LABELS: Record<Condition, string> = {
-  tired: "피곤함",
-  normal: "보통",
-  good: "최상",
-};
-
-export default function MainDashboard() {
-  const [userName, setUserName] = useState("");
-  const [mission, setMission] = useState<Mission | null>(null);
-  const [condition, setCondition] = useState<Condition>("normal");
-  const [conditionSet, setConditionSet] = useState(false);
-  const [missionDone, setMissionDone] = useState(false);
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [sessionId, setSessionId] = useState<string | null>(null);
-  const [hourlyValue, setHourlyValue] = useState(0);
-  const [assetValue, setAssetValue] = useState(0);
-  const accumulatorRef = useRef(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    const loadData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name, hourly_value")
-        .eq("id", user.id)
-        .single();
-
-      if (profile?.full_name) setUserName(profile.full_name);
-      if (profile?.hourly_value) setHourlyValue(profile.hourly_value);
-
-      const today = new Date().getDay(); // 0 Sun … 6 Sat
-      const { data: missions } = await supabase
-        .from("missions")
-        .select("id, title, task_type, duration_minutes, difficulty")
-        .eq("user_id", user.id)
-        .eq("day_of_week", today)
-        .eq("completed", false)
-        .order("time_slot", { ascending: true })
-        .limit(1);
-
-      if (missions && missions.length > 0) {
-        setMission(missions[0] as Mission);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  // Real-time asset ticker: (hourlyValue / 3600) × 3s tick × 1.5 leverage
-  useEffect(() => {
-    if (hourlyValue <= 0) return;
-    const tickValue = (hourlyValue / 3600) * 3 * 1.5;
-
-    intervalRef.current = setInterval(() => {
-      accumulatorRef.current += tickValue;
-      setAssetValue(Math.floor(accumulatorRef.current));
-    }, 3000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [hourlyValue]);
-
-  const handleMissionComplete = async () => {
-    if (!mission) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const now = new Date();
-    const { data: session } = await supabase
-      .from("sessions")
-      .insert({
-        customer_id: user.id,
-        condition,
-        day_of_week: now.getDay(),
-        time_slot: now.getHours(),
-        task_type: mission.task_type,
-        mission_completed: true,
-      })
-      .select("id")
-      .single();
-
-    if (session) setSessionId(session.id);
-    setFeedbackOpen(true);
-  };
-
-  const handleFeedbackSubmit = async (score: number) => {
-    if (sessionId) {
-      await supabase
-        .from("sessions")
-        .update({ difficulty_rating: score })
-        .eq("id", sessionId);
-    }
-    if (mission) {
-      await supabase
-        .from("missions")
-        .update({ completed: true })
-        .eq("id", mission.id);
-    }
-    setFeedbackOpen(false);
-    setMissionDone(true);
-  };
+  const handleCondition = (level: string) => {
+    if (level === 'TIRED') setTask('컴퓨터 바탕화면 정리하고 안 쓰는 창 끄기 (딱 1분)')
+    else if (level === 'NORMAL') setTask('지금 가장 하기 싫은 일 딱 2분만 눈 딱 감고 하기')
+    else setTask('오늘 하루 중 가장 중요한 결정 한 가지만 지금 바로 내리기')
+    setView('TASK')
+  }
 
   return (
-    <div className="min-h-screen bg-[#000000] flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] flex flex-col font-sans">
+      <nav className="w-full p-8 border-b border-[#1A1A1A] flex justify-between items-center">
+        <span className="font-light tracking-widest text-lg text-white">ONE BLANK</span>
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-mono text-zinc-600 tracking-[0.2em] uppercase">보호 작동 중</span>
+          <div className="w-2 h-2 bg-[#C2A35D] rounded-full animate-pulse"></div>
+        </div>
+      </nav>
 
-      {/* Subtle radial glow — keeps it from feeling completely flat */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(212,175,55,0.03),transparent)] pointer-events-none" />
-
-      {/* Header — minimal */}
-      <header className="absolute top-0 left-0 right-0 z-10 h-16 flex items-center justify-between px-8">
-        <span className="text-[11px] font-black tracking-[0.35em] text-[#D4AF37]/40 uppercase">ONE BLANK</span>
-        {conditionSet && (
-          <span className="text-[9px] font-bold tracking-widest text-[#D4AF37]/30 uppercase">
-            {CONDITION_LABELS[condition]}
-          </span>
+      <main className="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-4xl mx-auto">
+        {view === 'CONDITION' && (
+          <div className="w-full text-center space-y-20 animate-in fade-in duration-1000">
+            <h1 className="text-2xl font-light tracking-tight">오늘 내 머릿속 컨디션은 어떤가요?</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <button onClick={() => handleCondition('TIRED')} className="py-12 border border-[#1A1A1A] bg-[#0A0A0A] hover:border-zinc-700 transition-all group">
+                <span className="block text-xs text-zinc-500 font-mono tracking-widest mb-2 group-hover:text-zinc-300">TIRED</span>
+                <span className="text-lg font-light text-zinc-400">조금 피곤해요</span>
+              </button>
+              <button onClick={() => handleCondition('NORMAL')} className="py-12 border border-[#1A1A1A] bg-[#0A0A0A] hover:border-[#C2A35D] transition-all group">
+                <span className="block text-xs text-[#C2A35D] font-mono tracking-widest mb-2 opacity-50 group-hover:opacity-100">NORMAL</span>
+                <span className="text-lg font-light text-zinc-300">그냥 보통이에요</span>
+              </button>
+              <button onClick={() => handleCondition('GREAT')} className="py-12 border border-[#1A1A1A] bg-[#0A0A0A] hover:border-white transition-all group">
+                <span className="block text-xs text-zinc-500 font-mono tracking-widest mb-2 group-hover:text-zinc-300">GREAT</span>
+                <span className="text-lg font-light text-zinc-400">아주 좋아요</span>
+              </button>
+            </div>
+            <p onClick={() => setView('GHOST')} className="text-[10px] text-zinc-700 tracking-widest font-mono cursor-pointer hover:text-zinc-400 transition-colors uppercase">
+              어제 깜빡하고 못 했나요?
+            </p>
+          </div>
         )}
-      </header>
 
-      {/* Main — vertically centered, 70% empty */}
-      <main className="flex-1 flex flex-col items-center justify-center px-8 pt-16">
+        {view === 'TASK' && (
+          <div className="w-full text-center space-y-16 animate-in slide-in-from-bottom-8 duration-700">
+            <p className="text-[#C2A35D] text-[10px] font-mono tracking-[0.3em] uppercase">오늘 딱 하나 할 일</p>
+            <p className="text-3xl font-light leading-relaxed text-white">{task}</p>
+            <button onClick={() => setView('DONE')} className="border border-white text-white px-16 py-5 text-xs font-mono tracking-widest hover:bg-white hover:text-black transition-all">
+              다 했어요! (10초 확인)
+            </button>
+          </div>
+        )}
 
-        {!conditionSet ? (
-          /* Step 0: Condition check */
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="flex flex-col items-center gap-10 max-w-xs text-center"
-          >
-            <div className="flex flex-col gap-2">
-              <p className="text-[10px] font-bold tracking-[0.45em] text-[#D4AF37]/40 uppercase">
-                시스템 체크인
-              </p>
-              <p className="text-[#D4AF37] text-lg font-black leading-snug">
-                오늘 컨디션은<br />어떻습니까?
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 w-full">
-              {(["tired", "normal", "good"] as Condition[]).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => { setCondition(c); setConditionSet(true); }}
-                  className="w-full py-3.5 border border-[#D4AF37]/20 rounded-2xl text-[11px] font-black text-[#D4AF37]/60 tracking-widest uppercase hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-all"
-                >
-                  {CONDITION_LABELS[c]}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-        ) : missionDone ? (
-          /* Step 2: Done state */
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="flex flex-col items-center gap-6 text-center"
-          >
-            <div className="w-2 h-2 rounded-full bg-[#D4AF37]/60" />
-            <div className="flex flex-col gap-2">
-              <p className="text-[#D4AF37] text-2xl font-black tracking-tight">
-                오늘의 임무 완수.
-              </p>
-              <p className="text-[#D4AF37]/40 text-sm font-medium">
-                시스템이 내일을 준비합니다.
+        {view === 'DONE' && (
+          <div className="w-full text-center space-y-12 animate-in zoom-in duration-700">
+            <div className="w-16 h-16 border border-[#C2A35D] rounded-full mx-auto flex items-center justify-center text-[#C2A35D] text-xl">✓</div>
+            <div className="space-y-4">
+              <h2 className="text-2xl font-light tracking-tight">완벽한 하루였습니다.</h2>
+              <p className="text-sm text-zinc-500 font-light leading-relaxed">
+                자정까지 화면이 잠깁니다.<br />이제 우리는 잊고 진짜 중요한 일에만 집중하세요.
               </p>
             </div>
-          </motion.div>
+            <div className="pt-12 border-t border-[#1A1A1A]">
+              <p className="text-[10px] text-zinc-600 font-mono tracking-widest mb-4 uppercase">내가 아낀 시간의 가치</p>
+              <p className="text-4xl font-light text-[#C2A35D] tracking-tighter">₩14,820,000</p>
+            </div>
+          </div>
+        )}
 
-        ) : (
-          /* Step 1: Mission display */
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="flex flex-col items-center gap-12 max-w-sm w-full text-center"
-          >
-            {/* Directive */}
-            <div className="flex flex-col gap-3">
-              <p className="text-[10px] font-bold tracking-[0.45em] text-[#D4AF37]/30 uppercase">
-                Today&apos;s Directive
-              </p>
-              <p className="text-[#D4AF37]/60 text-sm font-semibold leading-relaxed">
-                당신의 뇌는 쉬십시오.<br />
-                오늘은 이것만 하시면 됩니다.
+        {view === 'GHOST' && (
+          <div className="w-full text-center space-y-12 animate-in fade-in duration-1000">
+            <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.3em] uppercase">모두 지웠습니다</p>
+            <div className="space-y-4">
+              <h2 className="text-2xl font-light tracking-tight text-zinc-300">
+                어제 못했다고 자책하지 마세요.
+              </h2>
+              <p className="text-sm text-zinc-600 font-light leading-relaxed">
+                어제 기록은 우리가 다 지웠습니다.<br />오늘은 오늘 할 일 딱 하나만 하세요.
               </p>
             </div>
-
-            {/* The single mission */}
-            {mission ? (
-              <div className="w-full flex flex-col gap-6">
-                <div className="relative w-full border border-[#D4AF37]/20 rounded-[24px] p-8 flex flex-col gap-4">
-                  {/* Gold left bar */}
-                  <div className="absolute top-0 left-0 w-[1.5px] h-full bg-gradient-to-b from-[#D4AF37]/60 via-[#D4AF37]/20 to-transparent rounded-l-[24px]" />
-                  <p className="text-[9px] font-bold tracking-[0.45em] text-[#D4AF37]/40 uppercase">
-                    {mission.task_type} · {mission.duration_minutes}분
-                  </p>
-                  <p className="text-[#D4AF37] text-base font-black leading-snug text-left">
-                    {mission.title}
-                  </p>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div
-                        key={i}
-                        className={`h-1 flex-1 rounded-full ${i < mission.difficulty ? "bg-[#D4AF37]/50" : "bg-[#D4AF37]/10"}`}
-                      />
-                    ))}
-                    <span className="text-[9px] text-[#D4AF37]/30 font-bold ml-1">난이도</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleMissionComplete}
-                  className="w-full py-4 border border-[#D4AF37]/30 rounded-2xl text-[11px] font-black text-[#D4AF37]/70 tracking-[0.3em] uppercase hover:border-[#D4AF37]/60 hover:text-[#D4AF37] transition-all"
-                >
-                  완료
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-1 h-1 rounded-full bg-[#D4AF37]/20" />
-                <p className="text-[#D4AF37]/30 text-xs font-medium tracking-wide">
-                  오늘 배정된 미션이 없습니다.
-                </p>
-              </div>
-            )}
-          </motion.div>
+            <button onClick={() => setView('CONDITION')} className="border-b border-[#C2A35D] text-[#C2A35D] pb-1 text-xs tracking-widest font-mono uppercase hover:text-white hover:border-white transition-colors">
+              오늘 새롭게 시작하기
+            </button>
+          </div>
         )}
       </main>
-
-      {/* Asset widget — bottom right corner */}
-      <AnimatePresence>
-        {assetValue > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="absolute bottom-8 right-8"
-          >
-            <div className="flex flex-col items-end gap-1">
-              <p className="text-[8px] font-bold tracking-widest text-[#D4AF37]/25 uppercase">
-                오늘 {userName || "대표님"}이 방어한 인지적 자산
-              </p>
-              <p className="text-[#D4AF37]/50 text-sm font-black font-mono tracking-tight">
-                ₩{assetValue.toLocaleString()}
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Feedback modal */}
-      {mission && (
-        <QuickFeedbackModal
-          isOpen={feedbackOpen}
-          missionTitle={mission.title}
-          onSubmit={handleFeedbackSubmit}
-          onClose={() => setFeedbackOpen(false)}
-        />
-      )}
     </div>
-  );
+  )
 }
