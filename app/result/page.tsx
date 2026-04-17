@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ShieldAlert, ShieldCheck, ArrowRight, RefreshCcw, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function ResultPage() {
+function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -124,5 +124,13 @@ export default function ResultPage() {
 
       </motion.div>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense>
+      <ResultContent />
+    </Suspense>
   );
 }
