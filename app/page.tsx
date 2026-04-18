@@ -4,14 +4,17 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 export default function LandingPage() {
   const router = useRouter()
+  const [showHero, setShowHero] = useState(true)
   const [selectedVal, setSelectedVal] = useState<number | null>(null)
   const [loss, setLoss] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
+  // 시급 계산 롤링 (시인성을 위한 타이밍 최적화)
   useEffect(() => {
     if (!selectedVal) return
     const targetLoss = selectedVal * 4 * 30 
@@ -49,72 +52,112 @@ export default function LandingPage() {
       }, 3000)
 
     } catch (err) {
-      alert('시스템에 들어가는 중 오류가 발생했습니다.')
+      alert('시스템 접속 중 문제가 발생했습니다.')
       setIsProcessing(false)
     }
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center relative overflow-hidden font-pretendard">
+    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center relative overflow-hidden font-pretendard selection:bg-[#C2A35D] selection:text-black">
       
+      {/* 3D 공간: 노이즈와 심연의 코어 라이트 */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-[#C2A35D] rounded-full mix-blend-screen filter blur-[150px] opacity-[0.03] pointer-events-none"></div>
+      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#C2A35D] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.025] pointer-events-none"></div>
+
+      {/* 스플릿 헤더 (자간 확장으로 여백 극대화) */}
+      <header className="absolute top-0 left-0 w-full px-8 md:px-12 py-10 z-20 flex justify-between items-center mix-blend-difference">
+        <div className="flex items-center gap-4">
+          <div className="w-[1px] h-3 bg-[#C2A35D]"></div>
+          <span className="text-[#C2A35D] text-[9px] tracking-[0.8em] font-medium uppercase">One Blank</span>
+        </div>
+        <button onClick={() => setIsMenuOpen(true)} className="text-zinc-500 hover:text-white text-[9px] tracking-[0.4em] font-medium uppercase transition-colors duration-500">
+          메뉴 보기
+        </button>
+      </header>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="z-10 flex flex-col items-center w-full max-w-3xl px-6 py-24"
+        className="z-10 flex flex-col items-center w-full max-w-4xl px-6 py-20"
       >
-        <div className="mb-20 flex flex-col items-center">
-          <motion.div 
-            initial={{ height: 0 }} 
-            animate={{ height: "40px" }} 
-            transition={{ duration: 1.5, delay: 0.5 }}
-            className="w-[1px] bg-[#C2A35D] mb-8"
-          ></motion.div>
-          <h1 className="text-[#C2A35D] text-[10px] tracking-[0.8em] font-light uppercase">One Blank</h1>
-        </div>
-
         <AnimatePresence mode="wait">
+          
+          {/* 화면 A: 결제 진입 (비밀 통로) */}
           {isProcessing ? (
-            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-8 z-10 w-full">
-              <div className="relative w-20 h-20 mx-auto mb-8 flex items-center justify-center">
-                <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="absolute w-10 h-10 bg-[#C2A35D] blur-xl rounded-full"></motion.div>
-                <div className="absolute inset-0 border-[1px] border-white/10 rounded-full"></div>
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-0 border-[1px] border-[#C2A35D] border-t-transparent rounded-full" />
+            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-10 z-10 w-full">
+              <div className="relative w-24 h-24 mx-auto mb-10 flex items-center justify-center">
+                <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="absolute w-12 h-12 bg-[#C2A35D] blur-2xl rounded-full"></motion.div>
+                <div className="absolute inset-0 border-[1px] border-white/5 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.03)]"></div>
+                <motion.div animate={{ rotate: 360, rotateX: 10, rotateY: 10 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="absolute inset-0 border-[1.5px] border-[#C2A35D] border-t-transparent border-r-transparent rounded-full" />
               </div>
-              <p className="text-[#C2A35D] text-[10px] tracking-[0.5em] font-light uppercase">비밀 통로 만드는 중...</p>
-              <p className="text-zinc-600 text-xs font-extralight tracking-widest leading-relaxed">
-                대표님만 들어올 수 있는 <br />안전한 공간을 만들고 있습니다.
+              <p className="text-[#C2A35D] text-[10px] tracking-[0.6em] font-medium uppercase drop-shadow-[0_0_15px_rgba(194,163,93,0.4)]">비밀 통로 생성 중</p>
+              <p className="text-zinc-500 text-xs font-extralight tracking-widest leading-relaxed break-keep">
+                대표님만 들어올 수 있는 <br className="md:hidden" />안전한 공간을 열고 있습니다.
               </p>
             </motion.div>
+
+          // 화면 B: 첫인상 Hero (타이포그래피의 쫀쫀한 자간과 꽉 찬 줄간)
+          ) : showHero ? (
+            <motion.div 
+              key="hero" 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.5 } }}
+              className="text-center space-y-12 w-full max-w-2xl mx-auto"
+            >
+              <h1 className="text-5xl md:text-[80px] font-light tracking-tighter text-white break-keep leading-[1.15] drop-shadow-md">
+                아무나 들어올 수<br />없습니다.
+              </h1>
+              <div className="space-y-5">
+                <h2 className="text-base md:text-xl font-light text-[#C2A35D] tracking-widest break-keep">
+                  생각이 많아 머리가 아픈 분들을 위한 비밀 공간
+                </h2>
+                <p className="text-zinc-400 text-xs md:text-sm font-extralight leading-relaxed break-keep tracking-wide px-4">
+                  매일 아침 무엇을 할지 시스템이 대신 결정해 드립니다.<br className="hidden md:block" />
+                  대표님은 마음 편히 쉬거나 돈 버는 데만 집중하세요.
+                </p>
+              </div>
+              <div className="pt-10">
+                <button 
+                  onClick={() => setShowHero(false)} 
+                  className="px-10 py-5 bg-white text-black text-[10px] md:text-[11px] font-bold tracking-[0.3em] hover:bg-[#C2A35D] hover:shadow-[0_0_30px_rgba(194,163,93,0.4)] transition-all duration-500 rounded-[4px] uppercase"
+                >
+                  얼마나 손해 보고 있는지 확인하기
+                </button>
+              </div>
+            </motion.div>
+
+          // 화면 C: 시급 선택 (3D 내부 반사 효과 극대화)
           ) : !selectedVal ? (
             <motion.div 
               key="selection" 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
               exit={{ opacity: 0, y: -20 }}
               className="w-full text-center space-y-16"
             >
-              <h2 className="text-3xl md:text-5xl font-light tracking-tight leading-[1.4] break-keep drop-shadow-md">
-                당신의 1시간은 <br />얼마짜리인가요?
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight leading-[1.3] break-keep text-zinc-100 drop-shadow-sm">
+                당신의 1시간은 <br className="md:hidden" />얼마짜리인가요?
               </h2>
-              <div className="flex flex-col md:flex-row gap-6 w-full max-w-2xl mx-auto px-4">
+              <div className="flex flex-col w-full max-w-[320px] mx-auto space-y-5">
                 {[30000, 50000, 100000].map((val) => (
                   <motion.button
                     key={val}
-                    whileHover={{ scale: 1.05, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02, y: -2, backgroundColor: "rgba(255,255,255,0.03)" }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedVal(val)}
-                    className="flex-1 py-8 border border-white/10 bg-white/[0.02] backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.5)] rounded-xl text-sm tracking-[0.2em] font-light text-zinc-400 hover:border-[#C2A35D]/60 hover:text-white transition-all duration-300 relative overflow-hidden group"
+                    // 3D Glassmorphism: 테두리와 내부 빛 반사(inset) 동시 적용
+                    className="w-full py-7 border border-white/10 bg-white/[0.01] backdrop-blur-md rounded-2xl text-sm tracking-[0.3em] font-light text-zinc-400 hover:border-[#C2A35D]/60 hover:text-white hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 relative overflow-hidden group"
                   >
                     <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    ₩ {val.toLocaleString()}
+                    <span className="relative z-10 font-medium">₩ {val.toLocaleString()}</span>
                   </motion.button>
                 ))}
               </div>
             </motion.div>
+
+          // 화면 D: 손실 확인 및 결제 (빨간색 3D 글로우와 단호한 동선)
           ) : (
             <motion.div 
               key="result" 
@@ -122,107 +165,78 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }} 
               className="w-full flex flex-col items-center space-y-16"
             >
-              <div className="text-center space-y-6 w-full">
-                <p className="text-zinc-500 text-[10px] tracking-[0.3em] uppercase font-light">한 달 동안 길바닥에 버리는 돈</p>
-                <div className="bg-gradient-to-b from-black/80 to-transparent border border-red-900/30 backdrop-blur-md rounded-3xl py-12 px-6 shadow-[0_20px_50px_rgba(139,0,0,0.1)] relative overflow-hidden max-w-xl mx-auto">
-                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
-                  <p className="text-5xl md:text-7xl font-light tracking-tighter text-red-600 drop-shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+              <div className="text-center w-full space-y-6">
+                <p className="text-zinc-500 text-[10px] tracking-[0.4em] font-medium mb-6">한 달 동안 길바닥에 버리는 돈</p>
+                
+                {/* 3D 깊이감이 느껴지는 손실 패널 */}
+                <div className="bg-[#050505]/80 border border-red-900/30 backdrop-blur-2xl rounded-[32px] py-16 px-8 shadow-[0_30px_60px_rgba(139,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] relative overflow-hidden max-w-lg mx-auto">
+                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-red-600/10 blur-3xl pointer-events-none"></div>
+                  <p className="text-5xl md:text-7xl font-medium tracking-tighter text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.3)] relative z-10">
                     - ₩ {loss.toLocaleString()}
                   </p>
                 </div>
                 
-                <div className="space-y-2 pt-6">
-                  <p className="text-zinc-400 text-sm font-extralight leading-relaxed break-keep">
-                    매일 아침 무엇을 할지 고민하고 미루는 4시간. <br />
+                <div className="space-y-4 pt-4 px-4">
+                  <p className="text-zinc-400 text-xs md:text-sm font-light leading-relaxed break-keep tracking-wide">
+                    매일 아침 무엇을 할지 고민하고 미루는 4시간. <br className="hidden md:block" />
                     그 시간 동안 대표님의 진짜 돈이 조용히 사라지고 있습니다.
                   </p>
-                  <p className="text-zinc-300 text-sm font-light leading-relaxed break-keep pt-4">
-                    생각이 너무 많아 머리가 아프다면, <br />
-                    이제 그 고민을 저희 시스템에 모두 넘기십시오.
+                  <p className="text-zinc-300 text-xs md:text-sm font-medium leading-relaxed break-keep pt-2">
+                    생각이 너무 많아 머리가 아프다면, <br className="md:hidden" />이제 그 고민을 저희 시스템에 모두 넘기십시오.
                   </p>
                 </div>
               </div>
               
-              <div className="flex flex-col w-full max-w-md space-y-4 px-4">
+              <div className="w-full max-w-[340px] px-4 space-y-5">
                 <motion.button 
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleStartPayment}
-                  className="w-full py-6 bg-white text-black text-[11px] tracking-[0.3em] font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(194,163,93,0.4)] hover:bg-[#C2A35D] transition-all duration-500"
+                  className="w-full py-6 bg-white text-black text-[11px] tracking-[0.2em] font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_40px_rgba(194,163,93,0.4),inset_0_1px_0_rgba(255,255,255,0.5)] hover:bg-[#C2A35D] transition-all duration-500"
                 >
-                  월 39만 원에 내 머릿속 고민 모두 맡기기
+                  월 39만 원에 고민 모두 맡기기
                 </motion.button>
-                
-                <button 
-                  onClick={() => setIsMenuOpen(true)}
-                  className="w-full py-5 border border-white/10 bg-white/[0.02] backdrop-blur-sm rounded-xl text-zinc-500 text-[10px] tracking-[0.3em] hover:text-white hover:border-[#C2A35D]/50 transition-all duration-500"
-                >
-                  대체 무슨 서비스인지 확인하기
-                </button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.div>
 
+      {/* 오버레이 메뉴 (거대 타이포그래피 + 여백 최적화) */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: "100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "100%" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-50 bg-[#050505]/90 backdrop-blur-xl flex flex-col items-center px-6 overflow-y-auto pt-24 pb-24"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 bg-[#050505]/95 flex flex-col justify-center px-8 md:px-24"
           >
-            <button 
-              onClick={() => setIsMenuOpen(false)}
-              className="absolute top-10 right-10 text-zinc-500 text-xs tracking-widest hover:text-white transition-colors"
-            >
-              [ 닫기 ]
+            <button onClick={() => setIsMenuOpen(false)} className="absolute top-10 right-8 md:right-12 text-zinc-500 hover:text-white text-[9px] tracking-[0.4em] font-medium uppercase transition-colors duration-500">
+              닫기 [X]
             </button>
-
-            <div className="w-full max-w-3xl space-y-16">
-              <div className="text-center space-y-4">
-                <h2 className="text-2xl md:text-3xl font-light tracking-tight text-[#C2A35D] drop-shadow-md">우리가 39만 원을 받고 해드리는 일</h2>
-                <p className="text-zinc-400 text-xs font-extralight tracking-widest">초등학생도 이해할 수 있도록 솔직하게 말씀드립니다.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { title: "1. 골치 아픈 계획은 저희가 짭니다.", desc: '"이번 달에 천만 원 벌기" 같은 목표만 던져주세요. 뭘 해야 할지 과정과 계획은 시스템이 알아서 짜드립니다. 머리 아프게 고민할 필요가 없습니다.' },
-                  { title: "2. 매일 아침 9시, 딱 하나만 시킵니다.", desc: "오늘은 이거 할까, 저거 할까 방황하지 마세요. 매일 아침 대표님의 상태를 묻고, 그날 당장 해야 할 '딱 하나의 행동'만 콕 집어서 알려드립니다." },
-                  { title: "3. 피곤하면 강제로 쉬게 만듭니다.", desc: '몸이 안 좋은 날에는 "오늘은 무조건 쉬세요"라고 명령합니다. 해야 할 일을 못 했다고 자책하지 마세요. 쉬는 것도 저희가 시킨 임무입니다.' },
-                  { title: "4. 주말엔 사이트 접속을 막아버립니다.", desc: "뇌를 완전히 쉬게 해야 월요일에 돈을 벌 수 있습니다. 원하시면 주말에는 아예 들어오지 못하게 막아드립니다. 진짜배기 휴식을 책임집니다." }
-                ].map((item, idx) => (
-                  <motion.div 
-                    key={idx}
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-white/[0.03] border border-white/10 backdrop-blur-md p-8 rounded-2xl space-y-4 shadow-[0_15px_30px_rgba(0,0,0,0.5)] relative overflow-hidden group"
-                  >
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <h3 className="text-base font-medium text-zinc-200">{item.title}</h3>
-                    <p className="text-zinc-500 text-sm font-light leading-relaxed break-keep">
-                      {item.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="text-center pt-8">
-                <button 
-                  onClick={handleStartPayment}
-                  className="w-full max-w-sm py-6 bg-[#C2A35D] text-black text-[11px] tracking-[0.4em] font-bold rounded-xl hover:bg-white transition-all duration-500 shadow-[0_0_20px_rgba(194,163,93,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
-                >
-                  이해했습니다. 결제하러 가겠습니다.
-                </button>
-              </div>
-            </div>
+            
+            <nav className="flex flex-col space-y-8 md:space-y-12 text-left w-full max-w-5xl mx-auto">
+              {/* 거대한 메뉴 텍스트: 자간을 좁혀 덩어리감 형성 */}
+              <Link href="/learn-more" onClick={() => setIsMenuOpen(false)} className="text-4xl md:text-[80px] font-light tracking-tighter text-zinc-300 hover:text-[#C2A35D] hover:translate-x-4 transition-all duration-500 block leading-none break-keep">
+                우리가 하는 일
+              </Link>
+              <Link href="/learn-more" onClick={() => setIsMenuOpen(false)} className="text-4xl md:text-[80px] font-light tracking-tighter text-zinc-300 hover:text-[#C2A35D] hover:translate-x-4 transition-all duration-500 block leading-none break-keep">
+                어떻게 돕나요?
+              </Link>
+              <button onClick={() => {setIsMenuOpen(false); handleStartPayment();}} className="text-4xl md:text-[80px] font-light tracking-tighter text-zinc-600 hover:text-white hover:translate-x-4 transition-all duration-500 text-left mt-8 md:mt-16 block leading-none break-keep">
+                고민 넘기고 시작하기
+              </button>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="absolute bottom-10 text-center w-full z-0 pointer-events-none">
-        <p className="text-zinc-800 text-[9px] tracking-widest font-extralight">시스템의 허락을 받은 분만 들어올 수 있습니다.</p>
+        <p className="text-zinc-700 text-[8px] md:text-[9px] tracking-[0.4em] font-extralight uppercase break-keep px-4">
+          시스템의 허락을 받은 분만 들어올 수 있습니다.
+        </p>
       </div>
       
     </main>
