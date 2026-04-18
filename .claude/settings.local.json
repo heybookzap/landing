@@ -36,7 +36,8 @@
       "Bash(findstr \"LISTENING\")",
       "Bash(findstr \":3000\\\\|:3001\\\\|:3002\")",
       "Bash(findstr \":300\")",
-      "Bash(cmd *)"
+      "Bash(cmd *)",
+      "Bash(supabase functions *)"
     ]
   }
 }
