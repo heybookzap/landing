@@ -23,7 +23,8 @@ export default function HowItWorksPage() {
       <div className="w-full max-w-5xl mx-auto z-10 pb-32">
         <div className="text-center mb-16">
           <p className="text-[#C2A35D] text-[11px] tracking-[0.5em] font-bold font-serif italic uppercase mb-6">How We Work</p>
-          <h1 className="text-3xl md:text-5xl font-light tracking-tight text-white break-keep leading-tight">
+          {/* 📌 타이틀 줄간격을 leading-relaxed로 넓혀 답답함을 해소했습니다. */}
+          <h1 className="text-3xl md:text-5xl font-light tracking-tight text-white break-keep leading-relaxed">
             시스템이 대표님의 결정 피로를 <br />
             <span className="font-serif italic font-bold text-[#C2A35D]">완벽히 차단</span>하는 4단계
           </h1>
@@ -33,7 +34,8 @@ export default function HowItWorksPage() {
           {[
             {
               num: "01",
-              title: "거대 목표만 던지십시오. 계획은 시스템이 다 짭니다.",
+              // 📌 01번 타이틀에 명확한 줄바꿈을 적용했습니다.
+              title: <>거대 목표만 던지십시오.<br />계획은 시스템이 다 짭니다.</>,
               desc: (
                 <>
                   &apos;3개월 내 신규 프로젝트 런칭&apos; 같은 결과만 입력해 두십시오.<br />
@@ -57,23 +59,24 @@ export default function HowItWorksPage() {
             {
               num: "03",
               title: "뇌가 지친 날, 시스템은 '무조건 쉬기'를 명령합니다.",
+              // 📌 03번 내용을 지시하신 카피로 전면 교체했습니다.
               desc: (
                 <>
                   오늘 너무 피곤하신가요?<br />
-                  시스템은 &apos;오늘은 폴더만 하나 만들고 무조건 쉬십시오&apos;라고 지시합니다.<br />
+                  시스템은 컨디션 관리를 위해 무조건 쉬라고 지시합니다.<br />
                   못 했다고 자책하지 마십시오.<br />
-                  때로는 쉬는 것도 시스템이 내리는 엄격한 임무입니다.
+                  때로는 쉬는 것도 시스템이 내리는 엄격한 지침입니다.
                 </>
               )
             },
             {
               num: "04",
               title: "주말에는 생각을 완전히 'OFF' 해드립니다.",
+              // 📌 04번 내용의 부자연스러운 줄바꿈을 제거했습니다.
               desc: (
                 <>
                   뇌를 완전히 비워야 월요일에 압도적인 돈을 벌 수 있습니다.<br />
-                  진짜 휴식을 위해, 주말 동안 시스템은 대표님의 접속을 철저히 차단하고<br className="hidden md:block" />
-                  모든 고민을 대신 안전하게 보관합니다.
+                  진짜 휴식을 위해, 주말 동안 시스템은 대표님의 접속을 철저히 차단하고 모든 고민을 대신 안전하게 보관합니다.
                 </>
               )
             }

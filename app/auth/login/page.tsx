@@ -42,8 +42,9 @@ export default function LoginPage() {
       <div className="w-full max-w-xl px-6 z-10 flex-1 flex flex-col justify-center pb-32">
         <div className="text-center mb-16 mt-12">
           <p className="text-[#C2A35D] text-[11px] tracking-[0.4em] font-medium uppercase mb-3">Welcome Back</p>
+          {/* 📌 폰트와 색상을 하나의 깔끔한 화이트 톤으로 통일했습니다. */}
           <h1 className="text-3xl md:text-5xl font-light tracking-tight text-white leading-tight">
-            <span className="font-serif italic font-bold text-[#C2A35D]">멤버</span> 로그인
+            멤버 로그인
           </h1>
         </div>
 
