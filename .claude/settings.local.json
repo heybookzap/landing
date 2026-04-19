@@ -38,7 +38,11 @@
       "Bash(findstr \":300\")",
       "Bash(cmd *)",
       "Bash(supabase functions *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(npx tailwindcss *)",
+      "Bash(./node_modules/.bin/tailwindcss init *)"
     ]
   }
 }
