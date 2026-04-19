@@ -83,7 +83,8 @@ export default function CheckoutPage() {
         orderName: plan === 'yearly' ? 'Core 연 구독 (VVIP)' : 'Core 월 구독',
         customerName: customerName,
         customerEmail: customerEmail,
-        successUrl: window.location.origin + "/dashboard", 
+        // 📌 여기가 핵심입니다. /dashboard 가 아닌 /success 로 먼저 보냅니다.
+        successUrl: window.location.origin + "/success", 
         failUrl: window.location.origin + "/checkout",
       })
     } catch (error) {
@@ -199,7 +200,6 @@ export default function CheckoutPage() {
                 </div>
                 <div className="space-y-8 pt-4">
                   <div className="flex items-start gap-4 text-left">
-                    {/* 📌 체크박스 활성화 시 하얀색 배경 & 하얀색 테두리로 변경 */}
                     <div onClick={() => setAgreed(!agreed)} className={`mt-1 w-5 h-5 border flex items-center justify-center cursor-pointer transition-colors ${agreed ? 'border-white bg-white' : 'border-zinc-500'}`}>
                       {agreed && <span className="text-black text-xs">✔</span>}
                     </div>
