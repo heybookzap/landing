@@ -1,41 +1,163 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
 
-export default function SuccessPage() {
+
+import { useEffect, useState, Suspense } from 'react'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+
+import { supabase } from '@/lib/supabase'
+
+
+
+function SuccessContent() {
+
   const router = useRouter()
 
+  const searchParams = useSearchParams()
+
+  const [status, setStatus] = useState('결제를 확인하고 있습니다...')
+
+
+
   useEffect(() => {
-    // 2초 뒤에 어제 구현한 메인 서비스(대시보드) 화면으로 이동합니다.
-    const timer = setTimeout(() => {
-      router.push('/dashboard')
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [router])
+
+    const processPaymentAndAuth = async () => {
+
+      const paymentKey = searchParams.get('paymentKey')
+
+      const orderId = searchParams.get('orderId')
+
+      const amount = searchParams.get('amount')
+
+
+
+      if (!paymentKey || !orderId || !amount) {
+
+        router.push('/pricing')
+
+        return
+
+      }
+
+
+
+      setStatus('당신만의 전용 공간을 만들고 있습니다...')
+
+
+
+      const email = localStorage.getItem('vvip_email') || `vvip_${Date.now()}@oneblank.com`
+
+      const tempPassword = Math.random().toString(36).slice(-10) + 'Vv1!'
+
+
+
+      try {
+
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+
+          email,
+
+          password: tempPassword,
+
+        })
+
+
+
+        if (authError || !authData.user) throw authError
+
+
+
+        setStatus('보호 시스템을 켜는 중입니다...')
+
+
+
+        await supabase.from('users').upsert([
+
+          { id: authData.user.id, email: email, name: 'VVIP Client' }
+
+        ])
+
+
+
+        await supabase.from('subscriptions').insert([
+
+          {
+
+            user_id: authData.user.id,
+
+            plan_type: 'CORE_ANNUAL',
+
+            status: 'ACTIVE',
+
+            current_period_start: new Date().toISOString(),
+
+            current_period_end: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString()
+
+          }
+
+        ])
+
+
+
+        setStatus('준비가 모두 끝났습니다. 이동합니다.')
+
+        setTimeout(() => {
+
+          router.push('/dashboard/setup')
+
+        }, 1500)
+
+
+
+      } catch (error) {
+
+        setStatus('문제가 발생했습니다. 관리자에게 알려주세요.')
+
+      }
+
+    }
+
+
+
+    processPaymentAndAuth()
+
+  }, [searchParams, router])
+
+
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center font-pretendard relative selection:bg-[#C2A35D] selection:text-black">
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_rgba(194,163,93,0.03)_0%,_transparent_70%)] pointer-events-none z-0"></div>
-      
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-10 z-10">
-        <p className="text-[#C2A35D] text-[11px] tracking-[0.5em] font-medium uppercase italic">Authorization</p>
-        <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white leading-snug">
-          결제가 완료되었습니다.<br />
-          곧 <span className="font-serif italic font-bold text-[#C2A35D]">프라이빗 세션</span>으로 입장합니다.
-        </h1>
-        <div className="flex justify-center gap-4 mt-12">
-          {[0, 0.2, 0.4].map((d) => (
-            <motion.div 
-              key={d} 
-              animate={{ opacity: [0.2, 1, 0.2] }} 
-              transition={{ duration: 1.5, repeat: Infinity, delay: d }} 
-              className="w-1.5 h-1.5 rounded-full bg-[#C2A35D]"
-            />
-          ))}
-        </div>
-      </motion.div>
-    </main>
+
+    <div className="text-center space-y-8 animate-in fade-in duration-1000">
+
+      <div className="w-12 h-12 border-2 border-[#C2A35D] border-t-transparent rounded-full animate-spin mx-auto"></div>
+
+      <h1 className="text-2xl font-light tracking-widest text-[#C2A35D]">{status}</h1>
+
+      <p className="text-zinc-500 text-sm font-light">창을 닫지 마세요. 3초 정도 걸립니다.</p>
+
+    </div>
+
   )
+
+}
+
+
+
+export default function CheckoutSuccessPage() {
+
+  return (
+
+    <main className="flex-1 flex items-center justify-center min-h-screen bg-[#050505] text-white">
+
+      <Suspense fallback={<div className="text-[#C2A35D] text-center">불러오는 중...</div>}>
+
+        <SuccessContent />
+
+      </Suspense>
+
+    </main>
+
+  )
+
 }

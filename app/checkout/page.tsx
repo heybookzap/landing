@@ -23,7 +23,6 @@ export default function CheckoutPage() {
     setStep(2)
   }
 
-  // 토스 결제 위젯 로드 (모달 팝업 시)
   useEffect(() => {
     if (!showTossModal) return
 
@@ -79,12 +78,16 @@ export default function CheckoutPage() {
   const executeTossPayment = async () => {
     if (!widgets) return
     try {
+      // 📌 결제 전 고객 정보를 브라우저에 임시 저장 (데이터 보존)
+      localStorage.setItem('customerName', customerName)
+      localStorage.setItem('customerEmail', customerEmail)
+      localStorage.setItem('customerPassword', password)
+
       await widgets.requestPayment({
         orderId: "ORDER_" + Date.now(),
         orderName: plan === 'yearly' ? 'Core 연 구독 (VVIP)' : 'Core 월 구독',
         customerName: customerName,
         customerEmail: customerEmail,
-        // 📌 결제 성공 시 승인 대기 화면(/success)으로 보내 세션을 확정합니다.
         successUrl: window.location.origin + "/success", 
         failUrl: window.location.origin + "/checkout",
       })
@@ -166,23 +169,6 @@ export default function CheckoutPage() {
                   <button onClick={() => handlePlanSelect('yearly')} className="w-full mt-12 py-5 bg-white text-black text-[12px] font-bold tracking-widest uppercase hover:bg-[#C2A35D] transition-all duration-500 rounded-xl shadow-xl">가장 현명하게 VVIP로 시작하기</button>
                 </div>
               </div>
-              <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-                <div className="space-y-3 text-left border-l border-zinc-800 pl-6">
-                  <p className="text-white text-sm font-bold flex items-center gap-2">🧾 [ 시스템 투자 자산 회수 (ROI) ]</p>
-                  <p className="text-zinc-400 text-[13px] leading-relaxed font-light break-keep">
-                    대표님의 버려지는 시간과 뇌 에너지를 시급으로 환산해 보십시오.<br />
-                    이 결제 금액은 시스템 도입 후 <span className="text-zinc-200">&apos;단 하루 만에 100% 회수 가능한&apos;</span> 최소 비용입니다.
-                  </p>
-                </div>
-                <div className="space-y-3 text-left border-l border-zinc-800 pl-6">
-                  <p className="text-[#C2A35D] text-sm font-bold flex items-center gap-2">🛡️ [ 14일 인지 방어 보증 (Risk-Free) ]</p>
-                  <p className="text-zinc-400 text-[13px] leading-relaxed font-light break-keep">
-                    결제 후 14일 동안 시스템의 2분 지침을 완료했음에도<br />
-                    결정 피로가 줄지 않았다면? <span className="text-zinc-200">즉시 100% 전액 환불해 드립니다.</span><br />
-                    저희는 성공하실 VVIP 대표님만 모십니다.
-                  </p>
-                </div>
-              </div>
             </motion.div>
           ) : (
             <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="max-w-xl mx-auto w-full space-y-12">
@@ -197,7 +183,7 @@ export default function CheckoutPage() {
                 <div className="space-y-8">
                   <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="성함 (Full Name)" className="w-full bg-transparent border-b border-zinc-500 py-4 text-white placeholder-zinc-400 text-lg font-light focus:outline-none focus:border-[#C2A35D] transition-colors" />
                   <input type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} placeholder="이메일 주소 (Email Address)" className="w-full bg-transparent border-b border-zinc-500 py-4 text-white placeholder-zinc-400 text-lg font-light focus:outline-none focus:border-[#C2A35D] transition-colors" />
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="사용할 비밀번호 (6자리 이상)" className="w-full bg-transparent border-b border-zinc-500 py-4 text-white placeholder-zinc-400 text-lg font-light focus:outline-none focus:border-[#C2A35D] transition-colors" />
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="사용할 비밀번호 (6자리 이상)" className="w-full bg-transparent border-b border-zinc-700 py-4 text-white placeholder-zinc-600 text-lg font-light focus:outline-none focus:border-[#C2A35D] transition-colors" />
                 </div>
                 <div className="space-y-8 pt-4">
                   <div className="flex items-start gap-4 text-left">
@@ -220,11 +206,7 @@ export default function CheckoutPage() {
           )}
         </AnimatePresence>
       </div>
-      <footer className="w-full border-t border-zinc-900 py-10 text-center mt-auto">
-        <p className="text-zinc-500 text-[11px] tracking-[0.3em] uppercase font-light">ONE BLANK · Permanent Cognitive Protection.</p>
-      </footer>
 
-      {/* 토스 결제 모달 */}
       <AnimatePresence>
         {showTossModal && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
@@ -240,29 +222,6 @@ export default function CheckoutPage() {
                 <button onClick={executeTossPayment} className="w-full py-5 bg-[#3182f6] text-white text-[15px] font-bold rounded-xl mt-4 hover:bg-[#236bb5] transition-colors">
                   {plan === 'yearly' ? '3,900,000' : '390,000'}원 최종 결제하기
                 </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 이용약관 오버레이 */}
-      <AnimatePresence>
-        {overlayType && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-16 backdrop-blur-md">
-            <div className="w-full max-w-3xl h-full max-h-[80vh] flex flex-col border border-zinc-800 bg-[#0A0A0A] p-8 md:p-12 relative shadow-2xl">
-              <button onClick={() => setOverlayType(null)} className="absolute top-6 right-6 text-zinc-400 hover:text-white text-[11px] tracking-widest uppercase transition-colors">[ 닫기 ]</button>
-              <div className="flex-1 overflow-y-auto pr-4 space-y-10 text-zinc-300 text-sm font-light leading-loose pt-8 scrollbar-hide text-left">
-                {overlayType === 'terms' && (
-                  <div className="space-y-10">
-                    <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">이용약관</h2>
-                    <section className="space-y-3">
-                      <p className="text-white font-medium">제 1조 (서비스 목적)</p>
-                      <p>ONE BLANK는 대표님의 복잡한 생각을 정리해주고, 매일 아침 딱 한 가지 행동에만 집중할 수 있게 돕는 시스템입니다.</p>
-                    </section>
-                  </div>
-                )}
-                {/* 환불규정/개인정보처리방침 내용은 기존과 동일하므로 압축 유지 */}
               </div>
             </div>
           </motion.div>
