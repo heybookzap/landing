@@ -1,31 +1,28 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
-
-export async function GET(request: Request) {
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
+export async function POST(req: Request) {
   try {
-    const today = new Date().toISOString().split('T')[0]
+    // 보안 헤더 확인
+    const authHeader = req.headers.get('authorization');
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    const { error } = await supabaseAdmin
-      .from('daily_logs')
-      .update({ is_ghost_reset: true, updated_at: new Date().toISOString() })
-      .lt('log_date', today)
-      .eq('is_completed', false)
-      .eq('is_ghost_reset', false)
+    // 어제의 미수행 과업(PENDING)을 고스트 리셋(GHOST_RESET) 처리
+    const { error } = await supabase
+      .from('daily_reports')
+      .update({ status: 'GHOST_RESET' })
+      .eq('status', 'PENDING');
 
-    if (error) throw error
+    if (error) throw error;
 
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    return NextResponse.json({ error: 'System Error' }, { status: 500 })
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Ghost Reset Success' 
+    });
+
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

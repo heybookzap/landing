@@ -1,106 +1,63 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const CONDITIONS = ["피곤합니다", "보통입니다", "좋습니다"] as const;
+const CONDITIONS = ["피곤함", "보통", "아주 좋음"] as const;
 type Condition = (typeof CONDITIONS)[number];
 
-const ACTIONS: Record<Condition, string> = {
-  피곤합니다: "오늘 1분 행동: 커피 한 모금 마시고 노션 1분만 열어둡니다.",
-  보통입니다:  "오늘 2분 행동: 노션 첫 문장을 작성합니다.",
-  좋습니다:    "오늘 3분 행동: 오늘 할 일의 순서를 정합니다.",
+// 📌 가짜 과업을 제거하고, 시스템의 지침 체계로 카피를 정제했습니다.
+const DIRECTIVES: Record<Condition, string> = {
+  "피곤함": "시스템이 하향 조정한 '1분 수동 과업'만 완수하십시오. 그 외의 모든 결정은 금지됩니다.",
+  "보통": "배정된 '2분 핵심 과업'을 즉시 실행하십시오. 현재 뇌 리소스는 표준 상태입니다.",
+  "아주 좋음": "최상위 전략 과업을 처리할 적기입니다. 시스템이 제안하는 3분 딥워크에 진입하십시오.",
 };
 
-function CheckIcon() {
+function SyncIcon() {
   return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="#8B6914"
-      strokeWidth={1.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="8" r="6" />
-      <line x1="8" y1="5" x2="8" y2="8.2" />
-      <line x1="8" y1="8.2" x2="10.2" y2="10.4" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C2A35D" strokeWidth={1.2}>
+      <circle cx="8" cy="8" r="6" strokeDasharray="2 2" />
+      <path d="M8 4v4l2 2" strokeLinecap="round" />
     </svg>
-  );
-}
-
-function DoneBadge({ text }: { text: string }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, x: -4 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
-      className="inline-flex items-center px-2 py-0.5 text-[8px] tracking-[0.35em] uppercase"
-      style={{
-        border: "1px solid #B8860B",
-        color: "rgba(255,255,255,0.4)",
-      }}
-    >
-      {text}
-    </motion.span>
   );
 }
 
 export default function MorningRitual() {
   const [selected, setSelected] = useState<Condition | null>(null);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setCount(Math.floor(Math.random() * 51) + 300);
-  }, []);
 
   return (
-    <section className="w-full flex flex-col gap-6 px-6 py-7">
+    <section className="w-full flex flex-col gap-8 px-8 py-10 bg-[#080808] border border-zinc-900 rounded-[32px] font-pretendard">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <CheckIcon />
-          <p
-            className="text-[9px] tracking-[0.45em] uppercase"
-            style={{ color: "rgba(255,255,255,0.3)" }}
-          >
-            Morning Check
+        <div className="flex items-center gap-3">
+          <SyncIcon />
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#C2A35D] font-bold font-serif italic">
+            Cognitive Sync
           </p>
         </div>
-        <AnimatePresence>
-          {selected && <DoneBadge key="badge" text="체크 완료" />}
-        </AnimatePresence>
+        {selected && (
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[9px] text-zinc-600 tracking-widest uppercase">
+            동기화 완료
+          </motion.span>
+        )}
       </div>
 
-      <p className="text-sm text-white leading-relaxed">
-        오늘의 몸 상태는 어떠십니까?
-      </p>
+      <div className="space-y-2">
+        <h3 className="text-lg font-light text-white tracking-tight">오늘의 뇌 컨디션을 선택해 주십시오.</h3>
+        <p className="text-zinc-600 text-xs font-light">상태에 따라 최적의 인지 부하가 배정됩니다.</p>
+      </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {CONDITIONS.map((c) => {
           const active = selected === c;
           return (
             <button
               key={c}
               onClick={() => setSelected(c)}
-              className="flex-1 py-3 text-xs font-medium tracking-wide transition-all duration-200"
+              className="flex-1 py-4 text-[11px] font-bold tracking-widest transition-all duration-500 rounded-xl border uppercase"
               style={{
-                background: active ? "#FFFFFF" : "transparent",
-                color: active ? "#000000" : "rgba(255,255,255,0.35)",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-              onMouseEnter={(e) => {
-                if (!active) {
-                  (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.7)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.25)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!active) {
-                  (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.35)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                }
+                background: active ? "#C2A35D" : "transparent",
+                color: active ? "#000" : "#555",
+                borderColor: active ? "#C2A35D" : "#1A1A1A",
               }}
             >
               {c}
@@ -109,28 +66,28 @@ export default function MorningRitual() {
         })}
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {selected && (
           <motion.div
             key={selected}
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.35 }}
-            className="flex flex-col gap-3 pt-1"
+            className="pt-6 border-t border-zinc-900 space-y-4"
           >
-            <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
-            <p className="text-sm text-white leading-relaxed">{ACTIONS[selected]}</p>
+            <p className="text-[#C2A35D] text-[10px] tracking-widest font-bold uppercase">Today&apos;s Directive</p>
+            <p className="text-md text-zinc-200 leading-relaxed font-light break-keep">
+              {DIRECTIVES[selected]}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <p
-        className="text-[9px] tracking-widest uppercase"
-        style={{ color: "rgba(255,255,255,0.1)" }}
-      >
-        현재 {count}명이 행동을 시작했습니다.
-      </p>
+      <div className="flex items-center gap-2 pt-2">
+        <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
+        <p className="text-[9px] tracking-widest text-zinc-800 uppercase font-medium">
+          Authorized Sessions Active
+        </p>
+      </div>
     </section>
   );
 }

@@ -31,125 +31,90 @@ export default function AnnihilationModal({
   const total = assetValue(effortDays);
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-end sm:items-center justify-center">
+    <div className="fixed inset-0 z-[300] flex items-end sm:items-center justify-center font-pretendard">
       <motion.div
         className="absolute inset-0"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        style={{ background: "rgba(10,10,10,0.95)" }}
+        style={{ background: "rgba(5,5,5,0.98)" }} // 더 깊은 블랙으로 몰입감 강화
       />
 
       <motion.div
         initial={{ y: 32, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-md mx-auto"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full max-w-md mx-auto overflow-hidden rounded-[32px]"
         style={{
           background: "#0A0A0A",
-          border: "1px solid rgba(212,175,55,0.15)",
+          border: "1px solid rgba(194,163,93,0.2)",
         }}
       >
+        {/* 상단 텍스트 로고 영역 */}
         <div
-          className="flex items-center justify-between px-6 py-3"
+          className="flex items-center justify-between px-8 py-4"
           style={{
-            borderBottom: "1px solid rgba(212,175,55,0.1)",
-            background: "rgba(212,175,55,0.04)",
+            borderBottom: "1px solid rgba(194,163,93,0.1)",
+            background: "rgba(194,163,93,0.03)",
           }}
         >
-          <p
-            className="text-[9px] tracking-[0.4em] uppercase font-medium"
-            style={{ color: "#D4AF37" }}
-          >
-            기록 삭제 및 자산 전환 안내
+          <p className="text-[9px] tracking-[0.5em] font-bold uppercase font-serif italic" style={{ color: "#C2A35D" }}>
+            ONE BLANK SYSTEM
           </p>
-          <motion.p
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="text-[9px] tracking-widest font-semibold"
-            style={{ color: "#C0392B" }}
+          <motion.div
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="flex items-center gap-2"
           >
-            {hoursLeft}H REMAINING
-          </motion.p>
+            <div className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_red]"></div>
+            <p className="text-[9px] tracking-widest font-bold text-red-500 uppercase">
+              {hoursLeft}H BEFORE ANNIHILATION
+            </p>
+          </motion.div>
         </div>
 
-        <div className="px-7 pt-7 pb-10 flex flex-col gap-7">
-          <div className="flex flex-col gap-3">
-            <p className="text-base font-light leading-relaxed text-white">
-              지금 Core 플랜으로 승급하면 사라질{" "}
-              <span className="font-semibold" style={{ color: "#D4AF37" }}>
-                {effortDays}일치의 노력
-              </span>
-              을 복리 자산으로 환산해 대시보드에 즉시 예치해 드립니다.
-            </p>
-            <p
-              className="text-xs leading-relaxed"
-              style={{ color: "rgba(237,237,237,0.35)" }}
-            >
-              아무 결정도 하지 않으시면 {hoursLeft}시간 후 모든 기록이 영구 삭제됩니다.
+        <div className="px-8 pt-10 pb-12 flex flex-col gap-10">
+          <div className="space-y-4">
+            <h2 className="text-xl md:text-2xl font-light leading-snug text-white break-keep">
+              지금 Core 플랜으로 전환하여 <br/>
+              지난 <span className="text-[#C2A35D] font-serif italic font-bold">{effortDays}일간의 기록</span>을 보존하십시오.
+            </h2>
+            <p className="text-zinc-500 text-sm font-light leading-relaxed break-keep">
+              결정하지 않으시면 {hoursLeft}시간 후, 대표님이 공들여 쌓은 모든 데이터는 시스템에서 영구 소멸됩니다.
             </p>
           </div>
 
           <div
-            className="flex flex-col items-center gap-4 py-8"
+            className="flex flex-col items-center gap-4 py-10 rounded-2xl"
             style={{
-              border: "1px solid rgba(212,175,55,0.18)",
-              background: "rgba(212,175,55,0.025)",
+              border: "1px solid rgba(194,163,93,0.1)",
+              background: "rgba(194,163,93,0.02)",
             }}
           >
-            <p
-              className="text-[9px] tracking-[0.4em] uppercase"
-              style={{ color: "rgba(212,175,55,0.5)" }}
-            >
-              복리 누적 최종 환산액
-            </p>
-
+            <p className="text-[9px] tracking-[0.4em] uppercase text-zinc-600 font-medium">현재 복리 자산 환산액</p>
             <div className="flex items-baseline gap-2">
-              <span
-                className="font-light leading-none tabular-nums"
-                style={{ fontSize: "clamp(3rem, 14vw, 5rem)", color: "#D4AF37" }}
-              >
+              <span className="text-5xl md:text-6xl font-serif italic font-bold tabular-nums text-white tracking-tighter">
                 {krw(total)}
               </span>
-              <span
-                className="text-base font-light"
-                style={{ color: "rgba(237,237,237,0.4)" }}
-              >
-                원
-              </span>
+              <span className="text-zinc-500 text-sm font-light">원</span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             <motion.button
               onClick={onConvert}
-              whileHover={{ filter: "brightness(1.1)", y: -1 }}
+              whileHover={{ scale: 1.02, backgroundColor: "#C2A35D" }}
               whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.18 }}
-              className="w-full py-4 text-sm font-bold tracking-[0.12em]"
-              style={{
-                background: "#B8860B",
-                color: "#000000",
-                boxShadow: "0 0 28px rgba(184,134,11,0.2)",
-              }}
+              className="w-full py-6 text-[11px] font-bold tracking-[0.3em] uppercase transition-all duration-500 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+              style={{ background: "#C2A35D", color: "#000" }}
             >
-              내 노력을 돈으로 바꿉니다
+              내 노력을 자산으로 보존하기
             </motion.button>
 
             <button
               onClick={onAcceptDestruction}
-              className="w-full py-2 text-[11px] tracking-wide underline underline-offset-4 transition-colors duration-200"
-              style={{ color: "rgba(237,237,237,0.18)" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color =
-                  "rgba(237,237,237,0.4)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color =
-                  "rgba(237,237,237,0.18)";
-              }}
+              className="w-full py-2 text-[10px] tracking-[0.2em] text-zinc-800 hover:text-zinc-500 transition-colors duration-300 uppercase underline underline-offset-8 decoration-zinc-900"
             >
-              내 기록이 지워지는 것을 받아들입니다
+              기록의 영구 소멸을 수용합니다
             </button>
           </div>
         </div>

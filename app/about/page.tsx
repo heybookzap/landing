@@ -13,15 +13,15 @@ export default function AboutPage() {
 
       <header className="absolute top-0 left-0 w-full px-8 md:px-16 py-10 z-40 flex justify-between items-start">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/')}>
-          <span className="text-[#C2A35D] font-serif italic text-xl font-bold">1B</span>
-          <span className="text-white text-[11px] tracking-[0.4em] font-light uppercase">THE ONE BLANK</span>
+          {/* 📌 1B를 제거하고 ONE BLANK로 통일하여 브랜드 권위를 높였습니다. */}
+          <span className="text-[#C2A35D] font-serif italic text-xl font-bold uppercase">ONE BLANK</span>
+          <span className="text-white text-[11px] tracking-[0.4em] font-light uppercase">The Identity</span>
         </div>
         <button onClick={() => router.push('/')} className="text-zinc-500 hover:text-white text-[11px] tracking-[0.4em] font-light uppercase transition-colors">
           [ Back to Home ]
         </button>
       </header>
 
-      {/* 최상단 장식선 */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-24 bg-gradient-to-b from-[#C2A35D] to-transparent opacity-40"></div>
 
       <motion.div 
@@ -40,7 +40,6 @@ export default function AboutPage() {
             그것이 ONE BLANK의 유일한 임무입니다.
           </h1>
           
-          {/* 수정된 시선 유도선: 어두운 회색에서 명확한 골드 그라데이션으로 변경 */}
           <div className="w-[1px] h-20 bg-gradient-to-b from-transparent via-[#C2A35D] to-transparent mx-auto opacity-70"></div>
           
           <div className="space-y-12 max-w-2xl mx-auto">

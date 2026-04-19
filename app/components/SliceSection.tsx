@@ -5,37 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function SliceIcon() {
   return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="#8B6914"
-      strokeWidth={1.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C2A35D" strokeWidth={1.2}>
       <line x1="3" y1="13" x2="13" y2="3" />
       <circle cx="3.5" cy="12.5" r="1.5" />
       <circle cx="6.5" cy="9.5" r="1.5" />
     </svg>
-  );
-}
-
-function DoneBadge({ text }: { text: string }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, x: -4 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
-      className="inline-flex items-center px-2 py-0.5 text-[8px] tracking-[0.35em] uppercase"
-      style={{
-        border: "1px solid #B8860B",
-        color: "rgba(255,255,255,0.4)",
-      }}
-    >
-      {text}
-    </motion.span>
   );
 }
 
@@ -49,7 +23,7 @@ export default function SliceSection({ wage }: { wage: string }) {
     setLoading(true);
     setResult(null);
     try {
-      const res = await fetch("/api/slice", {
+      const res = await fetch("/api", { // 📌 엔드포인트 경로 수정
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ task, wage }),
@@ -64,64 +38,55 @@ export default function SliceSection({ wage }: { wage: string }) {
   }
 
   return (
-    <section className="w-full flex flex-col gap-6 px-6 py-7">
+    <section className="w-full flex flex-col gap-6 px-8 py-10 bg-[#080808] border border-zinc-900 rounded-[32px] font-pretendard">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <SliceIcon />
-          <p
-            className="text-[9px] tracking-[0.45em] uppercase"
-            style={{ color: "rgba(255,255,255,0.3)" }}
-          >
+          <p className="text-[10px] tracking-[0.4em] uppercase text-[#C2A35D] font-bold font-serif italic">
             Action Slice
           </p>
         </div>
         <AnimatePresence>
-          {result && <DoneBadge key="badge" text="분석 완료" />}
+          {result && (
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[9px] text-zinc-600 tracking-widest uppercase">
+              분석 완료
+            </motion.span>
+          )}
         </AnimatePresence>
       </div>
 
-      <textarea
-        placeholder="지금 머릿속을 복잡하게 만드는 일을 입력해 주십시오."
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        className="w-full py-3 text-sm text-white resize-none focus:outline-none leading-relaxed placeholder:text-white/20"
-        style={{
-          background: "transparent",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-        }}
-        rows={2}
-        onFocus={(e) => {
-          (e.currentTarget as HTMLTextAreaElement).style.borderBottomColor = "rgba(255,255,255,0.25)";
-        }}
-        onBlur={(e) => {
-          (e.currentTarget as HTMLTextAreaElement).style.borderBottomColor = "rgba(255,255,255,0.08)";
-        }}
-      />
+      <div className="space-y-2 text-left">
+        <h3 className="text-lg font-light text-white tracking-tight">지금 머릿속을 복잡하게 만드는 일은 무엇입니까?</h3>
+        <textarea
+          placeholder="여기에 입력하십시오."
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          className="w-full py-4 text-md text-zinc-100 bg-transparent border-b border-zinc-900 focus:border-[#C2A35D] outline-none transition-colors resize-none placeholder:text-zinc-800"
+          rows={1}
+        />
+      </div>
 
       <button
         onClick={handleSubmit}
         disabled={!task.trim() || loading}
-        className="w-full py-4 text-xs font-bold tracking-[0.15em] uppercase transition-opacity duration-200 disabled:opacity-25"
-        style={{ background: "#FFFFFF", color: "#000000" }}
+        className="w-full py-6 bg-white text-black text-[12px] font-bold tracking-[0.2em] uppercase rounded-xl hover:bg-[#C2A35D] transition-all duration-500 disabled:opacity-10"
       >
-        {loading ? "분석하고 있습니다..." : "행동을 쪼개 드립니다"}
+        {loading ? "분석 중..." : "행동 쪼개기"}
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {result && (
           <motion.div
             key="result"
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col gap-3 pt-2"
+            className="pt-8 border-t border-zinc-900 space-y-4"
           >
-            <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
-            <p className="text-xl font-bold text-white leading-snug tracking-tight">
+            <p className="text-[#C2A35D] text-[10px] tracking-widest font-bold uppercase italic font-serif">Today&apos;s 2-Min Action</p>
+            <p className="text-2xl font-bold text-white leading-tight tracking-tight break-keep">
               {result.action}
             </p>
-            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <p className="text-zinc-500 text-sm font-light leading-relaxed border-l border-zinc-800 pl-6">
               {result.contribution}
             </p>
           </motion.div>

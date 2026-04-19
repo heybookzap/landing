@@ -11,39 +11,20 @@ type Props = {
 };
 
 const LEVELS = [
-  { score: 1, label: "전혀 없음", sub: "완전 기계적 실행" },
-  { score: 2, label: "약간", sub: "가볍게 집중" },
-  { score: 3, label: "보통", sub: "평균적 소모" },
-  { score: 4, label: "무거움", sub: "뇌를 꽤 썼음" },
-  { score: 5, label: "극심함", sub: "에너지 소진" },
+  { score: 1, label: "가벼움", sub: "기계적 실행" },
+  { score: 2, label: "보통", sub: "약간 집중" },
+  { score: 3, label: "몰입", sub: "평균적 소모" },
+  { score: 4, label: "무거움", sub: "뇌 리소스 소모" },
+  { score: 5, label: "한계", sub: "에너지 소진" },
 ] as const;
 
+// 📌 브랜드 시그니처 골드(#C2A35D)를 마스터 컬러로 적용
 const SCORE_STYLES: Record<number, { idle: string; active: string; bar: string }> = {
-  1: {
-    idle: "border-zinc-800 text-zinc-500 hover:border-emerald-500/50 hover:text-emerald-400",
-    active: "border-emerald-500/60 bg-emerald-500/8 text-emerald-400",
-    bar: "bg-emerald-500",
-  },
-  2: {
-    idle: "border-zinc-800 text-zinc-500 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]",
-    active: "border-[#D4AF37]/60 bg-[#D4AF37]/8 text-[#D4AF37]",
-    bar: "bg-[#D4AF37]",
-  },
-  3: {
-    idle: "border-zinc-800 text-zinc-500 hover:border-zinc-500/60 hover:text-zinc-300",
-    active: "border-zinc-500/60 bg-zinc-800/40 text-zinc-200",
-    bar: "bg-zinc-400",
-  },
-  4: {
-    idle: "border-zinc-800 text-zinc-500 hover:border-orange-500/50 hover:text-orange-400",
-    active: "border-orange-500/60 bg-orange-500/8 text-orange-400",
-    bar: "bg-orange-500",
-  },
-  5: {
-    idle: "border-zinc-800 text-zinc-500 hover:border-red-500/50 hover:text-red-400",
-    active: "border-red-500/60 bg-red-500/8 text-red-400",
-    bar: "bg-red-500",
-  },
+  1: { idle: "border-zinc-900 text-zinc-600", active: "border-[#C2A35D] bg-[#C2A35D]/5 text-[#C2A35D]", bar: "bg-zinc-600" },
+  2: { idle: "border-zinc-900 text-zinc-600", active: "border-[#C2A35D] bg-[#C2A35D]/5 text-[#C2A35D]", bar: "bg-[#C2A35D]/40" },
+  3: { idle: "border-zinc-900 text-zinc-600", active: "border-[#C2A35D] bg-[#C2A35D]/10 text-[#C2A35D]", bar: "bg-[#C2A35D]" },
+  4: { idle: "border-zinc-900 text-zinc-600", active: "border-orange-500/50 bg-orange-500/5 text-orange-400", bar: "bg-orange-500" },
+  5: { idle: "border-zinc-900 text-zinc-600", active: "border-red-500/50 bg-red-500/5 text-red-400", bar: "bg-red-500" },
 };
 
 export default function QuickFeedbackModal({ isOpen, missionTitle, onSubmit, onClose }: Props) {
@@ -54,11 +35,12 @@ export default function QuickFeedbackModal({ isOpen, missionTitle, onSubmit, onC
     if (submitted) return;
     setSelected(score);
     setSubmitted(true);
+    // 📌 유저가 결과를 인지할 수 있도록 짧은 딜레이 후 콜백 실행
     setTimeout(() => {
       onSubmit(score);
       setSelected(null);
       setSubmitted(false);
-    }, 900);
+    }, 800);
   };
 
   return (
@@ -68,98 +50,63 @@ export default function QuickFeedbackModal({ isOpen, missionTitle, onSubmit, onC
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex items-end sm:items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[200] bg-black/98 backdrop-blur-xl flex items-center justify-center p-6"
           onClick={(e) => { if (e.target === e.currentTarget && !submitted) onClose(); }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 32, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.97 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="w-full max-w-md bg-[#0f0f0f] border border-zinc-800 rounded-[28px] overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-sm bg-[#080808] border border-zinc-900 rounded-[32px] overflow-hidden shadow-2xl font-pretendard"
           >
-            <div className="h-[2px] w-full bg-[#D4AF37]/30" />
+            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#C2A35D]/50 to-transparent" />
 
             <AnimatePresence mode="wait">
               {!submitted ? (
-                <motion.div
-                  key="question"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="p-7 flex flex-col gap-7"
-                >
-                  <div className="flex flex-col gap-2">
-                    <p className="text-[10px] font-bold tracking-[0.35em] text-[#D4AF37]/60 uppercase">
-                      Mission Complete
-                    </p>
-                    <p className="text-xs text-zinc-600 font-medium leading-snug line-clamp-2">
-                      {missionTitle}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <h2 className="text-base font-black text-zinc-100 leading-snug tracking-tight">
-                      방금 완료한 과업의<br />인지적 피로도는 어땠나요?
+                <motion.div key="question" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-8 space-y-8">
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-bold tracking-[0.4em] text-[#C2A35D] uppercase font-serif italic">Mission Report</p>
+                    <h2 className="text-xl font-light text-white leading-tight tracking-tight break-keep">
+                      방금 하신 일은 <br /><span className="text-[#C2A35D] font-bold">얼마나 머리를 쓰셨나요?</span>
                     </h2>
-                    <p className="text-[11px] text-zinc-600">
-                      시스템이 다음 미션 강도를 자동 조정합니다.
-                    </p>
                   </div>
 
-                  <div className="flex gap-2">
-                    {LEVELS.map(({ score, label, sub }) => {
+                  <div className="grid grid-cols-5 gap-2">
+                    {LEVELS.map(({ score, label }) => {
                       const styles = SCORE_STYLES[score];
+                      const isActive = selected === score;
                       return (
                         <button
                           key={score}
                           onClick={() => handleSelect(score)}
-                          className={`flex-1 flex flex-col items-center gap-2 py-4 rounded-2xl border transition-all duration-200 ${
-                            selected === score ? styles.active : styles.idle
-                          }`}
+                          className={`flex flex-col items-center gap-3 py-4 rounded-xl border transition-all duration-500 ${isActive ? styles.active : styles.idle}`}
                         >
-                          <div className="flex flex-col items-center gap-1.5 w-full px-1">
-                            <div className="flex items-end gap-[2px] h-5">
-                              {Array.from({ length: 5 }, (_, i) => (
-                                <div
-                                  key={i}
-                                  className={`w-[3px] rounded-full transition-all ${
-                                    i < score ? styles.bar : "bg-zinc-800"
-                                  }`}
-                                  style={{ height: `${40 + i * 12}%` }}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-base font-black leading-none">{score}</span>
+                          <div className="flex items-end gap-[1px] h-4">
+                            {Array.from({ length: 5 }, (_, i) => (
+                              <div
+                                key={i}
+                                className={`w-[2px] rounded-full transition-all ${i < score ? (isActive ? styles.bar : "bg-zinc-700") : "bg-zinc-900"}`}
+                                style={{ height: `${40 + i * 15}%` }}
+                              />
+                            ))}
                           </div>
-                          <span className="text-[9px] font-bold tracking-wide text-center leading-tight">
-                            {label}
-                          </span>
+                          <span className="text-[10px] font-bold">{label}</span>
                         </button>
                       );
                     })}
                   </div>
 
-                  <p className="text-[10px] text-zinc-700 text-center">
-                    탭하면 즉시 기록됩니다. 생각할 필요 없습니다.
+                  <p className="text-[9px] text-zinc-700 text-center tracking-widest uppercase">
+                    Tap to sync with system
                   </p>
                 </motion.div>
               ) : (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="p-10 flex flex-col items-center gap-4 text-center"
-                >
-                  <div className="w-12 h-12 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-[#D4AF37]" />
+                <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="p-12 flex flex-col items-center gap-4 text-center">
+                  <div className="w-12 h-12 rounded-full border border-[#C2A35D]/20 flex items-center justify-center">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-2 h-2 rounded-full bg-[#C2A35D]" />
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <p className="text-sm font-black text-zinc-100">기록되었습니다.</p>
-                    <p className="text-[11px] text-zinc-600">
-                      시스템이 다음 배정에 반영합니다.
-                    </p>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-white">동기화 완료</p>
+                    <p className="text-xs text-zinc-600">내일 지침의 강도에 반영됩니다.</p>
                   </div>
                 </motion.div>
               )}
