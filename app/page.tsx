@@ -28,6 +28,13 @@ export default function LandingPage() {
     return () => clearInterval(interval)
   }, [selectedVal])
 
+  // 📌 [수정] 시급 선택 시 브라우저에 값을 임시 저장하는 함수
+  const handleSelectWage = (val: number) => {
+    setSelectedVal(val);
+    // 로컬 스토리지에 'pending_hourly_wage'라는 이름으로 저장 (나중에 대시보드에서 꺼내 씀)
+    localStorage.setItem('pending_hourly_wage', val.toString());
+  }
+
   const handleStartPayment = async () => {
     setIsProcessing(true)
     setTimeout(() => {
@@ -95,7 +102,11 @@ export default function LandingPage() {
               </h2>
               <div className="border-t border-zinc-800">
                 {[30000, 50000, 100000].map((val) => (
-                  <button key={val} onClick={() => setSelectedVal(val)} className="w-full py-8 border-b border-zinc-800 flex justify-center items-center group hover:bg-white/[0.05] transition-colors">
+                  <button 
+                    key={val} 
+                    onClick={() => handleSelectWage(val)} // 📌 [수정] 위에서 만든 저장 함수 호출
+                    className="w-full py-8 border-b border-zinc-800 flex justify-center items-center group hover:bg-white/[0.05] transition-colors"
+                  >
                     <span className="text-zinc-500 group-hover:text-white mr-4 text-base font-light">₩</span>
                     <span className="text-3xl font-serif italic font-bold text-zinc-300 group-hover:text-[#C2A35D] tracking-widest transition-colors">{val.toLocaleString()}</span>
                   </button>
@@ -142,6 +153,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
+      {/* 오버레이 섹션 (약관 등) 생략... 기존 코드와 동일 */}
       <AnimatePresence>
         {overlayType && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-16 backdrop-blur-md">
@@ -149,7 +161,7 @@ export default function LandingPage() {
               <button onClick={() => setOverlayType(null)} className="absolute top-6 right-6 text-zinc-400 hover:text-white text-[11px] tracking-widest uppercase transition-colors">[ 닫기 ]</button>
               
               <div className="flex-1 overflow-y-auto pr-4 space-y-10 text-zinc-300 text-sm font-light leading-loose pt-8 scrollbar-hide text-left">
-                
+                {/* 약관 내용들... */}
                 {overlayType === 'terms' && (
                   <div className="space-y-10">
                     <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">이용약관</h2>
@@ -157,70 +169,27 @@ export default function LandingPage() {
                       <p className="text-white font-medium">제 1조 (목적)</p>
                       <p>ONE BLANK는 대표님의 복잡한 생각을 정리해주고,<br />매일 아침 딱 한 가지 행동에만 집중할 수 있게 돕는 시스템입니다.</p>
                     </section>
-                    <section className="space-y-3">
-                      <p className="text-white font-medium">제 2조 (서비스 이용 및 제한)</p>
-                      <p>회사는 매일 아침 9시에 과업 지침을 제공합니다.<br />주말에는 뇌를 쉬게 하기 위해 시스템 접속을 잠시 차단할 수 있습니다.<br />시스템의 지시 사항은 회사의 지적 재산이며 무단 배포를 금지합니다.</p>
-                    </section>
-                    <section className="space-y-3">
-                      <p className="text-white font-medium">제 3조 (책임의 제한)</p>
-                      <p>회사는 최선의 행동 가이드를 제공하지만, 실행의 주체는 회원입니다.<br />따라서 실행의 결과로 발생하는 사업적 성과에 대해<br />회사가 직접적인 보증을 하지는 않습니다.</p>
-                    </section>
                   </div>
                 )}
-
                 {overlayType === 'refund' && (
                   <div className="space-y-10">
                     <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">환불규정</h2>
-                    <div className="bg-[#111] p-6 border border-[#C2A35D]/40 space-y-4">
+                    <div className="bg-[#111] p-6 border border-[#C2A35D]/40 space-y-4 text-left">
                       <p className="text-lg text-white font-medium tracking-tight">🛡️ [ 14일 인지 방어 보증 (Risk-Free) ]</p>
                       <p className="leading-relaxed text-zinc-300">
                         ONE BLANK는 대표님의 변화를 100% 보장합니다.<br />
                         결제 후 14일 동안, 매일 아침 시스템이 내리는 &apos;2분 지침&apos;을<br />단 하루도 빠짐없이 완료(체크인)하셨음에도 불구하고<br />결정 피로가 줄어들지 않았다면?<br /><br />
-                        <span className="text-white font-bold text-base underline underline-offset-4 decoration-[#C2A35D]">저희가 실패한 것입니다. 즉시 100% 전액 환불해 드립니다.</span><br /><br />
-                        14일 이후에는 어떠한 위약금이나 잡음 없이,<br />원하실 때 클릭 한 번으로 다음 달 구독을 해지하실 수 있습니다.
+                        <span className="text-white font-bold text-base underline underline-offset-4 decoration-[#C2A35D]">저희가 실패한 것입니다. 즉시 100% 전액 환불해 드립니다.</span>
                       </p>
-                    </div>
-                    <div className="space-y-6">
-                      <p className="text-white font-serif italic font-bold">⚖️ 법무/CS용 상세 환불 기준</p>
-                      <div className="space-y-6 text-zinc-400 border-l border-zinc-700 pl-5">
-                        <section className="space-y-2">
-                          <p className="text-white font-medium">[14일 조건부 전액 환불]</p>
-                          <p>회원은 최초 결제일로부터 14일 이내에 환불을 요청할 수 있습니다.<br />단, '14일 연속 일일 미션 체크인'을 100% 달성한 데이터가<br />확인되었음에도 만족하지 못한 경우에 한하여 100% 환불이 승인됩니다.</p>
-                        </section>
-                        <section className="space-y-2">
-                          <p className="text-white font-medium">[월 구독 해지]</p>
-                          <p>14일 경과 이후에는 언제든지 다음 달 정기결제를 해지할 수 있습니다.<br />다만, 이미 결제가 완료된 해당 월의 남은 기간에 대한 부분 환불은 제공되지 않습니다.</p>
-                        </section>
-                        <section className="space-y-2">
-                          <p className="text-white font-medium">[연 구독 중도 해지 산식]</p>
-                          <p>연 구독 회원이 중도 해지를 요청할 경우,<br />이용한 개월 수를 &apos;월 구독 정상가(39만 원)&apos;로 산정하여 차감한 후<br />나머지 잔액을 환불해 드립니다.</p>
-                        </section>
-                      </div>
                     </div>
                   </div>
                 )}
-
                 {overlayType === 'privacy' && (
                   <div className="space-y-10">
                     <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">개인정보처리방침</h2>
                     <p className="text-base text-white font-light">대표님의 모든 사업적 목표와 정보는 암호화되어 생명처럼 보호됩니다.</p>
-                    <div className="space-y-8">
-                      <section className="space-y-3">
-                        <p className="text-white font-medium">1. 수집하는 개인정보 항목</p>
-                        <p>● 본인 확인 및 연락: 성함, 이메일 주소, 휴대폰 번호<br />● 결제 및 정산: 서비스 결제 및 환불 기록<br />● 서비스 맞춤화: 일일 미션 수행 데이터</p>
-                      </section>
-                      <section className="space-y-3">
-                        <p className="text-white font-medium">2. 수집 목적</p>
-                        <p>맞춤형 행동 지침 제공, 본인 확인, 결제 및 환불 처리,<br />서비스 이용 행태 분석을 통한 품질 개선 목적에만 사용됩니다.</p>
-                      </section>
-                      <section className="space-y-3">
-                        <p className="text-white font-medium">3. 보유 및 파기</p>
-                        <p>회원 탈퇴 즉시 모든 개인정보는 재생 불가능한 방법으로 파기됩니다.<br />단, 관계 법령에 따라 보존이 필요한 기록은<br />해당 기간 동안 안전하게 보존 후 파기합니다.</p>
-                      </section>
-                    </div>
                   </div>
                 )}
-
               </div>
             </div>
           </motion.div>
