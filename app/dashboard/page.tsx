@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function DashboardPage() {
+export default function CustomerDashboardPage() {
   const router = useRouter()
   const [vvipCount, setVvipCount] = useState(0)
   const [view, setView] = useState<'LOADING' | 'WEEKEND_PAUSED' | 'WEEKLY' | 'MONDAY_INTRO' | 'WELCOME_BACK' | 'SLICING' | 'CONDITION' | 'REPORT' | 'VALUE' | 'DONE' | 'UPSELL' | 'ROI_RECEIPT'>('LOADING')
@@ -14,6 +14,16 @@ export default function DashboardPage() {
   const [dayCount, setDayCount] = useState(0)
   const [showNotify, setShowNotify] = useState(false)
   const [activeTab, setActiveTab] = useState('SESSION')
+  const [isCheckingIn, setIsCheckingIn] = useState(false)
+
+  useEffect(() => {
+    if (view === 'VALUE') {
+      const timer = setTimeout(() => {
+        setView('DONE')
+      }, 6000)
+      return () => clearTimeout(timer)
+    }
+  }, [view])
 
   useEffect(() => {
     const initDashboard = async () => {
@@ -24,40 +34,22 @@ export default function DashboardPage() {
           return
         }
 
-        // 📌 1. [연동 로직] 홈페이지에서 선택한 시급 포스트잇이 있는지 확인
-        const pendingWage = localStorage.getItem('pending_hourly_wage');
-        
+        const pendingWage = localStorage.getItem('pending_hourly_wage')
         if (pendingWage) {
-          // 포스트잇이 있다면 즉시 DB 업데이트
-          const wageValue = parseInt(pendingWage);
-          const { error: updateError } = await supabase
-            .from('profiles')
-            .update({ hourly_wage: wageValue })
-            .eq('id', user.id);
-
-          if (!updateError) {
-            // 업데이트 성공 시 포스트잇 제거 (노이즈 제로)
-            localStorage.removeItem('pending_hourly_wage');
-            console.log(`[System] 시급 ${wageValue}원이 프로필에 동기화되었습니다.`);
-          }
+          const wageValue = parseInt(pendingWage)
+          await supabase.from('profiles').update({ hourly_wage: wageValue }).eq('id', user.id)
+          localStorage.removeItem('pending_hourly_wage')
         }
 
-        // 📌 2. profiles에서 데이터 가져오기
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*, hourly_wage') 
-          .eq('id', user.id)
-          .maybeSingle()
+        const { data: profile } = await supabase.from('profiles').select('*, hourly_wage').eq('id', user.id).maybeSingle()
 
-        if (!profile || profileError) {
-          // 데이터가 없어도 무한 로딩에 빠지지 않게 기본값 처리
+        if (!profile) {
           setHourlyWage(100000) 
         } else {
           setHourlyWage(profile.hourly_wage || 100000)
           const joinDate = new Date(profile.created_at)
           const diffTime = Math.abs(new Date().getTime() - joinDate.getTime())
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-          setDayCount(diffDays)
+          setDayCount(Math.ceil(diffTime / (1000 * 60 * 60 * 24)))
         }
 
         const now = new Date()
@@ -68,13 +60,12 @@ export default function DashboardPage() {
         yesterday.setDate(now.getDate() - 1)
         const yesterdayStr = yesterday.toISOString().split('T')[0]
 
-        // 📌 3. 오늘 리포트 작성 여부 확인
-        const { data: todayReport } = await supabase
-          .from('daily_reports')
-          .select('*')
-          .eq('user_id', user.id)
-          .gte('created_at', todayStr)
-          .maybeSingle()
+        if (new Date(profile?.created_at || now).toDateString() === now.toDateString()) {
+          setView('SLICING')
+          return
+        }
+
+        const { data: todayReport } = await supabase.from('daily_reports').select('*').eq('user_id', user.id).gte('created_at', todayStr).maybeSingle()
 
         if (todayReport) {
           if (dayCount >= 30) setView('ROI_RECEIPT')
@@ -83,29 +74,25 @@ export default function DashboardPage() {
           return
         }
 
-        // 📌 4. 시스템 작동 로직 (주말/부재/정상 진입)
         if (profile?.weekend_rest && (day === 0 || day === 6)) { setView('WEEKEND_PAUSED'); return }
         
-        const { data: yesterdayReport } = await supabase
-          .from('daily_reports')
-          .select('*')
-          .eq('user_id', user.id)
-          .gte('created_at', yesterdayStr)
-          .lt('created_at', todayStr)
-          .maybeSingle()
-
-        if (!yesterdayReport && day !== 1 && day !== 0) { setView('WELCOME_BACK'); return }
-
-        if (hours < 9) {
+        if (hours >= 23 || hours < 5) {
           setView('SLICING')
-        } else { 
-          setView('CONDITION')
-          setTimeout(() => setShowNotify(true), 1000)
-          setTimeout(() => setShowNotify(false), 6000) 
+          return
         }
 
+        const { data: yesterdayReport } = await supabase.from('daily_reports').select('*').eq('user_id', user.id).gte('created_at', yesterdayStr).lt('created_at', todayStr).maybeSingle()
+
+        if (!yesterdayReport && day !== 1 && day !== 0) { 
+          setView('WELCOME_BACK')
+          return 
+        }
+
+        setView('CONDITION')
+        setTimeout(() => setShowNotify(true), 1000)
+        setTimeout(() => setShowNotify(false), 6000) 
+
       } catch (err) {
-        console.error("Dashboard Init Error:", err)
         setView('CONDITION')
       }
     }
@@ -113,31 +100,11 @@ export default function DashboardPage() {
     initDashboard()
 
     const fetchVvipCount = async () => {
-      const { count } = await supabase
-        .from('subscriptions')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'ACTIVE')
+      const { count } = await supabase.from('subscriptions').select('*', { count: 'exact', head: true }).eq('status', 'ACTIVE')
       if (count) setVvipCount(count)
     }
     fetchVvipCount()
   }, [dayCount, router])
-
-  const handleComplete = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      await supabase.from('daily_reports').insert([{ user_id: user.id, status: 'COMPLETED' }])
-      
-      if (dayCount >= 30) setView('ROI_RECEIPT')
-      else if (dayCount >= 14) setView('UPSELL')
-      else { 
-        setView('VALUE')
-        setTimeout(() => { setView('DONE') }, 3000) 
-      }
-    } catch (err) { 
-      alert('데이터를 저장하는 중 문제가 발생했습니다.') 
-    }
-  }
 
   const handleConditionSelect = async (status: string) => {
     setCondition(status)
@@ -161,82 +128,211 @@ export default function DashboardPage() {
     }
   }
 
+  const handleComplete = async () => {
+    setIsCheckingIn(true)
+    await new Promise(resolve => setTimeout(resolve, 1500))
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) await supabase.from('daily_reports').insert([{ user_id: user.id, status: 'COMPLETED' }])
+      
+      if (dayCount >= 30) setView('ROI_RECEIPT')
+      else if (dayCount >= 14) setView('UPSELL')
+      else setView('VALUE')
+    } catch (err) { 
+      alert('시스템 동기화 오류') 
+    } finally {
+      setIsCheckingIn(false)
+    }
+  }
+
+  const startAfterWelcomeBack = () => {
+    setView('CONDITION')
+    setTimeout(() => setShowNotify(true), 1000)
+    setTimeout(() => setShowNotify(false), 6000)
+  }
+
   return (
     <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center px-6 font-pretendard overflow-hidden text-center relative selection:bg-[#C2A35D] selection:text-black">
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_rgba(194,163,93,0.03)_0%,_transparent_70%)] pointer-events-none z-0"></div>
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_rgba(194,163,93,0.025)_0%,_transparent_60%)] pointer-events-none z-0"></div>
 
-      <header className="absolute top-0 left-0 w-full px-8 py-10 z-40 flex justify-between items-center">
-        <div className="text-[#C2A35D] font-serif italic font-bold text-xl tracking-tight">ONE BLANK</div>
-        <div className="hidden md:flex bg-white/5 backdrop-blur-xl rounded-full p-1 border border-white/5 text-[9px] tracking-[0.2em] uppercase">
-          {['SESSION', 'DIRECTIVE', 'REPORT', 'SETTINGS'].map(tab => (
-            <button key={tab} onClick={() => tab === 'SETTINGS' ? router.push('/dashboard/billing') : setActiveTab(tab)} className={`px-6 py-2.5 rounded-full transition-all duration-500 ${activeTab === tab ? 'bg-white/10 text-white' : 'text-zinc-600 hover:text-zinc-300'}`}>{tab}</button>
-          ))}
-        </div>
-        <button onClick={() => router.push('/')} className="text-zinc-500 hover:text-white text-[10px] tracking-widest uppercase transition-colors">[ 로그아웃 ]</button>
-      </header>
+      {view !== 'SLICING' && view !== 'CONDITION' && view !== 'VALUE' && view !== 'DONE' && view !== 'WELCOME_BACK' && (
+        <header className="absolute top-0 left-0 w-full px-8 py-10 z-40 flex justify-between items-center">
+          <div className="text-[#C2A35D] font-serif italic font-bold text-xl tracking-tight">ONE BLANK</div>
+          <div className="hidden md:flex bg-white/5 backdrop-blur-xl rounded-full p-1 border border-white/5 text-[9px] tracking-[0.2em] uppercase">
+            {['SESSION', 'DIRECTIVE', 'REPORT', 'SETTINGS'].map(tab => (
+              <button key={tab} onClick={() => tab === 'SETTINGS' ? router.push('/dashboard/billing') : setActiveTab(tab)} className={`px-6 py-2.5 rounded-full transition-all duration-500 ${activeTab === tab ? 'bg-white/10 text-white' : 'text-zinc-600 hover:text-zinc-300'}`}>{tab}</button>
+            ))}
+          </div>
+          <button onClick={() => router.push('/')} className="text-zinc-500 hover:text-white text-[10px] tracking-widest uppercase transition-colors">[ 로그아웃 ]</button>
+        </header>
+      )}
 
       <AnimatePresence>
-        {showNotify && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="absolute top-32 z-50 w-full max-w-[360px] left-1/2 -translate-x-1/2">
-            <div className="bg-[#0a0a0a]/95 backdrop-blur-2xl border border-[#C2A35D]/20 rounded-3xl p-8 shadow-2xl text-left relative overflow-hidden">
+        {showNotify && view === 'CONDITION' && (
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="absolute top-12 z-50 w-full max-w-[360px] left-1/2 -translate-x-1/2">
+            <div className="bg-[#0A0A0A]/95 backdrop-blur-3xl border border-[#C2A35D]/20 rounded-3xl p-8 shadow-2xl text-left relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C2A35D]/50 to-transparent"></div>
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-3">
                   <div className="bg-[#C2A35D] w-1.5 h-1.5 rounded-full animate-pulse"></div>
                   <span className="text-[#C2A35D] text-[10px] tracking-[0.4em] font-bold uppercase font-serif italic">AUTHORIZED SIGNAL</span>
                 </div>
-                <span className="text-zinc-600 text-[9px] font-medium uppercase">Just Now</span>
+                <span className="text-zinc-600 text-[9px] font-medium uppercase tracking-widest">Just Now</span>
               </div>
-              <p className="text-white text-md font-light mb-2 break-keep">오늘의 지침이 정렬되었습니다.</p>
-              <p className="text-zinc-500 text-xs font-light break-keep">지금 바로 확인하고 뇌의 통제권을 시스템에 위임하십시오.</p>
+              <p className="text-white text-[16px] font-medium mb-3 tracking-wide break-keep">오늘의 지침이 정렬되었습니다.</p>
+              <p className="text-zinc-400 text-[13px] font-light leading-relaxed tracking-wide break-keep">지금 바로 확인하고 뇌의 통제권을 시스템에 위임하십시오.</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <AnimatePresence mode="wait">
-        {view === 'LOADING' && (
-          <motion.div key="l" className="flex flex-col items-center gap-6">
-            <div className="w-12 h-12 border-2 border-[#C2A35D]/20 border-t-[#C2A35D] rounded-full animate-spin"></div>
-            <p className="text-[#C2A35D] tracking-[0.5em] text-[10px] uppercase font-bold animate-pulse">Connecting System...</p>
-          </motion.div>
-        )}
-        
-        {view === 'CONDITION' && (
-          <motion.div key="c" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="z-10 w-full flex flex-col items-center max-w-4xl">
-            <p className="text-[#C2A35D] text-[11px] tracking-[0.5em] font-medium uppercase mb-8 font-serif italic">Cognitive Sync</p>
-            <h2 className="text-4xl md:text-6xl font-light tracking-tight text-white mb-24 leading-tight break-keep">대표님, 오늘 뇌의 컨디션을<br /><span className="text-[#C2A35D] font-serif italic font-bold">솔직하게</span> 알려주십시오.</h2>
-            <div className="flex flex-col md:flex-row gap-5 mb-20 w-full max-w-2xl px-4">
-              {['피곤함', '보통', '아주 좋음'].map((status) => (
-                <button key={status} onClick={() => handleConditionSelect(status)} className="flex-1 py-10 border border-zinc-900 bg-white/[0.01] hover:bg-white/[0.03] hover:border-[#C2A35D]/50 transition-all duration-500 rounded-2xl text-zinc-500 hover:text-white text-[13px] tracking-widest font-bold uppercase">{status}</button>
-              ))}
-            </div>
-            <p className="text-[10px] text-zinc-700 tracking-[0.3em] uppercase">현재 <span className="text-zinc-400">{vvipCount}명</span>의 VVIP가 실시간 보호를 받고 있습니다.</p>
-          </motion.div>
-        )}
-
-        {view === 'REPORT' && (
-          <motion.div key="r" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="z-10 w-full max-w-2xl px-4">
-            <div className="bg-[#080808] border border-zinc-900 rounded-[40px] p-12 md:p-16 space-y-14 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C2A35D]/30 to-transparent"></div>
-              <div className="space-y-6 text-left">
-                <p className="text-[#C2A35D] text-[11px] tracking-[0.4em] font-bold uppercase font-serif italic">Today&apos;s Directive</p>
-                <h3 className="text-3xl md:text-4xl font-light leading-tight text-white break-keep">{condition === '피곤함' ? '모든 결정을 중단하십시오. 오늘은 바탕화면의 폴더 하나만 정리하고 즉시 뇌를 휴식 상태로 전환하십시오.' : '최상의 인지 효율 상태입니다. 지금 바로 핵심 사업의 실행 계획 3가지만 물리적 동사로 확정하십시오.'}</h3>
+      <div className="flex-1 flex items-center justify-center relative overflow-hidden text-center z-10 w-full">
+        <AnimatePresence mode="wait">
+          
+          {view === 'SLICING' && (
+            <motion.div key="p-slicing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center justify-center z-10 w-full h-full relative overflow-hidden">
+              <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.02]">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:100px_100px] [transform:perspective(1000px)_rotateX(60deg)] [transform-origin:top]"></div>
+                <motion.div animate={{ rotate: 360, x: [0, 20, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute top-1/4 -left-16 w-[400px] h-[400px] border-[0.5px] border-white/10 rounded-full" style={{ transform: "perspective(1000px) rotateY(70deg)" }} />
+                <motion.div animate={{ y: [0, -30, 0], x: [0, -10, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} className="absolute top-10 right-1/4 w-[320px] h-[320px] bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [transform:perspective(1000px)_rotateX(50deg)_rotateZ(20deg)]" />
+                <motion.div animate={{ rotateY: 360, y: [0, 15, 0] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute bottom-1/3 left-1/3 w-[280px] h-[280px] border-[0.5px] border-white/10 rounded-full" style={{ transform: "perspective(1000px) rotateX(10deg)" }} />
               </div>
-              <button onClick={handleComplete} className="w-full py-6 bg-white text-black text-[13px] font-bold tracking-[0.3em] uppercase hover:bg-[#C2A35D] transition-all duration-500 rounded-xl shadow-xl">지침 완수 및 세션 종료</button>
-            </div>
-          </motion.div>
-        )}
+              <div className="space-y-16 flex flex-col items-center z-10">
+                <div className="relative w-[76px] h-[76px] flex items-center justify-center mb-6">
+                  <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="absolute inset-0 rounded-full border-t border-r border-[#C2A35D] opacity-70" />
+                  <motion.div animate={{ rotate: -360 }} transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }} className="absolute inset-2 rounded-full border-b border-l border-zinc-600 opacity-50" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-[0.2em] uppercase">SYSTEM SLICING</h1>
+                <div className="space-y-10 max-w-xl text-center">
+                  <p className="text-zinc-400 text-[15px] md:text-[16px] font-light leading-[1.9] tracking-wide break-keep px-6">전 세계 상위 1% 성취자들의 검증된 의사결정 데이터 1,250만 개를 바탕으로 최적의 실행 경로를 분석 중입니다.</p>
+                  <p className="text-zinc-400 text-[15px] font-light pt-4"><span className="font-bold text-white tracking-[0.15em] mx-2">05:00 AM</span>에 뵙겠습니다.</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
-        {view === 'DONE' && (
-          <motion.div key="d" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="z-10 text-center space-y-10">
-              <div className="w-20 h-[1px] bg-[#C2A35D] mx-auto opacity-30"></div>
-              <h2 className="text-5xl md:text-7xl font-serif italic font-bold text-white leading-tight tracking-tighter">완벽한 하루였습니다.</h2>
-              <p className="text-zinc-500 text-sm font-light tracking-[0.4em] leading-relaxed uppercase">오늘의 모든 결정 권한 행사가 종료되었습니다.<br />이제 뇌를 완전히 비우고 본질에 몰입하십시오.</p>
-              <div className="w-20 h-[1px] bg-[#C2A35D] mx-auto opacity-30"></div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {view === 'WELCOME_BACK' && (
+            <motion.div key="p-wb" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="z-10 w-full max-w-2xl px-6 flex flex-col items-center justify-center flex-1">
+              <div className="w-20 h-20 border border-[#C2A35D] rounded-full flex items-center justify-center mb-14 bg-[#C2A35D]/5 shadow-[0_0_30px_rgba(194,163,93,0.1)]"><span className="text-[#C2A35D] text-3xl font-light">✓</span></div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16 tracking-tight break-keep">환영합니다.</h2>
+              <div className="w-full bg-[#0A0A0A] border border-zinc-800 rounded-3xl p-14 md:p-20 flex flex-col items-center text-center space-y-14 shadow-2xl mb-16">
+                <p className="text-zinc-400 text-[15px] md:text-[16px] font-light leading-[1.9] tracking-wide break-keep px-4">지연된 과거 로그를 자산 방어 비용으로 처리하여 소멸시켰습니다.</p>
+                <div className="space-y-4">
+                  <p className="text-white text-[16px] md:text-[17px] font-medium tracking-wide break-keep">어제의 공백은 이제 없습니다.</p>
+                  <p className="text-white text-[16px] md:text-[17px] font-medium tracking-wide break-keep">오늘의 단 하나만 실행하십시오.</p>
+                </div>
+              </div>
+              <button onClick={startAfterWelcomeBack} className="px-16 py-7 border border-[#C2A35D] text-[#C2A35D] text-[14px] font-bold tracking-[0.25em] uppercase hover:bg-[#C2A35D] hover:text-black transition-all duration-500 rounded-xl">오늘의 설계 시작하기</button>
+            </motion.div>
+          )}
+
+          {view === 'CONDITION' && (
+            <motion.div key="p-c" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="z-10 w-full flex flex-col items-center justify-center max-w-4xl flex-1 px-6">
+              <div className="border border-[#C2A35D]/40 text-[#C2A35D] px-10 py-3 rounded-full text-[12px] font-bold tracking-[0.25em] mb-16 uppercase bg-[#C2A35D]/5">05:00 AM</div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-24 leading-tight tracking-tight break-keep">대표님, 오늘의 컨디션은 어떠십니까?</h2>
+              <div className="flex flex-col md:flex-row gap-6 mb-24 w-full max-w-2xl">
+                {['피곤함', '보통', '아주 좋음'].map((status) => (
+                  <button key={status} onClick={() => handleConditionSelect(status)} className="flex-1 py-12 border border-zinc-800 bg-[#0A0A0A] hover:border-[#C2A35D]/60 hover:bg-white/[0.03] transition-all duration-500 rounded-2xl text-zinc-300 hover:text-white text-[17px] font-medium tracking-wide shadow-xl hover:shadow-[0_0_20px_rgba(194,163,93,0.1)]">{status}</button>
+                ))}
+              </div>
+              {vvipCount > 0 && (
+                <div className="flex items-center gap-4 opacity-70">
+                  <span className="text-[#C2A35D] text-[10px]">●</span>
+                  <p className="text-zinc-500 text-[14px] font-light tracking-wide break-keep">현재 <span className="text-zinc-300 font-medium mx-1.5">{vvipCount}명</span>의 VVIP가 ONE BLANK 시스템의 영구적인 인지 보호를 받고 있습니다.</p>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {view === 'LOADING' && (
+            <motion.div key="l" className="flex flex-col items-center gap-8">
+              <div className="w-14 h-14 border-2 border-[#C2A35D]/20 border-t-[#C2A35D] rounded-full animate-spin"></div>
+              <p className="text-[#C2A35D] tracking-[0.5em] text-[11px] uppercase font-bold animate-pulse">Connecting System...</p>
+            </motion.div>
+          )}
+
+          {view === 'REPORT' && (
+            <motion.div key="p-r" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="z-10 w-full max-w-3xl px-6 pb-24 pt-16">
+              <div className="bg-[#080808] border border-zinc-800 rounded-3xl p-12 md:p-16 space-y-16 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C2A35D]/40 to-transparent"></div>
+                <div className="flex justify-between items-center border-b border-zinc-800/60 pb-10">
+                  <h2 className="text-xl font-medium text-white tracking-wide">오늘의 증거 리포트</h2>
+                  <div className="border border-[#C2A35D]/30 text-[#C2A35D] px-6 py-2.5 rounded-md text-[13px] font-bold tracking-widest bg-[#C2A35D]/5">C: {condition}</div>
+                </div>
+                <div className="space-y-14 text-left">
+                  <div className="space-y-6">
+                    <h3 className="text-[#C2A35D] text-[14px] font-bold tracking-[0.15em] uppercase">▮ 1. 지금 당장 할 일</h3>
+                    <div className="bg-[#111111] border border-zinc-800 rounded-2xl p-10 md:p-12">
+                      <p className="text-xl md:text-2xl font-light leading-[1.7] text-zinc-100 tracking-wide break-keep">
+                        {condition === '피곤함' ? '"오늘은 뇌를 쉬게 하십시오. 관련 폴더만 바탕화면에 생성하고 즉시 종료하십시오. (1분 소요)"' : '"최상의 인지 효율 상태입니다. 지금 바로 핵심 사업의 실행 계획 3가지만 물리적 동사로 확정하십시오."'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <h3 className="text-[#C2A35D] text-[14px] font-bold tracking-[0.15em] uppercase">▮ 2. 행동의 결과</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-[#111111] border border-zinc-800 rounded-2xl p-10 space-y-4">
+                        <p className="text-zinc-400 text-[14px] flex items-center gap-3 tracking-wide"><span className="text-white border border-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold">O</span> 하면 얻는 것</p>
+                        <p className="text-white text-[16px] font-medium tracking-wide break-keep leading-relaxed">{condition === '피곤함' ? '의사결정 피로도 30% 즉시 감소' : '목표 달성 가속도 200% 증가'}</p>
+                      </div>
+                      <div className="bg-[#111111] border border-[#C2A35D]/20 rounded-2xl p-10 space-y-4 shadow-[0_0_15px_rgba(194,163,93,0.03)]">
+                        <p className="text-zinc-400 text-[14px] flex items-center gap-3 tracking-wide"><span className="text-[#C2A35D] border border-[#C2A35D] rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold">X</span> 미루면 잃는 것</p>
+                        <p className="text-zinc-300 text-[16px] font-medium tracking-wide break-keep leading-relaxed">{condition === '피곤함' ? '완벽주의 발동으로 인한 48시간 지연' : '최적의 인지 효율 구간 영구 증발'}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <h3 className="text-[#C2A35D] text-[14px] font-bold tracking-[0.15em] uppercase">▮ 3. 생각 뒤집기</h3>
+                    <p className="text-zinc-400 text-[15px] font-light leading-[1.9] italic tracking-wide break-keep pr-4">
+                      {condition === '피곤함' ? '"지금 버리지 못하는 그 한 가지가, 고객이 아닌 당신의 불안감을 채우기 위한 방어기제는 아닙니까?"' : '"당신의 1시간은 수십만 원입니다. 지금 고민하는 그 일이 그 이상의 가치를 창출합니까?"'}
+                    </p>
+                  </div>
+                </div>
+                <button onClick={handleComplete} disabled={isCheckingIn} className="w-full py-8 mt-8 bg-white text-black text-[15px] font-bold tracking-[0.3em] uppercase hover:bg-[#C2A35D] transition-all duration-300 rounded-xl shadow-xl flex justify-center items-center gap-4 relative overflow-hidden">
+                  {isCheckingIn ? <><div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin"></div><span className="tracking-[0.4em]">SYSTEM SYNCING...</span></> : <span>10초 퀵 체크인</span>}
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {view === 'VALUE' && (
+            <motion.div key="p-v" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }} className="z-10 w-full max-w-2xl px-6 flex flex-col items-center">
+              <div className="w-20 h-20 border border-[#C2A35D] rounded-full flex items-center justify-center mb-14 bg-[#C2A35D]/5 shadow-[0_0_30px_rgba(194,163,93,0.1)]"><span className="text-[#C2A35D] text-3xl font-light">✓</span></div>
+              <div className="text-center space-y-6 mb-24">
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight break-keep">올해의 가치를 벌었습니다.</h2>
+                <p className="text-zinc-400 text-[16px] font-light tracking-wide break-keep">대표님이 2분간 실행하여 당장 아낀 올해의 실제 돈입니다.</p>
+              </div>
+              <div className="w-full bg-[#080808] border border-zinc-800 rounded-3xl p-16 flex flex-col items-center justify-center space-y-10 relative overflow-hidden shadow-2xl mb-12">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C2A35D]/50 to-transparent"></div>
+                <p className="text-zinc-500 text-[13px] tracking-[0.3em] uppercase font-bold">1-Year ROI</p>
+                <div className="flex items-baseline gap-4">
+                  <span className="text-zinc-500 text-4xl font-light">₩</span>
+                  <span className="text-6xl md:text-8xl font-bold tracking-tighter text-white">{((hourlyWage || 100000) * 150).toLocaleString()}</span>
+                </div>
+                <p className="text-[#C2A35D] text-[16px] font-medium tracking-[0.1em]">↑ {((hourlyWage || 100000) * 1.5).toLocaleString()} (Today)</p>
+              </div>
+              <div className="w-full bg-[#0A0A0A] border border-zinc-900 rounded-2xl p-10 text-center"><p className="text-zinc-400 text-[15px] font-light tracking-wide break-keep leading-relaxed">가장 힘든 2분이 끝났습니다. 이제 고민 없이, 남은 일들을 처리하십시오.</p></div>
+            </motion.div>
+          )}
+
+          {view === 'DONE' && (
+            <motion.div key="p-d" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="z-10 text-center flex flex-col items-center justify-center w-full max-w-3xl px-6">
+              <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }} className="w-28 h-28 border border-[#C2A35D] rounded-full flex items-center justify-center mb-16 bg-[#C2A35D]/5 shadow-[0_0_50px_rgba(194,163,93,0.2)]"><span className="text-[#C2A35D] text-5xl font-light">✓</span></motion.div>
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0, duration: 0.8 }} className="space-y-12 w-full">
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight break-keep">오늘의 전략적 셧다운을 승인합니다.</h2>
+                <div className="text-zinc-400 text-[16px] md:text-[17px] font-light leading-[2.2] tracking-wide break-keep space-y-3">
+                  <p>대표님은 방금 가장 핵심적인 과업을 해치웠습니다.</p>
+                  <p>지금부터 머릿속에 떠오르는 '더 해야 하지 않을까?'라는 생각은,</p>
+                  <p>완벽주의가 만들어낸 가짜 불안이자 내일의 에너지를 갉아먹는 '과잉'입니다.</p>
+                  <div className="pt-10 mt-10 border-t border-zinc-800/80"><p className="text-white text-[18px] md:text-[20px] font-medium tracking-wide">더 이상의 실행을 통제하십시오.</p></div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+
+        </AnimatePresence>
+      </div>
     </main>
   )
 }

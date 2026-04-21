@@ -78,7 +78,6 @@ export default function CheckoutPage() {
   const executeTossPayment = async () => {
     if (!widgets) return
     try {
-      // 📌 결제 전 고객 정보를 브라우저에 임시 저장 (데이터 보존)
       localStorage.setItem('customerName', customerName)
       localStorage.setItem('customerEmail', customerEmail)
       localStorage.setItem('customerPassword', password)
@@ -88,7 +87,8 @@ export default function CheckoutPage() {
         orderName: plan === 'yearly' ? 'Core 연 구독 (VVIP)' : 'Core 월 구독',
         customerName: customerName,
         customerEmail: customerEmail,
-        successUrl: window.location.origin + "/success", 
+        // 📌 [수정] 결제 성공 시 이동할 경로를 "/start"로 변경했습니다.
+        successUrl: window.location.origin + "/start", 
         failUrl: window.location.origin + "/checkout",
       })
     } catch (error) {
