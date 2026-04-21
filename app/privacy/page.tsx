@@ -1,7 +1,5 @@
 'use client'
 
-import Footer from '@/components/Footer'
-
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
@@ -13,7 +11,6 @@ export default function PrivacyPage() {
           <p>3. 보유 기간: 서비스 해지 시 혹은 관련 법령에 따른 보존 기간 종료 시까지 지체 없이 파기합니다.</p>
         </div>
       </main>
-      <Footer />
     </div>
   )
 }

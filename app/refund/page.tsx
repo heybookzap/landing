@@ -1,7 +1,5 @@
 'use client'
 
-import Footer from '@/components/Footer'
-
 export default function RefundPage() {
   return (
     <div className="min-h-screen bg-black text-white">
@@ -36,7 +34,6 @@ export default function RefundPage() {
           </section>
         </div>
       </main>
-      <Footer />
     </div>
   )
 }
