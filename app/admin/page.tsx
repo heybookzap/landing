@@ -24,7 +24,6 @@ export default function AdminDashboardPage() {
     '피곤함': { action: '', benefit: '', loss: '', mindset: '' }
   })
 
-  // 📌 실시간 시계 동기화 로직
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
@@ -98,7 +97,6 @@ export default function AdminDashboardPage() {
   }
 
   const saveReport = () => {
-    alert(`[${editingUser.name}] 고객의 3가지 컨디션별 사전 데스킹이 완료되었습니다.`)
     setEditingUser(null)
   }
 

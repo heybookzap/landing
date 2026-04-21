@@ -64,11 +64,13 @@ export default function GoalSetupPage() {
   )
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center px-6 font-pretendard overflow-hidden">
+    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center px-6 font-pretendard overflow-hidden relative selection:bg-[#C2A35D] selection:text-black">
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_rgba(194,163,93,0.025)_0%,_transparent_60%)] pointer-events-none z-0"></div>
+
       <AnimatePresence mode="wait">
         
         {step === 1 && (
-          <motion.div key="1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }} className="text-center space-y-12">
+          <motion.div key="1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }} className="z-10 text-center space-y-12">
             <div className="space-y-6">
               <h1 className="text-xl md:text-2xl font-light tracking-widest leading-relaxed">
                 반갑습니다. <br />
@@ -84,7 +86,7 @@ export default function GoalSetupPage() {
         )}
 
         {step === 2 && (
-          <motion.div key="2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="w-full max-w-2xl text-center space-y-16">
+          <motion.div key="2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="z-10 w-full max-w-2xl text-center space-y-16">
             <div className="space-y-6">
               <h2 className="text-2xl font-medium tracking-tight leading-snug">
                 저희에게 맡길 <br />
@@ -97,14 +99,15 @@ export default function GoalSetupPage() {
                 type="text" 
                 value={goal} 
                 onChange={(e) => setGoal(e.target.value)} 
-                placeholder="예: 이번 달 매출 1억 만들기"
-                className="w-full bg-transparent py-6 text-center text-xl font-light focus:outline-none placeholder:text-zinc-900"
+                placeholder="(예: 6개월 내 월 매출 1억 돌파, 신규 앱 런칭 등)"
+                className="w-full bg-transparent py-6 text-center text-xl font-light focus:outline-none placeholder:text-zinc-500 text-white transition-colors"
                 autoFocus
               />
             </div>
             <div className="space-y-10">
-              <p className="text-zinc-600 text-[10px] font-extralight leading-relaxed tracking-widest max-w-md mx-auto text-left break-keep">
-                안내: 시스템이 이 목표에 완벽히 동기화되기 위해 며칠의 학습 시간이 필요합니다. 도중에 목표를 너무 자주 바꾸시면, 대표님만의 맞춤형 데이터가 흩어질 수 있으니 가장 중요한 한 가지만 신중히 골라주세요.
+              <p className="text-zinc-400 text-[13px] font-light leading-[1.8] tracking-widest max-w-md mx-auto text-left break-keep">
+                시스템은 대표님의 고유한 인지 경로를 학습합니다.<br />
+                목표 변경 시 재설정 기간이 소요되니 신중히 입력해 주십시오.
               </p>
               <button onClick={() => setStep(3)} disabled={!goal.trim()} className="w-full py-5 bg-[#111] text-zinc-400 hover:bg-[#C2A35D] hover:text-black text-xs tracking-[0.4em] transition-all duration-700">다음으로</button>
             </div>
@@ -112,7 +115,7 @@ export default function GoalSetupPage() {
         )}
 
         {step === 3 && (
-          <motion.div key="3" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="w-full max-w-2xl text-center space-y-16">
+          <motion.div key="3" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="z-10 w-full max-w-2xl text-center space-y-16">
             <div className="space-y-4 text-center">
               <h2 className="text-2xl font-medium tracking-tight leading-snug">
                 대표님의 <span className="text-[#C2A35D]">1시간은 얼마</span>인가요?
@@ -127,7 +130,7 @@ export default function GoalSetupPage() {
                 type="number" 
                 value={hourlyRate} 
                 onChange={(e) => setHourlyRate(e.target.value)} 
-                className="w-full bg-transparent py-6 text-center text-4xl font-light focus:outline-none"
+                className="w-full bg-transparent py-6 text-center text-4xl font-light focus:outline-none text-white"
                 placeholder="0"
                 autoFocus
               />
@@ -138,7 +141,7 @@ export default function GoalSetupPage() {
         )}
 
         {step === 4 && (
-          <motion.div key="4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="w-full max-w-2xl text-center space-y-12">
+          <motion.div key="4" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="z-10 w-full max-w-2xl text-center space-y-12">
             <div className="space-y-6">
               <h2 className="text-2xl font-medium tracking-tight leading-snug break-keep">
                 VVIP의 뇌 에너지는 <span className="text-[#C2A35D]">휴식할 때 가장 크게 증폭</span>됩니다.
@@ -160,13 +163,33 @@ export default function GoalSetupPage() {
         )}
 
         {step === 5 && (
-          <motion.div key="5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} className="text-center space-y-12">
-            <div className="flex justify-center">
-              <svg width="40" height="48" viewBox="0 0 40 48" fill="none"><path d="M20 0L2 8V20C2 31.04 9.68 41.32 20 44C30.32 41.32 38 31.04 38 20V8L20 0Z" stroke="#C2A35D" strokeWidth="1.5"/></svg>
+          <motion.div key="5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} className="z-10 text-center space-y-10 w-full max-w-2xl mx-auto">
+            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-24 h-24 rounded-full bg-[#C2A35D]/5 flex items-center justify-center shadow-[0_0_40px_rgba(194,163,93,0.3)] animate-pulse border border-[#C2A35D]/30 relative mx-auto mb-8">
+              <svg className="w-10 h-10 text-[#C2A35D] drop-shadow-[0_0_8px_rgba(194,163,93,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </motion.div>
+
+            <div className="space-y-5">
+              <h2 className="text-[20px] md:text-[22px] text-white break-keep tracking-tight font-medium">
+                목표가 시스템에 성공적으로 이식되었습니다.
+              </h2>
+              <p className="text-[18px] md:text-[20px] text-white font-bold break-keep tracking-tight">
+                대표님의 역할은 끝났습니다. 이제 뇌를 끄십시오.
+              </p>
+              <p className="text-[14px] md:text-[15px] text-zinc-400 leading-relaxed break-keep font-light pt-2">
+                시스템이 1,250만 개의 상위 1% 데이터를 기반으로<br />
+                최적의 실행 경로를 분석합니다.
+              </p>
             </div>
-            <h2 className="text-2xl font-medium tracking-tight">준비가 끝났습니다. <br /><span className="text-[#C2A35D]">이제 고민하지 마세요.</span></h2>
-            <p className="text-zinc-500 text-[10px] font-extralight leading-loose tracking-widest">내일 아침 9시, 시스템이 정해준 첫 번째 할 일과 함께 돌아오겠습니다.</p>
-            <button onClick={() => router.push('/dashboard')} className="text-[10px] text-zinc-800 tracking-[0.5em] pt-12 hover:text-zinc-400 transition-colors">대시보드로 이동</button>
+
+            <div className="pt-10 border-t border-zinc-800/80 w-full max-w-sm mx-auto mt-8">
+              <p className="text-zinc-400 text-[15px] font-medium tracking-wide">
+                내일 <span className="text-[#C2A35D] font-bold tracking-widest">05:00 AM</span>에 뵙겠습니다.
+              </p>
+            </div>
+
+            <button onClick={() => router.push('/dashboard')} className="text-[10px] text-zinc-600 tracking-[0.5em] pt-8 hover:text-white transition-colors uppercase">대시보드로 이동</button>
           </motion.div>
         )}
 

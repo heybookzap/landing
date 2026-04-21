@@ -13,7 +13,6 @@ export default function AboutPage() {
 
       <header className="absolute top-0 left-0 w-full px-8 md:px-16 py-10 z-40 flex justify-between items-start">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/')}>
-          {/* 📌 1B를 제거하고 ONE BLANK로 통일하여 브랜드 권위를 높였습니다. */}
           <span className="text-[#C2A35D] font-serif italic text-xl font-bold uppercase">ONE BLANK</span>
           <span className="text-white text-[11px] tracking-[0.4em] font-light uppercase">The Identity</span>
         </div>
@@ -44,12 +43,13 @@ export default function AboutPage() {
           
           <div className="space-y-12 max-w-2xl mx-auto">
             <p className="text-zinc-300 text-lg md:text-xl font-light tracking-wide leading-relaxed break-keep">
-              매일 아침 &apos;오늘 뭐 하지?&apos; 고민하느라 힘을 다 쓰고 계신가요?<br className="hidden md:block"/>
-              정작 큰돈을 벌어다 줄 <span className="text-white">&apos;진짜 중요한 일&apos;</span>을 할 때는 지쳐서 미루게 됩니다.
+              매일 아침 '오늘 뭐 하지?' 고민하느라 힘을 다 쓰고 계신가요?<br className="hidden md:block"/>
+              정작 큰돈을 벌어다 줄 <span className="text-white">'진짜 중요한 일'</span>을 할 때는 지쳐서 미루게 됩니다.
             </p>
             <p className="text-zinc-300 text-lg md:text-xl font-light tracking-wide leading-relaxed break-keep">
               이제 쓸데없는 고민과 시간 낭비는 시스템이 모두 대신하겠습니다.<br className="hidden md:block"/>
-              아무 생각 마십시오. 매일 <span className="font-serif italic font-bold text-[#C2A35D]">아침 9시</span>, <br className="hidden md:block"/>저희가 딱 하나 정해드리는 일만 하시면 됩니다.
+              아무 생각 마십시오. 매일 아침,<br className="hidden md:block"/>
+              저희가 딱 하나 정해드리는 일만 실행하시면 됩니다.
             </p>
           </div>
         </div>

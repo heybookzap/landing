@@ -28,11 +28,9 @@ export default function LandingPage() {
     return () => clearInterval(interval)
   }, [selectedVal])
 
-  // 📌 [수정] 시급 선택 시 브라우저에 값을 임시 저장하는 함수
   const handleSelectWage = (val: number) => {
-    setSelectedVal(val);
-    // 로컬 스토리지에 'pending_hourly_wage'라는 이름으로 저장 (나중에 대시보드에서 꺼내 씀)
-    localStorage.setItem('pending_hourly_wage', val.toString());
+    setSelectedVal(val)
+    localStorage.setItem('pending_hourly_wage', val.toString())
   }
 
   const handleStartPayment = async () => {
@@ -81,9 +79,10 @@ export default function LandingPage() {
                 아무나 들어올 수<br />없습니다.
               </h1>
               <div className="space-y-6 max-w-3xl mb-12 px-4">
-                <h2 className="text-lg md:text-2xl font-light text-white tracking-widest leading-relaxed">
+                <h2 className="text-lg md:text-2xl font-light text-white tracking-widest leading-relaxed break-keep">
                   <span className="font-serif italic font-bold text-[#C2A35D]">월 1,000만 원</span>의 벽은 넘었지만,<br />
-                  완벽주의와 &apos;결정 피로&apos;에 갇혀<br className="md:hidden" /> 혼자 모든 걸 짊어지고 있는 창업가 전용 시스템입니다.
+                  완벽주의와 &apos;결정 피로&apos;에 갇혀 혼자 모든 걸 짊어지고 있는<br />
+                  창업가 전용 시스템입니다.
                 </h2>
                 <p className="text-zinc-300 text-sm md:text-base font-light tracking-wide leading-relaxed">
                   매일 아침 무엇을 할지, 시스템이 당신의 뇌를 대신해 결정해 드립니다.<br />
@@ -104,7 +103,7 @@ export default function LandingPage() {
                 {[30000, 50000, 100000].map((val) => (
                   <button 
                     key={val} 
-                    onClick={() => handleSelectWage(val)} // 📌 [수정] 위에서 만든 저장 함수 호출
+                    onClick={() => handleSelectWage(val)}
                     className="w-full py-8 border-b border-zinc-800 flex justify-center items-center group hover:bg-white/[0.05] transition-colors"
                   >
                     <span className="text-zinc-500 group-hover:text-white mr-4 text-base font-light">₩</span>
@@ -153,7 +152,6 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* 오버레이 섹션 (약관 등) 생략... 기존 코드와 동일 */}
       <AnimatePresence>
         {overlayType && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-16 backdrop-blur-md">
@@ -161,33 +159,57 @@ export default function LandingPage() {
               <button onClick={() => setOverlayType(null)} className="absolute top-6 right-6 text-zinc-400 hover:text-white text-[11px] tracking-widest uppercase transition-colors">[ 닫기 ]</button>
               
               <div className="flex-1 overflow-y-auto pr-4 space-y-10 text-zinc-300 text-sm font-light leading-loose pt-8 scrollbar-hide text-left">
-                {/* 약관 내용들... */}
                 {overlayType === 'terms' && (
                   <div className="space-y-10">
                     <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">이용약관</h2>
-                    <section className="space-y-3">
-                      <p className="text-white font-medium">제 1조 (목적)</p>
-                      <p>ONE BLANK는 대표님의 복잡한 생각을 정리해주고,<br />매일 아침 딱 한 가지 행동에만 집중할 수 있게 돕는 시스템입니다.</p>
+                    <section className="space-y-4">
+                      <h2 className="text-white text-lg font-bold">제 1조 (목적)</h2>
+                      <p className="text-zinc-400 text-sm leading-relaxed break-keep">
+                        ONE BLANK는 대표님의 복잡한 생각을 정리해주고 가장 핵심적인 목표 달성에만 집중할 수 있도록 고안된 VVIP 전용 인지 방어 시스템입니다. 본 약관은 회사와 회원 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다.
+                      </p>
                     </section>
                   </div>
                 )}
                 {overlayType === 'refund' && (
                   <div className="space-y-10">
-                    <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">환불규정</h2>
-                    <div className="bg-[#111] p-6 border border-[#C2A35D]/40 space-y-4 text-left">
-                      <p className="text-lg text-white font-medium tracking-tight">🛡️ [ 14일 인지 방어 보증 (Risk-Free) ]</p>
-                      <p className="leading-relaxed text-zinc-300">
-                        ONE BLANK는 대표님의 변화를 100% 보장합니다.<br />
-                        결제 후 14일 동안, 매일 아침 시스템이 내리는 &apos;2분 지침&apos;을<br />단 하루도 빠짐없이 완료(체크인)하셨음에도 불구하고<br />결정 피로가 줄어들지 않았다면?<br /><br />
-                        <span className="text-white font-bold text-base underline underline-offset-4 decoration-[#C2A35D]">저희가 실패한 것입니다. 즉시 100% 전액 환불해 드립니다.</span>
+                    <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">취소 및 환불 정책</h2>
+                    <div className="bg-[#0A0A0A] border border-[#C2A35D]/30 p-10 rounded-3xl space-y-6">
+                      <h2 className="text-[#C2A35D] text-lg font-bold">🛡️ [ 14일 인지 방어 보증 (Risk-Free) ]</h2>
+                      <p className="text-zinc-200 text-[16px] leading-relaxed break-keep font-medium">
+                        시스템 이용 후 14일 이내, 단 한 번이라도 서비스가 대표님의 인지 효율을 개선하지 못했다고 판단하신다면 그건 저희가 실패한 것입니다. 이유를 묻지 않고 즉시 100% 전액 환불해 드립니다.
                       </p>
+                    </div>
+                    <div className="space-y-10 pt-10 border-t border-zinc-900">
+                      <section className="space-y-4">
+                        <h2 className="text-white text-lg font-medium tracking-tight italic">⚖️ 법무/CS용 상세 환불 기준</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-zinc-400 leading-relaxed">
+                          <div className="space-y-4 bg-zinc-900/30 p-6 rounded-2xl">
+                            <p className="text-white font-bold">[ 14일 조건부 전액 환불 ]</p>
+                            <p>- 결제 후 14일 이내 불만족 시 100% 환불 (최초 1회에 한함)</p>
+                            <p>- 단, 14일 경과 후에는 잔여 일수 비례 환불 적용</p>
+                          </div>
+                          <div className="space-y-4 bg-zinc-900/30 p-6 rounded-2xl">
+                            <p className="text-white font-bold">[ 월/연 구독 해지 안내 ]</p>
+                            <p>- 월 구독: 차기 결제일 3일 전까지 해지 시 다음 달 결제 중단</p>
+                            <p>- 연 구독: 중도 해지 시 (이용 기간 ÷ 12개월) 정산 후 잔액 반환</p>
+                          </div>
+                        </div>
+                      </section>
+                      <p className="text-zinc-600 text-xs text-center">환불 문의: support@oneblank.co.kr</p>
                     </div>
                   </div>
                 )}
                 {overlayType === 'privacy' && (
                   <div className="space-y-10">
                     <h2 className="text-white text-2xl font-light tracking-tight border-b border-zinc-800 pb-4 font-serif italic">개인정보처리방침</h2>
-                    <p className="text-base text-white font-light">대표님의 모든 사업적 목표와 정보는 암호화되어 생명처럼 보호됩니다.</p>
+                    <div className="text-[16px] text-zinc-300 leading-[1.8] space-y-8 font-light tracking-wide break-keep italic">
+                      "대표님의 모든 사업적 목표와 정보는 암호화되어 생명처럼 보호됩니다."
+                    </div>
+                    <div className="text-sm text-zinc-400 space-y-4 border-t border-zinc-800 pt-8">
+                      <p>1. 수집 항목: 이메일, 결제 기록, 서비스 이용 로그.</p>
+                      <p>2. 수집 목적: VVIP 회원 식별 및 맞춤형 지침 생성.</p>
+                      <p>3. 보유 기간: 서비스 해지 시 혹은 관련 법령에 따른 보존 기간 종료 시까지 즉시 파기.</p>
+                    </div>
                   </div>
                 )}
               </div>

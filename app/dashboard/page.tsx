@@ -17,7 +17,6 @@ export default function CustomerDashboardPage() {
   const [isCheckingIn, setIsCheckingIn] = useState(false)
   const [currentTime, setCurrentTime] = useState('')
 
-  // 📌 실시간 시계 동기화 로직
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
@@ -72,7 +71,6 @@ export default function CustomerDashboardPage() {
         yesterday.setDate(now.getDate() - 1)
         const yesterdayStr = yesterday.toISOString().split('T')[0]
 
-        // 가입 당일 철벽 방어 (온보딩 우회를 위해 이 로직이 대시보드 진입을 막고 있을 수 있습니다)
         if (new Date(profile?.created_at || now).toDateString() === now.toDateString()) {
           setView('SLICING')
           return
@@ -153,7 +151,7 @@ export default function CustomerDashboardPage() {
       else if (dayCount >= 14) setView('UPSELL')
       else setView('VALUE')
     } catch (err) { 
-      alert('시스템 동기화 오류') 
+      alert('System Sync Error') 
     } finally {
       setIsCheckingIn(false)
     }
