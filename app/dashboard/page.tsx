@@ -41,7 +41,7 @@ export default function CustomerDashboardPage() {
       try {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) {
-          router.push('/checkout')
+          router.push('/auth/login')
           return
         }
 
@@ -356,6 +356,51 @@ export default function CustomerDashboardPage() {
                   </div>
                 </div>
               </motion.div>
+            </motion.div>
+          )}
+
+          {/* 📌 [추가] ROI_RECEIPT 뷰 */}
+          {view === 'ROI_RECEIPT' && (
+            <motion.div key="p-roi" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="z-10 w-full max-w-2xl px-6">
+              <h2 className="text-3xl font-serif font-bold text-white mb-10">Monthly Performance Report</h2>
+              <div className="bg-[#0A0A0A] border border-zinc-800 rounded-3xl p-10 space-y-8 text-left shadow-2xl relative">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-[#C2A35D]"></div>
+                <div className="flex justify-between items-end border-b border-zinc-900 pb-6">
+                  <div>
+                    <p className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest mb-1">30-Day Period</p>
+                    <p className="text-xl text-white font-medium">인지 자산 가동률 : 96%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest mb-1">Total ROI</p>
+                    <p className="text-3xl text-[#C2A35D] font-bold">₩ {(hourlyWage * 150).toLocaleString()}</p>
+                  </div>
+                </div>
+                <p className="text-zinc-400 text-[14px] leading-relaxed">축하드립니다. 대표님은 지난 한 달간 시스템을 통해 총 4,500분의 의사결정 시간을 방어하셨습니다. 이는 현금 가치로 환산했을 때 위와 같은 성과입니다.</p>
+                <button onClick={() => setView('DONE')} className="w-full py-5 bg-[#C2A35D] text-black font-bold rounded-xl uppercase tracking-widest">Confirm Report</button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* 📌 [추가] UPSELL 뷰 */}
+          {view === 'UPSELL' && (
+            <motion.div key="p-up" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="z-10 w-full max-w-xl px-6">
+              <div className="bg-gradient-to-b from-[#111] to-black border border-[#C2A35D]/30 rounded-3xl p-12 space-y-8 shadow-[0_0_50px_rgba(194,163,93,0.1)]">
+                <div className="text-[#C2A35D] text-[11px] font-bold tracking-[0.4em] uppercase">Private Upgrade</div>
+                <h2 className="text-3xl font-serif font-bold text-white leading-tight">1:1 밀착 코어 <br />전환 권한이 생성되었습니다.</h2>
+                <p className="text-zinc-400 text-[15px] font-light leading-relaxed">상위 0.1%를 위한 무제한 인지 설계 서비스를 연간 회원권으로 전환하여 인프라를 영구 확보하십시오.</p>
+                <button onClick={() => router.push('/dashboard/billing')} className="w-full py-6 bg-white text-black font-extrabold rounded-xl uppercase tracking-widest hover:bg-[#C2A35D] transition-colors shadow-2xl">Upgrade Now</button>
+                <button onClick={() => setView('DONE')} className="text-zinc-600 text-[11px] uppercase tracking-widest font-bold">Skip for now</button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* 📌 [추가] WEEKEND_PAUSED 뷰 */}
+          {view === 'WEEKEND_PAUSED' && (
+            <motion.div key="p-wp" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="z-10 flex flex-col items-center">
+              <div className="w-20 h-20 border border-zinc-800 rounded-full flex items-center justify-center mb-10 text-zinc-500 text-3xl font-light">OFF</div>
+              <h2 className="text-3xl font-serif font-bold text-white mb-6">주말 인지 단절 모드 가동 중</h2>
+              <p className="text-zinc-400 text-[15px] max-w-md leading-relaxed">대표님은 현재 주말 휴식 옵션을 활성화한 상태입니다. 시스템은 월요일 05:00 AM까지 대표님의 뇌를 보호하며 모든 알림을 차단합니다. 완벽하게 비우십시오.</p>
+              <button onClick={() => router.push('/')} className="mt-12 text-zinc-600 text-[11px] font-bold tracking-widest uppercase border-b border-zinc-800 pb-1">Exit System</button>
             </motion.div>
           )}
 
